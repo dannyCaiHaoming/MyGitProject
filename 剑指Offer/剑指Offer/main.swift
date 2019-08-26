@@ -194,15 +194,27 @@ func PrintListReversingly_Recursively(pHead:ListNode<Int>) {
 //MARK: 面试题7：重建二叉树
 
 ///题目：
-class BinaryTreeNode<T> {
+class BinaryTreeNode<T:Equatable>:Equatable {
+    static func == (lhs: BinaryTreeNode<T>, rhs: BinaryTreeNode<T>) -> Bool {
+        return lhs.value == rhs.value && lhs.pLeft == rhs.pLeft && lhs.pRight == rhs.pRight && lhs.pParent == rhs.pParent
+    }
+    
     var value:T?
     var pLeft:BinaryTreeNode<T>?
     var pRight:BinaryTreeNode<T>?
+    var pParent:BinaryTreeNode<T>?
     
     init(value:T?,left:BinaryTreeNode<T>?,right:BinaryTreeNode<T>?) {
         self.value = value
         self.pLeft = left
         self.pRight = right
+    }
+    
+    init(value:T?,left:BinaryTreeNode<T>?,right:BinaryTreeNode<T>?,parent:BinaryTreeNode<T>?) {
+        self.value = value
+        self.pLeft = left
+        self.pRight = right
+        self.pParent = parent
     }
 }
 
@@ -246,6 +258,43 @@ func ConstructCore(preorder:[Int],inorder:[Int]) -> BinaryTreeNode<Int>? {
     
     return tree
 }
+
+
+//MARK: 面试题8：二叉树的下一个节点
+
+///题目：
+func GetNext(pNode:BinaryTreeNode<Int>?) -> BinaryTreeNode<Int>? {
+    
+    guard let pRoot = pNode, pRoot.pLeft == nil && pRoot.pRight == nil else {
+        return nil
+    }
+    
+    //存在右子树
+    if pNode?.pRight != nil {
+        return pNode?.pRight
+    }
+    
+    //是父节点的左子树
+    if pNode?.pParent != nil && pNode?.pParent?.pLeft == pNode {
+        return pNode?.pParent
+    }
+    
+    var parent = pNode?.pParent
+    //如果二者都不是，就需要向上查找到是某父节点的左子树
+    while parent != nil {
+        if parent?.pParent != nil && parent!.pParent?.pLeft == parent {
+            return parent
+        }
+        parent = parent?.pParent
+    }
+    
+    return nil
+}
+
+
+
+
+
 
 //let a = [2,3,1,0,2,5,3]
 //let b = [2,3,5,4,3,2,6,7]
