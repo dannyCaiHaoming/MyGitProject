@@ -168,11 +168,44 @@ func ReplaceBlank( string:inout [Character]){
     
 }
 
+
+//MARK: 面试题6：从尾到头打印链表
+class ListNode<T> {
+    var value:T?
+    var pNext: ListNode<T>?
+    
+    init(value: T?,next:ListNode<T>?) {
+        self.value = value
+        self.pNext = next
+    }
+}
+
+
+func PrintListReversingly_Recursively(pHead:ListNode<Int>) {
+    if pHead.pNext != nil {
+        PrintListReversingly_Recursively(pHead: pHead.pNext!)
+    }
+    print(pHead.value!)
+}
+
+
+
 let a = [2,3,1,0,2,5,3]
 let b = [2,3,5,4,3,2,6,7]
 let c:[Int] = []
 var d = Array("We are happy.")
 
-let z = ReplaceBlank(string: &d)
-print(z)
+let l1 = ListNode(value: 1, next: nil)
+let l2 = ListNode(value: 2, next: nil)
+let l3 = ListNode(value: 3, next: nil)
+let l4 = ListNode(value: 4, next: nil)
+let l5 = ListNode(value: 5, next: nil)
+
+l1.pNext = l2
+l2.pNext = l3
+l3.pNext = l4
+l4.pNext = l5
+
+PrintListReversingly_Recursively(pHead: l1)
+
 
