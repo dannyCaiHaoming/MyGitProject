@@ -292,6 +292,54 @@ func GetNext(pNode:BinaryTreeNode<Int>?) -> BinaryTreeNode<Int>? {
 }
 
 
+//MARK: 面试题9：用两个栈实现队列
+
+
+///题目：
+struct Stack<T> {
+    var sequence:[T] = []
+    
+    mutating func push(element:T) {
+        sequence.append(element)
+    }
+    
+    mutating func pop() -> T? {
+        return sequence.popLast()
+    }
+    
+    func top() -> T? {
+        return sequence.last
+    }
+}
+
+
+struct Queue<T> {
+    
+    var stack1:Stack<T> = Stack.init()
+    var stack2:Stack<T> = Stack.init()
+    
+    
+    mutating func appendTail(element:T)  {
+        stack1.push(element: element)
+    }
+    
+    
+    mutating func deleteHead() -> T? {
+        
+        if stack2.top() == nil {
+            while stack1.top() != nil {
+                stack2.push(element: stack1.pop()!)
+            }
+        }
+        return stack2.pop()
+    }
+    
+}
+
+
+
+
+
 
 
 
