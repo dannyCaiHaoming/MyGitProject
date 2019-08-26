@@ -92,12 +92,51 @@ func countRange(numbers:[Int],start:Int,end:Int) -> Int{
 
 //MARK: 面试题4 二维数组中的查找
 
+
+///题目：
+func Find(numbers:[Int],rows:Int,columns:Int,number:Int) -> Bool {
+    
+    var row_ = 0
+    var column_ = columns - 1
+    
+    if numbers.isEmpty || numbers.count < rows * columns  {
+        return false
+    }
+    
+    while (row_ <= rows - 1) && column_ >= 0 {
+        
+        if numbers[columns * row_ + column_] > number {
+            //右上比Target大，这一列都不要
+            column_ -= 1
+            continue
+        }
+        
+        if numbers[columns * row_ + column_] < number {
+            //右上比Target小，这一行都不要
+            row_ += 1
+            continue
+        }
+        
+        if numbers[columns * row_ + column_] == number {
+            return true
+        }
+        
+    }
+    
+    return false
+}
+
+
+//MARK: 面试题5: 替换空格
+
+
 ///题目：
 
 
 let a = [2,3,1,0,2,5,3]
 let b = [2,3,5,4,3,2,6,7]
+let c:[Int] = []
 
-let z = getDuplication(numbers: b)
+let z = Find(numbers: c, rows: 4, columns: 4, number: 5)
 print(z)
 
