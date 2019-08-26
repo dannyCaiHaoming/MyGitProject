@@ -170,6 +170,8 @@ func ReplaceBlank( string:inout [Character]){
 
 
 //MARK: 面试题6：从尾到头打印链表
+
+///题目：
 class ListNode<T> {
     var value:T?
     var pNext: ListNode<T>?
@@ -189,23 +191,85 @@ func PrintListReversingly_Recursively(pHead:ListNode<Int>) {
 }
 
 
+//MARK: 面试题7：重建二叉树
 
-let a = [2,3,1,0,2,5,3]
-let b = [2,3,5,4,3,2,6,7]
-let c:[Int] = []
-var d = Array("We are happy.")
-
-let l1 = ListNode(value: 1, next: nil)
-let l2 = ListNode(value: 2, next: nil)
-let l3 = ListNode(value: 3, next: nil)
-let l4 = ListNode(value: 4, next: nil)
-let l5 = ListNode(value: 5, next: nil)
-
-l1.pNext = l2
-l2.pNext = l3
-l3.pNext = l4
-l4.pNext = l5
-
-PrintListReversingly_Recursively(pHead: l1)
+///题目：
+class BinaryTreeNode<T> {
+    var value:T?
+    var pLeft:BinaryTreeNode<T>?
+    var pRight:BinaryTreeNode<T>?
+    
+    init(value:T?,left:BinaryTreeNode<T>?,right:BinaryTreeNode<T>?) {
+        self.value = value
+        self.pLeft = left
+        self.pRight = right
+    }
+}
 
 
+func Contruct(preorder:[Int],inorder:[Int]) -> BinaryTreeNode<Int>? {
+    
+    
+    if preorder.isEmpty || inorder.isEmpty || (preorder.count != inorder.count) {
+        return nil
+    }
+    
+
+    return ConstructCore(preorder: preorder, inorder: inorder)
+}
+
+
+func ConstructCore(preorder:[Int],inorder:[Int]) -> BinaryTreeNode<Int>? {
+    
+    if preorder.isEmpty && inorder.isEmpty {
+        return nil
+    }
+    
+    let firstRoot = inorder.firstIndex(of: preorder[0])!
+    
+//    let inleftCount:Int = firstRoot //3
+    
+    
+    var leftTree:BinaryTreeNode<Int>? = nil
+    if firstRoot >= 1 {
+        leftTree = ConstructCore(preorder: Array(preorder[1...firstRoot]), inorder: Array(inorder[0..<firstRoot]))
+    }
+    
+    let rightPreStart:Int = firstRoot + 1
+    
+    var rightTree:BinaryTreeNode<Int>? = nil
+    if firstRoot+1 < inorder.count {
+        rightTree = ConstructCore(preorder: Array(preorder[rightPreStart..<preorder.count]), inorder: Array(inorder[firstRoot+1..<inorder.count]))
+    }
+
+    let tree = BinaryTreeNode.init(value: preorder[0], left: leftTree, right: rightTree)
+    
+    return tree
+}
+
+//let a = [2,3,1,0,2,5,3]
+//let b = [2,3,5,4,3,2,6,7]
+//let c:[Int] = []
+//var d = Array("We are happy.")
+
+//let l1 = ListNode(value: 1, next: nil)
+//let l2 = ListNode(value: 2, next: nil)
+//let l3 = ListNode(value: 3, next: nil)
+//let l4 = ListNode(value: 4, next: nil)
+//let l5 = ListNode(value: 5, next: nil)
+//
+//l1.pNext = l2
+//l2.pNext = l3
+//l3.pNext = l4
+//l4.pNext = l5
+//
+//PrintListReversingly_Recursively(pHead: l1)
+
+let preorder = [1,2,4,7,3,5,6,8]
+let inorder = [4,7,2,1,5,3,8,6]
+
+
+
+let z = Contruct(preorder: preorder, inorder: inorder)
+
+print(z)
