@@ -131,12 +131,48 @@ func Find(numbers:[Int],rows:Int,columns:Int,number:Int) -> Bool {
 
 
 ///题目：
-
+func ReplaceBlank( string:inout [Character]){
+    
+    var newString = string
+    
+    for char in string {
+        if char == " " {
+            newString.append(contentsOf: [" "," "])
+        }
+    }
+    
+    var p1 = string.count - 1
+    var p2 = newString.count - 1
+    
+    while p1 >= 0 && p2 > 0 {
+        if newString[p1] == " "{
+            newString[p2] = "0"
+            p2 -= 1
+            newString[p2] = "2"
+            p2 -= 1
+            newString[p2] = "%"
+            p2 -= 1
+            p1 -= 1
+        }else{
+            newString[p2] = newString[p1]
+            
+            p2 -= 1
+            p1 -= 1
+        }
+        print(newString)
+    }
+    
+    string =  newString
+    
+    
+    
+}
 
 let a = [2,3,1,0,2,5,3]
 let b = [2,3,5,4,3,2,6,7]
 let c:[Int] = []
+var d = Array("We are happy.")
 
-let z = Find(numbers: c, rows: 4, columns: 4, number: 5)
+let z = ReplaceBlank(string: &d)
 print(z)
 
