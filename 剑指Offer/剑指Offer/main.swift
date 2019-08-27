@@ -459,6 +459,58 @@ func BinarySearchTree(tree:BinaryTreeNode<Int>?,value:Int) -> BinaryTreeNode<Int
 
 
 
+//MARK: 排序算法
+
+
+///冒泡排序
+func BubbleSort(list:inout [Int]) {
+    var back = list.count
+    
+    while back > 0 {
+        for index in 0..<back-1 {
+            if list[index] > list[index+1] {
+                let temp = list[index+1]
+                list[index+1] = list[index]
+                list[index] = temp
+            }
+        }
+        back -= 1
+    }
+    print(list)
+}
+
+
+///选择排序
+func SelectionSort(list:inout [Int]){
+    
+    if list.isEmpty || list.count <= 1 {
+        return
+    }
+    
+    for i in (1...list.count-1).reversed() {
+
+        for j in 0...i-1{
+            if list[j] > list[j+1] {
+                let temp = list[j+1]
+                list[j+1] = list[j]
+                list[j] = temp
+            }
+        }
+        
+    }
+    print(list)
+}
+
+
+
+///插入排序
+func InsertSort(list:inout [Int]){
+    var newList = list
+    
+}
+
+
+
 
 
 
@@ -489,4 +541,7 @@ func BinarySearchTree(tree:BinaryTreeNode<Int>?,value:Int) -> BinaryTreeNode<Int
 //let z = Contruct(preorder: preorder, inorder: inorder)
 //
 //print(z)
-print(FragJump(n: 3))
+
+var a:[Int] = [6]
+//BubbleSort(list: &a)
+SelectionSort(list: &a)
