@@ -386,6 +386,82 @@ func FragJump(n:Int) -> Int {
 }
 
 
+//MARK：查找算法
+
+///顺序查找
+func OrderSearch(list:[Int],n:Int) -> Int?{
+    
+    for int in list {
+        if int == n {
+            return int
+        }
+    }
+    return nil
+}
+
+///二分查找
+func BinarySearch(list:[Int],n:Int) -> Int?{
+    
+    var front = 0
+    var back = list.count - 1
+    var mid = list.count / 2
+    
+
+    while back >= front {
+        
+        mid = (back - front) / 2 + front
+        
+        if list[mid] == n {
+            return n
+        }
+        
+        if list[mid] > n {
+            //取前面
+            back = mid - 1
+        }else {
+            front = mid + 1
+        }
+    }
+    
+    return nil
+}
+
+
+///哈希查找
+
+
+
+
+
+///二叉排序树查找
+func BinarySearchTree(tree:BinaryTreeNode<Int>?,value:Int) -> BinaryTreeNode<Int>? {
+
+    var currentNode = tree
+    
+    while currentNode != nil {
+        if currentNode!.value! == value {
+            return currentNode
+        }
+        
+        if currentNode!.value! > value {
+            currentNode = currentNode!.pLeft
+            continue
+        }
+        
+        if currentNode!.value! < value {
+            currentNode = currentNode!.pRight
+            continue
+        }
+    }
+    return nil
+}
+
+
+
+
+
+
+
 
 //let a = [2,3,1,0,2,5,3]
 //let b = [2,3,5,4,3,2,6,7]
