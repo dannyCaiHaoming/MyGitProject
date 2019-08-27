@@ -337,10 +337,53 @@ struct Queue<T> {
 }
 
 
+//MARK: 面试题10 斐波那契数列
+
+///题目一：求斐波那契数列的第n项
+func Fibonacci(n:Int) -> Int {
+    if n <= 0 {
+        return 0
+    }
+    if n == 1 {
+        return 1
+    }
+    return Fibonacci(n:n-1) + Fibonacci(n:n-2)
+}
 
 
+func Fibonacci1(n:Int) -> Int {
+    
+    var front = 0
+    var back = 1
+    var count = n
+    
+    while count >= 2 {
+        
+        let temp = front + back
+        front = back
+        back = temp
+        count -= 1
+    }
+    return back
+}
 
 
+///题目二：青蛙跳台阶问题
+
+func FragJump(n:Int) -> Int {
+    
+    if n == 0 {
+        return 0
+    }
+    if n == 1 {
+        return 1
+    }
+    if n == 2 {
+        return 2
+    }
+    
+    return FragJump(n: n-1) + FragJump(n: n-2)
+}
 
 
 
@@ -362,11 +405,12 @@ struct Queue<T> {
 //
 //PrintListReversingly_Recursively(pHead: l1)
 
-let preorder = [1,2,4,7,3,5,6,8]
-let inorder = [4,7,2,1,5,3,8,6]
-
-
-
-let z = Contruct(preorder: preorder, inorder: inorder)
-
-print(z)
+//let preorder = [1,2,4,7,3,5,6,8]
+//let inorder = [4,7,2,1,5,3,8,6]
+//
+//
+//
+//let z = Contruct(preorder: preorder, inorder: inorder)
+//
+//print(z)
+print(FragJump(n: 3))
