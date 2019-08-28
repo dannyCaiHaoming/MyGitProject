@@ -610,9 +610,9 @@ func CoreMergeSort(list:[Int]) -> [Int] {
 ///快速排序
 func QuickSort(list:inout [Int])  {
     
-    CoreQuickSort(list: &list)
-    
-    print(list)
+//    CoreQuickSort(list: &list)
+//
+//    print(list)
     
     
     
@@ -647,6 +647,15 @@ func QuickSort(list:inout [Int])  {
 //    
 //    
 //}
+
+
+
+//MARK: 面试题11：旋转数组的最小数字
+func Min() -> Int {
+    
+    
+    return -1
+}
 
 
 //let a = [2,3,1,0,2,5,3]
