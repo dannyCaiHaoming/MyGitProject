@@ -505,14 +505,148 @@ func SelectionSort(list:inout [Int]){
 
 ///插入排序
 func InsertSort(list:inout [Int]){
-    var newList = list
+    
+    for start in 0..<list.count {
+        var temp = list[start]//当前操作要做插入的元素
+        for i in 0..<start {
+            if temp < list[i] {
+                let t = list[i]
+                list[i] = temp
+                temp = t
+            }
+        }
+        list[start] = temp
+    }
+    print(list)
+}
+
+
+///希尔排序
+func ShellSort(list:inout [Int]){
+    
+    var length = list.count / 2
+    
+    while length >= 1 {
+        var i = 0
+        
+        while i < list.count {
+            var temp = list[i]
+            var j = 0
+            while j < i {
+                if temp < list[j] {
+                    let t = list[j]
+                    list[j] = temp
+                    temp = t
+                }
+                
+                if j+length >= i{
+                    list[j+length] = temp
+                }
+                j += length
+                
+            }
+            
+            i += length
+        }
+        length /= 2
+    }
+    print(list)
     
 }
 
 
+///归并排序
+func MergeSort(list:[Int]) -> [Int] {
+    
+    
+    return CoreMergeSort(list: list)
+    
+}
 
 
+func CoreMergeSort(list:[Int]) -> [Int] {
+    
+    if list.count/2 < 1 {
+        return list
+    }
+    
+    let newMid = list.count/2
+    
+    let leftList = CoreMergeSort(list: Array(list[0..<newMid]))
+    let rightList = CoreMergeSort(list: Array(list[newMid..<list.count]))
+    
+    
+    
+    var newList:[Int] = []
+    
+    var i = 0
+    var j = 0
+    
+    while i < leftList.count && j < rightList.count {
+        if leftList[i] <= rightList[j]{
+            newList.append(leftList[i])
+            i += 1
+            continue
+        }else {
+            newList.append(rightList[j])
+            j += 1
+            continue
+        }
+    }
+    
+    while i < leftList.count {
+        newList.append(leftList[i])
+        i += 1
+    }
+    while j < rightList.count {
+        newList.append(rightList[j])
+        j += 1
+    }
+    
+    return newList
+}
 
+
+///快速排序
+func QuickSort(list:inout [Int])  {
+    
+    CoreQuickSort(list: &list)
+    
+    print(list)
+    
+    
+    
+}
+
+//func CoreQuickSort(list: inout [Int]) {
+//    
+//    if list.count <= 1 {
+//        return
+//    }
+//    
+//    var newList = list
+//
+//    var p = 0//用于记录当前交换的数字飞到哪一位
+//    for i in 0..<newList.count  {
+//        if newList[i] < newList[p] {
+//            let temp = newList[p]
+//            newList[p] = newList[i]
+//            newList[i] = temp
+//            p = i
+//        }
+//    }
+//    
+//    var left = Array(newList[0...p])
+//    var right = Array(newList[p+1..<list.count])
+//    
+//    //处理左边
+//    CoreQuickSort(list: &left)
+//    CoreQuickSort(list: &right)
+//    
+//    list = left + right
+//    
+//    
+//}
 
 
 //let a = [2,3,1,0,2,5,3]
@@ -542,6 +676,10 @@ func InsertSort(list:inout [Int]){
 //
 //print(z)
 
-var a:[Int] = [6]
+var a:[Int] = [8,7,2,23,4,11,4,3,2,1]
 //BubbleSort(list: &a)
-SelectionSort(list: &a)
+//InsertSort(list: &a)
+//ShellSort(list: &a)
+//let z = MergeSort(list: a)
+//print(z)
+QuickSort(list: &a)
