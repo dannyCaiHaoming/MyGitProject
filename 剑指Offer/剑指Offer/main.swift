@@ -710,10 +710,27 @@ func HeapSort(list: inout [Int]) {
 
 
 //MARK: 面试题11：旋转数组的最小数字
-func Min() -> Int {
+func Min(list:[Int],start:Int,end:Int) -> Int {
     
+    var s = start
+    var e = end
     
-    return -1
+    if list[e] > list[s] {
+        return list[s]
+    }
+    
+    var mid = (e-s)/2
+    while s == mid {
+        if list[mid] >= list[s] {
+            s = mid + 1
+        }
+        if list[mid] <= list[e] {
+            e = mid - 1
+        }
+        mid = (s-e)/2+s
+    }
+    
+    return list[mid+1]
 }
 
 
@@ -744,7 +761,7 @@ func Min() -> Int {
 //
 //print(z)
 
-var a:[Int] = [4,1,3,2,16,9,10,14,8,7]
+var a:[Int] = [1,2,3,4,5,6,7]
 //BubbleSort(list: &a)
 //InsertSort(list: &a)
 //ShellSort(list: &a)
@@ -752,4 +769,4 @@ var a:[Int] = [4,1,3,2,16,9,10,14,8,7]
 //print(z)
 //QuickSort(list: &a)
 //BuildMaxHeap(list: &a)
-HeapSort(list: &a)
+Min(list: a, start: 0, end: 6)
