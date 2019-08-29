@@ -610,43 +610,102 @@ func CoreMergeSort(list:[Int]) -> [Int] {
 ///快速排序
 func QuickSort(list:inout [Int])  {
     
-//    CoreQuickSort(list: &list)
-//
-//    print(list)
+    if list.count <= 1  {
+        return
+    }
     
+
+    let index = Partition(list: &list, start: 0, end: list.count - 1)
     
+    var left = Array(list[0..<index])
+    var right = Array(list[index..<list.count])
+    QuickSort(list: &left)
+    QuickSort(list: &right)
+    
+    list = left + right
+    
+    print(list)
     
 }
 
-//func CoreQuickSort(list: inout [Int]) {
-//    
-//    if list.count <= 1 {
-//        return
-//    }
-//    
-//    var newList = list
-//
-//    var p = 0//用于记录当前交换的数字飞到哪一位
-//    for i in 0..<newList.count  {
-//        if newList[i] < newList[p] {
-//            let temp = newList[p]
-//            newList[p] = newList[i]
-//            newList[i] = temp
-//            p = i
-//        }
-//    }
-//    
-//    var left = Array(newList[0...p])
-//    var right = Array(newList[p+1..<list.count])
-//    
-//    //处理左边
-//    CoreQuickSort(list: &left)
-//    CoreQuickSort(list: &right)
-//    
-//    list = left + right
-//    
-//    
-//}
+
+///划分左小右大  返回划分位置
+func Partition(list:inout [Int],start:Int,end:Int) -> Int {
+    //将基准数放到最后,调整的时候就不会影响到
+    //将小的往前面放，并记录下放的位置
+    var index = 0
+    
+    list.swapAt(0, end)
+    
+    for i in start..<end {
+        if list[end] >= list[i] {
+            list.swapAt(index, i)
+            index += 1
+        }
+    }
+    
+    
+    return index
+    
+}
+
+
+///堆排序
+
+///构建大顶堆
+func BuildMaxHeap(list:inout [Int]){
+    if list.count/2-1 < 0 {
+        return
+    }
+    for i in (0...list.count/2-1).reversed() {
+        AdjustHeap(list: &list, index: i)
+    }
+}
+
+
+func AdjustHeap(list:inout [Int],index:Int){
+    
+    var maxIndex = index
+    
+    let left = 2*index+1
+    let right = 2*index+2
+    
+    //存在左子节点
+    if left < list.count && list[left] > list[maxIndex] {
+        maxIndex = left
+    }
+    
+    //存在右子节点
+    if right < list.count && list[right] > list[maxIndex] {
+        maxIndex = right
+    }
+    
+    if maxIndex != index {
+        list.swapAt(maxIndex, index)
+        AdjustHeap(list: &list, index: maxIndex)
+    }
+}
+
+
+func HeapSort(list: inout [Int]) {
+    BuildMaxHeap(list: &list)
+    
+    var i = list.count - 1
+    
+    while i > 0 {
+        list.swapAt(i, 0)
+        var l = Array(list[0..<i])
+        let r = Array(list[i..<list.count])
+        BuildMaxHeap(list: &l)
+        list = l + r
+        i -= 1
+    }
+    print(list)
+}
+
+
+///桶排序
+//TODO: 没写
 
 
 
@@ -685,10 +744,12 @@ func Min() -> Int {
 //
 //print(z)
 
-var a:[Int] = [8,7,2,23,4,11,4,3,2,1]
+var a:[Int] = [4,1,3,2,16,9,10,14,8,7]
 //BubbleSort(list: &a)
 //InsertSort(list: &a)
 //ShellSort(list: &a)
 //let z = MergeSort(list: a)
 //print(z)
-QuickSort(list: &a)
+//QuickSort(list: &a)
+//BuildMaxHeap(list: &a)
+HeapSort(list: &a)
