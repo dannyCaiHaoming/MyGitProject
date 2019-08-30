@@ -16,6 +16,7 @@
 
 
 ### 2. UIView和CALayer
+[参考：《iOS三问》 -- CALayer基础](https://luochenxun.com/ios-calayer-overview/)
 简单来说，应用`单一职责`的设计原理，将功能区分开，`UIView`用于传递绘制内容给`CALayer`并且由于继承自`UIResponder`，因此还具有响应触碰的；`CALayer`只是单纯的用于生成展示的内容（`content`其实也是最终的`位图`）。
 
 有个比喻很好：**UIView是一副PS的图，而实际这个图上面是有很多个图层叠加而成的，这里面的图层其实就是CALayer**
@@ -23,11 +24,13 @@
 - `UIView`其实只是一个容器，用于装载`CALayer`.**二者之间绘制的关系需要了解，这样在使用`CoreGraphics`做一些绘画的时候，才能做到用的明白**
 - `UIView`实际只是通过传递内容给`CALayer`，通过`CALayer`绘图。
 - `UIView`的frame决定了`CALayer`的可视空间
+- `UIView`有视图树，对应`CALayer`的图层树
 
 
-#### 2.1 CALayer是怎样显示的（位图）
-- `CALayer`有一个`contents`属性，通过赋值，可以在图层上显示你想要显示的图片。
-- 你也可以自行绘图，然后经过处理之后最终也会变成类似`图片`，
+#### 2.1 CALayer是怎样显示的
+- `CALayer`有一个`contents`属性，指向一块缓存区，称为`backing store`,可以存放位图（Bitmap）,通过赋值，可以在图层上显示你想要显示的图片。
+- 你也可以自行绘图，然后经过处理之后最终也会变成类似`图片`
+- `CALayer`无论使用的图片还是自定义绘制，最终展示就类似**纹理**，而**纹理**本质上就是一张图片
 
 #### 2.2 绘制方法
 - `CALayer`自带方法
@@ -43,3 +46,69 @@
 
 
 #### 2.4 异步绘制
+
+
+### 3. 事件传递&视图响应
+
+[参考：iOS事件处理，看我就够了~](https://segmentfault.com/a/1190000013265845)
+
+#### 3.1 事件传递主要方法
+- `func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView?`返回最终响应的视图
+- `func point(inside point: CGPoint, with event: UIEvent?) -> Bool`判断点击是否在视图范围内
+
+##### 3.1.1 事件传递流程
+- 用户点击屏幕，产生一个触控事件
+- 事件传递到`UIAplication`的队列中，等待出列
+- 事件在队列取出后会传到`UIWindow`，开始倒序遍历每个子视图
+- 规则：调用`hitTest`(内部是`pointInside`)去查找子视图中，子视图是否包含点击区域，查找到最末尾的（最顶层的视图）之后，回传给`UIApplication`
+
+![事件传递流程图](https://github.com/dannyCaiHaoming/MyGitProfject/blob/master/iOS%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/images/1/%E4%BA%8B%E4%BB%B6%E4%BC%A0%E9%80%92%E6%B5%81%E7%A8%8B%E5%9B%BE.png)
+
+##### 3.1.2 HitTest内部实现描述
+- 从`UIWindow`为入口，每次检测视图的`可触控`、`透明`、`Alpha`都满足响应条件且点击是否落在视图上
+- 倒序遍历视图的子视图，寻找最后一个（最上层一个）视图返回
+
+![HitTest流程图](https://github.com/dannyCaiHaoming/MyGitProfject/blob/master/iOS%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/images/1/HitTest%E6%B5%81%E7%A8%8B%E5%9B%BE.png)
+
+#### 3.2 视图响应链
+
+##### 3.2.1 一般响应流程
+视图作为最顶层触控视图，会将触控事件从自身开始往下一级响应链，也就是父视图传递，如果一直没有找到`UIApplicationDelegate`也没有响应者，则这次触控会被忽略掉。
+
+![响应流程图](https://github.com/dannyCaiHaoming/MyGitProfject/blob/master/iOS%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/images/1/%E5%93%8D%E5%BA%94%E6%B5%81%E7%A8%8B%E5%9B%BE.png)
+
+##### 3.2.2 手势识别(优先级比响应链高，提前终止)
+众所周知，会接收掉该次触控响应，终止响应链流程继续。
+
+##### 3.2.3 UIControl(不经由响应链，直接与`UIApplication`取得联系，Target-Action)
+
+### 4. 图像显示原理
+[参考：iOS 图像渲染原理](http://www.chuquan.me/2018/09/25/ios-graphics-render-principle/)
+
+整体历程：CPU->GPU->显示器
+
+![图像显示原理](https://github.com/dannyCaiHaoming/MyGitProfject/blob/master/iOS%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/images/1/%E5%9B%BE%E5%83%8F%E6%98%BE%E7%A4%BA%E5%8E%9F%E7%90%86.png)
+
+#### 4.1 CPU负责
+- `Layout` 视图构建
+- `Dsiplay` 视图绘制
+- `Prepare` 图像解码和转换
+- `Commit` 图层打包，
+
+
+
+#### 4.2 GPU负责
+应该是类似Matel渲染流程
+
+![GPU处理流程](https://github.com/dannyCaiHaoming/MyGitProfject/blob/master/iOS%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/images/1/GPU%E5%A4%84%E7%90%86%E6%B5%81%E7%A8%8B.png)
+
+- 顶点着色器:构建顶点信息
+- 形状装配：顶点连接起来，变成形状
+- 几个着色器：
+- 光栅化：就是把图像映射成最终需要点亮屏幕的像素
+- 片段着色器
+- 测试与融合
+
+
+
+
