@@ -720,7 +720,13 @@ func Min(list:[Int],start:Int,end:Int) -> Int {
     }
     
     var mid = (e-s)/2
-    while s == mid {
+    while s != mid {
+        
+        if list[s] == list[mid] && list[e] == list[mid]{
+            ///如果头，中间，尾都相等，则不能判断出最小值在哪个区间
+            return MinInSort(list: Array(list[s...e]))
+        }
+        
         if list[mid] >= list[s] {
             s = mid + 1
         }
@@ -732,6 +738,91 @@ func Min(list:[Int],start:Int,end:Int) -> Int {
     
     return list[mid+1]
 }
+
+func MinInSort(list:[Int]) -> Int {
+    var min = list[0]
+    
+    for i in 0..<list.count{
+        if list[i] < min {
+            min = list[i]
+        }
+    }
+    return min
+}
+
+
+//MARK: 面试题12: 矩阵中的路径
+//row,colum表示二位数组多大而已
+func HasPath(list:[Character],rows:Int,columns:Int,matchStr:[Character]) -> Bool {
+    
+    //1.从任意出发
+    //2.走过的不能走
+    //3.边界的值不能走
+    var selectedList:[Int] = []
+    for _ in 0..<rows * columns {
+        selectedList.append(0)
+    }
+    var hasPath = false
+    for r in 0..<rows {
+        for c in 0..<columns {
+            if list[r*columns+c] == matchStr[0] {
+                
+                let firstTime = CoreHasPath(list: list, rows: rows, columns: columns, row: r, column: c, matchStr: Array(matchStr[0..<matchStr.count]), selectedList: &selectedList)
+                
+                hasPath = hasPath || firstTime
+                
+            }
+        }
+    }
+    return hasPath
+}
+
+//row,column表示位置在哪儿
+func CoreHasPath(list:[Character],rows:Int,columns:Int,row:Int,column:Int,matchStr:[Character],selectedList:inout [Int]) -> Bool{
+    
+    //需要分上左下右四个情况
+    var hasPath = false
+    
+    if row >= 0 && row < rows && column >= 0 && column < columns && selectedList[row*columns+column] == 0 && list[row*columns+column] == matchStr[0]{
+     
+        selectedList[row*columns+column] = 1
+        
+        if matchStr.count == 1  {
+            return true
+        }
+        
+        //上
+        
+        let top = CoreHasPath(list: list, rows: rows, columns: columns, row: row-1, column: column, matchStr: Array(matchStr[1..<matchStr.count]), selectedList: &selectedList)
+        
+        
+        
+        //左
+        
+        let left = CoreHasPath(list: list, rows: rows, columns: columns, row: row, column: column-1, matchStr: Array(matchStr[1..<matchStr.count]), selectedList: &selectedList)
+
+        
+        //下
+        
+        let bottom = CoreHasPath(list: list, rows: rows, columns: columns, row: row+1, column: column, matchStr: Array(matchStr[1..<matchStr.count]), selectedList: &selectedList)
+
+        
+        //右
+        
+        let right = CoreHasPath(list: list, rows: rows, columns: columns, row: row, column: column+1, matchStr: Array(matchStr[1..<matchStr.count]), selectedList: &selectedList)
+
+        
+        hasPath = top || left || bottom || right
+        
+        if hasPath == false {
+            selectedList[row*columns+column] = 0
+        }
+
+    }
+
+    return hasPath
+}
+
 
 
 //let a = [2,3,1,0,2,5,3]
@@ -761,12 +852,17 @@ func Min(list:[Int],start:Int,end:Int) -> Int {
 //
 //print(z)
 
-var a:[Int] = [1,2,3,4,5,6,7]
-//BubbleSort(list: &a)
-//InsertSort(list: &a)
-//ShellSort(list: &a)
-//let z = MergeSort(list: a)
+//var a:[Int] = [1,0,1,1,1]
+////BubbleSort(list: &a)
+////InsertSort(list: &a)
+////ShellSort(list: &a)
+////let z = MergeSort(list: a)
+////print(z)
+////QuickSort(list: &a)
+////BuildMaxHeap(list: &a)
+//let z = Min(list: a, start: 0, end: 4)
 //print(z)
-//QuickSort(list: &a)
-//BuildMaxHeap(list: &a)
-Min(list: a, start: 0, end: 6)
+
+let a:[Character] = ["a","b","t","g","c","f","c","s","j","d","e","h"]
+
+let z = HasPath(list: a, rows: 3, columns: 4, matchStr: ["b","f","c","e"])
