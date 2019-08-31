@@ -883,24 +883,42 @@ func MaxProductAfterCutting_Solution2(length: Int) -> Int{
 
 
 //MARK:面试题15： 二进制中1的个数(整数带正和负的)
+//func NumberOf1(n:Int) -> Int {
+//    var m = n
+//    var count = 0
+//
+//    while m/2 > 0 {
+//        if m%2 != 0 {
+//            count += 1
+//        }
+//        m /= 2
+//        if m == 1 {
+//            count += 1
+//            break
+//        }
+//    }
+//
+//    return count
+//
+//}
+//TODO:Swift中位运算的特性
 func NumberOf1(n:Int) -> Int {
-    var m = n
+    var flag = 1
     var count = 0
+    let one:Int = 1
     
-    while m/2 > 0 {
-        if m%2 != 0 {
+    while flag > 0 {
+        if n&flag > 0 {
             count += 1
         }
-        m /= 2
-        if m == 1 {
-            count += 1
-            break
-        }
+        flag = flag<<one
     }
     
-    return count
     
+    return count
 }
+
+
 
 
 
@@ -949,4 +967,5 @@ func NumberOf1(n:Int) -> Int {
 //let z1 = MaxProductAfterCutting_Solution1(length: 10)
 //let z2 = MaxProductAfterCutting_Solution2(length: 10)
 //print("\(z1),\(z2)")
-NumberOf1(n:3)
+let z = NumberOf1(n:-7)
+print(z)
