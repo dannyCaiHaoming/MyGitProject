@@ -828,6 +828,82 @@ func CoreHasPath(list:[Character],rows:Int,columns:Int,row:Int,column:Int,matchS
 
 
 
+
+
+//MARK: 面试题 14 剪绳子
+
+///动态规划
+func MaxProductAfterCutting_Solution1(length: Int) -> Int{
+    var products:[Int] = [0,0,1,2,4]
+    
+    if length > 4 {
+        for i in 5...length {
+            //从这个数的一半开始寻找最大乘积
+            var max = 0
+            for j in 1...i/2 {
+                if j*(i-j) > max{
+                    max = j*(i-j)
+                }
+            }
+//            products[i] = max
+            products.append(max)
+        }
+    }
+    
+    return products[length]
+}
+
+
+///贪婪算法
+func MaxProductAfterCutting_Solution2(length: Int) -> Int{
+    //就是穷举出最优解的几种情况，或者每次能有规律找出最优解，从而叠加起来完成最优解的情况
+    //这道题中就是分成f(5)就是找f(2)*f(3),f(4)=f(2)*f(2),所以就是解决最多能细分几个4，几个3
+    var l = length
+//    var products:[Int] = [0,0,1,2,4]
+    
+    var time = 0
+    var result = 0
+    
+    while l/4 >= 1 {
+        result *= 4
+        l -= 4
+    }
+    
+    if l >= 3 {
+        result *= 2
+    }
+    
+    result *= l
+    
+    
+    
+    
+    return result
+}
+
+
+//MARK:面试题15： 二进制中1的个数(整数带正和负的)
+func NumberOf1(n:Int) -> Int {
+    var m = n
+    var count = 0
+    
+    while m/2 > 0 {
+        if m%2 != 0 {
+            count += 1
+        }
+        m /= 2
+        if m == 1 {
+            count += 1
+            break
+        }
+    }
+    
+    return count
+    
+}
+
+
+
 //let a = [2,3,1,0,2,5,3]
 //let b = [2,3,5,4,3,2,6,7]
 //let c:[Int] = []
@@ -866,6 +942,11 @@ func CoreHasPath(list:[Character],rows:Int,columns:Int,row:Int,column:Int,matchS
 //let z = Min(list: a, start: 0, end: 4)
 //print(z)
 
-let a:[Character] = ["a","b","t","g","c","f","c","s","j","d","e","h"]
+//let a:[Character] = ["a","b","t","g","c","f","c","s","j","d","e","h"]
+//
+//let z = HasPath(list: a, rows: 3, columns: 4, matchStr: ["b","f","c","e"])
 
-let z = HasPath(list: a, rows: 3, columns: 4, matchStr: ["b","f","c","e"])
+//let z1 = MaxProductAfterCutting_Solution1(length: 10)
+//let z2 = MaxProductAfterCutting_Solution2(length: 10)
+//print("\(z1),\(z2)")
+NumberOf1(n:3)
