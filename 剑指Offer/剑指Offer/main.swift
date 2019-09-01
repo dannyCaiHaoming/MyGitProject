@@ -901,23 +901,34 @@ func MaxProductAfterCutting_Solution2(length: Int) -> Int{
 //    return count
 //
 //}
-//TODO:Swift中位运算的特性
-func NumberOf1(n:Int) -> Int {
-    var flag = 1
+
+//负数的表示方式使用二进制的补码，就是先按位取反再加一
+func NumberOf1(n:Int8) -> Int {
+    var flag:Int8 = 0b00000001
     var count = 0
-    let one:Int = 1
     
     while flag > 0 {
         if n&flag > 0 {
             count += 1
         }
-        flag = flag<<one
+        flag = flag<<1
     }
     
     
     return count
 }
 
+
+//二进制数-1再与自身&运算，将会将最后一个1消除
+func NumberOf1_1(n:Int8) -> Int {
+    var newN = n
+    var count = 0
+    while newN > 0 {
+        newN = (newN-1)&newN
+        count += 1
+    }
+    return count
+}
 
 
 
@@ -967,5 +978,6 @@ func NumberOf1(n:Int) -> Int {
 //let z1 = MaxProductAfterCutting_Solution1(length: 10)
 //let z2 = MaxProductAfterCutting_Solution2(length: 10)
 //print("\(z1),\(z2)")
-let z = NumberOf1(n:-7)
-print(z)
+let z = NumberOf1(n:0b00000111)
+let z1 = NumberOf1_1(n:0b00000111)
+print(z1)
