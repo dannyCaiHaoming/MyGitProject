@@ -17,6 +17,7 @@
 
 ### 2. UIView和CALayer
 [参考：《iOS三问》 -- CALayer基础](https://luochenxun.com/ios-calayer-overview/)
+
 简单来说，应用`单一职责`的设计原理，将功能区分开，`UIView`用于传递绘制内容给`CALayer`并且由于继承自`UIResponder`，因此还具有响应触碰的；`CALayer`只是单纯的用于生成展示的内容（`content`其实也是最终的`位图`）。
 
 有个比喻很好：**UIView是一副PS的图，而实际这个图上面是有很多个图层叠加而成的，这里面的图层其实就是CALayer**
@@ -42,7 +43,17 @@
 	- `func display(_ layer: CALayer)` **异步绘制的入口**
 	- `func draw(_ layer: CALayer, in ctx: CGContext)`
 
-#### 2.3 绘制时机
+#### 2.3 `UIView`绘制原理
+
+![UI视图绘制原理](https://github.com/dannyCaiHaoming/MyGitProfject/blob/master/iOS%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/images/UI%E8%A7%86%E5%9B%BE%E7%BB%98%E5%88%B6%E5%8E%9F%E7%90%86.webp)
+
+- 其实就是相当于`CALayer`进行了一次重新绘制
+- 流程就是先判断有没有实现`CALayerDelegate`的方法-----`异步绘制`
+- 然后才是`CALayer`自身的绘制方法-----`系统绘制流程`
+
+##### 2.3.1 系统绘制流程
+
+![系统绘制流程](https://github.com/dannyCaiHaoming/MyGitProfject/blob/master/iOS%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/images/%E7%B3%BB%E7%BB%9F%E7%BB%98%E5%88%B6%E6%B5%81%E7%A8%8B.webp)
 
 
 #### 2.4 异步绘制
@@ -90,10 +101,10 @@
 ![图像显示原理](https://github.com/dannyCaiHaoming/MyGitProfject/blob/master/iOS%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/images/1/%E5%9B%BE%E5%83%8F%E6%98%BE%E7%A4%BA%E5%8E%9F%E7%90%86.png)
 
 #### 4.1 CPU负责
-- `Layout` 视图构建
-- `Dsiplay` 视图绘制
-- `Prepare` 图像解码和转换
-- `Commit` 图层打包，
+- `Layout` 视图构建，在这个阶段，程序设置 View/Layer 的层级信息，设置 layer 的属性，如 frame，background color 等等。
+- `Dsiplay` 视图绘制，在这个阶段程序会创建 layer 的 backing image，无论是通过 setContents 将一个 image 传給 layer，还是通过 drawRect：或 drawLayer:inContext：来画出来的。所以 drawRect：等函数是在这个阶段被调用的。
+- `Prepare` 图像解码和转换，在这个阶段，Core Animation 框架准备要渲染的 layer 的各种属性数据，以及要做的动画的参数，准备传递給 render server。同时在这个阶段也会解压要渲染的 image。
+- `Commit` 图层打包，在这个阶段，Core Animation 打包 layer 的信息以及需要做的动画的参数，通过 IPC（inter-Process Communication）传递給 render server。
 
 
 
@@ -102,7 +113,7 @@
 
 ![GPU处理流程](https://github.com/dannyCaiHaoming/MyGitProfject/blob/master/iOS%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/images/1/GPU%E5%A4%84%E7%90%86%E6%B5%81%E7%A8%8B.png)
 
-- 顶点着色器:构建顶点信息
+- 顶点着色器：构建顶点信息
 - 形状装配：顶点连接起来，变成形状
 - 几个着色器：
 - 光栅化：就是把图像映射成最终需要点亮屏幕的像素
@@ -110,5 +121,17 @@
 - 测试与融合
 
 
+#### 4.3 UI卡顿掉帧的原因
+- 每一帧需要产生一个画面，由CPU->GPU处理完最终生成画面。
+- 如果这一帧时间超过了规定时间，`VSync`信道到来前没有准备好，就会产生掉帧卡顿
+
+#### 4.4 滑动优化方案（两方面）
+- CPU
+	- 对象创建、销毁、调整放在子线程
+	- 预排版（布局计算、文本计算）可以放到子线程，让主线程有更多空闲时间
+	- 预渲染（文本等异步绘制、图片编解码）
+- GPU
+	- 纹理渲染
+	- 视图混合
 
 
