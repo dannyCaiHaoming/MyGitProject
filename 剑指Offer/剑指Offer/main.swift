@@ -931,6 +931,54 @@ func NumberOf1_1(n:Int8) -> Int {
 }
 
 
+//MARK:面试题16: 数值的整数次方
+func MyPower(base:Double,exponent:Int) ->  Double {
+    
+    if base.isEqual(to: 0.0) {
+        return 0.0
+    }
+    
+    var p = MyPositivePower1(base: base, exponent: abs(exponent))
+    
+    if exponent < 0 {
+        p = 1/p
+    }
+    
+    return p
+}
+
+///简单的循环解决
+func MyPositivePower(base:Double,exponent:Int) ->  Double{
+    var result = 1.0
+    for _ in 0..<exponent {
+        result *= base
+    }
+    return result
+}
+
+///使用斐波那契数列公式解决
+func MyPositivePower1(base:Double,exponent:Int) ->  Double{
+    
+    if exponent == 0 {
+        return 1
+    }
+    if exponent == 1 {
+        return base
+    }
+    
+    let half = MyPositivePower1(base: base, exponent: exponent>>1)
+    
+    var result = half * half
+    
+    if exponent&(0b1) == 1 {
+        result *= base
+    }
+    return result
+    
+    
+}
+
+
 
 
 //let a = [2,3,1,0,2,5,3]
@@ -978,6 +1026,7 @@ func NumberOf1_1(n:Int8) -> Int {
 //let z1 = MaxProductAfterCutting_Solution1(length: 10)
 //let z2 = MaxProductAfterCutting_Solution2(length: 10)
 //print("\(z1),\(z2)")
-let z = NumberOf1(n:0b00000111)
-let z1 = NumberOf1_1(n:0b00000111)
-print(z1)
+//let z = NumberOf1(n:0b00000111)
+//let z1 = NumberOf1_1(n:0b00000111)
+//print(z1)
+print(MyPower(base: 3, exponent: 4))
