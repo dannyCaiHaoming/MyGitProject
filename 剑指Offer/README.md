@@ -317,7 +317,7 @@ H i ( key ) = ( H ( key )+ d i ) mod m ( i = 1,2,…… ， k ( k ≤ m – 1))
 
 #### 利用斐波那契数列的公式
 
-[斐波那契数列公式](https://github.com/dannyCaiHaoming/MyGitProfject/blob/master/%E5%89%91%E6%8C%87Offer/images/%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E6%95%B0%E5%88%97%E5%85%AC%E5%BC%8F.png)
+![斐波那契数列公式](https://github.com/dannyCaiHaoming/MyGitProfject/blob/master/%E5%89%91%E6%8C%87Offer/images/%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E6%95%B0%E5%88%97%E5%85%AC%E5%BC%8F.png)
 
 - 就是将`exponent`递归分解成一半，直到分解成1，或者0
 - **ps** 
