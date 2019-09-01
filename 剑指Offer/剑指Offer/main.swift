@@ -979,6 +979,64 @@ func MyPositivePower1(base:Double,exponent:Int) ->  Double{
 }
 
 
+//MARK: 面试题17：打印从1到最大的n位数
+func Print1ToMaxOfNDigits(n:Int){
+    var list:[Int] = []
+    for _ in 0..<n {
+        list.append(0)
+    }
+    
+    
+    var stop = false
+    
+    while stop == false {
+        stop = Increment(list: &list)
+        PrintList(list: list)
+    }
+    
+}
+
+func Increment(list: inout[Int]) -> Bool {
+    
+    var addOne = 0
+    
+    list[list.count-1] += 1
+    for i in (0..<list.count).reversed() {
+        
+
+        
+        list[i] = list[i] + addOne
+        addOne = 0
+        if list[i] >= 10 {
+            addOne = 1
+            list[i] = list[i] - 10
+        }
+        
+        if i == 0 && addOne == 1 {
+            return true
+        }
+        
+    }
+    
+    return false
+    
+}
+
+
+func PrintList(list:[Int]){
+    var str = ""
+    var ignore = true
+    
+    for value in list{
+        if ignore == true && value == 0 {
+            continue
+        }
+        ignore = false
+        str = str + " \(value)"
+    }
+    print(str)
+}
+
 
 
 //let a = [2,3,1,0,2,5,3]
@@ -1029,4 +1087,6 @@ func MyPositivePower1(base:Double,exponent:Int) ->  Double{
 //let z = NumberOf1(n:0b00000111)
 //let z1 = NumberOf1_1(n:0b00000111)
 //print(z1)
-print(MyPower(base: 3, exponent: 4))
+//print(MyPower(base: 3, exponent: 4))
+
+Print1ToMaxOfNDigits(n: 3)
