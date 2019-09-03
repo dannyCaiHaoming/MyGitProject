@@ -45,7 +45,7 @@
 
 #### 2.3 `UIView`绘制原理
 
-![UI视图绘制原理](https://github.com/dannyCaiHaoming/MyGitProfject/blob/master/iOS%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/images/UI%E8%A7%86%E5%9B%BE%E7%BB%98%E5%88%B6%E5%8E%9F%E7%90%86.webp)
+![UI视图绘制原理](https://github.com/dannyCaiHaoming/MyGitProfject/blob/master/iOS%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/images/1/UI%E8%A7%86%E5%9B%BE%E7%BB%98%E5%88%B6%E5%8E%9F%E7%90%86.webp)
 
 - 其实就是相当于`CALayer`进行了一次重新绘制
 - 流程就是先判断有没有实现`CALayerDelegate`的方法-----`异步绘制`
@@ -53,7 +53,7 @@
 
 ##### 2.3.1 系统绘制流程
 
-![系统绘制流程](https://github.com/dannyCaiHaoming/MyGitProfject/blob/master/iOS%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/images/%E7%B3%BB%E7%BB%9F%E7%BB%98%E5%88%B6%E6%B5%81%E7%A8%8B.webp)
+![系统绘制流程](https://github.com/dannyCaiHaoming/MyGitProfject/blob/master/iOS%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/images/1/%E7%B3%BB%E7%BB%9F%E7%BB%98%E5%88%B6%E6%B5%81%E7%A8%8B.webp)
 
 
 #### 2.4 异步绘制
