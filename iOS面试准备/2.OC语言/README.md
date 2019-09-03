@@ -70,13 +70,107 @@
 
 #### 4.2 通知的实现原理
 
-![通知实现原理]()
+![通知实现原理](https://github.com/dannyCaiHaoming/MyGitProfject/blob/master/iOS%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/images/2/%E9%80%9A%E7%9F%A5%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86.png)
 
 ### 5. KVO
 
+#### 5.1 KVO使用
+
+- 注册成为观察者:
+	- `addObserver:forKeyPath:options:context`
+- 设置需要观察对象的属性,(如果是成员变量需要手动设定KVO，因为系统不会自动生成setter方法和getter):
+	- object.property = XXX
+	- [object setValue forKey]
+- 在回调方法中处理变更通知
+	- `observeValueForKeyPath:ofObject:change:context:`
+- 在不再使用的时候移除观察者
+	- `removeObserver: forKeyPath:`
+
+#### 5.2 KVO设置兼职观察依赖健
+例如一个对象的A属性依赖于B，C。
+可以手动实现A属性的setter和getter方法，并且实现
+
+- `keyPathsForValueAffecting属性A名字`或者
+- `keyPathsForValuesAffectinValueForKey:`告诉系统属性A依赖于B，C。
+
+#### 5.3 KVO实现原理
+
+- 当某个类的对象第一次被观察时，系统会为该类派生一个子类，然后在该子类中会重写被观察的属性的`setter`方法。
+- 会在setter方法中添加`willChangeValueForKey:`,`didChangeValueForKey:`
+- 除此之外，系统还重写了Class的方法，让开发者误以为还是调用原来的类，这个对象的`isa指针`会指向新的派生类。
+
+
+### 6. KVC--键值编码
+是`NSObject`类别的`NSKeyValueCoding`的非正式协议。
+
+#### 6.1 KVC的实现原理
+其实就是搜索键的过程，然后赋值。在搜索成员变量的时候，先搜索`_`(带下划线)的。
+
+##### 6.1.1 `setValue:forKey:`方法的搜索过程
+
+- 先查询`setter`方法，`set<key>`,`_set<key>`
+- 检查`accessInstanceVariablesDirectyl`是否为真
+- 查询实例变量`_key`,`_isKey`,`key`,`isKey`
+- 属性`setter`或实例变量都没查找出来，则调用`setValue:forUndefineKey:`
+
+##### 6.1.2 `valueForKey:`方法的搜索过程
+
+- 先检查`getter`方法，`get<key>`,`<key>`,`is<key>`
+- 然后检索`NSArray`的检索方法
+- 然后检索`NSSet`的检索方法
+- 检查`accessInstanceVariablesDirectyle`是否为真
+- 查找实例变量`_key`,`_isKey`,`key`,`isKey`
+- 如果都没有，则调用`setValue:forUndefineKey:`
+
+
+### 7. 属性关键字(加粗的是默认关键字)
+
+#### 7.1 读写
+
+- `readonly`
+- **`readwrite`**
+
+
+#### 7.2 原子
+
+- **`atonmic`**
+- `nonatonmic`
+
+#### 7.3 引用计数
+
+##### 对象
+
+- `retain`
+- **`strong`**
+
+##### 避免循环引用
+
+- `weak`
+- `copy`
+
+
+##### C语言基础类型及一些基础数类型
+
+- **`assing`**
 
 
 
-### 6. KVC
+#### 7.4 `浅拷贝`是指针复制，`深拷贝`是内容复制
+要搞懂< 用@property声明的NSString（或NSArray，NSDictionary）经常使用copy关键字，为什么？如果改用strong关键字，可能造成什么问题？>
 
-### 7. 属性关键字
+- 原因是NSArray有可变子类NSMutableArray，如果将可变数组赋值给self.array,self.array是不可变数组，对此操作会发生崩溃。copy属性也可以确保无论传入的是否可变对象，本身就是一个不可变的副本。
+- 如果是strong，那么如果传入一个可变对象的话，当前属性也会指向可变对象，外部如果有变化，当前对象也会被修改。
+
+
+
+
+
+
+-----
+-----
+-----
+-----
+-----
+-----
+-----
+

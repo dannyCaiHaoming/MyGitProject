@@ -11,6 +11,21 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface People : NSObject
+{
+//	int _year;//First Step
+//	int _isYear;//Second Step
+//	int year;//Third Step
+//	int isYear;//Forth Step
+}
+
+///
+@property (nonatomic, copy) NSString *money;
+
+///
+//@property (nonatomic, assign) int year;
+
+///
+@property (nonatomic, copy) NSString *work;
 
 @end
 
