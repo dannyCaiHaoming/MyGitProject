@@ -6,18 +6,21 @@
 
 - 声明私有方法
 - 分解体积庞大的类(将不同的功能组织到不同的分类中)
-- Framwork的私有方法公开
+- Framework的私有方法公开
 - 模拟`多继承`
 
 #### 1.2 分类的特性
 
-- 运行时决议，因此在编译时该对象的内存布局已经确认，因此不能再动态添加实例变量，会破坏该类的内存布局
-- 分类只能添加属性（声明`setter`和`getter`方法），并不能添加实例变量
+- 运行时决议，因为在编译时该对象的内存布局已经确认，是已经编译好放在的内存的代码区，因此苹果的分类结构以及类合并分类的过程中，也没有提供插入成员变量的实现。毕竟这是很危险的操作。
+- 分类只能添加属性（声明`setter`和`getter`方法），并不能添加实例变量。实例变量需要满足以下条件：
+	- 声明了一个成员变量
+	- 并且实现了`setter`和`getter`方法
 - 分类会`覆盖`原类的方法，也会`覆盖`比它**先编译**的分类的方法
 
 #### 1.3 分类的原理
 [参考：深入理解 Objective-C](https://devhe.com/2019/02/14/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3-Objective-C-%E2%98%9E-Category/)
-分类实际上也是通过结构体实现--`Category_t`
+
+分类实际上也是通过结构体实现---`Category_t`
 
 - 这里需要先补`Runtime`的知识，了解`Class`的内部结构
 - 在运行时，`类对象`会调用`attachCategories`函数去把类中的分类拼接上
@@ -25,7 +28,8 @@
 	- `method_list_t **mlists`
 	- `property_list_t **proplists`
 	- `protocol_list_t **protolist`
-- `attachLists`实现新旧二维数组的拼接，将原数组复制到新内容数组的最后一位，然后将倒序排序的分类数组内容按顺序在新数组的首位开始放置
+- `attachLists`实现类的内容及所有分类内容的拼接（新数组大小=原来类的内容+所有分类内容），将原数组复制到新内容数组的最后一位，然后将倒序排序的分类数组内容按顺序在新数组的首位开始放置
+
 ![类拼接分类方法示例](https://github.com/dannyCaiHaoming/MyGitProfject/blob/master/iOS%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/images/2/%E5%88%86%E7%B1%BB%E6%89%A9%E5%B1%95%E6%96%B0%E6%97%A7%E6%95%B0%E7%BB%84%E6%8B%BC%E6%8E%A5%E5%8E%9F%E7%90%86.png)
 
 #### 1.4 使用关联对象为分类添加属性
@@ -109,7 +113,7 @@
 ##### 6.1.1 `setValue:forKey:`方法的搜索过程
 
 - 先查询`setter`方法，`set<key>`,`_set<key>`
-- 检查`accessInstanceVariablesDirectyl`是否为真
+- 检查`accessInstanceVariablesDirectly`是否为真
 - 查询实例变量`_key`,`_isKey`,`key`,`isKey`
 - 属性`setter`或实例变量都没查找出来，则调用`setValue:forUndefineKey:`
 
@@ -118,7 +122,7 @@
 - 先检查`getter`方法，`get<key>`,`<key>`,`is<key>`
 - 然后检索`NSArray`的检索方法
 - 然后检索`NSSet`的检索方法
-- 检查`accessInstanceVariablesDirectyle`是否为真
+- 检查`accessInstanceVariablesDirectly`是否为真
 - 查找实例变量`_key`,`_isKey`,`key`,`isKey`
 - 如果都没有，则调用`setValue:forUndefineKey:`
 
@@ -151,12 +155,12 @@
 
 ##### C语言基础类型及一些基础数类型
 
-- **`assing`**
+- **`assign`**
 
 
 
 #### 7.4 `浅拷贝`是指针复制，`深拷贝`是内容复制
-要搞懂< 用@property声明的NSString（或NSArray，NSDictionary）经常使用copy关键字，为什么？如果改用strong关键字，可能造成什么问题？>
+Q：**用@property声明的NSString（或NSArray，NSDictionary）经常使用copy关键字，为什么？如果改用strong关键字，可能造成什么问题？**
 
 - 原因是NSArray有可变子类NSMutableArray，如果将可变数组赋值给self.array,self.array是不可变数组，对此操作会发生崩溃。copy属性也可以确保无论传入的是否可变对象，本身就是一个不可变的副本。
 - 如果是strong，那么如果传入一个可变对象的话，当前属性也会指向可变对象，外部如果有变化，当前对象也会被修改。
