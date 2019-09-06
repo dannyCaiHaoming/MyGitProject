@@ -899,6 +899,7 @@ open class Session {
     // MARK: - Task Handling
 
     func didCreateURLRequest(_ urlRequest: URLRequest, for request: Request) {
+        //MARK: 0906 Request进度
         request.didCreateURLRequest(urlRequest)
 
         guard !request.isCancelled else { return }
