@@ -1,15 +1,15 @@
-## 2. OC语言
+## 2 OC语言
 
-### 1. 分类(Category)
+### 2.1 分类(Category)
 
-#### 1.1 使用分类完成过哪些事情
+#### 2.1.1 使用分类完成过哪些事情
 
 - 声明私有方法
 - 分解体积庞大的类(将不同的功能组织到不同的分类中)
 - Framework的私有方法公开
 - 模拟`多继承`
 
-#### 1.2 分类的特性
+#### 2.1.2 分类的特性
 
 - 运行时决议，因为在编译时该对象的内存布局已经确认，是已经编译好放在的内存的代码区，因此苹果的分类结构以及类合并分类的过程中，也没有提供插入成员变量的实现。毕竟这是很危险的操作。
 - 分类只能添加属性（声明`setter`和`getter`方法），并不能添加实例变量。实例变量需要满足以下条件：
@@ -17,7 +17,7 @@
 	- 并且实现了`setter`和`getter`方法
 - 分类会`覆盖`原类的方法，也会`覆盖`比它**先编译**的分类的方法
 
-#### 1.3 分类的原理
+#### 2.1.3 分类的原理
 [参考：深入理解 Objective-C](https://devhe.com/2019/02/14/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3-Objective-C-%E2%98%9E-Category/)
 
 分类实际上也是通过结构体实现---`Category_t`
@@ -32,53 +32,53 @@
 
 ![类拼接分类方法示例](https://github.com/dannyCaiHaoming/MyGitProfject/blob/master/iOS%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/images/2/%E5%88%86%E7%B1%BB%E6%89%A9%E5%B1%95%E6%96%B0%E6%97%A7%E6%95%B0%E7%BB%84%E6%8B%BC%E6%8E%A5%E5%8E%9F%E7%90%86.png)
 
-#### 1.4 使用关联对象为分类添加属性
+#### 2.1.4 使用关联对象为分类添加属性
 主要使用到两个方法：
 
 - `objc_setAssociatedObject(id _Nonnull object, const void * _Nonnull key,
                          id _Nullable value, objc_AssociationPolicy policy)`
 - `objc_getAssociatedObject(id _Nonnull object, const void * _Nonnull key)`
 
-#### 1.5 关联对象的本质
+#### 2.1.5 关联对象的本质
 `AssocationsManger`维护了一个`spinlock_t`，保证关联对象修改属性的时候是线程安全。
 
 ![关联对象底层实现](https://github.com/dannyCaiHaoming/MyGitProfject/blob/master/iOS%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/images/2/%E5%85%B3%E8%81%94%E5%AF%B9%E8%B1%A1%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0.webp)
 
 
-### 2. 扩展(Extension)----分类和扩展最好还是对比的来记
+### 2.2 扩展(Extension)----分类和扩展最好还是对比的来记
 
-#### 2.1 扩展的用途
+#### 2.2.1 扩展的用途
 用于隐藏类的私有信息，但是必须能查看并修改到这个类的`.m`文件。
 
 - 声明私有属性
 - 声明私有方法
 - 声明私有变量
 
-#### 2.2 扩展的特性
+#### 2.2.2 扩展的特性
 
 - 编译时决议
 - 一般在`.m`文件中声明并且实现
 
 
-### 3. 代理---和block的区别
+### 2.3 代理---和block的区别
 
 - 一对一，只能返回一个变量，swift中可以用元组返回多个
 - 使用的时候要分开`委托方`和`代理方`
 - delegate的运行成本较低，不需要将上下文数据进行出栈入栈等操作
 - 设置了`weak`就能避免循环引用，
 
-### 4. 通知
+### 2.4 通知
 
-#### 4.1 通知和代理及block的比较
+#### 2.4.1 通知和代理及block的比较
 - 基于`观察者模式`，多用于`跨层``一对多`进行消息传递
 
-#### 4.2 通知的实现原理
+#### 2.4.2 通知的实现原理
 
 ![通知实现原理](https://github.com/dannyCaiHaoming/MyGitProfject/blob/master/iOS%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/images/2/%E9%80%9A%E7%9F%A5%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86.png)
 
-### 5. KVO
+### 2.5 KVO
 
-#### 5.1 KVO使用
+#### 2.5.1 KVO使用
 
 - 注册成为观察者:
 	- `addObserver:forKeyPath:options:context`
@@ -90,34 +90,34 @@
 - 在不再使用的时候移除观察者
 	- `removeObserver: forKeyPath:`
 
-#### 5.2 KVO设置兼职观察依赖健
+#### 2.5.2 KVO设置兼职观察依赖健
 例如一个对象的A属性依赖于B，C。
 可以手动实现A属性的setter和getter方法，并且实现
 
 - `keyPathsForValueAffecting属性A名字`或者
 - `keyPathsForValuesAffectinValueForKey:`告诉系统属性A依赖于B，C。
 
-#### 5.3 KVO实现原理
+#### 2.5.3 KVO实现原理
 
 - 当某个类的对象第一次被观察时，系统会为该类派生一个子类，然后在该子类中会重写被观察的属性的`setter`方法。
 - 会在setter方法中添加`willChangeValueForKey:`,`didChangeValueForKey:`
 - 除此之外，系统还重写了Class的方法，让开发者误以为还是调用原来的类，这个对象的`isa指针`会指向新的派生类。
 
 
-### 6. KVC--键值编码
+### 2.6 KVC--键值编码
 是`NSObject`类别的`NSKeyValueCoding`的非正式协议。
 
-#### 6.1 KVC的实现原理
+#### 2.6.1 KVC的实现原理
 其实就是搜索键的过程，然后赋值。在搜索成员变量的时候，先搜索`_`(带下划线)的。
 
-##### 6.1.1 `setValue:forKey:`方法的搜索过程
+##### 2.6.1.1 `setValue:forKey:`方法的搜索过程
 
 - 先查询`setter`方法，`set<key>`,`_set<key>`
 - 检查`accessInstanceVariablesDirectly`是否为真
 - 查询实例变量`_key`,`_isKey`,`key`,`isKey`
 - 属性`setter`或实例变量都没查找出来，则调用`setValue:forUndefineKey:`
 
-##### 6.1.2 `valueForKey:`方法的搜索过程
+##### 2.6.1.2 `valueForKey:`方法的搜索过程
 
 - 先检查`getter`方法，`get<key>`,`<key>`,`is<key>`
 - 然后检索`NSArray`的检索方法
@@ -127,20 +127,20 @@
 - 如果都没有，则调用`setValue:forUndefineKey:`
 
 
-### 7. 属性关键字(加粗的是默认关键字)
+### 2.7 属性关键字(加粗的是默认关键字)
 
-#### 7.1 读写
+#### 2.7.1 读写
 
 - `readonly`
 - **`readwrite`**
 
 
-#### 7.2 原子
+####2.7.2 原子
 
 - **`atonmic`**
 - `nonatonmic`
 
-#### 7.3 引用计数
+#### 2.7.3 引用计数
 
 ##### 对象
 
@@ -159,7 +159,7 @@
 
 
 
-#### 7.4 `浅拷贝`是指针复制，`深拷贝`是内容复制
+#### 2.7.4 `浅拷贝`是指针复制，`深拷贝`是内容复制
 Q：**用@property声明的NSString（或NSArray，NSDictionary）经常使用copy关键字，为什么？如果改用strong关键字，可能造成什么问题？**
 
 - 原因是NSArray有可变子类NSMutableArray，如果将可变数组赋值给self.array,self.array是不可变数组，对此操作会发生崩溃。copy属性也可以确保无论传入的是否可变对象，本身就是一个不可变的副本。
