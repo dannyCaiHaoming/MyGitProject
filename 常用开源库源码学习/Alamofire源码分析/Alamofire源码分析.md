@@ -47,8 +47,11 @@
 
 ### URLRequestConvertiable
 
-提供由不同工厂`Request`,`Download`,`Upload  
-`零散的原料整合成统一`URLRequest`的方法
+- 对于独立的请求，提供由不同工厂`Request`,`Download`,`Upload  
+`零散的原料整合成统一`URLRequest`的方法  
+  
+- 对于庞大的应用，可以应用**Route设计模式**，好处是可以通过这个`中间路由`，将服务端抽象起来，提供类型安全的路由服务，并且还能管理验证证书和其它状态  
+	- 枚举`Router`类型遵循`URLRequestConvertible`协议
 
 - RequestConvertible
      
@@ -63,7 +66,7 @@
 
 - RequestEncodableConvertible 
      
-  参数需要`Encoding`的`Request`,`Download`使用
+  参数需要`Encoding`编码的`Request`,`Download`使用
 
 - UploadConvertible
      
@@ -83,7 +86,10 @@
 
 ## Request.swift
 
+   
+`Request`是所有`Alamofire`中使用到请求类的父类，提供了常用的状态，代理，还有回调方法
+
 ## Almofire.swift
 
-这个文件里面没有使用`Almofire`去声明一个类，而是使用了全名命名空间去包含了所有`默认的``Session`的实例方法
+这个文件里面没有使用`Almofire`去声明一个类，而是使用了全名命名空间去包含了所有`默认的`Session`的实例方法
 
