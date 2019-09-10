@@ -172,7 +172,11 @@ func ReplaceBlank( string:inout [Character]){
 //MARK: 面试题6：从尾到头打印链表
 
 ///题目：
-class ListNode<T> {
+class ListNode<T:Equatable>:Equatable{
+    static func == (lhs: ListNode<T>, rhs: ListNode<T>) -> Bool {
+        return (lhs.value == rhs.value) && (lhs.pNext == rhs.pNext)
+    }
+    
     var value:T?
     var pNext: ListNode<T>?
     
@@ -1037,6 +1041,74 @@ func PrintList(list:[Int]){
     print(str)
 }
 
+
+//MARK:面试题18：删除链表的节点
+
+
+///题目一：在O(1)时间内删除链表节点
+func DeleteNode(pListHead:inout ListNode<Int>?,pToBeDeleted: ListNode<Int>){
+    //判断是否在头结点
+    //判断是否在末尾
+    //判断是否为空
+    if pListHead == nil ||  pListHead!.value == nil {
+        return
+    }
+    
+    if pListHead == pToBeDeleted  {
+        pListHead = pListHead!.pNext
+    }
+    
+    var next = pToBeDeleted.pNext
+    if next != nil {
+        pToBeDeleted.value = next?.value
+        pToBeDeleted.pNext = next?.pNext
+        //清理不用的数据
+        next = nil
+    }else{
+        while pListHead?.pNext != nil {
+            if pListHead?.pNext == pToBeDeleted {
+                pListHead?.pNext = nil
+            }
+            pListHead = pListHead?.pNext
+        }
+    }
+
+}
+
+
+///题目二：删除链表中重复的节点
+func DeleteDuplication(pHead:inout ListNode<Int>?){
+    
+    //判断链表为空
+    //链表只有一个的情况
+    //链表所有内容都相等的情况
+    //链表开头都相等的情况
+    //链表结尾都相等的情况
+    
+    if pHead == nil || pHead!.value == nil {
+        return
+    }
+    
+    
+    var newP: ListNode<Int>? = nil
+    
+    
+    while pHead?.pNext != nil {
+        if pHead?.value != pHead?.pNext?.value {
+            //确保下一个值不与当前值相等
+            if newP == nil {
+                newP = pHead
+            }else{
+                newP?.pNext = pHead
+            }
+        }else {
+            //
+            pHead = pHead?.pNext?
+        }
+        pHead = pHead?.pNext
+    }
+    
+}
 
 
 //let a = [2,3,1,0,2,5,3]
