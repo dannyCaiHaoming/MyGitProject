@@ -147,8 +147,6 @@ OC中的函数调用叫做`消息传递`，原因是
  - `key`的值，其实是该方法在`bucket_t`数组中的索引位置
 
  
-
- 
 #### 3.3.3 当前类中查找
 
 - 对于`已排序好`的列表，采用`二分查找`算法查找方法对应执行函数
@@ -158,12 +156,32 @@ OC中的函数调用叫做`消息传递`，原因是
 #### 3.3.4 当前类的`SuperClass`逐级进行`查找缓存`和`类中查找`
 
  
+ 
 ### 3.5 消息转发
 [参考：iOS开发·runtime原理与实践](https://juejin.im/post/5ae96e8c6fb9a07ac85a3860#heading-16)
 
 [参考：深入浅出理解消息的传递和转发机制](https://www.cnblogs.com/zhanggui/p/7731394.html)
 
 ![消息转发流程](https://github.com/dannyCaiHaoming/MyGitProfject/blob/master/iOS%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/images/3/%E6%B6%88%E6%81%AF%E8%BD%AC%E5%8F%91%E6%B5%81%E7%A8%8B.png)
+
+#### 3.5.1 动态方法解析：Method Resolution
+OC运行时调用`+ (BOOL)resolveInstanceMethod:`或者 `+ (BOOL)resolveClassMethod:`，让你有机会提供一个函数实现
+
+#### 3.5.2 快速转发：Fast Forwarding
+OC运行时通过调用`- (id)forwardingTargetForSelector:(SEL)aSelector`,允许你替换信息的接收者为其他对象
+
+#### 3.5.3 完整消息转发：Normal Forwarding
+- `- (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector`先获得一个方法签名
+- `- (void)forwardInvocation:(NSInvocation *)invocation `将方法签名传过来的`NSInvocation`进行处理
+
+
+#### 3.5.4 Fast Forwarding对比Normal Forwarding
+
+- 需要重载的API不同
+- 转发的对象个数不一样
+	- 前者只能指定一个，后者可以自定义多个
+
+
 
 ### 3.6 Method-Swizzling（方法混淆）
 实际上是修改选择器(`SEL`)对应的方法实现(`IMP`)
