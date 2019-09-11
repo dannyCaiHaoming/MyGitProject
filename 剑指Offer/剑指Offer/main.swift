@@ -1124,26 +1124,71 @@ func DeleteDuplication(pHead:inout ListNode<Int>?){
 		
 		
 	}
-    
-//    var newP: ListNode<Int>? = nil
-//
-//
-//    while pHead?.pNext != nil {
-//        if pHead?.value != pHead?.pNext?.value {
-//            //确保下一个值不与当前值相等
-//            if newP == nil {
-//                newP = pHead
-//            }else{
-//                newP?.pNext = pHead
-//            }
-//        }else {
-//            //
-//            pHead = pHead?.pNext?
-//        }
-//        pHead = pHead?.pNext
-//    }
 	
 }
+
+
+
+//MARK:面试题19：正则表达式匹配
+
+///题目
+func Match(str:[Character],pattern:[Character]) -> Bool {
+	
+//	if str[0] != pattern[0] && pattern[0] != "." {
+//		return false
+//	}
+	
+	if str.isEmpty && pattern.isEmpty {
+		return true
+	}
+	
+	if str.isEmpty && !pattern.isEmpty {
+		return false
+	}
+	
+	if pattern.count > 1 && pattern[1] == "*" {
+		//特殊模式
+		
+		
+		if pattern[0] == str[0] || (pattern[0] == "." && !str.isEmpty){
+			//这里有三种情况
+			//1.将*和前面的符号忽略，匹配串移动2个
+			//2.将*和前面的符号跟字符串匹配一个，字符串移动一个跟匹配串移动两个
+			//3.匹配下一个字符串，匹配串不动，字符串移动一个
+			return Match(str: str, pattern: Array(pattern[2..<pattern.count])) || Match(str: Array(str[1..<str.count]), pattern: Array(pattern[1..<pattern.count])) || Match(str: Array(str[1..<str.count]), pattern: pattern)
+			
+		}else{
+			//由于星号前的字符不匹配，所以必须忽略掉
+			return Match(str: str, pattern: Array(pattern[2..<pattern.count]))
+		}
+	}
+	
+	if str[0] == pattern[0] || (pattern[0] == "." && !str.isEmpty){
+		return Match(str: Array(str[1..<str.count]), pattern: Array(pattern[1..<pattern.count]))
+	}
+	
+	return false
+	
+}
+
+//func Match2(str:[Character],pattern:[Character]) -> Bool{
+//
+//	var i = 0
+//	var j = 0
+//	while i < str.count && j < pattern.count {
+//
+//		if j+1 < pattern.count && pattern[j+1] == "*" {
+//
+//			if pattern[j] == str[i] || pattern[j] == "."{
+//				//
+//			}
+//			
+//
+//		}
+//	}
+//}
+
+
 
 
 //let a = [2,3,1,0,2,5,3]
@@ -1151,20 +1196,20 @@ func DeleteDuplication(pHead:inout ListNode<Int>?){
 //let c:[Int] = []
 //var d = Array("We are happy.")
 
-var l1: ListNode<Int>? = ListNode(value: 1, next: nil)
-let l2 = ListNode(value: 1, next: nil)
-let l3 = ListNode(value: 1, next: nil)
-let l4 = ListNode(value: 1, next: nil)
-let l5 = ListNode(value: 1, next: nil)
-let l6 = ListNode(value: 1, next: nil)
-let l7 = ListNode(value: 1, next: nil)
-
-l1!.pNext = l2
-l2.pNext = l3
-l3.pNext = l4
-l4.pNext = l5
-l5.pNext = l6
-l6.pNext = l7
+//var l1: ListNode<Int>? = ListNode(value: 1, next: nil)
+//let l2 = ListNode(value: 1, next: nil)
+//let l3 = ListNode(value: 1, next: nil)
+//let l4 = ListNode(value: 1, next: nil)
+//let l5 = ListNode(value: 1, next: nil)
+//let l6 = ListNode(value: 1, next: nil)
+//let l7 = ListNode(value: 1, next: nil)
+//
+//l1!.pNext = l2
+//l2.pNext = l3
+//l3.pNext = l4
+//l4.pNext = l5
+//l5.pNext = l6
+//l6.pNext = l7
 //
 //PrintListReversingly_Recursively(pHead: l1)
 
@@ -1204,4 +1249,6 @@ l6.pNext = l7
 
 
 
-DeleteDuplication(pHead: &l1)
+//DeleteDuplication(pHead: &l1)
+let z = Match(str: ["a","a","a"], pattern: ["a","b","*","a","c","*","a"])
+print(z)
