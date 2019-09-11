@@ -1182,11 +1182,16 @@ func Match(str:[Character],pattern:[Character]) -> Bool {
 //			if pattern[j] == str[i] || pattern[j] == "."{
 //				//
 //			}
-//			
+//
 //
 //		}
 //	}
 //}
+
+
+
+//MARK：面试题20：表示数值的字符串
+
 
 
 
