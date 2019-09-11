@@ -1399,4 +1399,4 @@ l6.pNext = l7
 //
 //ReorderOddEvent(pdata: &a)
 
-let z = FindKthToTail(pListHead: l1!, k: 3)
+let z = FindKthToTail(pListHead: l1!, k: 0)
