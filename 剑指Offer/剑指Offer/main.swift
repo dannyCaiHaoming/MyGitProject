@@ -230,7 +230,7 @@ func Contruct(preorder:[Int],inorder:[Int]) -> BinaryTreeNode<Int>? {
         return nil
     }
     
-
+    
     return ConstructCore(preorder: preorder, inorder: inorder)
 }
 
@@ -243,7 +243,7 @@ func ConstructCore(preorder:[Int],inorder:[Int]) -> BinaryTreeNode<Int>? {
     
     let firstRoot = inorder.firstIndex(of: preorder[0])!
     
-//    let inleftCount:Int = firstRoot //3
+    //    let inleftCount:Int = firstRoot //3
     
     
     var leftTree:BinaryTreeNode<Int>? = nil
@@ -257,7 +257,7 @@ func ConstructCore(preorder:[Int],inorder:[Int]) -> BinaryTreeNode<Int>? {
     if firstRoot+1 < inorder.count {
         rightTree = ConstructCore(preorder: Array(preorder[rightPreStart..<preorder.count]), inorder: Array(inorder[firstRoot+1..<inorder.count]))
     }
-
+    
     let tree = BinaryTreeNode.init(value: preorder[0], left: leftTree, right: rightTree)
     
     return tree
@@ -410,7 +410,7 @@ func BinarySearch(list:[Int],n:Int) -> Int?{
     var back = list.count - 1
     var mid = list.count / 2
     
-
+    
     while back >= front {
         
         mid = (back - front) / 2 + front
@@ -439,7 +439,7 @@ func BinarySearch(list:[Int],n:Int) -> Int?{
 
 ///二叉排序树查找
 func BinarySearchTree(tree:BinaryTreeNode<Int>?,value:Int) -> BinaryTreeNode<Int>? {
-
+    
     var currentNode = tree
     
     while currentNode != nil {
@@ -492,7 +492,7 @@ func SelectionSort(list:inout [Int]){
     }
     
     for i in (1...list.count-1).reversed() {
-
+        
         for j in 0...i-1{
             if list[j] > list[j+1] {
                 let temp = list[j+1]
@@ -618,7 +618,7 @@ func QuickSort(list:inout [Int])  {
         return
     }
     
-
+    
     let index = Partition(list: &list, start: 0, end: list.count - 1)
     
     var left = Array(list[0..<index])
@@ -788,7 +788,7 @@ func CoreHasPath(list:[Character],rows:Int,columns:Int,row:Int,column:Int,matchS
     var hasPath = false
     
     if row >= 0 && row < rows && column >= 0 && column < columns && selectedList[row*columns+column] == 0 && list[row*columns+column] == matchStr[0]{
-     
+        
         selectedList[row*columns+column] = 1
         
         if matchStr.count == 1  {
@@ -804,26 +804,26 @@ func CoreHasPath(list:[Character],rows:Int,columns:Int,row:Int,column:Int,matchS
         //左
         
         let left = CoreHasPath(list: list, rows: rows, columns: columns, row: row, column: column-1, matchStr: Array(matchStr[1..<matchStr.count]), selectedList: &selectedList)
-
+        
         
         //下
         
         let bottom = CoreHasPath(list: list, rows: rows, columns: columns, row: row+1, column: column, matchStr: Array(matchStr[1..<matchStr.count]), selectedList: &selectedList)
-
+        
         
         //右
         
         let right = CoreHasPath(list: list, rows: rows, columns: columns, row: row, column: column+1, matchStr: Array(matchStr[1..<matchStr.count]), selectedList: &selectedList)
-
+        
         
         hasPath = top || left || bottom || right
         
         if hasPath == false {
             selectedList[row*columns+column] = 0
         }
-
+        
     }
-
+    
     return hasPath
 }
 
@@ -849,7 +849,7 @@ func MaxProductAfterCutting_Solution1(length: Int) -> Int{
                     max = j*(i-j)
                 }
             }
-//            products[i] = max
+            //            products[i] = max
             products.append(max)
         }
     }
@@ -863,7 +863,7 @@ func MaxProductAfterCutting_Solution2(length: Int) -> Int{
     //就是穷举出最优解的几种情况，或者每次能有规律找出最优解，从而叠加起来完成最优解的情况
     //这道题中就是分成f(5)就是找f(2)*f(3),f(4)=f(2)*f(2),所以就是解决最多能细分几个4，几个3
     var l = length
-//    var products:[Int] = [0,0,1,2,4]
+    //    var products:[Int] = [0,0,1,2,4]
     
     var time = 0
     var result = 0
@@ -1007,7 +1007,7 @@ func Increment(list: inout[Int]) -> Bool {
     list[list.count-1] += 1
     for i in (0..<list.count).reversed() {
         
-
+        
         
         list[i] = list[i] + addOne
         addOne = 0
@@ -1072,7 +1072,7 @@ func DeleteNode(pListHead:inout ListNode<Int>?,pToBeDeleted: ListNode<Int>){
             pListHead = pListHead?.pNext
         }
     }
-
+    
 }
 
 
@@ -1088,43 +1088,43 @@ func DeleteDuplication(pHead:inout ListNode<Int>?){
     if pHead == nil || pHead!.value == nil {
         return
     }
-	
-	var preNode:ListNode<Int>? = nil
-	
-	var head = pHead
-	
-	while head !=  nil {
-		
-		if head?.pNext?.value == head?.value {
-			//重复的，遍历到不重复的
-			
-			let temp = head
-			while head != nil {
-				if head!.value! > temp!.value! {
-					break
-				}
-				head = head?.pNext
-			}
-			if preNode == nil {
-				pHead = head
-			}else {
-				preNode?.pNext = head
-			}
-		}else{
-			
-			if preNode == nil {
-				preNode = head
-			}else {
-				preNode?.pNext = head
-				preNode = preNode?.pNext
-			}
-			
-			head = head?.pNext
-		}
-		
-		
-	}
-	
+    
+    var preNode:ListNode<Int>? = nil
+    
+    var head = pHead
+    
+    while head !=  nil {
+        
+        if head?.pNext?.value == head?.value {
+            //重复的，遍历到不重复的
+            
+            let temp = head
+            while head != nil {
+                if head!.value! > temp!.value! {
+                    break
+                }
+                head = head?.pNext
+            }
+            if preNode == nil {
+                pHead = head
+            }else {
+                preNode?.pNext = head
+            }
+        }else{
+            
+            if preNode == nil {
+                preNode = head
+            }else {
+                preNode?.pNext = head
+                preNode = preNode?.pNext
+            }
+            
+            head = head?.pNext
+        }
+        
+        
+    }
+    
 }
 
 
@@ -1133,42 +1133,42 @@ func DeleteDuplication(pHead:inout ListNode<Int>?){
 
 ///题目
 func Match(str:[Character],pattern:[Character]) -> Bool {
-	
-//	if str[0] != pattern[0] && pattern[0] != "." {
-//		return false
-//	}
-	
-	if str.isEmpty && pattern.isEmpty {
-		return true
-	}
-	
-	if str.isEmpty && !pattern.isEmpty {
-		return false
-	}
-	
-	if pattern.count > 1 && pattern[1] == "*" {
-		//特殊模式
-		
-		
-		if pattern[0] == str[0] || (pattern[0] == "." && !str.isEmpty){
-			//这里有三种情况
-			//1.将*和前面的符号忽略，匹配串移动2个
-			//2.将*和前面的符号跟字符串匹配一个，字符串移动一个跟匹配串移动两个
-			//3.匹配下一个字符串，匹配串不动，字符串移动一个
-			return Match(str: str, pattern: Array(pattern[2..<pattern.count])) || Match(str: Array(str[1..<str.count]), pattern: Array(pattern[1..<pattern.count])) || Match(str: Array(str[1..<str.count]), pattern: pattern)
-			
-		}else{
-			//由于星号前的字符不匹配，所以必须忽略掉
-			return Match(str: str, pattern: Array(pattern[2..<pattern.count]))
-		}
-	}
-	
-	if str[0] == pattern[0] || (pattern[0] == "." && !str.isEmpty){
-		return Match(str: Array(str[1..<str.count]), pattern: Array(pattern[1..<pattern.count]))
-	}
-	
-	return false
-	
+    
+    //	if str[0] != pattern[0] && pattern[0] != "." {
+    //		return false
+    //	}
+    
+    if str.isEmpty && pattern.isEmpty {
+        return true
+    }
+    
+    if str.isEmpty && !pattern.isEmpty {
+        return false
+    }
+    
+    if pattern.count > 1 && pattern[1] == "*" {
+        //特殊模式
+        
+        
+        if pattern[0] == str[0] || (pattern[0] == "." && !str.isEmpty){
+            //这里有三种情况
+            //1.将*和前面的符号忽略，匹配串移动2个
+            //2.将*和前面的符号跟字符串匹配一个，字符串移动一个跟匹配串移动两个
+            //3.匹配下一个字符串，匹配串不动，字符串移动一个
+            return Match(str: str, pattern: Array(pattern[2..<pattern.count])) || Match(str: Array(str[1..<str.count]), pattern: Array(pattern[1..<pattern.count])) || Match(str: Array(str[1..<str.count]), pattern: pattern)
+            
+        }else{
+            //由于星号前的字符不匹配，所以必须忽略掉
+            return Match(str: str, pattern: Array(pattern[2..<pattern.count]))
+        }
+    }
+    
+    if str[0] == pattern[0] || (pattern[0] == "." && !str.isEmpty){
+        return Match(str: Array(str[1..<str.count]), pattern: Array(pattern[1..<pattern.count]))
+    }
+    
+    return false
+    
 }
 
 //func Match2(str:[Character],pattern:[Character]) -> Bool{
@@ -1210,7 +1210,7 @@ func IsNumberic(str:[Character]) -> Bool {
     
     if str[numeric.1] == "." {
         //A之后跟着小数点的话
-
+        
         let result = ScanUnsignedInteger(str: Array(str[numeric.1+1..<str.count]))
         numeric.0 =  numeric.0 || result.0
         numeric.1 += result.1
@@ -1224,8 +1224,8 @@ func IsNumberic(str:[Character]) -> Bool {
             //指数末尾还要跟着数字
             return false
         }
-
-
+        
+        
         let result = ScanInteger(str: Array(str[numeric.1+1..<str.count]))
         numeric.0 = numeric.0 && result.0
         numeric.1 += result.1
@@ -1297,6 +1297,32 @@ func ReorderOddEvent(pdata: inout [Int]){
 }
 
 
+//MARK: 面试题22：链表中倒数第k个节点
+
+//题目：
+func FindKthToTail(pListHead:ListNode<Int>,k:Int) -> ListNode<Int>? {
+    var front:ListNode<Int>? = pListHead
+    var back:ListNode<Int>? = pListHead
+    
+    var count = 1
+    while back != nil && count < k  {
+        back = back?.pNext
+        count += 1
+    }
+    if back == nil {
+        return nil
+    }
+    
+    while back?.pNext != nil && front != nil {
+        back = back?.pNext
+        front = front!.pNext
+    }
+    
+    return front
+}
+
+
+
 
 
 //let a = [2,3,1,0,2,5,3]
@@ -1304,20 +1330,20 @@ func ReorderOddEvent(pdata: inout [Int]){
 //let c:[Int] = []
 //var d = Array("We are happy.")
 
-//var l1: ListNode<Int>? = ListNode(value: 1, next: nil)
-//let l2 = ListNode(value: 1, next: nil)
-//let l3 = ListNode(value: 1, next: nil)
-//let l4 = ListNode(value: 1, next: nil)
-//let l5 = ListNode(value: 1, next: nil)
-//let l6 = ListNode(value: 1, next: nil)
-//let l7 = ListNode(value: 1, next: nil)
+var l1: ListNode<Int>? = ListNode(value: 1, next: nil)
+let l2 = ListNode(value: 2, next: nil)
+let l3 = ListNode(value: 3, next: nil)
+let l4 = ListNode(value: 4, next: nil)
+let l5 = ListNode(value: 5, next: nil)
+let l6 = ListNode(value: 6, next: nil)
+let l7 = ListNode(value: 7, next: nil)
 //
-//l1!.pNext = l2
-//l2.pNext = l3
-//l3.pNext = l4
-//l4.pNext = l5
-//l5.pNext = l6
-//l6.pNext = l7
+l1!.pNext = l2
+l2.pNext = l3
+l3.pNext = l4
+l4.pNext = l5
+l5.pNext = l6
+l6.pNext = l7
 //
 //PrintListReversingly_Recursively(pHead: l1)
 
@@ -1369,6 +1395,8 @@ func ReorderOddEvent(pdata: inout [Int]){
 
 //let z = IsNumberic(str: a)
 //print(z)
-var a = [1,2,3,4,5]
+//var a = [1,2,3,4,5]
+//
+//ReorderOddEvent(pdata: &a)
 
-ReorderOddEvent(pdata: &a)
+let z = FindKthToTail(pListHead: l1!, k: 3)
