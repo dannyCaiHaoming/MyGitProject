@@ -1088,26 +1088,61 @@ func DeleteDuplication(pHead:inout ListNode<Int>?){
     if pHead == nil || pHead!.value == nil {
         return
     }
+	
+	var preNode:ListNode<Int>? = nil
+	
+	var head = pHead
+	
+	while head !=  nil {
+		
+		if head?.pNext?.value == head?.value {
+			//重复的，遍历到不重复的
+			
+			let temp = head
+			while head != nil {
+				if head!.value! > temp!.value! {
+					break
+				}
+				head = head?.pNext
+			}
+			if preNode == nil {
+				pHead = head
+			}else {
+				preNode?.pNext = head
+			}
+		}else{
+			
+			if preNode == nil {
+				preNode = head
+			}else {
+				preNode?.pNext = head
+				preNode = preNode?.pNext
+			}
+			
+			head = head?.pNext
+		}
+		
+		
+	}
     
-    
-    var newP: ListNode<Int>? = nil
-    
-    
-    while pHead?.pNext != nil {
-        if pHead?.value != pHead?.pNext?.value {
-            //确保下一个值不与当前值相等
-            if newP == nil {
-                newP = pHead
-            }else{
-                newP?.pNext = pHead
-            }
-        }else {
-            //
-            pHead = pHead?.pNext?
-        }
-        pHead = pHead?.pNext
-    }
-    
+//    var newP: ListNode<Int>? = nil
+//
+//
+//    while pHead?.pNext != nil {
+//        if pHead?.value != pHead?.pNext?.value {
+//            //确保下一个值不与当前值相等
+//            if newP == nil {
+//                newP = pHead
+//            }else{
+//                newP?.pNext = pHead
+//            }
+//        }else {
+//            //
+//            pHead = pHead?.pNext?
+//        }
+//        pHead = pHead?.pNext
+//    }
+	
 }
 
 
@@ -1116,16 +1151,20 @@ func DeleteDuplication(pHead:inout ListNode<Int>?){
 //let c:[Int] = []
 //var d = Array("We are happy.")
 
-//let l1 = ListNode(value: 1, next: nil)
-//let l2 = ListNode(value: 2, next: nil)
-//let l3 = ListNode(value: 3, next: nil)
-//let l4 = ListNode(value: 4, next: nil)
-//let l5 = ListNode(value: 5, next: nil)
-//
-//l1.pNext = l2
-//l2.pNext = l3
-//l3.pNext = l4
-//l4.pNext = l5
+var l1: ListNode<Int>? = ListNode(value: 1, next: nil)
+let l2 = ListNode(value: 1, next: nil)
+let l3 = ListNode(value: 1, next: nil)
+let l4 = ListNode(value: 1, next: nil)
+let l5 = ListNode(value: 1, next: nil)
+let l6 = ListNode(value: 1, next: nil)
+let l7 = ListNode(value: 1, next: nil)
+
+l1!.pNext = l2
+l2.pNext = l3
+l3.pNext = l4
+l4.pNext = l5
+l5.pNext = l6
+l6.pNext = l7
 //
 //PrintListReversingly_Recursively(pHead: l1)
 
@@ -1161,4 +1200,8 @@ func DeleteDuplication(pHead:inout ListNode<Int>?){
 //print(z1)
 //print(MyPower(base: 3, exponent: 4))
 
-Print1ToMaxOfNDigits(n: 3)
+//Print1ToMaxOfNDigits(n: 3)
+
+
+
+DeleteDuplication(pHead: &l1)
