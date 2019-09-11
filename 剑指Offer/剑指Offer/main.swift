@@ -1192,6 +1192,77 @@ func Match(str:[Character],pattern:[Character]) -> Bool {
 
 //MARK：面试题20：表示数值的字符串
 
+///题目
+//-  A[.[B]][e|EC]
+//-  .B[e|EC]
+func IsNumberic(str:[Character]) -> Bool {
+    
+    if str.isEmpty {
+        return false
+    }
+    
+    var numeric = ScanInteger(str: str)
+    
+    
+    if numeric.1 == str.count {
+        return numeric.0
+    }
+    
+    if str[numeric.1] == "." {
+        //A之后跟着小数点的话
+
+        let result = ScanUnsignedInteger(str: Array(str[numeric.1+1..<str.count]))
+        numeric.0 =  numeric.0 || result.0
+        numeric.1 += result.1
+    }
+    
+    
+    
+    if str[numeric.1] == "e" || str[numeric.1] == "E" {
+        //如果是指数的话
+        if numeric.1+1 == str.count {
+            //指数末尾还要跟着数字
+            return false
+        }
+
+
+        let result = ScanInteger(str: Array(str[numeric.1+1..<str.count]))
+        numeric.0 = numeric.0 && result.0
+        numeric.1 += result.1
+    }
+    
+    
+    return numeric.0 && (numeric.1 + 1 == str.count)
+    
+}
+
+
+func ScanInteger(str:[Character]) -> (Bool,Int) {
+    var start = 0
+    if str[0] == "+" || str[0] == "-" {
+        start = 1
+    }
+    let result = ScanUnsignedInteger(str: Array(str[start..<str.count]))
+    let index = result.0 == true ? result.1 + start : 0
+    return (result.0,index)
+}
+
+
+func ScanUnsignedInteger(str:[Character]) -> (Bool,Int) {
+    var index = 0
+    if !str.isEmpty {
+        while index < str.count  {
+            if str[index] >= "0" && str[index] <= "9"{
+                index += 1
+                continue
+            }
+            break
+        }
+        return (index != 0, index)
+    }
+    return (false,0)
+}
+
 
 
 
@@ -1255,5 +1326,14 @@ func Match(str:[Character],pattern:[Character]) -> Bool {
 
 
 //DeleteDuplication(pHead: &l1)
-let z = Match(str: ["a","a","a"], pattern: ["a","b","*","a","c","*","a"])
+//let z = Match(str: ["a","a","a"], pattern: ["a","b","*","a","c","*","a"])
+//print(z)
+
+let a:[Character] = ["1","2","E","+","1",".","1"]
+let b:[Character] = ["1","0"]
+let c:[Character] = ["5","e","2"]
+let d:[Character] = ["1",".","1",".","3"]
+let e:[Character] = ["1","a","3",".","1","6"]
+
+let z = IsNumberic(str: a)
 print(z)
