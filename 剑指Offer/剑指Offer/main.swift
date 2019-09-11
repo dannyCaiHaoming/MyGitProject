@@ -1265,6 +1265,38 @@ func ScanUnsignedInteger(str:[Character]) -> (Bool,Int) {
 
 
 
+//MARK:面试题21：调整数组顺序使奇数位于偶数前面
+
+///题目
+func ReorderOddEvent(pdata: inout [Int]){
+    
+    var front = 0
+    var back = pdata.count - 1
+    
+    while back > front {
+        
+        while front<back && pdata[front]&1 == 1{
+            front += 1
+        }
+        
+        while front<back && pdata[back]&1 == 0 {
+            back -= 1
+        }
+        
+        if pdata[front]&1 == 0 && pdata[back]&1 == 1{
+            //前面是偶数，后面是奇数
+            let temp = pdata[front]
+            pdata[front] = pdata[back]
+            pdata[back] = temp
+            front += 1
+            back -= 1
+        }
+        
+    }
+    print(pdata)
+}
+
+
 
 
 //let a = [2,3,1,0,2,5,3]
@@ -1329,11 +1361,14 @@ func ScanUnsignedInteger(str:[Character]) -> (Bool,Int) {
 //let z = Match(str: ["a","a","a"], pattern: ["a","b","*","a","c","*","a"])
 //print(z)
 
-let a:[Character] = ["1","2","E","+","1",".","1"]
-let b:[Character] = ["1","0"]
-let c:[Character] = ["5","e","2"]
-let d:[Character] = ["1",".","1",".","3"]
-let e:[Character] = ["1","a","3",".","1","6"]
+//let a:[Character] = ["1","2","E","+","1",".","1"]
+//let b:[Character] = ["1","0"]
+//let c:[Character] = ["5","e","2"]
+//let d:[Character] = ["1",".","1",".","3"]
+//let e:[Character] = ["1","a","3",".","1","6"]
 
-let z = IsNumberic(str: a)
-print(z)
+//let z = IsNumberic(str: a)
+//print(z)
+var a = [1,2,3,4,5]
+
+ReorderOddEvent(pdata: &a)
