@@ -1371,18 +1371,114 @@ func ReverseList(pHead:inout ListNode<Int>?) -> ListNode<Int>? {
 }
 
 
+
+
+//MARK:面试题25：合并两个排序的链表
+
+///题目
+func Merge(pHead1: inout ListNode<Int>?,pHead2: inout ListNode<Int>?) ->ListNode<Int>? {
+	
+	var newHead:ListNode<Int>?
+	var pHead:ListNode<Int>?
+	
+	while pHead1 != nil && pHead2 != nil {
+		
+		if pHead1!.value! < pHead2!.value! {
+			if newHead == nil {
+				newHead = pHead1
+				pHead = newHead
+			}else {
+				newHead?.pNext = pHead1
+				newHead = newHead?.pNext
+			}
+			pHead1 = pHead1?.pNext
+		}else {
+			if newHead == nil {
+				newHead = pHead2
+				pHead = newHead
+			}else {
+				newHead?.pNext = pHead2
+				newHead = newHead?.pNext
+			}
+			pHead2 = pHead2?.pNext
+		}
+	}
+	
+	while pHead1 != nil {
+		if newHead == nil {
+			newHead = pHead1
+			pHead = newHead
+		}else {
+			newHead?.pNext = pHead1
+			newHead = newHead?.pNext
+		}
+		pHead1 = pHead1?.pNext
+	}
+	
+	while pHead2 != nil {
+		if newHead == nil {
+			newHead = pHead2
+			pHead = newHead
+		}else {
+			newHead?.pNext = pHead2
+			newHead = newHead?.pNext
+		}
+		pHead2 = pHead2?.pNext
+	}
+	
+	return pHead
+}
+
+
+
+func Merge2(pHead1: inout ListNode<Int>?,pHead2: inout ListNode<Int>?) ->ListNode<Int>? {
+	
+	var newHead:ListNode<Int>?
+	
+	if pHead1 == nil && pHead2 == nil {
+		return nil
+	}
+	
+	if pHead1!.value! < pHead2!.value! {
+		if pHead1?.pNext == nil {
+			return pHead1
+		}
+		var newPhead1 = pHead1?.pNext
+		if newHead == nil {
+			newHead = Merge2(pHead1: &newPhead1, pHead2: &pHead2)
+		}else {
+			newHead?.pNext = Merge2(pHead1: &newPhead1, pHead2: &pHead2)
+		}
+		
+	}else{
+		if pHead2?.pNext == nil {
+			return pHead2
+		}
+		var newPhead2 = pHead2?.pNext
+		if newHead == nil {
+			newHead = Merge2(pHead1: &pHead1, pHead2: &newPhead2)
+		}else {
+			newHead?.pNext = Merge2(pHead1: &pHead1, pHead2: &newPhead2)
+		}
+	}
+	
+	return newHead
+	
+}
+
+
 //let a = [2,3,1,0,2,5,3]
 //let b = [2,3,5,4,3,2,6,7]
 //let c:[Int] = []
 //var d = Array("We are happy.")
 
 var l1: ListNode<Int>? = ListNode(value: 1, next: nil)
-let l2 = ListNode(value: 2, next: nil)
-let l3 = ListNode(value: 3, next: nil)
-let l4 = ListNode(value: 4, next: nil)
-let l5 = ListNode(value: 5, next: nil)
-let l6 = ListNode(value: 6, next: nil)
-let l7 = ListNode(value: 7, next: nil)
+let l2 = ListNode(value: 3, next: nil)
+let l3 = ListNode(value: 5, next: nil)
+let l4 = ListNode(value: 7, next: nil)
+let l5 = ListNode(value: 9, next: nil)
+let l6 = ListNode(value: 11, next: nil)
+let l7 = ListNode(value: 13, next: nil)
 //
 l1!.pNext = l2
 l2.pNext = l3
@@ -1390,6 +1486,24 @@ l3.pNext = l4
 l4.pNext = l5
 l5.pNext = l6
 l6.pNext = l7
+
+
+var n1: ListNode<Int>? = ListNode(value: 2, next: nil)
+let n2 = ListNode(value: 4, next: nil)
+let n3 = ListNode(value: 6, next: nil)
+let n4 = ListNode(value: 8, next: nil)
+let n5 = ListNode(value: 10, next: nil)
+let n6 = ListNode(value: 12, next: nil)
+let n7 = ListNode(value: 14, next: nil)
+
+n1!.pNext = n2
+n2.pNext = n3
+n3.pNext = n4
+n4.pNext = n5
+n5.pNext = n6
+n6.pNext = n7
+
+
 //
 //PrintListReversingly_Recursively(pHead: l1)
 
@@ -1449,7 +1563,13 @@ l6.pNext = l7
 //let z = EntryNodeOfLoop(pHead: l1!)
 //print(z)
 
-var l8:ListNode<Int>? = ListNode(value: 8, next: nil)
+//var l8:ListNode<Int>? = ListNode(value: 8, next: nil)
+//
+//let z = ReverseList(pHead: &l8)
+//print(z)
 
-let z = ReverseList(pHead: &l8)
+var l8:ListNode<Int>? = nil//ListNode(value: 8, next: nil)
+var n8:ListNode<Int>? = nil//ListNode(value: 8, next: nil)
+
+let z = Merge2(pHead1: &l1, pHead2: &n1)
 print(z)
