@@ -1345,6 +1345,32 @@ func EntryNodeOfLoop(pHead:ListNode<Int>) -> ListNode<Int>? {
 }
 
 
+//MARK:面试题24：翻转链表
+
+///题目
+func ReverseList(pHead:inout ListNode<Int>?) -> ListNode<Int>? {
+	if pHead == nil || pHead?.pNext == nil {
+		return pHead
+	}
+	
+	var preNode:ListNode<Int>? = nil
+	while pHead != nil {
+
+		let temp = pHead?.pNext
+		pHead?.pNext = preNode
+		
+		let newPre = pHead
+		newPre?.pNext = preNode
+		preNode = newPre
+
+		pHead = temp
+
+	}
+	
+	return preNode
+}
+
+
 //let a = [2,3,1,0,2,5,3]
 //let b = [2,3,5,4,3,2,6,7]
 //let c:[Int] = []
@@ -1363,7 +1389,7 @@ l2.pNext = l3
 l3.pNext = l4
 l4.pNext = l5
 l5.pNext = l6
-l6.pNext = l3
+l6.pNext = l7
 //
 //PrintListReversingly_Recursively(pHead: l1)
 
@@ -1420,5 +1446,10 @@ l6.pNext = l3
 //ReorderOddEvent(pdata: &a)
 
 //let z = FindKthToTail(pListHead: l1!, k: 0)
-let z = EntryNodeOfLoop(pHead: l1!)
+//let z = EntryNodeOfLoop(pHead: l1!)
+//print(z)
+
+var l8:ListNode<Int>? = ListNode(value: 8, next: nil)
+
+let z = ReverseList(pHead: &l8)
 print(z)
