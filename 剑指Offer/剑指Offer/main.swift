@@ -174,7 +174,8 @@ func ReplaceBlank( string:inout [Character]){
 ///题目：
 class ListNode<T:Equatable>:Equatable{
     static func == (lhs: ListNode<T>, rhs: ListNode<T>) -> Bool {
-        return (lhs.value == rhs.value) && (lhs.pNext == rhs.pNext)
+//        return (lhs.value == rhs.value) && (lhs.pNext == rhs.pNext)
+		return lhs === rhs
     }
     
     var value:T?
@@ -1324,6 +1325,25 @@ func FindKthToTail(pListHead:ListNode<Int>,k:Int) -> ListNode<Int>? {
 
 
 
+//MARK: 面试题23:链表中环的入口节点
+
+///题目
+func EntryNodeOfLoop(pHead:ListNode<Int>) -> ListNode<Int>? {
+	var one:ListNode<Int>? = pHead
+	var two:ListNode<Int>? = pHead
+	
+	while two != nil {
+		one = one?.pNext
+		two = two?.pNext?.pNext
+		
+		if one == two {
+			return one
+		}
+	}
+	
+	return nil
+}
+
 
 //let a = [2,3,1,0,2,5,3]
 //let b = [2,3,5,4,3,2,6,7]
@@ -1343,7 +1363,7 @@ l2.pNext = l3
 l3.pNext = l4
 l4.pNext = l5
 l5.pNext = l6
-l6.pNext = l7
+l6.pNext = l3
 //
 //PrintListReversingly_Recursively(pHead: l1)
 
@@ -1399,4 +1419,6 @@ l6.pNext = l7
 //
 //ReorderOddEvent(pdata: &a)
 
-let z = FindKthToTail(pListHead: l1!, k: 0)
+//let z = FindKthToTail(pListHead: l1!, k: 0)
+let z = EntryNodeOfLoop(pHead: l1!)
+print(z)
