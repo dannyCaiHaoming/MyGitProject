@@ -1482,41 +1482,80 @@ func Merge2(pHead1: inout ListNode<Int>?,pHead2: inout ListNode<Int>?) ->ListNod
 }
 
 
+//MARK:面试题26：输的子结构
+
+///题目:
+func HasSubTree(treeA:BinaryTreeNode<Int>? ,treeB:BinaryTreeNode<Int>?) -> Bool {
+    if treeA == nil && treeB != nil {
+        return false
+    }
+    
+    
+    if  treeB == nil {
+        return true
+    }
+    
+
+    var middle :Bool = treeA?.value == treeB?.value
+    
+//    if  {
+//        let leftHasSubTree = HasSubTree(treeA: treeA?.pLeft, treeB: treeB?.pLeft)
+//        let rightHasSubTree = HasSubTree(treeA: treeA?.pRight, treeB: treeB?.pRight)
+//
+//        middle = leftHasSubTree && rightHasSubTree
+//    }
+    
+    var left :Bool = false
+    var right :Bool = false
+    
+    if treeA?.pLeft != nil {
+        left = HasSubTree(treeA: treeA?.pLeft, treeB: treeB)
+    }
+    
+    if treeA?.pRight != nil {
+        right = HasSubTree(treeA: treeA?.pRight, treeB: treeB)
+    }
+    
+    return left && right && middle
+    
+}
+
+
 //let a = [2,3,1,0,2,5,3]
 //let b = [2,3,5,4,3,2,6,7]
 //let c:[Int] = []
 //var d = Array("We are happy.")
 
-var l1: ListNode<Int>? = ListNode(value: 1, next: nil)
-let l2 = ListNode(value: 3, next: nil)
-let l3 = ListNode(value: 5, next: nil)
-let l4 = ListNode(value: 7, next: nil)
-let l5 = ListNode(value: 9, next: nil)
-let l6 = ListNode(value: 11, next: nil)
-let l7 = ListNode(value: 13, next: nil)
+//var l1: ListNode<Int>? = ListNode(value: 1, next: nil)
+//let l2 = ListNode(value: 3, next: nil)
+//let l3 = ListNode(value: 5, next: nil)
+//let l4 = ListNode(value: 7, next: nil)
+//let l5 = ListNode(value: 9, next: nil)
+//let l6 = ListNode(value: 11, next: nil)
+//let l7 = ListNode(value: 13, next: nil)
+////
+//l1!.pNext = l2
+//l2.pNext = l3
+//l3.pNext = l4
+//l4.pNext = l5
+//l5.pNext = l6
+//l6.pNext = l7
 //
-l1!.pNext = l2
-l2.pNext = l3
-l3.pNext = l4
-l4.pNext = l5
-l5.pNext = l6
-l6.pNext = l7
-
-
-var n1: ListNode<Int>? = ListNode(value: 2, next: nil)
-let n2 = ListNode(value: 4, next: nil)
-let n3 = ListNode(value: 6, next: nil)
-let n4 = ListNode(value: 8, next: nil)
-let n5 = ListNode(value: 10, next: nil)
-let n6 = ListNode(value: 12, next: nil)
-let n7 = ListNode(value: 14, next: nil)
-
-n1!.pNext = n2
-n2.pNext = n3
-n3.pNext = n4
-n4.pNext = n5
-n5.pNext = n6
-n6.pNext = n7
+//
+//var n1: ListNode<Int>? = ListNode(value: 2, next: nil)
+//let n2 = ListNode(value: 4, next: nil)
+//let n3 = ListNode(value: 6, next: nil)
+//let n4 = ListNode(value: 8, next: nil)
+//let n5 = ListNode(value: 10, next: nil)
+//let n6 = ListNode(value: 12, next: nil)
+//let n7 = ListNode(value: 14, next: nil)
+//
+//n1!.pNext = n2
+//n2.pNext = n3
+//n3.pNext = n4
+//n4.pNext = n5
+//n5.pNext = n6
+//n6.pNext = n7
 
 
 //
@@ -1583,8 +1622,31 @@ n6.pNext = n7
 //let z = ReverseList(pHead: &l8)
 //print(z)
 
-var l8:ListNode<Int>? = nil//ListNode(value: 8, next: nil)
-var n8:ListNode<Int>? = nil//ListNode(value: 8, next: nil)
+//var l8:ListNode<Int>? = nil//ListNode(value: 8, next: nil)
+//var n8:ListNode<Int>? = nil//ListNode(value: 8, next: nil)
+//
+//let z = Merge2(pHead1: &l1, pHead2: &n1)
+//print(z)
 
-let z = Merge2(pHead1: &l1, pHead2: &n1)
-print(z)
+let a = BinaryTreeNode(value: 1, left: nil, right: nil)
+let b = BinaryTreeNode(value: 2, left: nil, right: nil)
+let c = BinaryTreeNode(value: 3, left: nil, right: nil)
+let d = BinaryTreeNode(value: 4, left: nil, right: nil)
+
+
+let x = BinaryTreeNode(value: 1, left: nil, right: nil)
+let y = BinaryTreeNode(value: 2, left: nil, right: nil)
+let z = BinaryTreeNode(value: 3, left: nil, right: nil)
+let u = BinaryTreeNode(value: 4, left: nil, right: nil)
+
+a.pLeft = b
+b.pLeft = c
+b.pRight = d
+
+
+y.pLeft = z
+y.pRight = u
+
+let result = HasSubTree(treeA: a, treeB: y)
+
+print(result)
