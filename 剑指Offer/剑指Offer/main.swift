@@ -1438,28 +1438,43 @@ func Merge2(pHead1: inout ListNode<Int>?,pHead2: inout ListNode<Int>?) ->ListNod
 	if pHead1 == nil && pHead2 == nil {
 		return nil
 	}
+    
+    if pHead1 == nil {
+        return pHead2
+    }
+    
+    if pHead2 == nil {
+        return pHead1
+    }
 	
 	if pHead1!.value! < pHead2!.value! {
-		if pHead1?.pNext == nil {
-			return pHead1
-		}
-		var newPhead1 = pHead1?.pNext
-		if newHead == nil {
-			newHead = Merge2(pHead1: &newPhead1, pHead2: &pHead2)
-		}else {
-			newHead?.pNext = Merge2(pHead1: &newPhead1, pHead2: &pHead2)
-		}
+        newHead = pHead1
+        
+        var newPhead1 = pHead1?.pNext
+        newHead?.pNext = Merge2(pHead1: &newPhead1, pHead2: &pHead2)
+//        if pHead1?.pNext == nil {
+//            return pHead1
+//        }
+//        var newPhead1 = pHead1?.pNext
+//        if newHead == nil {
+//            newHead = Merge2(pHead1: &newPhead1, pHead2: &pHead2)
+//        }else {
+//            newHead?.pNext = Merge2(pHead1: &newPhead1, pHead2: &pHead2)
+//        }
 		
 	}else{
-		if pHead2?.pNext == nil {
-			return pHead2
-		}
-		var newPhead2 = pHead2?.pNext
-		if newHead == nil {
-			newHead = Merge2(pHead1: &pHead1, pHead2: &newPhead2)
-		}else {
-			newHead?.pNext = Merge2(pHead1: &pHead1, pHead2: &newPhead2)
-		}
+        newHead = pHead2
+        var newPhead2 = pHead2?.pNext
+        newHead?.pNext = Merge2(pHead1: &pHead1, pHead2: &newPhead2)
+//        if pHead2?.pNext == nil {
+//            return pHead2
+//        }
+//        var newPhead2 = pHead2?.pNext
+//        if newHead == nil {
+//            newHead = Merge2(pHead1: &pHead1, pHead2: &newPhead2)
+//        }else {
+//            newHead?.pNext = Merge2(pHead1: &pHead1, pHead2: &newPhead2)
+//        }
 	}
 	
 	return newHead
