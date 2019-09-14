@@ -1486,37 +1486,34 @@ func Merge2(pHead1: inout ListNode<Int>?,pHead2: inout ListNode<Int>?) ->ListNod
 
 ///题目:
 func HasSubTree(treeA:BinaryTreeNode<Int>? ,treeB:BinaryTreeNode<Int>?) -> Bool {
-    if treeA == nil && treeB != nil {
-        return false
+    
+    var result:Bool = false
+    
+    if treeA != nil && treeB != nil {
+        if treeA?.value == treeB?.value {
+            result = CoreHadSubTree(treeA: treeA, treeB: treeB)
+        }
+        if !result == true {
+            result = CoreHadSubTree(treeA: treeA?.pLeft, treeB: treeB)
+        }
+        if !result == true {
+            result = CoreHadSubTree(treeA: treeA?.pRight, treeB: treeB)
+        }
     }
+    return result
     
-    
-    if  treeB == nil {
+}
+
+func CoreHadSubTree(treeA:BinaryTreeNode<Int>? ,treeB:BinaryTreeNode<Int>?) -> Bool {
+    if treeB == nil {
         return true
     }
     
-
-    var middle :Bool = treeA?.value == treeB?.value
-    
-//    if  {
-//        let leftHasSubTree = HasSubTree(treeA: treeA?.pLeft, treeB: treeB?.pLeft)
-//        let rightHasSubTree = HasSubTree(treeA: treeA?.pRight, treeB: treeB?.pRight)
-//
-//        middle = leftHasSubTree && rightHasSubTree
-//    }
-    
-    var left :Bool = false
-    var right :Bool = false
-    
-    if treeA?.pLeft != nil {
-        left = HasSubTree(treeA: treeA?.pLeft, treeB: treeB)
+    if treeA == nil {
+        return false
     }
     
-    if treeA?.pRight != nil {
-        right = HasSubTree(treeA: treeA?.pRight, treeB: treeB)
-    }
-    
-    return left && right && middle
+    return CoreHadSubTree(treeA: treeA?.pLeft, treeB: treeB?.pLeft) && CoreHadSubTree(treeA: treeA?.pRight, treeB: treeB?.pRight)
     
 }
 
@@ -1628,25 +1625,28 @@ func HasSubTree(treeA:BinaryTreeNode<Int>? ,treeB:BinaryTreeNode<Int>?) -> Bool 
 //let z = Merge2(pHead1: &l1, pHead2: &n1)
 //print(z)
 
-let a = BinaryTreeNode(value: 1, left: nil, right: nil)
-let b = BinaryTreeNode(value: 2, left: nil, right: nil)
-let c = BinaryTreeNode(value: 3, left: nil, right: nil)
-let d = BinaryTreeNode(value: 4, left: nil, right: nil)
+let a = BinaryTreeNode(value: 3, left: nil, right: nil)
+let b = BinaryTreeNode(value: 4, left: nil, right: nil)
+let c = BinaryTreeNode(value: 5, left: nil, right: nil)
+let d = BinaryTreeNode(value: 1, left: nil, right: nil)
+let e = BinaryTreeNode(value: 2, left: nil, right: nil)
+let f = BinaryTreeNode(value: 0, left: nil, right: nil)
 
-
-let x = BinaryTreeNode(value: 1, left: nil, right: nil)
-let y = BinaryTreeNode(value: 2, left: nil, right: nil)
-let z = BinaryTreeNode(value: 3, left: nil, right: nil)
+let x = BinaryTreeNode(value: 4, left: nil, right: nil)
+let y = BinaryTreeNode(value: 1, left: nil, right: nil)
+let z = BinaryTreeNode(value: 2, left: nil, right: nil)
 let u = BinaryTreeNode(value: 4, left: nil, right: nil)
 
 a.pLeft = b
-b.pLeft = c
-b.pRight = d
+a.pRight = c
+b.pLeft = d
+b.pRight = e
+//e.pLeft = f
 
 
-y.pLeft = z
-y.pRight = u
+x.pLeft = y
+x.pRight = z
 
-let result = HasSubTree(treeA: a, treeB: y)
+let result = HasSubTree(treeA: a, treeB: x)
 
 print(result)
