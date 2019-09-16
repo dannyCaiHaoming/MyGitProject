@@ -1519,7 +1519,7 @@ func CoreHadSubTree(treeA:BinaryTreeNode<Int>? ,treeB:BinaryTreeNode<Int>?) -> B
 
 
 //MARK: 面试题27：二叉树的镜像
-func  MirrorRecursively(pNode:BinaryTreeNode<Int>?) -> BinaryTreeNode<Int>?{
+func MirrorRecursively(pNode:BinaryTreeNode<Int>?) -> BinaryTreeNode<Int>?{
     
     if pNode?.pLeft == nil && pNode?.pRight == nil {
         return pNode
@@ -1539,6 +1539,34 @@ func  MirrorRecursively(pNode:BinaryTreeNode<Int>?) -> BinaryTreeNode<Int>?{
     
     
 }
+
+//MARK: 面试题28：对称二叉树
+func IsSymmetrical(pRoot :BinaryTreeNode<Int>?) -> Bool {
+    
+    if (pRoot == nil) || (pRoot?.pLeft == nil && pRoot?.pRight == nil) {
+        return true
+    }
+    
+    if pRoot?.pLeft == nil || pRoot?.pRight == nil {
+        return false
+    }
+    
+    
+    return IsSymmetrical(pRoot1: pRoot?.pLeft, pRoot2: pRoot?.pRight)
+    
+}
+
+func IsSymmetrical(pRoot1:BinaryTreeNode<Int>?,pRoot2:BinaryTreeNode<Int>?) ->Bool{
+    
+    if pRoot1 == nil && pRoot2 == nil {
+        return true
+    }
+    
+    return (pRoot1?.value == pRoot2?.value) && IsSymmetrical(pRoot1: pRoot1?.pLeft, pRoot2: pRoot2?.pRight) && IsSymmetrical(pRoot1: pRoot1?.pRight, pRoot2: pRoot2?.pLeft)
+}
+
+
+
 
 
 //let a = [2,3,1,0,2,5,3]
