@@ -1624,6 +1624,56 @@ func spiralOrder(_ matrix: [[Int]]) -> [Int] {
 }
 
 
+
+//MARK: 面试题30：包含min函数的栈
+
+//题目：
+class MinStack {
+    
+    var helper:[Int] = []
+    var stack:[Int] = []
+    
+    /** initialize your data structure here. */
+    init() {
+        
+    }
+    
+    func push(_ x: Int) {
+        stack.append(x)
+        
+        if helper.isEmpty {
+            helper.append(x)
+            return
+        }
+        
+        if x < helper.last! {
+            helper.append(x)
+        }else{
+            helper.append(helper.last!)
+        }
+    }
+    
+    func pop() {
+        stack.removeLast()
+        helper.removeLast()
+    }
+    
+    func top() -> Int {
+        if stack.last == nil {
+            return 0
+        }
+        return stack.last!
+    }
+    
+    func getMin() -> Int {
+        if helper.last == nil {
+            return 0
+        }
+        return helper.last!
+    }
+}
+
+
 //let a = [2,3,1,0,2,5,3]
 //let b = [2,3,5,4,3,2,6,7]
 //let c:[Int] = []
