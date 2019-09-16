@@ -1674,6 +1674,43 @@ class MinStack {
 }
 
 
+
+
+//MARK：面试题31：栈的压入，弹出序列
+
+///题目
+
+func validateStackSequences(_ pushed: [Int], _ popped: [Int]) -> Bool {
+    var stack :Stack<Int> = Stack.init()
+    
+    var Push = pushed
+    var Pop = popped
+    
+    while true  {
+        if Push.isEmpty {
+            if (Pop.first != stack.top()) {
+                return false
+            }
+            if Pop.isEmpty && stack.top() == nil {
+                return true
+            }
+        }
+        
+        if stack.top() == Pop.first {
+            _ = stack.pop()
+            Pop.remove(at: 0)
+            continue
+        }
+        
+        if !Push.isEmpty{
+            stack.push(element: Push.first!)
+            Push.remove(at: 0)
+        }
+    }
+
+}
+
+
 //let a = [2,3,1,0,2,5,3]
 //let b = [2,3,5,4,3,2,6,7]
 //let c:[Int] = []
@@ -1808,8 +1845,13 @@ class MinStack {
 //print(result)
 
 
-let a:[[Int]] = []
+//let a:[[Int]] = []
+//
+//
+//let result = spiralOrder(a)
+//print(result)
 
+let a = [2,1,0]
+let b = [1,2,0]
 
-let result = spiralOrder(a)
-print(result)
+print(validateStackSequences(a, b))
