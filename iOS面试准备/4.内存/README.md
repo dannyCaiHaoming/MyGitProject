@@ -3,7 +3,17 @@
 
 ### 4.1 内存布局
 
-![内存布局图示]()
+[参考：程序内存布局](https://cloud.tencent.com/developer/article/1177538)
+
+![内存布局图示1](https://github.com/dannyCaiHaoming/MyGitProfject/blob/master/iOS%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/images/4/%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80%E5%9B%BE%E7%A4%BA.png)
+
+从低地址往高地址：
+
+- `.text(代码段)`：存放的是成程序编译好的代码段
+- `.data(已初始化数据段)`：存放已经初始化的全局变量或者静态变量
+- `.bss(未初始化数据段)`：存放未初始化的全局变量或静态变量
+- `堆`：用于程序执行中，分配和销毁空间，用于存放程序执行中的变量，是`不连续的内存区域`
+- `栈`：存储方法调用过程中的上下文，还有方法中的内部临时变量，程序在调用函数时，系统会自动调用压栈和弹栈完成保存函数现场的操作。栈是一块`连续的内存区域`
 
 ### 4.2 内存管理方法
 
@@ -13,7 +23,8 @@
 
 #### 4.2.2 ==NONPOINTER_ISA==
 
-![ISA指针数据结构]()
+![ISA指针数据结构1](https://github.com/dannyCaiHaoming/MyGitProfject/blob/master/iOS%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/images/4/ISA%E6%8C%87%E9%92%88%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%841.png)
+![ISA指针数据结构2](https://github.com/dannyCaiHaoming/MyGitProfject/blob/master/iOS%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/images/4/ISA%E6%8C%87%E9%92%88%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%842.png)
 
 - 在`arm64`架构下
 	- 第1位，表示是否是指针型的`isa`指针，如果是非指针型的`isa`
@@ -60,7 +71,7 @@
 
 - `size_t`,`unsign long`,实际是引用计数值
 
-![引用计数表数据结构]()
+![引用计数表数据结构](https://github.com/dannyCaiHaoming/MyGitProfject/blob/master/iOS%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/images/4/%E5%BC%B1%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0%E8%A1%A8%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.png)
 
 
 #### 4.2.3.3 ==弱引用表==
@@ -121,11 +132,16 @@
 
 - `dealloc`
 
-![dealloc实现流程]()
+![dealloc实现流程](https://github.com/dannyCaiHaoming/MyGitProfject/blob/master/iOS%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/images/4/dealloc%E5%AE%9E%E7%8E%B0%E6%B5%81%E7%A8%8B.png)
 
 
 ### 4.5 弱引用管理
 
+- 添加weak变量：weak指针，以及weak指针指向的对象地址
+		根据对象地址，使用哈希算法在SideTables找到SideTable，并且根据对象地址找到`weak_table_t`，以对象地址使用哈希查找找到`weak_entry_t`，将weak指针地址存储到这个类似数组的`weak_entry_t`结构中
+
+- weak指向的对象被销毁时，指向该对象的weak指针自动置为nil
+		跟上面类似，会根据对象地址使用哈希算法寻找到`weak_entry_t`,然后将这个弱引用指针数组全部置为nil
 
 
 ### 4.6 自动释放池
@@ -165,27 +181,16 @@
 
 #### 4.7.3 NSTimer的循环引用问题
 
-![NSTimer循环引用问题图示]()
+![NSTimer循环引用问题图示](https://github.com/dannyCaiHaoming/MyGitProfject/blob/master/iOS%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/images/4/NSTimer%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8%E9%97%AE%E9%A2%98%E5%9B%BE%E7%A4%BA.png)
 
-- 增加中间这
-
-
-----
-----
-----
-----
-----
-----
-----
-----
-----
-----
-----
-----
-----
-----
+- 增加中间对象
+- 在timer回调中销毁timer
 
 
+----
+----
+----
+----
 ----
 ----
 ----
