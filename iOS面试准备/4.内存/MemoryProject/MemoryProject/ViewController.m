@@ -17,6 +17,26 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+//    NSMutableArray *a = [NSMutableArray arrayWithObject:@"123"];
+//
+//    self.array = [a mutableCopy];
+//
+//    [self.array addObject:@"234"];
+    
+    self.timer = [NSTimer timerWithTimeInterval:0 target:self selector:@selector(timerAction) userInfo:nil repeats:YES];
+    [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSDefaultRunLoopMode];
+}
+
+- (void)timerAction{
+    NSLog(@"%@",[NSDate date]);
+    
+    [self.timer invalidate];
+    self.timer = nil;
+}
+
+- (void)dealloc{
+    NSLog(@"dealloc");
 }
 
 

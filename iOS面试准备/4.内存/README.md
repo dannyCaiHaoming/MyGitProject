@@ -146,10 +146,14 @@
 
 ### 4.6 自动释放池
 
+[参考：自动释放池的前世今生](https://draveness.me/autoreleasepool)
+
 - 是以==栈==为节点，通过==双向链表==的形式结合而成
 - 是和==线程==一一对应
 
 #### 4.6.1 `AutoreleasePool`的实现原理是怎样？
+
+![AutoreleasePoolPage实现结构](https://github.com/dannyCaiHaoming/MyGitProfject/blob/master/iOS%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/images/4/AutoreleasePool%E5%AE%9E%E7%8E%B0%E7%BB%93%E6%9E%84.png)
 
 #### 4.6.2 `AutoreleasePool`为何可以嵌套使用？
 
