@@ -1518,6 +1518,29 @@ func CoreHadSubTree(treeA:BinaryTreeNode<Int>? ,treeB:BinaryTreeNode<Int>?) -> B
 }
 
 
+//MARK: 面试题27：二叉树的镜像
+func  MirrorRecursively(pNode:BinaryTreeNode<Int>?) -> BinaryTreeNode<Int>?{
+    
+    if pNode?.pLeft == nil && pNode?.pRight == nil {
+        return pNode
+    }
+    
+
+    
+    
+    pNode?.pLeft = MirrorRecursively(pNode: pNode?.pLeft)
+    pNode?.pRight = MirrorRecursively(pNode: pNode?.pRight)
+    
+    let temp = pNode?.pLeft
+    pNode?.pLeft = pNode?.pRight
+    pNode?.pRight = temp
+    
+    return pNode
+    
+    
+}
+
+
 //let a = [2,3,1,0,2,5,3]
 //let b = [2,3,5,4,3,2,6,7]
 //let c:[Int] = []
