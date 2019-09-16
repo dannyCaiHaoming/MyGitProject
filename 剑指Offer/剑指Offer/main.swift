@@ -1567,6 +1567,61 @@ func IsSymmetrical(pRoot1:BinaryTreeNode<Int>?,pRoot2:BinaryTreeNode<Int>?) ->Bo
 
 
 
+//MARK:面试题29：顺时针打印矩阵
+func spiralOrder(_ matrix: [[Int]]) -> [Int] {
+    var Rs = 0
+    var Cs = 0
+    var Re = matrix.count-1
+    if matrix.isEmpty || matrix[0].isEmpty{
+        return []
+    }
+    var Ce = matrix[0].count-1
+    
+    var result:[Int] = []
+    
+    while true {
+        //Column 左到右
+        
+        if (Re >= Rs && Ce >= Cs) == false {
+            break
+        }
+        
+        for column in Cs...Ce{
+            result.append(matrix[Rs][column])
+        }
+        Rs += 1
+        
+        if (Re >= Rs && Ce >= Cs) == false {
+            break
+        }
+        
+        //Row 上到下
+        for row in Rs...Re {
+            result.append(matrix[row][Ce])
+        }
+        Ce -= 1
+        if (Re >= Rs && Ce >= Cs) == false {
+            break
+        }
+        
+        //Column 右到左
+        for column in (Cs...Ce).reversed(){
+            result.append(matrix[Re][column])
+        }
+        Re -= 1
+        
+        if (Re >= Rs && Ce >= Cs) == false {
+            break
+        }
+        
+        //Row 下到上
+        for row in (Rs...Re).reversed() {
+            result.append(matrix[row][Cs])
+        }
+        Cs += 1
+    }
+    return result
+}
 
 
 //let a = [2,3,1,0,2,5,3]
@@ -1676,28 +1731,35 @@ func IsSymmetrical(pRoot1:BinaryTreeNode<Int>?,pRoot2:BinaryTreeNode<Int>?) ->Bo
 //let z = Merge2(pHead1: &l1, pHead2: &n1)
 //print(z)
 
-let a = BinaryTreeNode(value: 3, left: nil, right: nil)
-let b = BinaryTreeNode(value: 4, left: nil, right: nil)
-let c = BinaryTreeNode(value: 5, left: nil, right: nil)
-let d = BinaryTreeNode(value: 1, left: nil, right: nil)
-let e = BinaryTreeNode(value: 2, left: nil, right: nil)
-let f = BinaryTreeNode(value: 0, left: nil, right: nil)
+//let a = BinaryTreeNode(value: 3, left: nil, right: nil)
+//let b = BinaryTreeNode(value: 4, left: nil, right: nil)
+//let c = BinaryTreeNode(value: 5, left: nil, right: nil)
+//let d = BinaryTreeNode(value: 1, left: nil, right: nil)
+//let e = BinaryTreeNode(value: 2, left: nil, right: nil)
+//let f = BinaryTreeNode(value: 0, left: nil, right: nil)
+//
+//let x = BinaryTreeNode(value: 4, left: nil, right: nil)
+//let y = BinaryTreeNode(value: 1, left: nil, right: nil)
+//let z = BinaryTreeNode(value: 2, left: nil, right: nil)
+//let u = BinaryTreeNode(value: 4, left: nil, right: nil)
+//
+//a.pLeft = b
+//a.pRight = c
+//b.pLeft = d
+//b.pRight = e
+////e.pLeft = f
+//
+//
+//x.pLeft = y
+//x.pRight = z
+//
+//let result = HasSubTree(treeA: a, treeB: x)
+//
+//print(result)
 
-let x = BinaryTreeNode(value: 4, left: nil, right: nil)
-let y = BinaryTreeNode(value: 1, left: nil, right: nil)
-let z = BinaryTreeNode(value: 2, left: nil, right: nil)
-let u = BinaryTreeNode(value: 4, left: nil, right: nil)
 
-a.pLeft = b
-a.pRight = c
-b.pLeft = d
-b.pRight = e
-//e.pLeft = f
+let a:[[Int]] = []
 
 
-x.pLeft = y
-x.pRight = z
-
-let result = HasSubTree(treeA: a, treeB: x)
-
+let result = spiralOrder(a)
 print(result)
