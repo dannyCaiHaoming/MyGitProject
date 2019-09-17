@@ -1,5 +1,6 @@
 ## 5 Block
 
+[参考：iOS底层原理总结 ](https://juejin.im/post/5b0181e15188254270643e88#heading-22)
 
 ### 5.1 Block介绍
 
@@ -59,9 +60,9 @@ Block是将`函数`及其`执行上下文`封装起来的`对象`
 ![block变量变成对象的结构图](https://github.com/dannyCaiHaoming/MyGitProfject/blob/master/iOS%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/images/5/block%E5%8F%98%E9%87%8F%E5%8F%98%E6%88%90%E5%AF%B9%E8%B1%A1%E7%9A%84%E7%BB%93%E6%9E%84.png)
 
 
-#### 5.3.3 MRC和ARC中的区别
+#### 5.3.3 MRC和ARC中的区别(原来所有情况都是考虑`block`在堆上，或者`block`跟对象相互持有的情况，网上的资料hhhhhhhhhhh)
 
-- MRC中，不使用`__block`，则是直接引用该对象的指针，使用了`__block`相当于创建了一个局部变量然后再引用该对象指针，因此并没有增加对象的引用计数
+- MRC中，由于没有所谓`强引用`和`弱引用`，只有`retainCount=0`回收跟`retainCount!=0`再让你高兴一会的情况，因此其实原先用不用`__block`真的问题不大，因为当你初始化完这个`block`，你都要考虑手动调用`release`。若然你把`block`复制到了堆上，如果你不调用这个`release`，那么这个`block`则一直得不到回收；若然只是在栈上调用了这个`block`，即使`block`引用了这个对象，但是只要这个作用域过去了，栈自然销毁`block`也不会存在循环引用。
 
 - ARC中，是否使用`__block`都会引用循环引用。因为`block`本身截获变量就是引用该对象指针，当使用`__block`的时候，就是新建一个`block`对象引用该对象，`block`对象还是持有着该对象的指针
 
@@ -71,7 +72,7 @@ Block是将`函数`及其`执行上下文`封装起来的`对象`
 
 #### 5.4.1 Block分类
 
-![Block分类]()
+![Block分类](https://github.com/dannyCaiHaoming/MyGitProfject/blob/master/iOS%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/images/5/Block%E7%B1%BB%E5%9E%8B)
 
 - 全局Block ---`__NSGlobalBlock__`
 	- 没有访问任何外部变量
@@ -80,7 +81,7 @@ Block是将`函数`及其`执行上下文`封装起来的`对象`
 - 堆Block ---`__NSMallocBlock__`
 	- 使用了`copy`
 
-**PS:** ARC中，block==默认==是直接分配到==堆==中的，如果用`weak`修饰，就不会进行copy操作，仍然会在栈中。如果作为==参数传递给函数==，那么如果这个==函数中没有使用到copy==，这个block还是会存在于栈中， 当函数结束后，这个block就会被释放，因此不需要使用weak。
+**PS:** ARC中，==block默认是直接分配到堆中的，如果用`weak`修饰，就不会进行copy操作，仍然会在栈中==。如果作为==参数传递给函数==，那么如果这个==函数中没有使用到copy==，这个block还是会存在于栈中， 当函数结束后，这个block就会被释放，因此不需要使用weak。
 
 **面试题:**  为什么block需要使用copy修饰符：
 	由于在函数中使用block，如果block使用了外部变量，但如果此时block使用的是assign，在函数调用结束时，由于block和外部变量均是在栈中，在函数执行期间，可能存在提前释放外部变量的情况，导致引用错误。如果使用了copy，就会将block以及变量复制到堆中，就不会出现内存被回收引起异常。
@@ -103,6 +104,10 @@ Block是将`函数`及其`执行上下文`封装起来的`对象`
 
 ### 5.5 Block的循环引用
 
+#### 5.5.1  MRC下
+
+
+#### 5.5.2 ARC下
 
 ----
 ----
