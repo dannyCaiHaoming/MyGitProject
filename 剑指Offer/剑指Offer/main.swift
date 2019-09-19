@@ -1853,6 +1853,25 @@ func PrintTreeInZhi(pRoot:BinaryTreeNode<Int>?) -> [[Int]]{
 
 
 
+//MARK:面试题33：二叉搜索树的后序遍历序列
+
+///题目：
+func VerifySquenceOfBST(sequence:[Int]) -> Bool {
+	
+	if sequence.count == 0 {
+		return false
+	}
+	
+	let root = sequence.last
+	
+	
+	
+	
+	
+}
+
+
+
 //let a = [2,3,1,0,2,5,3]
 //let b = [2,3,5,4,3,2,6,7]
 //let c:[Int] = []
