@@ -7,6 +7,9 @@
 //
 
 #import "ViewController.h"
+#import "Person.h"
+
+
 
 typedef void(^TestBlock)(void);
 
@@ -20,19 +23,16 @@ typedef void(^TestBlock)(void);
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    __block ViewController *blockSelf = self;
-    
-    TestBlock block = ^{
-        NSLog(@"%@",blockSelf);
-    };
-
-    
-    block();
+	Person *person = [[Person alloc] init];
+	
+	person.initBlock;
+	//
+	person.testBlock();
 }
 
-//- (void)dealloc{
-//    NSLog(@"dealloc");
-//}
+- (void)dealloc{
+    NSLog(@"ViewController dealloc");
+}
 
 
 //- (void)test {

@@ -12,17 +12,35 @@
 
 @implementation Person
 
+- (void)initBlock {
+	
+	
+	NSLog(@"%p",self);
 
-- (void)test{
-    
-    
-    
-    self.testBlock = ^{
-        NSLog(@"%@",self);
-    };
-    
-    
-    self.testBlock();
+	
+	__block Person *blockSelf = self;
+	
+	self.testBlock = ^{
+
+		NSLog(@"%p",blockSelf);
+		
+		
+	} ;
+	
+	
+	
+	
+	
+	
+}
+
+
+- (void)executeBlock{
+	self.testBlock();
+}
+
+- (void)dealloc{
+	NSLog(@"Person dealloc");
 }
 
 @end

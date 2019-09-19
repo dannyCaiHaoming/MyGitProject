@@ -14,7 +14,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface Person : NSObject
 
-@property TestBlock testBlock;
+@property (copy) TestBlock testBlock;
+
+
+
+- (void)initBlock;
 
 @end
 

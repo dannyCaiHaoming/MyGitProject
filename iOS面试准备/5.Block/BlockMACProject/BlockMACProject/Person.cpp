@@ -106,17 +106,18 @@ struct __AtAutoreleasePool {
 };
 
 #define __OFFSETOFIVAR__(TYPE, MEMBER) ((long long) &((TYPE *)0)->MEMBER)
-static __NSConstantStringImpl __NSConstantStringImpl__var_folders_4l_7nh_l8cs58gd0th121vl52w00000gn_T_Person_ab8a26_mi_0 __attribute__ ((section ("__DATA, __cfstring"))) = {__CFConstantStringClassReference,0x000007c8,"%p",2};
-static __NSConstantStringImpl __NSConstantStringImpl__var_folders_4l_7nh_l8cs58gd0th121vl52w00000gn_T_Person_ab8a26_mi_1 __attribute__ ((section ("__DATA, __cfstring"))) = {__CFConstantStringClassReference,0x000007c8,"before - %lu",12};
+static __NSConstantStringImpl __NSConstantStringImpl__var_folders_4l_7nh_l8cs58gd0th121vl52w00000gn_T_Person_66da27_mi_0 __attribute__ ((section ("__DATA, __cfstring"))) = {__CFConstantStringClassReference,0x000007c8,"%p",2};
+static __NSConstantStringImpl __NSConstantStringImpl__var_folders_4l_7nh_l8cs58gd0th121vl52w00000gn_T_Person_66da27_mi_1 __attribute__ ((section ("__DATA, __cfstring"))) = {__CFConstantStringClassReference,0x000007c8,"before - %lu",12};
 static void __Block_byref_id_object_copy_131(void *dst, void *src) {
  _Block_object_assign((char*)dst + 40, *(void * *) ((char*)src + 40), 131);
 }
 static void __Block_byref_id_object_dispose_131(void *src) {
  _Block_object_dispose(*(void * *) ((char*)src + 40), 131);
 }
-static __NSConstantStringImpl __NSConstantStringImpl__var_folders_4l_7nh_l8cs58gd0th121vl52w00000gn_T_Person_ab8a26_mi_2 __attribute__ ((section ("__DATA, __cfstring"))) = {__CFConstantStringClassReference,0x000007c8,"%p",2};
-static __NSConstantStringImpl __NSConstantStringImpl__var_folders_4l_7nh_l8cs58gd0th121vl52w00000gn_T_Person_ab8a26_mi_3 __attribute__ ((section ("__DATA, __cfstring"))) = {__CFConstantStringClassReference,0x000007c8,"after - %lu",11};
-static __NSConstantStringImpl __NSConstantStringImpl__var_folders_4l_7nh_l8cs58gd0th121vl52w00000gn_T_Person_ab8a26_mi_4 __attribute__ ((section ("__DATA, __cfstring"))) = {__CFConstantStringClassReference,0x000007c8,"Person dealloc",14};
+static __NSConstantStringImpl __NSConstantStringImpl__var_folders_4l_7nh_l8cs58gd0th121vl52w00000gn_T_Person_66da27_mi_2 __attribute__ ((section ("__DATA, __cfstring"))) = {__CFConstantStringClassReference,0x000007c8,"%p",2};
+static __NSConstantStringImpl __NSConstantStringImpl__var_folders_4l_7nh_l8cs58gd0th121vl52w00000gn_T_Person_66da27_mi_3 __attribute__ ((section ("__DATA, __cfstring"))) = {__CFConstantStringClassReference,0x000007c8,"%@",2};
+static __NSConstantStringImpl __NSConstantStringImpl__var_folders_4l_7nh_l8cs58gd0th121vl52w00000gn_T_Person_66da27_mi_4 __attribute__ ((section ("__DATA, __cfstring"))) = {__CFConstantStringClassReference,0x000007c8,"after - %lu",11};
+static __NSConstantStringImpl __NSConstantStringImpl__var_folders_4l_7nh_l8cs58gd0th121vl52w00000gn_T_Person_66da27_mi_5 __attribute__ ((section ("__DATA, __cfstring"))) = {__CFConstantStringClassReference,0x000007c8,"Person dealloc",14};
 
 
 
@@ -98348,7 +98349,7 @@ static void __Person__initBlock_block_func_0(struct __Person__initBlock_block_im
 
 
 
-  NSLog((NSString *)&__NSConstantStringImpl__var_folders_4l_7nh_l8cs58gd0th121vl52w00000gn_T_Person_ab8a26_mi_2,(blockSelf->__forwarding->blockSelf));
+  NSLog((NSString *)&__NSConstantStringImpl__var_folders_4l_7nh_l8cs58gd0th121vl52w00000gn_T_Person_66da27_mi_2,(blockSelf->__forwarding->blockSelf));
 
 
  }
@@ -98366,18 +98367,19 @@ static struct __Person__initBlock_block_desc_0 {
 static void _I_Person_initBlock(Person * self, SEL _cmd) {
 
 
- NSLog((NSString *)&__NSConstantStringImpl__var_folders_4l_7nh_l8cs58gd0th121vl52w00000gn_T_Person_ab8a26_mi_0,self);
- NSLog((NSString *)&__NSConstantStringImpl__var_folders_4l_7nh_l8cs58gd0th121vl52w00000gn_T_Person_ab8a26_mi_1,((NSUInteger (*)(id, SEL))(void *)objc_msgSend)((id)self, sel_registerName("retainCount")));
+ NSLog((NSString *)&__NSConstantStringImpl__var_folders_4l_7nh_l8cs58gd0th121vl52w00000gn_T_Person_66da27_mi_0,self);
+ NSLog((NSString *)&__NSConstantStringImpl__var_folders_4l_7nh_l8cs58gd0th121vl52w00000gn_T_Person_66da27_mi_1,((NSUInteger (*)(id, SEL))(void *)objc_msgSend)((id)self, sel_registerName("retainCount")));
 
  __attribute__((__blocks__(byref))) __Block_byref_blockSelf_0 blockSelf = {(void*)0,(__Block_byref_blockSelf_0 *)&blockSelf, 33554432, sizeof(__Block_byref_blockSelf_0), __Block_byref_id_object_copy_131, __Block_byref_id_object_dispose_131, self};
 
- ((void (*)(id, SEL, TestBlock _Nonnull))(void *)objc_msgSend)((id)self, sel_registerName("setTestBlock:"), ((void (*)())&__Person__initBlock_block_impl_0((void *)__Person__initBlock_block_func_0, &__Person__initBlock_block_desc_0_DATA, (__Block_byref_blockSelf_0 *)&blockSelf, 570425344))) ;
+ ((void (*)(id, SEL, TestBlock _Nonnull))(void *)objc_msgSend)((id)self, sel_registerName("setTestBlock:"), (TestBlock _Nonnull)((id (*)(id, SEL))(void *)objc_msgSend)((id)((void (*)())&__Person__initBlock_block_impl_0((void *)__Person__initBlock_block_func_0, &__Person__initBlock_block_desc_0_DATA, (__Block_byref_blockSelf_0 *)&blockSelf, 570425344)), sel_registerName("copy")));
+
+ NSLog((NSString *)&__NSConstantStringImpl__var_folders_4l_7nh_l8cs58gd0th121vl52w00000gn_T_Person_66da27_mi_3,((Class (*)(id, SEL))(void *)objc_msgSend)((id)((TestBlock (*)(id, SEL))(void *)objc_msgSend)((id)self, sel_registerName("testBlock")), sel_registerName("class")));
 
 
 
 
-
- NSLog((NSString *)&__NSConstantStringImpl__var_folders_4l_7nh_l8cs58gd0th121vl52w00000gn_T_Person_ab8a26_mi_3,(unsigned long)((NSUInteger (*)(id, SEL))(void *)objc_msgSend)((id)self, sel_registerName("retainCount")));
+ NSLog((NSString *)&__NSConstantStringImpl__var_folders_4l_7nh_l8cs58gd0th121vl52w00000gn_T_Person_66da27_mi_4,(unsigned long)((NSUInteger (*)(id, SEL))(void *)objc_msgSend)((id)self, sel_registerName("retainCount")));
 
 
 }
@@ -98392,7 +98394,7 @@ static void _I_Person_executeBlock(Person * self, SEL _cmd) {
 
 static void _I_Person_dealloc(Person * self, SEL _cmd) {
  ((void (*)(__rw_objc_super *, SEL))(void *)objc_msgSendSuper)((__rw_objc_super){(id)self, (id)class_getSuperclass(objc_getClass("Person"))}, sel_registerName("dealloc"));
- NSLog((NSString *)&__NSConstantStringImpl__var_folders_4l_7nh_l8cs58gd0th121vl52w00000gn_T_Person_ab8a26_mi_4);
+ NSLog((NSString *)&__NSConstantStringImpl__var_folders_4l_7nh_l8cs58gd0th121vl52w00000gn_T_Person_66da27_mi_5);
 }
 
 extern "C" __declspec(dllimport) id objc_getProperty(id, SEL, long, bool);
