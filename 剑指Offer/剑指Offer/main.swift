@@ -1895,19 +1895,21 @@ func VerifySquenceOfBST(sequence:[Int]) -> Bool {
         rightVerify = VerifySquenceOfBST(sequence: Array(sequence[leftCount..<sequence.count-1]))
     }
     
-   
-    
-    
     return leftVerify && rightVerify
     
-    
-    
-	
-	
+
 	
 }
 
 
+
+//MARK:面试题34：二叉树中和为某一值的路径
+
+
+///题目
+func pathSum(_ root: BinaryTreeNode<Int>?, _ sum: Int) -> [[Int]] {
+    
+}
 
 //let a = [2,3,1,0,2,5,3]
 //let b = [2,3,5,4,3,2,6,7]
