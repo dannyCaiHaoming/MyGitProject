@@ -1711,6 +1711,148 @@ func validateStackSequences(_ pushed: [Int], _ popped: [Int]) -> Bool {
 }
 
 
+//MARK: 面试题32：从上到下打印二叉树
+
+///题目一：不分行从上到下打印二叉树
+func PrintFromTopToBottom(pTreeRoot:BinaryTreeNode<Int>) -> [Int]{
+	
+	var result:[Int] = []
+	
+	var queue = Queue<BinaryTreeNode<Int>>()
+	
+	queue.appendTail(element: pTreeRoot)
+	
+	while let delete = queue.deleteHead() {
+		result.append(delete.value!)
+		
+		if delete.pLeft != nil {
+			queue.appendTail(element: delete.pLeft!)
+		}
+		if delete.pRight != nil {
+			queue.appendTail(element: delete.pRight!)
+		}
+	}
+	
+	return result
+	
+}
+
+///题目二：分行从上到下打印二叉树
+func levelOrder(_ root: BinaryTreeNode<Int>?) -> [[Int]] {
+	
+	guard let tree = root else {
+		return []
+	}
+	
+	var numOfRow = 0
+	var numToDelete = 1
+	
+	
+	var result:[[Int]] = []
+	
+	var row:[Int] = []
+	
+	var queue:[BinaryTreeNode<Int>] = []
+	queue.append(tree)
+	
+	while queue.count > 0 {
+		
+		let delete = queue.remove(at: 0)
+		numToDelete -= 1
+		
+
+		row.append(delete.value!)
+		
+		if delete.pLeft != nil {
+			queue.append(delete.pLeft!)
+			
+			numOfRow += 1
+		}
+		
+		if delete.pRight != nil {
+			queue.append(delete.pRight!)
+			
+			numOfRow += 1
+		}
+		
+		if numToDelete == 0 {
+			
+			result.append(row)
+			row.removeAll()
+			
+			numToDelete = numOfRow
+			numOfRow = 0
+		}
+		
+	}
+	
+	return result
+	
+
+}
+
+
+///题目三：之字形打印二叉树
+func PrintTreeInZhi(pRoot:BinaryTreeNode<Int>?) -> [[Int]]{
+	var result:[[Int]] = []
+	if pRoot == nil {
+		return result
+	}
+	
+	var leftStack:Stack<BinaryTreeNode<Int>> = Stack()
+	var rightStack:Stack<BinaryTreeNode<Int>> = Stack()
+	
+	leftStack.push(element: pRoot!)
+	
+	
+	
+	
+	
+	while leftStack.top() != nil || rightStack.top() != nil {
+		
+		var row:[Int] = []
+		
+		if leftStack.top() != nil {
+			while leftStack.top() != nil {
+				let top = leftStack.pop()!
+				row.append(top.value!)
+				if top.pLeft != nil {
+					rightStack.push(element: top.pLeft!)
+				}
+				if top.pRight != nil {
+					rightStack.push(element: top.pRight!)
+				}
+				
+				
+			}
+			result.append(row)
+		}else{
+			while rightStack.top() != nil {
+				let top = rightStack.pop()!
+				row.append(top.value!)
+				
+				if top.pRight != nil {
+					leftStack.push(element: top.pRight!)
+				}
+				if top.pLeft != nil {
+					leftStack.push(element: top.pLeft!)
+				}
+			
+			}
+			result.append(row)
+		}
+
+		
+		
+	}
+	
+	return result
+	
+	
+}
+
+
+
 //let a = [2,3,1,0,2,5,3]
 //let b = [2,3,5,4,3,2,6,7]
 //let c:[Int] = []
@@ -1818,23 +1960,49 @@ func validateStackSequences(_ pushed: [Int], _ popped: [Int]) -> Bool {
 //let z = Merge2(pHead1: &l1, pHead2: &n1)
 //print(z)
 
-//let a = BinaryTreeNode(value: 3, left: nil, right: nil)
-//let b = BinaryTreeNode(value: 4, left: nil, right: nil)
-//let c = BinaryTreeNode(value: 5, left: nil, right: nil)
-//let d = BinaryTreeNode(value: 1, left: nil, right: nil)
-//let e = BinaryTreeNode(value: 2, left: nil, right: nil)
-//let f = BinaryTreeNode(value: 0, left: nil, right: nil)
+let a = BinaryTreeNode(value: 1, left: nil, right: nil)
+let b = BinaryTreeNode(value: 2, left: nil, right: nil)
+let c = BinaryTreeNode(value: 3, left: nil, right: nil)
+let d = BinaryTreeNode(value: 4, left: nil, right: nil)
+let e = BinaryTreeNode(value: 5, left: nil, right: nil)
+let f = BinaryTreeNode(value: 6, left: nil, right: nil)
+let g = BinaryTreeNode(value: 7, left: nil, right: nil)
+let h = BinaryTreeNode(value: 8, left: nil, right: nil)
+let i = BinaryTreeNode(value: 9, left: nil, right: nil)
+let j = BinaryTreeNode(value: 10, left: nil, right: nil)
+let k = BinaryTreeNode(value: 11, left: nil, right: nil)
+let l = BinaryTreeNode(value: 12, left: nil, right: nil)
+let m = BinaryTreeNode(value: 13, left: nil, right: nil)
+let n = BinaryTreeNode(value: 14, left: nil, right: nil)
+let o = BinaryTreeNode(value: 15, left: nil, right: nil)
 //
 //let x = BinaryTreeNode(value: 4, left: nil, right: nil)
 //let y = BinaryTreeNode(value: 1, left: nil, right: nil)
 //let z = BinaryTreeNode(value: 2, left: nil, right: nil)
 //let u = BinaryTreeNode(value: 4, left: nil, right: nil)
 //
-//a.pLeft = b
-//a.pRight = c
-//b.pLeft = d
-//b.pRight = e
-////e.pLeft = f
+a.pLeft = b
+a.pRight = c
+
+b.pLeft = d
+b.pRight = e
+
+c.pLeft = f
+c.pRight = g
+
+
+d.pLeft = h
+d.pRight = i
+
+e.pLeft = j
+e.pRight = k
+
+f.pLeft = l
+f.pRight = m
+
+g.pLeft = n
+g.pRight = o
+
 //
 //
 //x.pLeft = y
@@ -1851,7 +2019,10 @@ func validateStackSequences(_ pushed: [Int], _ popped: [Int]) -> Bool {
 //let result = spiralOrder(a)
 //print(result)
 
-let a = [2,1,0]
-let b = [1,2,0]
+//let a = [2,1,0]
+//let b = [1,2,0]
+//
+//print(validateStackSequences(a, b))
 
-print(validateStackSequences(a, b))
+//print(levelOrder(a))
+print(PrintTreeInZhi(pRoot: a))
