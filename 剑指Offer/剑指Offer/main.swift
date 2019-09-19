@@ -1858,13 +1858,50 @@ func PrintTreeInZhi(pRoot:BinaryTreeNode<Int>?) -> [[Int]]{
 ///题目：
 func VerifySquenceOfBST(sequence:[Int]) -> Bool {
 	
-	if sequence.count == 0 {
-		return false
+	if sequence.count <= 0 {
+		return true
 	}
 	
 	let root = sequence.last
 	
 	
+    //寻找比root大的值，然后左侧都是左子树
+    var leftCount = 0
+    
+    for i in 0..<sequence.count {
+        if sequence[i] > root! {
+            leftCount = i
+            break
+        }
+    }
+
+    
+    var rightStart = leftCount
+    while rightStart < sequence.count {
+        if sequence[rightStart] < root! {
+            return false
+        }
+        rightStart += 1
+    }
+    
+    var leftVerify = true
+
+    if leftCount > 0 {
+        leftVerify = VerifySquenceOfBST(sequence: Array(sequence[0..<leftCount]))
+    }
+   
+    var rightVerify = true
+    if leftCount < sequence.count - 1 {
+        rightVerify = VerifySquenceOfBST(sequence: Array(sequence[leftCount..<sequence.count-1]))
+    }
+    
+   
+    
+    
+    return leftVerify && rightVerify
+    
+    
+    
 	
 	
 	
@@ -2044,4 +2081,5 @@ g.pRight = o
 //print(validateStackSequences(a, b))
 
 //print(levelOrder(a))
-print(PrintTreeInZhi(pRoot: a))
+//print(PrintTreeInZhi(pRoot: a))
+print(VerifySquenceOfBST(sequence: [5,7,6,9,11,10,8]))
