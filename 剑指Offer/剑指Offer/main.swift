@@ -9,6 +9,17 @@
 import Foundation
 
 
+public class TreeNode {
+	public var val: Int
+	public var left: TreeNode?
+	public var right: TreeNode?
+	public init(_ val: Int) {
+		self.val = val
+		self.left = nil
+		self.right = nil
+	}
+}
+
 //MARK: 面试3：数组中重复的数字
 
 ///题目一：找出数组中重复的数字
@@ -1965,26 +1976,12 @@ class Solution {
 //		}
 
 		let tree = stack.pop()
-		currentValue -= tree!.value
+		currentValue -= tree!.value!
 		
 
 
 	}
 }
-
- public class TreeNode {
-	    public var val: Int
-	     public var left: TreeNode?
-	     public var right: TreeNode?
-	     public init(_ val: Int) {
-		         self.val = val
-			         self.left = nil
-			         self.right = nil
-		     }
-}
-
-
-
 
 //class Solution {
 //
@@ -2038,6 +2035,28 @@ class Solution {
 //
 //	}
 //}
+
+
+
+//MARK:面试题35：复杂链表的复制
+
+///题目
+
+class ComplexListNode<T> {
+	var value:T
+	var pNext:ComplexListNode<T>?
+	var pSibling:ComplexListNode<T>?
+
+	init(value:T,pNext:ComplexListNode<T>?,pSibling:ComplexListNode<T>?) {
+		self.value = value
+		self.pNext = pNext
+		self.pSibling = pSibling
+	}
+}
+
+
+
+//MARK:测试用例
 
 //let a = [2,3,1,0,2,5,3]
 //let b = [2,3,5,4,3,2,6,7]
