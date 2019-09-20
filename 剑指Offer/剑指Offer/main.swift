@@ -1906,10 +1906,138 @@ func VerifySquenceOfBST(sequence:[Int]) -> Bool {
 //MARK:面试题34：二叉树中和为某一值的路径
 
 
-///题目
-func pathSum(_ root: BinaryTreeNode<Int>?, _ sum: Int) -> [[Int]] {
-    
+//题目
+class Solution {
+
+	var currentValue = 0
+	var stack:Stack<BinaryTreeNode<Int>> = Stack()
+	var result:[[Int]] = []
+
+	func pathSum(_ root: BinaryTreeNode<Int>?, _ sum: Int) -> [[Int]] {
+
+		if root == nil {
+			return result
+		}
+
+		pathSumCore(root: root, sum: sum)
+
+		return result
+	}
+
+	func pathSumCore(root:BinaryTreeNode<Int>?,sum:Int) {
+
+		currentValue += root!.value!
+		stack.push(element: root!)
+
+		if root?.pLeft == nil && root?.pRight == nil && currentValue == sum {
+
+			//将栈中所有内容放入结果
+			var row:[Int] = []
+			for tree in stack.sequence {
+				row.append(tree.value!)
+			}
+			result.append(row)
+
+		}
+
+		
+		if root?.pLeft != nil {
+			pathSumCore(root: root?.pLeft, sum: sum)
+		}
+//		if left == false {
+//			//如果左侧为假，将栈中节点恢复成原来
+			while stack.top() != root {
+				let tree = stack.pop()
+				currentValue -= tree!.value!
+			}
+//		}
+
+		
+		if root?.pRight != nil {
+			pathSumCore(root: root?.pRight, sum: sum)
+		}
+//		if right == false {
+//			//如果左侧为假，将栈中节点恢复成原来
+			while stack.top() != root {
+				let tree = stack.pop()
+				currentValue -= tree!.value!
+			}
+//		}
+
+		let tree = stack.pop()
+		currentValue -= tree!.value
+		
+
+
+	}
 }
+
+ public class TreeNode {
+	    public var val: Int
+	     public var left: TreeNode?
+	     public var right: TreeNode?
+	     public init(_ val: Int) {
+		         self.val = val
+			         self.left = nil
+			         self.right = nil
+		     }
+}
+
+
+
+
+//class Solution {
+//
+//	var currentValue = 0
+//	var stack:Stack<TreeNode> = Stack()
+//	var result:[[Int]] = []
+//
+//	func pathSum(_ root: TreeNode?, _ sum: Int) -> [[Int]] {
+//		if root == nil {
+//			return result
+//		}
+//
+//		_ = pathSumCore(root: root, sum: sum)
+//
+//		return result
+//	}
+//
+//	func pathSumCore(root:TreeNode?,sum:Int)  {
+//
+//		currentValue += root!.val
+//		stack.push(element: root!)
+//
+//		if root?.left == nil && root?.right == nil && currentValue == sum {
+//
+//			//将栈中所有内容放入结果
+//			var row:[Int] = []
+//			for tree in stack.sequence {
+//				row.append(tree.val)
+//			}
+//			result.append(row)
+//
+//
+//		}
+//
+//
+//		if root?.left != nil {
+//			pathSumCore(root: root?.left, sum: sum)
+//		}
+//
+//
+//
+//		if root?.right != nil {
+//			pathSumCore(root: root?.right, sum: sum)
+//		}
+//
+//		let tree = stack.pop()
+//		currentValue -= tree!.val
+//
+//
+//
+//
+//	}
+//}
 
 //let a = [2,3,1,0,2,5,3]
 //let b = [2,3,5,4,3,2,6,7]
@@ -2018,48 +2146,55 @@ func pathSum(_ root: BinaryTreeNode<Int>?, _ sum: Int) -> [[Int]] {
 //let z = Merge2(pHead1: &l1, pHead2: &n1)
 //print(z)
 
-let a = BinaryTreeNode(value: 1, left: nil, right: nil)
-let b = BinaryTreeNode(value: 2, left: nil, right: nil)
-let c = BinaryTreeNode(value: 3, left: nil, right: nil)
+//let a = BinaryTreeNode(value: 1, left: nil, right: nil)
+//let b = BinaryTreeNode(value: 2, left: nil, right: nil)
+//let c = BinaryTreeNode(value: 3, left: nil, right: nil)
+//let d = BinaryTreeNode(value: 4, left: nil, right: nil)
+//let e = BinaryTreeNode(value: 5, left: nil, right: nil)
+//let f = BinaryTreeNode(value: 6, left: nil, right: nil)
+//let g = BinaryTreeNode(value: 7, left: nil, right: nil)
+//let h = BinaryTreeNode(value: 8, left: nil, right: nil)
+//let i = BinaryTreeNode(value: 9, left: nil, right: nil)
+//let j = BinaryTreeNode(value: 10, left: nil, right: nil)
+//let k = BinaryTreeNode(value: 11, left: nil, right: nil)
+//let l = BinaryTreeNode(value: 12, left: nil, right: nil)
+//let m = BinaryTreeNode(value: 13, left: nil, right: nil)
+//let n = BinaryTreeNode(value: 14, left: nil, right: nil)
+//let o = BinaryTreeNode(value: 15, left: nil, right: nil)
+//
+let a = BinaryTreeNode(value: 10, left: nil, right: nil)
+let b = BinaryTreeNode(value: 5, left: nil, right: nil)
+let c = BinaryTreeNode(value: 12, left: nil, right: nil)
 let d = BinaryTreeNode(value: 4, left: nil, right: nil)
-let e = BinaryTreeNode(value: 5, left: nil, right: nil)
-let f = BinaryTreeNode(value: 6, left: nil, right: nil)
-let g = BinaryTreeNode(value: 7, left: nil, right: nil)
-let h = BinaryTreeNode(value: 8, left: nil, right: nil)
-let i = BinaryTreeNode(value: 9, left: nil, right: nil)
-let j = BinaryTreeNode(value: 10, left: nil, right: nil)
-let k = BinaryTreeNode(value: 11, left: nil, right: nil)
-let l = BinaryTreeNode(value: 12, left: nil, right: nil)
-let m = BinaryTreeNode(value: 13, left: nil, right: nil)
-let n = BinaryTreeNode(value: 14, left: nil, right: nil)
-let o = BinaryTreeNode(value: 15, left: nil, right: nil)
-//
-//let x = BinaryTreeNode(value: 4, left: nil, right: nil)
-//let y = BinaryTreeNode(value: 1, left: nil, right: nil)
-//let z = BinaryTreeNode(value: 2, left: nil, right: nil)
-//let u = BinaryTreeNode(value: 4, left: nil, right: nil)
-//
+let e = BinaryTreeNode(value: 7, left: nil, right: nil)
+
 a.pLeft = b
 a.pRight = c
-
 b.pLeft = d
 b.pRight = e
 
-c.pLeft = f
-c.pRight = g
-
-
-d.pLeft = h
-d.pRight = i
-
-e.pLeft = j
-e.pRight = k
-
-f.pLeft = l
-f.pRight = m
-
-g.pLeft = n
-g.pRight = o
+//
+//a.pLeft = b
+//a.pRight = c
+//
+//b.pLeft = d
+//b.pRight = e
+//
+//c.pLeft = f
+//c.pRight = g
+//
+//
+//d.pLeft = h
+//d.pRight = i
+//
+//e.pLeft = j
+//e.pRight = k
+//
+//f.pLeft = l
+//f.pRight = m
+//
+//g.pLeft = n
+//g.pRight = o
 
 //
 //
@@ -2084,4 +2219,8 @@ g.pRight = o
 
 //print(levelOrder(a))
 //print(PrintTreeInZhi(pRoot: a))
-print(VerifySquenceOfBST(sequence: [5,7,6,9,11,10,8]))
+//print(VerifySquenceOfBST(sequence: [5,7,6,9,11,10,8]))
+
+let s = Solution()
+
+print(s.pathSum(a, 22))
