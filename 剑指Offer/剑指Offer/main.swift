@@ -2055,6 +2055,50 @@ class ComplexListNode<T> {
 }
 
 
+func CopyComplexListNode(pHead:ComplexListNode<Int>?) -> ComplexListNode<Int>? {
+	if pHead == nil {
+		return nil
+	}
+	
+	var copyPHead = pHead
+	
+	while copyPHead != nil {
+		let copy:ComplexListNode = ComplexListNode.init(value: copyPHead!.value, pNext: copyPHead?.pNext, pSibling: nil)
+			
+		copyPHead?.pNext = copy
+		
+		copyPHead = copy.pNext
+		
+	}
+	
+	
+	var sPHead = pHead
+	while sPHead != nil {
+		if sPHead?.pSibling != nil {
+			//获取复制
+			let copy = sPHead?.pNext
+			//将复制指针的任意指针，指向原来任意指针的下一个值
+			copy?.pSibling = sPHead?.pSibling?.pNext
+		}
+		sPHead = sPHead?.pNext?.pNext
+	}
+	
+	let rPhead = pHead?.pNext
+	var head = pHead?.pNext
+	while head != nil  {
+		head?.pNext = head?.pNext?.pNext
+		head = head?.pNext
+	}
+	
+	
+	
+	
+	return rPhead
+	
+	
+}
+
+
 
 //MARK:测试用例
 
@@ -2181,17 +2225,33 @@ class ComplexListNode<T> {
 //let n = BinaryTreeNode(value: 14, left: nil, right: nil)
 //let o = BinaryTreeNode(value: 15, left: nil, right: nil)
 //
-let a = BinaryTreeNode(value: 10, left: nil, right: nil)
-let b = BinaryTreeNode(value: 5, left: nil, right: nil)
-let c = BinaryTreeNode(value: 12, left: nil, right: nil)
-let d = BinaryTreeNode(value: 4, left: nil, right: nil)
-let e = BinaryTreeNode(value: 7, left: nil, right: nil)
+//let a = BinaryTreeNode(value: 10, left: nil, right: nil)
+//let b = BinaryTreeNode(value: 5, left: nil, right: nil)
+//let c = BinaryTreeNode(value: 12, left: nil, right: nil)
+//let d = BinaryTreeNode(value: 4, left: nil, right: nil)
+//let e = BinaryTreeNode(value: 7, left: nil, right: nil)
+//
+//a.pLeft = b
+//a.pRight = c
+//b.pLeft = d
+//b.pRight = e
 
-a.pLeft = b
-a.pRight = c
-b.pLeft = d
-b.pRight = e
+let a = ComplexListNode(value: 1, pNext: nil, pSibling: nil)
+let b = ComplexListNode(value: 2, pNext: nil, pSibling: nil)
+let c = ComplexListNode(value: 3, pNext: nil, pSibling: nil)
+let d = ComplexListNode(value: 4, pNext: nil, pSibling: nil)
+let e = ComplexListNode(value: 5, pNext: nil, pSibling: nil)
 
+a.pNext = b
+b.pNext = c
+c.pNext = d
+d.pNext = e
+
+a.pSibling = c
+b.pSibling = e
+e.pSibling = b
+
+print(CopyComplexListNode(pHead: a) as Any)
 //
 //a.pLeft = b
 //a.pRight = c
@@ -2239,7 +2299,7 @@ b.pRight = e
 //print(levelOrder(a))
 //print(PrintTreeInZhi(pRoot: a))
 //print(VerifySquenceOfBST(sequence: [5,7,6,9,11,10,8]))
-
-let s = Solution()
-
-print(s.pathSum(a, 22))
+//
+//let s = Solution()
+//
+//print(s.pathSum(a, 22))
