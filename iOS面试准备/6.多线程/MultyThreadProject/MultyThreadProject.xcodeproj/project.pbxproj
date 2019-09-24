@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3357A2AB2339F34C00EBE19E /* UserCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3357A2AA2339F34C00EBE19E /* UserCenter.m */; };
+		3357A2AE233A139A00EBE19E /* GroupObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 3357A2AD233A139A00EBE19E /* GroupObject.m */; };
+		3357A2B1233A16AD00EBE19E /* GCD.m in Sources */ = {isa = PBXBuildFile; fileRef = 3357A2B0233A16AD00EBE19E /* GCD.m */; };
+		3357A2B4233A230200EBE19E /* ViewController2.m in Sources */ = {isa = PBXBuildFile; fileRef = 3357A2B3233A230200EBE19E /* ViewController2.m */; };
 		33B18DF4233355EA0030C6C9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 33B18DF3233355EA0030C6C9 /* AppDelegate.m */; };
 		33B18DF7233355EA0030C6C9 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33B18DF6233355EA0030C6C9 /* ViewController.m */; };
 		33B18DFA233355EA0030C6C9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 33B18DF8233355EA0030C6C9 /* Main.storyboard */; };
@@ -16,6 +20,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3357A2A92339F34C00EBE19E /* UserCenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserCenter.h; sourceTree = "<group>"; };
+		3357A2AA2339F34C00EBE19E /* UserCenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserCenter.m; sourceTree = "<group>"; };
+		3357A2AC233A139A00EBE19E /* GroupObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GroupObject.h; sourceTree = "<group>"; };
+		3357A2AD233A139A00EBE19E /* GroupObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GroupObject.m; sourceTree = "<group>"; };
+		3357A2AF233A16AD00EBE19E /* GCD.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GCD.h; sourceTree = "<group>"; };
+		3357A2B0233A16AD00EBE19E /* GCD.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GCD.m; sourceTree = "<group>"; };
+		3357A2B2233A230200EBE19E /* ViewController2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController2.h; sourceTree = "<group>"; };
+		3357A2B3233A230200EBE19E /* ViewController2.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController2.m; sourceTree = "<group>"; };
 		33B18DEF233355EA0030C6C9 /* MultyThreadProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MultyThreadProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		33B18DF2233355EA0030C6C9 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		33B18DF3233355EA0030C6C9 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -62,6 +74,14 @@
 				33B18DF3233355EA0030C6C9 /* AppDelegate.m */,
 				33B18DF5233355EA0030C6C9 /* ViewController.h */,
 				33B18DF6233355EA0030C6C9 /* ViewController.m */,
+				3357A2B2233A230200EBE19E /* ViewController2.h */,
+				3357A2B3233A230200EBE19E /* ViewController2.m */,
+				3357A2A92339F34C00EBE19E /* UserCenter.h */,
+				3357A2AA2339F34C00EBE19E /* UserCenter.m */,
+				3357A2AC233A139A00EBE19E /* GroupObject.h */,
+				3357A2AD233A139A00EBE19E /* GroupObject.m */,
+				3357A2AF233A16AD00EBE19E /* GCD.h */,
+				3357A2B0233A16AD00EBE19E /* GCD.m */,
 				33B18DF8233355EA0030C6C9 /* Main.storyboard */,
 				33B18DFB233355EB0030C6C9 /* Assets.xcassets */,
 				33B18DFD233355EB0030C6C9 /* LaunchScreen.storyboard */,
@@ -141,9 +161,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3357A2B4233A230200EBE19E /* ViewController2.m in Sources */,
+				3357A2B1233A16AD00EBE19E /* GCD.m in Sources */,
 				33B18DF7233355EA0030C6C9 /* ViewController.m in Sources */,
 				33B18E02233355EB0030C6C9 /* main.m in Sources */,
 				33B18DF4233355EA0030C6C9 /* AppDelegate.m in Sources */,
+				3357A2AB2339F34C00EBE19E /* UserCenter.m in Sources */,
+				3357A2AE233A139A00EBE19E /* GroupObject.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
