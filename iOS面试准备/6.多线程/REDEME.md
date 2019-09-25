@@ -103,26 +103,43 @@ A，B,C任务并发，且内部异步返回的时候，可以使用信号量，�
 - ==任务执行状态控制==
 - 最大并发量
 
-#### 6.2.1 任务执行状态
+#### 6.2.1 任务执行状态(可以KVO监听)
 
 - isReady
 - isExecuting
 - isFinished
 - isCancelled
 
+#### 6.2.2 自定义NSOperation
+
+- 非并发的`NSOperation`：只需要实现`main`方法，在里面实现任务的开始和结束的逻辑就ok了，其它的状态，系统的`start`方法里面默认实现了
+
+- 并发的`NSOperation`：需要实现`start`方法，所以不仅要实现任务的逻辑，而且还要手动使用`KVO`管理其它状态，并且这些状态对依赖的任务有影响
+
 
 
 
 ### 6.3 NSThread
 
-实现常驻线程
+![NSThread启动流程](https://github.com/dannyCaiHaoming/MyGitProfject/blob/master/iOS%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/images/6/NSThread%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B.png)
+
+**Q:实现常驻线程?**
 
 
 ### 6.3 锁
-- NSRecursiveLock
-- NSLock
-- dispatch_semaphore_t
-- @synchoronized
-- atomic
-- OSSPinLock
+- NSRecursiveLock<br>
+	可以==重入==加锁
+- NSLock<br>
+	不能重入加锁处理
+- dispatch\_semaphore\_t 信号量<br>
+	
+- @synchoronized<br>
+	一般在创建单例对象的时候使用
+- atomic<br>
+	修饰属性的关键字<br>
+	只保证创建的时候线程安全
+- OSSPinLock 自旋锁<br>
+	==循环等待==询问，不释放当前资源<br>
+	用于轻量级数据访问
+	
 
