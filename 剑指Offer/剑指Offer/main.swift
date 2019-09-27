@@ -2098,6 +2098,80 @@ func CopyComplexListNode(pHead:ComplexListNode<Int>?) -> ComplexListNode<Int>? {
 	
 }
 
+//MARK:面试题36：二叉搜索树与双向链表
+
+///题目：
+func Convert(pRootOfTree:BinaryTreeNode<Int>?) -> BinaryTreeNode<Int>?{
+    if pRootOfTree == nil {
+        return pRootOfTree
+    }
+    
+    
+    
+
+    var new:BinaryTreeNode<Int>? = ConvertCore(pRootOfTree: pRootOfTree)
+    
+    
+    while new?.pLeft != nil {
+        if new?.pLeft == nil {
+            break
+        }
+        
+        new = new?.pLeft
+    }
+    
+    return new
+}
+
+
+func ConvertCore(pRootOfTree:BinaryTreeNode<Int>?) -> BinaryTreeNode<Int>?{
+    
+    if pRootOfTree == nil {
+        return nil
+    }
+    
+    if pRootOfTree?.pLeft == nil && pRootOfTree?.pRight == nil{
+        return pRootOfTree
+    }
+    
+    var leftRoot = ConvertCore(pRootOfTree: pRootOfTree?.pLeft)
+    
+    //寻找leftRoot的最右
+    while leftRoot != nil {
+        if leftRoot?.pRight == nil {
+            break
+        }
+        leftRoot = leftRoot?.pRight
+    }
+    
+    
+    
+    if leftRoot != nil {
+        leftRoot?.pRight = pRootOfTree
+        pRootOfTree?.pLeft = leftRoot
+    }
+    
+    
+
+    var rightRoot = ConvertCore(pRootOfTree: pRootOfTree?.pRight)
+    
+    //寻找rightRoot的最左
+    while rightRoot != nil {
+        if rightRoot?.pLeft == nil {
+            break
+        }
+        rightRoot = rightRoot?.pLeft
+    }
+    
+    if rightRoot != nil {
+        rightRoot?.pLeft = pRootOfTree
+        pRootOfTree?.pRight = rightRoot
+    }
+    return pRootOfTree
+    
+    
+}
+
 
 
 //MARK:测试用例
@@ -2225,33 +2299,42 @@ func CopyComplexListNode(pHead:ComplexListNode<Int>?) -> ComplexListNode<Int>? {
 //let n = BinaryTreeNode(value: 14, left: nil, right: nil)
 //let o = BinaryTreeNode(value: 15, left: nil, right: nil)
 //
-//let a = BinaryTreeNode(value: 10, left: nil, right: nil)
-//let b = BinaryTreeNode(value: 5, left: nil, right: nil)
-//let c = BinaryTreeNode(value: 12, left: nil, right: nil)
-//let d = BinaryTreeNode(value: 4, left: nil, right: nil)
-//let e = BinaryTreeNode(value: 7, left: nil, right: nil)
+let a = BinaryTreeNode(value: 10, left: nil, right: nil)
+
+let b = BinaryTreeNode(value: 6, left: nil, right: nil)
+let c = BinaryTreeNode(value: 14, left: nil, right: nil)
+
+let d = BinaryTreeNode(value: 4, left: nil, right: nil)
+let e = BinaryTreeNode(value: 8, left: nil, right: nil)
+
+let f = BinaryTreeNode(value: 12, left: nil, right: nil)
+let g = BinaryTreeNode(value: 16, left: nil, right: nil)
+
+a.pLeft = b
+a.pRight = c
+
+b.pLeft = d
+b.pRight = e
+
+c.pLeft = f
+c.pRight = g
+
+//let a = ComplexListNode(value: 1, pNext: nil, pSibling: nil)
+//let b = ComplexListNode(value: 2, pNext: nil, pSibling: nil)
+//let c = ComplexListNode(value: 3, pNext: nil, pSibling: nil)
+//let d = ComplexListNode(value: 4, pNext: nil, pSibling: nil)
+//let e = ComplexListNode(value: 5, pNext: nil, pSibling: nil)
 //
-//a.pLeft = b
-//a.pRight = c
-//b.pLeft = d
-//b.pRight = e
-
-let a = ComplexListNode(value: 1, pNext: nil, pSibling: nil)
-let b = ComplexListNode(value: 2, pNext: nil, pSibling: nil)
-let c = ComplexListNode(value: 3, pNext: nil, pSibling: nil)
-let d = ComplexListNode(value: 4, pNext: nil, pSibling: nil)
-let e = ComplexListNode(value: 5, pNext: nil, pSibling: nil)
-
-a.pNext = b
-b.pNext = c
-c.pNext = d
-d.pNext = e
-
-a.pSibling = c
-b.pSibling = e
-e.pSibling = b
-
-print(CopyComplexListNode(pHead: a) as Any)
+//a.pNext = b
+//b.pNext = c
+//c.pNext = d
+//d.pNext = e
+//
+//a.pSibling = c
+//b.pSibling = e
+//e.pSibling = b
+//
+//print(CopyComplexListNode(pHead: a) as Any)
 //
 //a.pLeft = b
 //a.pRight = c
@@ -2303,3 +2386,5 @@ print(CopyComplexListNode(pHead: a) as Any)
 //let s = Solution()
 //
 //print(s.pathSum(a, 22))
+
+print(Convert(pRootOfTree: a))
