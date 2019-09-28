@@ -2172,6 +2172,11 @@ func ConvertCore(pRootOfTree:BinaryTreeNode<Int>?) -> BinaryTreeNode<Int>?{
     
 }
 
+//MARK:面试题37：序列化二叉树
+
+///题目：
+
+
 
 
 //MARK:测试用例
