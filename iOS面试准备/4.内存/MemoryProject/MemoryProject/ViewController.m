@@ -7,8 +7,11 @@
 //
 
 #import "ViewController.h"
+#import "NSObject+NSTimer_BreakLoop.h"
 
 @interface ViewController ()
+
+
 
 @end
 
@@ -24,15 +27,17 @@
 //
 //    [self.array addObject:@"234"];
     
-    self.timer = [NSTimer timerWithTimeInterval:0 target:self selector:@selector(timerAction) userInfo:nil repeats:YES];
-    [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSDefaultRunLoopMode];
+//    self.timer = [NSTimer timerWithTimeInterval:0 target:self selector:@selector(timerAction) userInfo:nil repeats:YES];
+//    [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSDefaultRunLoopMode];
+	
+	self.timer = [NSTimer chm_scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerAction) repeat:YES];
 }
 
 - (void)timerAction{
     NSLog(@"%@",[NSDate date]);
     
-    [self.timer invalidate];
-    self.timer = nil;
+//    [self.timer invalidate];
+//    self.timer = nil;
 }
 
 - (void)dealloc{
