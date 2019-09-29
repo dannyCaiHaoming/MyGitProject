@@ -114,6 +114,14 @@
 	- 获取`SideTable`中`引用计数表`属性
 	- 在`引用计数表`中，使用`哈希查找`到`size_t`，进行`+1`操作
 
+			-(void)setName:(NSString *)name{
+    		//如果不判断，可能会把原来对象释放
+              if (_name != name) {
+               [_name release];
+               _name = [name retain];
+            	}
+            }
+
 **PS**:由于`引用计数值`是从`第3位`开始，因此`+1`操作等于`+0x4`,获取引用计数值也需要先`右移2位`
 
 
