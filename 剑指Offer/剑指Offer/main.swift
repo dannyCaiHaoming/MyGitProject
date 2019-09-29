@@ -2175,6 +2175,88 @@ func ConvertCore(pRootOfTree:BinaryTreeNode<Int>?) -> BinaryTreeNode<Int>?{
 //MARK:面试题37：序列化二叉树
 
 ///题目：
+//func Permutation(pStr:inout [Character]){
+//	Permutation(pStr: &pStr, pBegin: 0)
+//}
+//
+//func Permutation( pStr:inout [Character],pBegin:Int) {
+//
+//	if pStr.count <= pBegin + 1 {
+//		print(pStr)
+//		return
+//	}
+//
+//	var i = pBegin
+//
+//	while i < pStr.count {
+//		var temp = pStr[i]
+//		pStr[i] = pStr[pBegin]
+//		pStr[pBegin] = temp
+//
+//		Permutation(pStr: &pStr, pBegin: pBegin+1)
+//
+//		temp = pStr[pBegin]
+//		pStr[pBegin] = pStr[i]
+//		pStr[pBegin] = temp
+//
+//		i += 1
+//	}
+//
+//
+//}
+
+
+
+func permute(_ nums: [Int]) -> [[Int]] {
+	
+	if nums.count == 0 || nums.count == 1 {
+		return [nums]
+	}
+	
+	return permuteCore(nums)
+}
+
+func permuteCore(_ nums: [Int]) -> [[Int]] {
+	
+	if nums.count <= 1 {
+		return [nums]
+	}
+	
+	let afterPermute = permuteCore(Array(nums[1..<nums.count]))
+	
+	var newAfterResult:[[Int]] = []
+	
+	for eachPermute in afterPermute {
+		let arr  = [nums[0]] + eachPermute
+		newAfterResult.append(arr)
+	}
+	
+	var result:[[Int]] = []
+	for eachPermute in newAfterResult {
+		var permute = eachPermute
+		
+		if permute.count <= 1 {
+			break
+		}
+		
+		for index in 0..<permute.count {
+			var temp = permute[0]
+			permute[0] = permute[index]
+			permute[index] = temp
+			
+			result.append(permute)
+			
+			temp = permute[0]
+			permute[0] = permute[index]
+			permute[index] = temp
+			
+		}
+		
+	}
+	
+	return result
+}
+
 
 
 
@@ -2304,25 +2386,25 @@ func ConvertCore(pRootOfTree:BinaryTreeNode<Int>?) -> BinaryTreeNode<Int>?{
 //let n = BinaryTreeNode(value: 14, left: nil, right: nil)
 //let o = BinaryTreeNode(value: 15, left: nil, right: nil)
 //
-let a = BinaryTreeNode(value: 10, left: nil, right: nil)
+//let a = BinaryTreeNode(value: 10, left: nil, right: nil)
+//
+//let b = BinaryTreeNode(value: 6, left: nil, right: nil)
+//let c = BinaryTreeNode(value: 14, left: nil, right: nil)
+//
+//let d = BinaryTreeNode(value: 4, left: nil, right: nil)
+//let e = BinaryTreeNode(value: 8, left: nil, right: nil)
+//
+//let f = BinaryTreeNode(value: 12, left: nil, right: nil)
+//let g = BinaryTreeNode(value: 16, left: nil, right: nil)
 
-let b = BinaryTreeNode(value: 6, left: nil, right: nil)
-let c = BinaryTreeNode(value: 14, left: nil, right: nil)
-
-let d = BinaryTreeNode(value: 4, left: nil, right: nil)
-let e = BinaryTreeNode(value: 8, left: nil, right: nil)
-
-let f = BinaryTreeNode(value: 12, left: nil, right: nil)
-let g = BinaryTreeNode(value: 16, left: nil, right: nil)
-
-a.pLeft = b
-a.pRight = c
-
-b.pLeft = d
-b.pRight = e
-
-c.pLeft = f
-c.pRight = g
+//a.pLeft = b
+//a.pRight = c
+//
+//b.pLeft = d
+//b.pRight = e
+//
+//c.pLeft = f
+//c.pRight = g
 
 //let a = ComplexListNode(value: 1, pNext: nil, pSibling: nil)
 //let b = ComplexListNode(value: 2, pNext: nil, pSibling: nil)
@@ -2392,4 +2474,13 @@ c.pRight = g
 //
 //print(s.pathSum(a, 22))
 
-print(Convert(pRootOfTree: a))
+//print(Convert(pRootOfTree: a))
+
+//var a:[Character] = ["a","b","c"]
+//
+//Permutation(pStr: &a)
+
+
+let a = [1,2,3]
+
+print(permute(a))
