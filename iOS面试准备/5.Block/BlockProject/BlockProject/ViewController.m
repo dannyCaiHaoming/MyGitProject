@@ -13,7 +13,12 @@
 
 typedef void(^TestBlock)(void);
 
-@interface ViewController ()
+@interface ViewController (){
+	NSObject *object;
+}
+
+@property (nonatomic, copy) TestBlock block;
+
 
 @end
 
@@ -23,17 +28,45 @@ typedef void(^TestBlock)(void);
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-	Person *person = [[Person alloc] init];
+//	Person *person = [[Person alloc] init];
+//
+//	person.initBlock;
+//	//
+//	person.testBlock();
+	object = [NSObject new];
+
+	__weak typeof(self) weakSelf = self;
+	self.block = [^{
+		
+		//若引用  因此临时变量weakself被释放
+//		__strong typeof(self) strongSelf = weakSelf;
+		
+		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, NSEC_PER_SEC * 3), dispatch_get_main_queue(), ^{
+			
+			
 	
-	person.initBlock;
-	//
-	person.testBlock();
+//			NSLog(@"%@----%@",weakSelf,strongSelf);
+			[weakSelf test];
+//			[strongSelf test];
+		});
+	} copy];
+	
+	self.block();
+}
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+	
+	object = nil;
 }
 
 - (void)dealloc{
     NSLog(@"ViewController dealloc");
 }
 
+
+- (void)test {
+	NSLog(@"test");
+}
 
 //- (void)test {
 //
