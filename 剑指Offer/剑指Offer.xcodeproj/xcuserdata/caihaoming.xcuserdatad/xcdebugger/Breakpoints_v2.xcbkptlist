@@ -581,22 +581,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "594F25E0-31CF-48BB-872E-D53CB09F7031"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "&#x5251;&#x6307;Offer/main.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2184"
-            endingLineNumber = "2184"
-            landmarkName = "unknown"
-            landmarkType = "0">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "5531C61A-BA3C-41C5-9845-FD0B2B283CCB"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -604,9 +588,153 @@
             filePath = "&#x5251;&#x6307;Offer/main.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2222"
-            endingLineNumber = "2222"
+            startingLineNumber = "2194"
+            endingLineNumber = "2194"
             landmarkName = "permuteCore(_:)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "1D4CBC75-C740-4FC2-B665-6922B51AC173"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "&#x5251;&#x6307;Offer/main.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "2353"
+            endingLineNumber = "2353"
+            landmarkName = "permuteUniqueCore(_:_:_:_:)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "3449F83A-247F-41B0-B99D-D0BB22F72B34"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "&#x5251;&#x6307;Offer/main.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "2343"
+            endingLineNumber = "2343"
+            landmarkName = "permuteUniqueCore(_:_:_:_:)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B8008654-6E5E-40E1-85E7-C5B97DD09FF7"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "&#x5251;&#x6307;Offer/main.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "2418"
+            endingLineNumber = "2418"
+            landmarkName = "combinationSum2Core(_:_:_:_:)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "FBE85953-5E41-43DA-B0B0-9C967E1C975E"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "&#x5251;&#x6307;Offer/main.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "2406"
+            endingLineNumber = "2406"
+            landmarkName = "combinationSum2(_:_:)"
+            landmarkType = "9">
+            <Locations>
+               <Location
+                  uuid = "FBE85953-5E41-43DA-B0B0-9C967E1C975E - fc2a6fca830cbc03"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "&#x5251;&#x6307;Offer.combinationSum2(Swift.Array&lt;Swift.Int&gt;, Swift.Int) -&gt; Swift.Array&lt;Swift.Array&lt;Swift.Int&gt;&gt;"
+                  moduleName = "&#x5251;&#x6307;Offer"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/caihaoming/Desktop/%E4%B8%AA%E4%BA%BAGit%E9%A1%B9%E7%9B%AE/%E5%89%91%E6%8C%87Offer/%E5%89%91%E6%8C%87Offer/main.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "2371"
+                  endingLineNumber = "2371"
+                  offsetFromSymbolStart = "583">
+               </Location>
+               <Location
+                  uuid = "FBE85953-5E41-43DA-B0B0-9C967E1C975E - 5cf7bc55b9fa847d"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Array&lt;Swift.Int&gt;) -&gt; Swift.Array&lt;Swift.Int&gt; in &#x5251;&#x6307;Offer.combinationSum2(Swift.Array&lt;Swift.Int&gt;, Swift.Int) -&gt; Swift.Array&lt;Swift.Array&lt;Swift.Int&gt;&gt;"
+                  moduleName = "&#x5251;&#x6307;Offer"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/caihaoming/Desktop/%E4%B8%AA%E4%BA%BAGit%E9%A1%B9%E7%9B%AE/%E5%89%91%E6%8C%87Offer/%E5%89%91%E6%8C%87Offer/main.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "2372"
+                  endingLineNumber = "2372"
+                  offsetFromSymbolStart = "24">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F0F55F57-6AD3-44A2-8176-2C538F5F22E6"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "&#x5251;&#x6307;Offer/main.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "2422"
+            endingLineNumber = "2422"
+            landmarkName = "combinationSum2Core(_:_:_:_:)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "6CEB54AF-C90B-470F-9FDC-941D84916B39"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "&#x5251;&#x6307;Offer/main.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "2413"
+            endingLineNumber = "2413"
+            landmarkName = "combinationSum2Core(_:_:_:_:)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "086E19BB-C83B-4491-9AAF-00E61FD07387"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "&#x5251;&#x6307;Offer/main.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "2461"
+            endingLineNumber = "2461"
+            landmarkName = "combinationSum(_:_:_:_:)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>

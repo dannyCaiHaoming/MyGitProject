@@ -2174,39 +2174,12 @@ func ConvertCore(pRootOfTree:BinaryTreeNode<Int>?) -> BinaryTreeNode<Int>?{
 
 //MARK:面试题37：序列化二叉树
 
-///题目：
-//func Permutation(pStr:inout [Character]){
-//	Permutation(pStr: &pStr, pBegin: 0)
-//}
-//
-//func Permutation( pStr:inout [Character],pBegin:Int) {
-//
-//	if pStr.count <= pBegin + 1 {
-//		print(pStr)
-//		return
-//	}
-//
-//	var i = pBegin
-//
-//	while i < pStr.count {
-//		var temp = pStr[i]
-//		pStr[i] = pStr[pBegin]
-//		pStr[pBegin] = temp
-//
-//		Permutation(pStr: &pStr, pBegin: pBegin+1)
-//
-//		temp = pStr[pBegin]
-//		pStr[pBegin] = pStr[i]
-//		pStr[pBegin] = temp
-//
-//		i += 1
-//	}
-//
-//
-//}
 
 
+//MARK:面试题38：字符串的排序
 
+
+///题目一：全排列
 func permute(_ nums: [Int]) -> [[Int]] {
 	
 	if nums.count == 0 || nums.count == 1 {
@@ -2259,9 +2232,259 @@ func permuteCore(_ nums: [Int]) -> [[Int]] {
 
 
 
+var resultArray:[[Int]] = []
+///题目二：组合
+func subsets(_ nums: [Int]) -> [[Int]] {
+	if nums.count == 0 {
+		return [nums]
+	}
+	if nums.count == 1 {
+		return [nums,[]]
+	}
+	var pre:[Int] = []
+	
+	subsetsCore1(nums, 0, &pre)
+	
+	return resultArray;
+
+}
+
+
+
+/// 递归将begin后面的剩余数字的组合逐次加进来,例如：[1,2,3]，传入begin为1，则会返回2，23，3
+/// - Parameter nums: 完整数字
+/// - Parameter begin: 当前指定开始组合的位置
+/// - Parameter pre: 组合前头的内容
+func subsetsCore1(_ nums: [Int],_ begin:Int,_ pre:inout [Int]) {
+	
+	resultArray.append(pre)
+	
+	
+	for i in begin..<nums.count {
+		
+		pre.append(nums[i])
+		
+		
+		subsetsCore1(nums, i+1, &pre)
+		
+		pre.removeLast()
+		
+	}
+	
+}
+
+
+///题目三：给定一个可能包含重复元素的整数数组 nums，返回该数组所有可能的子集（幂集）。
+//一样先搞顺序，有重复就跳过，并且都是从下标序号开始用后面的b排序
+func subsetsWithDup(_ nums: [Int]) -> [[Int]] {
+	
+	let newNums = nums.sorted()
+	
+	var stack:Stack<Int> = Stack()
+	
+	subsetsWithDup(newNums, &stack, 0)
+	return resultArray
+}
+
+func subsetsWithDup(_ nums:[Int],_ useArray:inout Stack<Int>,_ current:Int){
+	
+	resultArray.append(useArray.sequence)
+	
+	for index in current..<nums.count {
+		
+		if index > current && nums[index] == nums[index-1] {
+			continue
+		}
+		
+		
+		useArray.push(element: nums[index])
+		
+		subsetsWithDup(nums, &useArray, index+1)
+		
+		useArray.pop()
+		
+		
+	}
+}
+
+
+
+
+///题目四：给定一个可包含重复数字的序列，返回所有不重复的全排列（回溯+去支）  这里用了的妙处，就是先把数组排列了，就方便找重复，上一次用完，如果连续相等，那么这次相当于同一层平行，就不会再用了
+func permuteUnique(_ nums: [Int]) -> [[Int]] {
+	
+	if nums.count == 0 || nums.count == 1{
+		return [nums]
+	}
+	
+	var useArray:[Int] = []
+	
+	
+	for _ in 0..<nums.count {
+		useArray.append(0)
+	}
+	
+	var preArray:[Int] = []
+	
+	let newNums = nums.sorted()
+	
+	permuteUniqueCore(newNums,&preArray, &useArray, 0)
+	
+	return resultArray
+}
+
+
+func permuteUniqueCore(_ nums:[Int],_ preArray:inout [Int] ,_ useArray:inout [Int],_ currntRow:Int) {
+	
+	if currntRow == nums.count {
+		resultArray.append(preArray)
+		
+
+		return
+	}
+	
+	for index in 0..<nums.count {
+		
+		
+		
+		if useArray[index] == 0 {
+			
+			if index > 0 &&  nums[index - 1] == nums[index] && useArray[index-1] == 0{
+				continue
+			}
+			
+			
+			useArray[index] = 1
+			
+	
+			preArray.append(nums[index])
+			
+			permuteUniqueCore(nums, &preArray, &useArray, currntRow+1)
+			
+			
+			useArray[index] = 0
+			
+//			row.removeLast()
+//
+//			rowArray[currntRow] = row
+			
+			
+			preArray.removeLast()
+			
+		}
+		
+	}
+	
+}
+
+
+///题目五：给定一个数组和一个目标数，找出数组中的不重复使用数字的和为目标值的组合  上题一样，先排序就好了,如何使用不重复，就是每次遍历的数字都从当前序号看是
+func combinationSum2(_ candidates: [Int], _ target: Int) -> [[Int]] {
+	if candidates.count == 0 {
+		return []
+	}
+	if candidates.count == 1  {
+		if candidates[0] == target {
+			return [candidates]
+		}else{
+			return []
+		}
+	}
+	
+	let newArray = candidates.sorted()
+	
+	var stack:Stack<Int> = Stack()
+	
+	
+	
+	combinationSum2Core(newArray, &stack, target,0)
+	
+	
+	return resultArray
+}
+
+
+func combinationSum2Core(_ candidates: [Int],_ useArray:inout Stack<Int> , _ target: Int,_ current:Int) {
+	
+	
+	if target < 0  {
+		return
+	}
+	
+	if  target == 0 {
+		resultArray.append(useArray.sequence)
+		return
+	}
+	
+	for index in current..<candidates.count {
+			
+		if candidates[index] > target {
+			continue
+		}
+			
+		if index > current && candidates[index]  == candidates[index-1]{
+			continue
+		}
+		
+		useArray.push(element: candidates[index])
+		
+		combinationSum2Core(candidates, &useArray, target-candidates[index], index+1)
+		
+		useArray.pop()
+			
+		
+		
+	}
+}
+
+
+///题目六  给定一个无重复元素的数组 candidates 和一个目标数 target ，找出 candidates 中所有可以使数字和为 target 的组合 candidates 中的数字可以无限制重复被选取。
+func combinationSum(_ candidates: [Int], _ target: Int) -> [[Int]] {
+	//不用排序了   每次都重新遍历数组就好了， 从当前数字开始！
+	
+	if candidates.count == 0 {
+		return []
+	}
+
+	
+	var stack:Stack<Int> = Stack()
+	combinationSum(candidates, &stack, target, 0)
+	return resultArray
+}
+
+
+func combinationSum(_ candidates: [Int],_ useArray:inout Stack<Int>,_ target: Int,_ current: Int) {
+	
+	if target == 0 {
+		resultArray.append(useArray.sequence)
+		return
+	}
+	
+	if target < 0 {
+		return
+	}
+	
+	for index in current..<candidates.count {
+		
+		useArray.push(element: candidates[index])
+		
+		combinationSum(candidates, &useArray, target-candidates[index], index)
+		
+		useArray.pop()
+	}
+	
+}
+
+
+
+
+
 
 
 //MARK:测试用例
+
+
+/* 			--------------------------------------------------------------------------------------------------------------------			*/
 
 //let a = [2,3,1,0,2,5,3]
 //let b = [2,3,5,4,3,2,6,7]
@@ -2481,6 +2704,8 @@ func permuteCore(_ nums: [Int]) -> [[Int]] {
 //Permutation(pStr: &a)
 
 
-let a = [1,2,3]
+let a = [1,2,2]
 
-print(permute(a))
+//print(permuteUnique(a))
+
+print(subsetsWithDup(a))
