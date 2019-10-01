@@ -269,75 +269,64 @@ class Solution {
     
     //#5 最大回文子串
     func longestPalindrome(_ s: String) -> String {
-        
-        if s.count == 0 {
-            return ""
-        }
-        
-        var newS = ""
-        for i in 0...s.count - 1 {
-            newS.append("#")
-            let range = s.index(s.startIndex, offsetBy: i)
-            let string = s[range]
-            newS.append(string)
-        }
-        newS.append("#")
-        
-        var maxS = ""
-        for i in 0...newS.count - 1{
-            let temp = self.longestPalindromeSupport(newS, i)
-            if temp.count > maxS.count {
-                maxS = temp
-            }
-        }
-        
-        var result = ""
-        for i in 0...maxS.count - 1 {
-            if i % 2 != 0{
-                let index = maxS.index(maxS.startIndex, offsetBy: i)
-                result.append(maxS[index])
-            }
-        }
-        
-        return result
-        
+		
+		if s.count <= 1 {
+			return s
+		}
+		
+		var longest:String = s.mySubString(to: 1)
+		
+		for index in 1..<s.count {
+			if index+1 < s.count {
+				let start = s.index(s.startIndex, offsetBy: index-1)
+				let end = s.index(s.startIndex, offsetBy: index+1)
+				
+				if s[start] == s[end] {
+					let str = longestPalindromeCore(s, index)
+					if str.count > longest.count {
+						longest = str
+					}
+				}
+			}
+		}
+		
+		if longest.count == 1 {
+			for index in 1..<s.count {
+				let start = s.index(s.startIndex, offsetBy: index-1)
+				let end = s.index(s.startIndex, offsetBy: index)
+				if s[start] == s[end] {
+					longest = String(s[start...end])
+				}
+			}
+		}
+		
+		
+		return longest
     }
-    
-    //计算中心扩展
-    func longestPalindromeSupport(_ s:String,_ index:Int) -> String {
-        
-        var dis = 0
-        
-        for k in 0...s.count - 1 {
-            if k > index || index + k >= s.count {
-                break;
-            }
-            
-            if index - k + 1 < s.count{
-                let leftIndex = s.index(s.startIndex, offsetBy: index - k)
-                let rightIndex = s.index(s.startIndex, offsetBy: index + k)
-                if s[leftIndex] == s[rightIndex]{
-                    dis = k
-                }else{
-                    break
-                }
-            }
-            
-
-        }
-        
-        
-        if dis != 0 {
-            let leftIndex = s.index(s.startIndex, offsetBy: index - dis)
-            let endIndex = s.index(leftIndex, offsetBy: 2 * dis)
-            let range = leftIndex...endIndex
-            return String(s[range])
-        }else{
-            return s.substring(to: s.startIndex)
-        }
-        return ""
-        
-    }
+	
+	func longestPalindromeCore(_ s: String,_ index:Int) -> String{
+//		var longest:String = ""
+		var start = s.index(s.startIndex, offsetBy: index-1)
+		var end = s.index(s.startIndex, offsetBy: index+1)
+		
+		
+		var i = 1
+		
+		while ((index-1)-i >= 0 && (index+1)+i <= s.count-1) {
+			start = s.index(s.startIndex, offsetBy: index-1-i)
+			end = s.index(s.startIndex, offsetBy: index+1+i)
+			if s[start] != s[end] {
+				i -= 1
+				start = s.index(s.startIndex, offsetBy: index-1-i)
+				end = s.index(s.startIndex, offsetBy: index+1+i)
+				break
+			}
+			i += 1
+		}
+		
+		
+		return String(s[start...end])
+	}
     
     
     //#7 整数翻转
@@ -1563,7 +1552,9 @@ var a = [1,2,3,4,5,6,7]
 //
 //print(zzz)
 
-let zzz = s.rob([2,7,9,3,1])
+//let zzz = s.rob([2,7,9,3,1])
+
+print(s.longestPalindrome("cbbd"))
 
 
 
