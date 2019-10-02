@@ -399,6 +399,34 @@ func isPalindrome(_ x: Int) -> Bool {
 	return false
 }
 
+
+//MARK:11盛最多水的容器
+func maxArea(_ height: [Int]) -> Int {
+	//先找开始
+	
+	if height.count == 2 {
+		return min(height[0],height[1] )
+	}
+	
+	var start = 0
+	var end = height.count - 1
+	
+	var result = 0
+	
+	while start < end {
+		result = max(result, min(height[start], height[end]) * (end-start))
+		
+		if height[start] < height[end]{
+			start += 1
+		}else {
+			end -= 1
+		}
+	}
+	
+	return result
+	
+}
+
 //MARK: 13.罗马数字转整数
 func romanToInt(_ s: String) -> Int {
 	let dict:[String:Int] = ["I" : 1,
@@ -1673,7 +1701,9 @@ var a = [1,2,3,4,5,6,7]
 
 //print(longestPalindromeSubseq("bbbab"))
 //print(countSubstrings("aaaaa"))
-print(myAtoi("-91283472332"))
+//print(myAtoi("-91283472332"))
+
+print(maxArea([1,2,1]))
 
 
 
