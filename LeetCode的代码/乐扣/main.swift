@@ -344,6 +344,47 @@ func reverse(_ x: Int) -> Int {
 }
 
 
+//MARK:8.字符串转换整数 (atoi)
+func myAtoi(_ str: String) -> Int {
+	let newStr = str.trimmingCharacters(in: [" "])
+	if newStr.count <= 0 {
+		return 0
+	}
+	let array = Array<Character>(newStr)
+	
+	let firstChar = array[0]
+	
+	var sign = 1
+	var start = 0
+	var res = 0
+	
+	if firstChar == "+" {
+		sign = 1
+		start += 1
+	}else if (firstChar == "-"){
+		sign = -1
+		start += 1
+	}
+	
+	for i in start..<array.count {
+		if array[i] >= "0" && array[i] <= "9" {
+			if sign == 1 && res > (Int32.max-Int32(String(array[i]))!)/10 {
+				return Int(Int32.max)
+			}
+			if sign == -1 && res > (Int32.max-Int32(String(array[i]))!)/10{
+				return Int(Int32.min)
+			}
+			res = res * 10 + Int(String(array[i]))!
+		}else{
+			return res * sign
+		}
+	}
+	
+	return res * sign
+	
+}
+
+
 //MARK: 9.回文数
 func isPalindrome(_ x: Int) -> Bool {
 	if x < 0 || (x % 10 == 0 && x != 0){
@@ -1631,7 +1672,8 @@ var a = [1,2,3,4,5,6,7]
 //let zzz = s.rob([2,7,9,3,1])
 
 //print(longestPalindromeSubseq("bbbab"))
-print(countSubstrings("aaaaa"))
+//print(countSubstrings("aaaaa"))
+print(myAtoi("-91283472332"))
 
 
 
