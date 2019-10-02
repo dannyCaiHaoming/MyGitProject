@@ -426,7 +426,7 @@ func maxArea(_ height: [Int]) -> Int {
 	return result
 	
 }
-
+ 
 //MARK: 13.罗马数字转整数
 func romanToInt(_ s: String) -> Int {
 	let dict:[String:Int] = ["I" : 1,
@@ -538,6 +538,55 @@ func longestCommonPrefix2_Support(_ strs: [String],_ length:Int) -> Bool {
 	}
 	return true
 }
+
+
+//MARK: 15. 三数之和
+func threeSum(_ nums: [Int]) -> [[Int]] {
+	if nums.count < 3 {
+		return []
+	}
+	
+	var result:[[Int]] = []
+	let newNums = nums.sorted()
+	let count = newNums.count
+	
+	for i in 0..<count-2 {
+		if newNums[i] > 0 {
+			break
+		}
+		if i > 0 &&  newNums[i] == newNums[i-1] {
+			continue
+		}
+		
+		var j = i+1
+		var k = newNums.count - 1
+		
+		while j < k {
+			let sum = newNums[i] + newNums[j] + newNums[k]
+			if sum == 0 {
+				result.append([newNums[i] , newNums[j] , newNums[k]])
+				while j < k && newNums[j] == newNums[j+1] {
+					j += 1
+				}
+				while j < k && newNums[k] == newNums[k-1] {
+					k -= 1
+				}
+				j += 1
+				k -= 1
+			}
+			else if (sum < 0) {
+				j += 1
+			}
+			else if (sum > 0){
+				k -= 1
+			}
+		}
+
+	}
+	return result
+	
+}
+
 
 //MARK: 20.有效括号
 func isValid(_ s: String) -> Bool {
@@ -1703,7 +1752,8 @@ var a = [1,2,3,4,5,6,7]
 //print(countSubstrings("aaaaa"))
 //print(myAtoi("-91283472332"))
 
-print(maxArea([1,2,1]))
+//print(maxArea([1,2,1]))
+print(threeSum([-1, 0, 1, 2, -1, -4]))
 
 
 
