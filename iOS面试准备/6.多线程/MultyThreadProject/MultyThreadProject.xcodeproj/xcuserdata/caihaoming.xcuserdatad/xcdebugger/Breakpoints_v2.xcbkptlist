@@ -14,8 +14,8 @@
             filePath = "MultyThreadProject/ViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "133"
-            endingLineNumber = "133"
+            startingLineNumber = "145"
+            endingLineNumber = "145"
             landmarkName = "-MainThread3"
             landmarkType = "7">
          </BreakpointContent>
@@ -30,8 +30,8 @@
             filePath = "MultyThreadProject/ViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "193"
-            endingLineNumber = "193"
+            startingLineNumber = "205"
+            endingLineNumber = "205"
             landmarkName = "-BarrierUse"
             landmarkType = "7">
          </BreakpointContent>

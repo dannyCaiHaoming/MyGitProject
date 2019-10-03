@@ -52,7 +52,7 @@
 	//MARK: 5.串行队列异步执行内同步执行
 //	[self SerialThread];
 	
-	//MARK: 6.栅栏异步调用多读单写
+	//MARK: 6.栅栏异步调用多读单写  -- 异步写操作
 	//可以实现多个不同线程可以同时读取
 	//但是写操作只能先后读取
 	
@@ -69,7 +69,7 @@
 //	[self GlobalQueue];
 	
 	
-	//MARK: 8.同步栅栏调用
+	//MARK: 8.同步栅栏调用  -- 同步写操作
 //	[self BarrierUse];
 	
 	
@@ -81,9 +81,21 @@
     dispatch_queue_t queue = dispatch_queue_create("com.bestswifter.queue", nil);
     dispatch_async(queue, ^{
         NSLog(@"current thread = %@", [NSThread currentThread]);
+		
+		//1.
         dispatch_sync(dispatch_get_main_queue(), ^{
             NSLog(@"current thread = %@", [NSThread currentThread]);
         });
+		//2
+		dispatch_sync(queue, ^{
+			NSLog(@"current thread = %@", [NSThread currentThread]);
+		});
+		
+		
+		//思想：`sync`,`async`换种说法，就是需不需要执行完block内容，才继续下文
+		
+		//1不会队列堵塞的原因是，虽然下文需要等block执行完，但是切换到主队列，主队列由主线程完成，不需要等上完`async`异步建立的线程去工作
+		//2由于需要等执行完block的内容才能执行下文，但是目前队列中的任务是上文异步添加进来的任务，因此产生了竞争死锁。
     });
 	
 }

@@ -123,6 +123,12 @@ A，B,C任务并发，且内部异步返回的时候，可以使用信号量，�
 
 ![NSThread启动流程](https://github.com/dannyCaiHaoming/MyGitProfject/blob/master/iOS%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/images/6/NSThread%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B.png)
 
+- 调用`pthread_create`函数创建一个`pthread`线程
+- 调用`main`函数
+- 通过`KVO`的方式告诉系统当先线程已经启动
+- 调用`performSelector: withObject:`来执行我们创建线程时指定的`target`
+- 调用`exit`退出线程。
+
 **Q:实现常驻线程?**
 
 

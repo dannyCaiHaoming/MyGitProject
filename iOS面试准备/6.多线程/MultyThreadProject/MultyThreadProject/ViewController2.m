@@ -10,9 +10,18 @@
 
 @interface ViewController2 ()
 
+@property (nonatomic,strong) NSInvocationOperation *io;
 @end
 
 @implementation ViewController2
+
+- (void)dealloc{
+	[self.io removeObserver:self forKeyPath:@"ready"];
+	[self.io removeObserver:self forKeyPath:@"executing"];
+	[self.io removeObserver:self forKeyPath:@"finished"];
+	[self.io removeObserver:self forKeyPath:@"cancelled"];
+
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -28,7 +37,7 @@
 //	[self AddExecutionBlock];
 	
 	//MARK:4. 使用NSOperationQueue
-//	[self UserOperationQueue];
+	[self UserOperationQueue];
 	
 	//MARK:5. 添加依赖
 //	[self AddDependency];
@@ -84,11 +93,31 @@
 	NSOperationQueue *queue = [[NSOperationQueue alloc] init];//[NSOperationQueue mainQueue];
 	queue.maxConcurrentOperationCount = 1;//为串行，不设置默认为并行
 	
-	NSInvocationOperation *io = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(invocationAction) object:nil];
+	self.io = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(invocationAction) object:nil];
 	
-	[queue addOperation:io];
+//	@property (readonly, getter=isCancelled) BOOL cancelled;
+//	- (void)cancel;
+//
+//	@property (readonly, getter=isExecuting) BOOL executing;
+//	@property (readonly, getter=isFinished) BOOL finished;
+//	@property (readonly, getter=isConcurrent) BOOL concurrent; // To be deprecated; use and override 'asynchronous' below
+//	@property (readonly, getter=isAsynchronous) BOOL asynchronous API_AVAILABLE(macos(10.8), ios(7.0), watchos(2.0), tvos(9.0));
+//	@property (readonly, getter=isReady) BOOL ready;
+//
+	[self.io addObserver:self forKeyPath:@"ready" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionInitial context:nil];
+	[self.io addObserver:self forKeyPath:@"executing" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionInitial  context:nil];
+	[self.io addObserver:self forKeyPath:@"finished" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionInitial  context:nil];
+	[self.io addObserver:self forKeyPath:@"cancelled" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionInitial  context:nil];
+	
+	
+
+	
+	
+	[queue addOperation:self.io];
 	
 	[queue addOperationWithBlock:^{
+		
+		
 		NSLog(@"UseBlockOperation");
 		[self GetCurrentThread];
 	}];
@@ -116,6 +145,16 @@
 	
 	[queue addOperation:bo1];
 	[queue addOperation:bo2];
+	
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context{
+	
+	if ([object isKindOfClass:[NSInvocationOperation class]]) {
+		NSInvocationOperation *io = (NSInvocationOperation *)object;
+		NSLog(@"%@---%@---%@",io,keyPath,[io valueForKeyPath:keyPath]);
+//		NSLog(@"%@,%@",keyPath,object);
+	}
 	
 }
 
