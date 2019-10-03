@@ -91,6 +91,7 @@ main函数中调用`UIAplicationMain`函数中，会启动主线程中使用RunL
 ### 7.5 RunLoop与多线程，RunLoop与AntoReleasePool关系
 
 [参考：RunLoop总结：RunLoop 与GCD 、Autorelease Pool之间的关系](https://cloud.tencent.com/developer/article/1192476)
+[参考：带着问题看源码----子线程AutoRelease对象何时释放](https://suhou.github.io/2018/01/21/%E5%B8%A6%E7%9D%80%E9%97%AE%E9%A2%98%E7%9C%8B%E6%BA%90%E7%A0%81----%E5%AD%90%E7%BA%BF%E7%A8%8BAutoRelease%E5%AF%B9%E8%B1%A1%E4%BD%95%E6%97%B6%E9%87%8A%E6%94%BE/)
 
 #### 7.5.1 GCD与RunLoop的关系
 
@@ -98,12 +99,18 @@ main函数中调用`UIAplicationMain`函数中，会启动主线程中使用RunL
 - 底层上，主线程的RunLoop上，开了一个`port`给主队列进行传输，用于`dispatch_async`的时候，RunLoop往主队列上面获取任务，然后执行
 
 
-#### 7.5.2 RunLoop与AntoReleasePool关系
 
-- 有一个最高优先级的监听事件，在进入RunLoop前，回调是创建一个自动释放池，可以保证创建自动释放池在其他回调前
-- 有一个最低优先级的监听事件，在RunLoop休眠前，和RunLoop退出前
-	- 休眠前，保证所有回调执行完再进行释放，并且创建新的释放池
-	- 退出前，保证所有回调都能执行完
+#### 7.5.2 RunLoop与AntoReleasePool关系
+- 首先每个新建立的线程，都有自己一个`自动释放池`，这个默认的`自动释放池`是一次性的，会跟随线程退出而清空
+
+- 如果线程启动了`runloop`
+	- 有一个最高优先级的监听事件，在进入RunLoop前，回调是创建一个自动释放池，可以保证创建自动释放池在其他回调前
+	- 有一个最低优先级的监听事件，在RunLoop休眠前，和RunLoop退出前
+		- 休眠前，保证所有回调执行完再进行释放，并且创建新的释放池
+		- 退出前，保证所有回调都能执行完
+- `@autoreleasePool{}`就是上下文结束就释放，这是手动干预的
+
+
  
 
 
