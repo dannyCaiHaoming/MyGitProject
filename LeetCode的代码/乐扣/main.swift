@@ -972,6 +972,31 @@ func
 }
 
 
+
+//MARK:33. 搜索旋转排序数组
+func search(_ nums: [Int], _ target: Int) -> Int {
+	
+	var start = 0
+	var end = nums.count-1
+	
+	while end > start {
+		let mid = (start + end) / 2
+		
+		if nums[0] <= nums[mid] && (target > nums[mid] || target < nums[0]) {
+			start = mid + 1
+		}else if target > nums[mid] && target < nums[0] {
+			start = mid + 1
+		}else {
+			end = mid
+		}
+	}
+	
+	return start == end && nums[start] == target ? start : -1
+
+}
+
+
+
 //MARK: 35.搜索插入位置
 func searchInsert(_ nums: [Int], _ target: Int) -> Int {
 	//        if nums.count == 0 {
@@ -1792,7 +1817,9 @@ var a = [1,2,3,4,5,6,7]
 
 //print(maxArea([1,2,1]))
 //print(threeSum([-1, 0, 1, 2, -1, -4]))
-print(threeSumClosest([1,1,1,0],100))
+//print(threeSumClosest([1,1,1,0],100))
+
+print(search([4,5,6,7,0,1,2], 0))
 
 
 
