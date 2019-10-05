@@ -85,7 +85,7 @@ main函数中调用`UIAplicationMain`函数中，会启动主线程中使用RunL
 
 ### 7.4 事件循环机制
 
-![RunLoop循环流程](./images/7/Runloop流程图.png)
+![RunLoop循环流程](../images/7/Runloop流程图.png)
 
 
 ### 7.5 RunLoop与多线程，RunLoop与AntoReleasePool关系
