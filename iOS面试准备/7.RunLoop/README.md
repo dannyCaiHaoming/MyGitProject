@@ -85,18 +85,18 @@ main函数中调用`UIAplicationMain`函数中，会启动主线程中使用RunL
 
 ### 7.4 事件循环机制
 
-![RunLoop循环流程](https://github.com/dannyCaiHaoming/MyGitProfject/blob/master/iOS%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/images/7/RunLoop%E5%BE%AA%E7%8E%AF%E6%B5%81%E7%A8%8B.png)
+![RunLoop循环流程](./images/7/Runloop流程图.png)
 
 
 ### 7.5 RunLoop与多线程，RunLoop与AntoReleasePool关系
 
-[参考：RunLoop总结：RunLoop 与GCD 、Autorelease Pool之间的关系](https://cloud.tencent.com/developer/article/1192476)
+[参考：RunLoop总结：RunLoop 与GCD 、Autorelease Pool之间的关系](https://cloud.tencent.com/developer/article/1192476)<br>
 [参考：带着问题看源码----子线程AutoRelease对象何时释放](https://suhou.github.io/2018/01/21/%E5%B8%A6%E7%9D%80%E9%97%AE%E9%A2%98%E7%9C%8B%E6%BA%90%E7%A0%81----%E5%AD%90%E7%BA%BF%E7%A8%8BAutoRelease%E5%AF%B9%E8%B1%A1%E4%BD%95%E6%97%B6%E9%87%8A%E6%94%BE/)
 
 #### 7.5.1 GCD与RunLoop的关系
 
-- `dispatch_srouce_t`关于超时时间，这个不太理解没什么关系，后面再补这个
-- 底层上，主线程的RunLoop上，开了一个`port`给主队列进行传输，用于`dispatch_async`的时候，RunLoop往主队列上面获取任务，然后执行
+- Runloop时间超时的计算是使用GCD中的时钟功能，`dispatch_srouce_t`，更加进准，不受任务繁重影响
+- `dispatch_async`的时候，RunLoop往主队列上面获取任务，然后执行
 
 
 
@@ -111,7 +111,29 @@ main函数中调用`UIAplicationMain`函数中，会启动主线程中使用RunL
 - `@autoreleasePool{}`就是上下文结束就释放，这是手动干预的
 
 
+#### 7.5.3 事件响应
+
+- 应用启动的时候，主线程默认会有注册一个基于`Source1`用来接收系统事件，回调函数是`__IOHIDEventSystemClientQueueCallback()`。
+
+- 当手机发生触摸，锁屏，摇晃等，会由`IOKit`生成一个`IOHIDEvent`事件，传递给`SpringBoard`，并且随后会用mach port将事件转发给需要的App进程。
+
+- 随后回到每个App主线程注册的`Source1`事件，就会触发回调，并调用 `_UIApplicationHandleEventQueue()` 进行应用内部的分发，这步骤是由于主线程注册了`Source0`的事件回调。
+
+- `_UIApplicationHandleEventQueue() `会将`IOHIDEvent`处理并打包成UIEvent，然后就开始`UIApplication`事件队列的传递
+
+
+#### 7.5.4  手势识别
+
+- 上面的`_UIApplicationHandleEventQueue() `识别了一个手势时，会先`Cancel`将当前的`touch`系列回调打断，然后将对应的`UIGestureRecognizer `标记为待处理。
+
+- 苹果注册了一个 `Observer` 监测`BeforeWaiting`(Loop即将进入休眠) 事件，这个Observer的回调函数是`_UIGestureRecognizerUpdateObserver()`，其内部会获取所有刚被标记为待处理的 `GestureRecognizer`，并执行`GestureRecognizer`的回调。
+
  
+#### 7.5.5 计时器
+
+- `NSTimer`中计时，是将`timer`作为`source`加入到当前线程的runloop，所以如果线程中的runloop没有启动，则这个`timer`也会无效。
+同时，如果计时器运行过程中，runloop的任务繁重，那么这个计时器的计时也会出现不准确。
+- `CADisplayLink `跟`NSTimer`一样，只是实现的逻辑不一样，比较接近屏幕刷新率的时间。
 
 
 -----
