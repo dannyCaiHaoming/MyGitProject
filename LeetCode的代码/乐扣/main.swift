@@ -588,6 +588,44 @@ func threeSum(_ nums: [Int]) -> [[Int]] {
 }
 
 
+//MARK:16.最接近的三数之和
+func threeSumClosest(_ nums: [Int], _ target: Int) -> Int {
+	if nums.count < 3 {
+		return 0
+	}
+	
+	let newNums = nums.sorted()
+	
+	var close = newNums[0] + newNums[1] + newNums[2]
+	
+	for i in 0..<newNums.count-2 {
+		
+
+		var start = i+1
+		var end = newNums.count-1
+		
+		while start < end {
+			let sum = newNums[i] + newNums[start] + newNums[end]
+			
+			if abs(sum-target) < abs(close-target) {
+				close = sum
+			}
+			if sum > target {
+				end -= 1
+			}else{
+				start += 1
+			}
+		}
+		
+		
+	}
+	
+	
+	return close
+	
+}
+
+
 //MARK: 20.有效括号
 func isValid(_ s: String) -> Bool {
 	
@@ -1753,7 +1791,8 @@ var a = [1,2,3,4,5,6,7]
 //print(myAtoi("-91283472332"))
 
 //print(maxArea([1,2,1]))
-print(threeSum([-1, 0, 1, 2, -1, -4]))
+//print(threeSum([-1, 0, 1, 2, -1, -4]))
+print(threeSumClosest([1,1,1,0],100))
 
 
 
