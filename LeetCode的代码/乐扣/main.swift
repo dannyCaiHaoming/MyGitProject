@@ -1937,6 +1937,12 @@ class MyQueue {
 }
 
 
+//MARK:415. 字符串相加
+//func addStrings(_ num1: String, _ num2: String) -> String {
+//
+//}
+
+
 //MARK:516. 最长回文子序列
 func longestPalindromeSubseq(_ s: String) -> Int {
 	if s.count <= 1{
@@ -2021,8 +2027,43 @@ func countSubstrings(_ s: String) -> Int {
 }
 
 
+//MARK:905. 按奇偶排序数组
+func sortArrayByParity(_ A: [Int]) -> [Int] {
+	var B = A
+	var i = 0
+	for j in i..<A.count {
+		if B[j] & 1 !=  1 {
+			let temp = B[i]
+			B[i] = B[j]
+			B[j] = temp
+			i += 1
+		}
+		
+	}
+	return B
+}
 
+//MARK:922. 按奇偶排序数组 II
+func sortArrayByParityII(_ A: [Int]) -> [Int] {
+	var B = A
+	var i = 0
+	var j = 1
+	
+	for num in A {
+		if num & 1 == 1 {
+			B[j] = num
+			j += 2
+		}else{
+			B[i] = num
+			i += 2
+		}
+	}
+	
+	
 
+	
+	return B
+}
 
 //
 ////a.twoSum([3,2,4], 6)
@@ -2093,6 +2134,7 @@ var a = [1,2,3,4,5,6,7]
 //print(findMin([2,1]))
 //print(findMin2([0,0,1,1,2,0]))
 //print(search2([4,5,6,7,0,1,2], 0))
-print(search3([2,2,2,0,2,2],0))
+//print(search3([2,2,2,0,2,2],0))
+print(sortArrayByParityII([2,0,3,4,1,3]))
 
 

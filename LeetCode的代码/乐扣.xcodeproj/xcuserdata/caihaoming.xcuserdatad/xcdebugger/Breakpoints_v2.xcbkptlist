@@ -372,8 +372,8 @@
             timestampString = "580646615.736349"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1226"
-            endingLineNumber = "1226"
+            startingLineNumber = "1232"
+            endingLineNumber = "1232"
             landmarkName = "deleteDuplicates(_:)"
             landmarkType = "9">
          </BreakpointContent>
@@ -406,8 +406,8 @@
             timestampString = "580646615.736807"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1383"
-            endingLineNumber = "1383"
+            startingLineNumber = "1389"
+            endingLineNumber = "1389"
             landmarkName = "buildTree(_:_:)"
             landmarkType = "9">
          </BreakpointContent>
@@ -423,8 +423,8 @@
             timestampString = "580646615.737038"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1252"
-            endingLineNumber = "1252"
+            startingLineNumber = "1258"
+            endingLineNumber = "1258"
             landmarkName = "merge(_:_:_:_:)"
             landmarkType = "9">
          </BreakpointContent>
@@ -440,8 +440,8 @@
             timestampString = "580646615.737268"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1234"
-            endingLineNumber = "1234"
+            startingLineNumber = "1240"
+            endingLineNumber = "1240"
             landmarkName = "deleteDuplicates(_:)"
             landmarkType = "9">
          </BreakpointContent>
@@ -457,8 +457,8 @@
             timestampString = "580646615.737493"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1297"
-            endingLineNumber = "1297"
+            startingLineNumber = "1303"
+            endingLineNumber = "1303"
             landmarkName = "isSymmetric_Mirror(root1:root2:)"
             landmarkType = "9">
          </BreakpointContent>
@@ -521,8 +521,8 @@
             filePath = "&#x4e50;&#x6263;/main.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1929"
-            endingLineNumber = "1929"
+            startingLineNumber = "1935"
+            endingLineNumber = "1935"
             landmarkName = "empty()"
             landmarkType = "7">
          </BreakpointContent>
@@ -537,8 +537,8 @@
             filePath = "&#x4e50;&#x6263;/main.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1944"
-            endingLineNumber = "1944"
+            startingLineNumber = "1956"
+            endingLineNumber = "1956"
             landmarkName = "longestPalindromeSubseq(_:)"
             landmarkType = "9">
          </BreakpointContent>
@@ -553,8 +553,8 @@
             filePath = "&#x4e50;&#x6263;/main.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1951"
-            endingLineNumber = "1951"
+            startingLineNumber = "1963"
+            endingLineNumber = "1963"
             landmarkName = "longestPalindromeSubseq(_:)"
             landmarkType = "9">
          </BreakpointContent>
@@ -569,8 +569,8 @@
             filePath = "&#x4e50;&#x6263;/main.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1989"
-            endingLineNumber = "1989"
+            startingLineNumber = "2001"
+            endingLineNumber = "2001"
             landmarkName = "countSubstrings(_:)"
             landmarkType = "9">
          </BreakpointContent>
@@ -585,8 +585,8 @@
             filePath = "&#x4e50;&#x6263;/main.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1968"
-            endingLineNumber = "1968"
+            startingLineNumber = "1980"
+            endingLineNumber = "1980"
             landmarkName = "longestPalindromeSubseq(_:)"
             landmarkType = "9">
          </BreakpointContent>
@@ -809,8 +809,8 @@
             filePath = "&#x4e50;&#x6263;/main.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1148"
-            endingLineNumber = "1148"
+            startingLineNumber = "1154"
+            endingLineNumber = "1154"
             landmarkName = "search3(_:_:)"
             landmarkType = "9">
          </BreakpointContent>
@@ -825,8 +825,8 @@
             filePath = "&#x4e50;&#x6263;/main.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1634"
-            endingLineNumber = "1634"
+            startingLineNumber = "1640"
+            endingLineNumber = "1640"
             landmarkName = "findMin(_:)"
             landmarkType = "9">
          </BreakpointContent>
@@ -841,8 +841,8 @@
             filePath = "&#x4e50;&#x6263;/main.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1618"
-            endingLineNumber = "1618"
+            startingLineNumber = "1624"
+            endingLineNumber = "1624"
             landmarkName = "findMin(_:)"
             landmarkType = "9">
          </BreakpointContent>
@@ -857,8 +857,8 @@
             filePath = "&#x4e50;&#x6263;/main.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1642"
-            endingLineNumber = "1642"
+            startingLineNumber = "1648"
+            endingLineNumber = "1648"
             landmarkName = "findMin2(_:)"
             landmarkType = "9">
          </BreakpointContent>
@@ -969,8 +969,8 @@
             filePath = "&#x4e50;&#x6263;/main.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1152"
-            endingLineNumber = "1152"
+            startingLineNumber = "1158"
+            endingLineNumber = "1158"
             landmarkName = "search3Sort(_:_:_:_:)"
             landmarkType = "9">
          </BreakpointContent>
@@ -985,8 +985,8 @@
             filePath = "&#x4e50;&#x6263;/main.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1173"
-            endingLineNumber = "1173"
+            startingLineNumber = "1179"
+            endingLineNumber = "1179"
             landmarkName = "findMinIndex(_:)"
             landmarkType = "9">
          </BreakpointContent>
@@ -1001,8 +1001,8 @@
             filePath = "&#x4e50;&#x6263;/main.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1201"
-            endingLineNumber = "1201"
+            startingLineNumber = "1207"
+            endingLineNumber = "1207"
             landmarkName = "findMinIndexCore(_:_:_:)"
             landmarkType = "9">
          </BreakpointContent>
@@ -1017,9 +1017,25 @@
             filePath = "&#x4e50;&#x6263;/main.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1186"
-            endingLineNumber = "1186"
+            startingLineNumber = "1192"
+            endingLineNumber = "1192"
             landmarkName = "findMinIndex(_:)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "390CC661-9AB3-4EDE-8156-94E6F0A1F681"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "&#x4e50;&#x6263;/main.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "2035"
+            endingLineNumber = "2035"
+            landmarkName = "sortArrayByParity(_:)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
