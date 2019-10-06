@@ -995,6 +995,86 @@ func search(_ nums: [Int], _ target: Int) -> Int {
 
 }
 
+func search2(_ nums: [Int], _ target: Int) -> Int {
+	
+	//思路，先二分查找出旋转位置
+	
+	if nums.count == 0 {
+		return -1
+	}
+	if nums.count == 1 {
+		return nums[0] == target ? 0 : -1
+	}
+	
+	let start = 0
+	let mid = search2Core(nums)
+	let end = nums.count - 1
+	
+	if mid == 0 {
+		if nums[start] > target || target > nums[end] {
+			return -1
+		}
+		return search2Sort(nums, start, end,target)
+	}
+	
+	if target > nums[mid-1]  {
+		return -1
+	}
+	
+	if target >= nums[start] && target <= nums[mid-1]  {
+		return search2Sort(nums, start, mid, target)
+	}
+	if target <= nums[end] && target >= nums[mid] {
+		return search2Sort(nums, mid, end, target)
+	}
+	
+	
+	return -1
+	
+}
+
+func search2Core(_ nums: [Int]) -> Int{
+	var start = 0
+	var end = nums.count - 1
+	
+	var mid = start
+	
+	while nums[start] >= nums[end] {
+		if end - start == 1 {
+			mid = end
+			break
+		}
+		mid = (start + end)/2
+		if nums[mid] >= nums[start] {
+			start = mid
+		}else if nums[mid] <= nums[end]{
+			end = mid
+		}
+	}
+	return mid
+}
+
+func search2Sort(_ nums:[Int],_ start:Int,_ end:Int,_ target:Int) -> Int {
+	var s = start
+	var e = end
+	var mid = s
+	while e >= s {
+		mid = (s + e)/2
+		if nums[mid] == target {
+			return mid
+		}
+		if nums[mid] > target {
+			e = mid-1
+		}else{
+			s = mid+1
+		}
+	}
+	
+	return -1
+}
+
+
+
 
 
 //MARK: 35.搜索插入位置
@@ -1032,6 +1112,110 @@ func searchInsert(_ nums: [Int], _ target: Int) -> Int {
 	
 	return left
 }
+
+//MARK:81. 搜索旋转排序数组 II
+func search3(_ nums: [Int], _ target: Int) -> Bool {
+	//思路，先二分查找出旋转位置
+	
+	if nums.count == 0 {
+		return false
+	}
+	if nums.count == 1 {
+		return nums[0] == target ? true : false
+	}
+	
+	let start = 0
+	let mid = findMinIndex(nums)
+	let end = nums.count - 1
+	
+	if mid == 0 {
+//		return search3Sort(nums, start, end,target)
+		for n in nums{
+			if n == target {
+				return true
+			}
+		}
+		return false
+	}
+	
+	if target > nums[mid-1]  {
+		return false
+	}
+	
+	if target >= nums[start] && target <= nums[mid-1]  {
+		return search3Sort(nums, start, mid-1, target)
+	}
+	if target <= nums[end] && target >= nums[mid] {
+		return search3Sort(nums, mid, end, target)
+	}
+	
+	
+	return false
+
+}
+
+func search3Sort(_ nums:[Int],_ start:Int,_ end:Int,_ target:Int) -> Bool {
+	var s = start
+	var e = end
+	var mid = s
+	
+	while s <= e {
+		if nums[mid] == target {
+			return true
+		}
+		mid = (s + e)/2
+		if nums[mid] >= target {
+			e = mid-1
+		}else{
+			s = mid+1
+		}
+	}
+	return nums[mid]==target
+}
+
+
+func findMinIndex(_ nums:[Int]) -> Int {
+	
+	var start = 0
+	var end = nums.count - 1
+	
+	var mid = start
+	
+	while nums[start] >= nums[end] {
+		if end - start == 1 {
+			mid = end
+			break
+		}
+		
+		mid = (start + end)/2
+		if nums[start] == nums[end] && nums[start] == nums[mid] {
+			return findMinIndexCore(nums, start, end)
+		}
+		
+		
+		if nums[mid] >= nums[start] {
+			start = mid
+		}else if nums[mid] <= nums[end]{
+			end = mid
+		}
+	}
+	return mid
+}
+
+func findMinIndexCore(_ nums:[Int],_ start:Int,_ end:Int) -> Int {
+	//寻找最大一位的前面一位
+	var min = start
+	
+	for index in start+1...end{
+		if nums[min] > nums[index] {
+			min = index
+		}
+	}
+	return min
+
+}
+
+
 
 
 
@@ -1420,6 +1604,90 @@ func singleNumber(_ nums: [Int]) -> Int {
 //    bool hasCycle(struct ListNode *head) {
 //
 //    }
+
+
+//MARK:153. 寻找旋转排序数组中的最小值
+func findMin(_ nums: [Int]) -> Int {
+
+	if nums.count == 0 {
+		return -1
+	}
+	if nums.count == 1 {
+		return nums[0]
+	}
+
+	
+	var start = 0
+	var end = nums.count - 1
+	var mid = start
+	
+	
+	while nums[start] > nums[end] {
+		
+		if end - start == 1 {
+			mid = end
+			break
+		}
+		
+		mid = (start+end)/2
+		if nums[mid] > nums[start] {
+			start = mid
+		}else if nums[mid] < nums[end]{
+			end = mid
+		}
+	}
+
+
+	
+	return nums[mid]
+	
+}
+
+//MARK:154. 寻找旋转排序数组中的最小值 II
+func findMin2(_ nums: [Int]) -> Int {
+	if nums.count == 0 {
+		return -1
+	}
+	if nums.count == 1 {
+		return nums[0]
+	}
+	
+	var start = 0
+	var end = nums.count - 1
+	var mid = start
+	
+	while nums[start] >= nums[end] {
+		
+		if end - start == 1 {
+			mid = end
+			break
+		}
+		mid = (start + end)/2
+		
+		if nums[start] == nums[end] && nums[start] == nums[mid] {
+			return findMin2Core(nums, start, end)
+		}
+		
+		if nums[mid] >= nums[start] {
+			start = mid
+		}else if nums[mid] <= nums[end] {
+			end = mid
+		}
+	}
+	
+	return nums[mid]
+}
+
+func findMin2Core(_ nums: [Int] ,_ start:Int, _ end:Int) -> Int {
+	var min = nums[start]
+	for index in start+1...end {
+		if min > nums[index] {
+			min = nums[index]
+		}
+	}
+	return min
+	
+}
 
 //MARK: 167 两数之和II 输入有序数组
 func twoSum2(_ numbers: [Int], _ target: Int) -> [Int] {
@@ -1819,7 +2087,12 @@ var a = [1,2,3,4,5,6,7]
 //print(threeSum([-1, 0, 1, 2, -1, -4]))
 //print(threeSumClosest([1,1,1,0],100))
 
-print(search([4,5,6,7,0,1,2], 0))
+//print(search([4,5,6,7,0,1,2], 0))
+//print(search2([1,2,2,2,0,1,1], 0))
 
+//print(findMin([2,1]))
+//print(findMin2([0,0,1,1,2,0]))
+//print(search2([4,5,6,7,0,1,2], 0))
+print(search3([2,2,2,0,2,2],0))
 
 
