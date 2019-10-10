@@ -128,7 +128,7 @@
 - 然后检索`NSSet`的检索方法
 - 检查`accessInstanceVariablesDirectly`是否为真
 - 查找实例变量`_key`,`_isKey`,`key`,`isKey`
-- 如果都没有，则调用`setValue:forUndefineKey:`
+- 如果都没有，则调用`valueForUndefinedKey:`
 
 
 ### 2.7 属性关键字(加粗的是默认关键字)

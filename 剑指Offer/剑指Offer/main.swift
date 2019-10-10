@@ -633,8 +633,9 @@ func QuickSort(list:inout [Int])  {
     
     let index = Partition(list: &list, start: 0, end: list.count - 1)
     
-    var left = Array(list[0..<index])
-    var right = Array(list[index..<list.count])
+	
+	var left = Array(list[0...index])
+    var right = Array(list[index+1..<list.count])
     QuickSort(list: &left)
     QuickSort(list: &right)
     
@@ -659,6 +660,8 @@ func Partition(list:inout [Int],start:Int,end:Int) -> Int {
             index += 1
         }
     }
+	list.swapAt(index, end)
+	
     
     
     return index
@@ -674,12 +677,12 @@ func BuildMaxHeap(list:inout [Int]){
         return
     }
     for i in (0...list.count/2-1).reversed() {
-        AdjustHeap(list: &list, index: i)
+		AdjustHeap(list: &list, index: i,length: list.count)
     }
 }
 
 
-func AdjustHeap(list:inout [Int],index:Int){
+func AdjustHeap(list:inout [Int],index:Int,length:Int){
     
     var maxIndex = index
     
@@ -687,18 +690,18 @@ func AdjustHeap(list:inout [Int],index:Int){
     let right = 2*index+2
     
     //存在左子节点
-    if left < list.count && list[left] > list[maxIndex] {
+    if left < length && list[left] > list[maxIndex] {
         maxIndex = left
     }
     
     //存在右子节点
-    if right < list.count && list[right] > list[maxIndex] {
+    if right < length && list[right] > list[maxIndex] {
         maxIndex = right
     }
     
     if maxIndex != index {
         list.swapAt(maxIndex, index)
-        AdjustHeap(list: &list, index: maxIndex)
+        AdjustHeap(list: &list, index: maxIndex,length: length)
     }
 }
 
@@ -707,14 +710,16 @@ func HeapSort(list: inout [Int]) {
     BuildMaxHeap(list: &list)
     
     var i = list.count - 1
+	
+	print(list)
     
     while i > 0 {
         list.swapAt(i, 0)
-        var l = Array(list[0..<i])
-        let r = Array(list[i..<list.count])
-        BuildMaxHeap(list: &l)
-        list = l + r
-        i -= 1
+		i -= 1
+		AdjustHeap(list: &list, index: 0,length: i)
+		print(list)
+
+        
     }
     print(list)
 }
@@ -850,21 +855,32 @@ func CoreHasPath(list:[Character],rows:Int,columns:Int,row:Int,column:Int,matchS
 
 ///动态规划
 func MaxProductAfterCutting_Solution1(length: Int) -> Int{
-    var products:[Int] = [0,0,1,2,4]
-    
-    if length > 4 {
-        for i in 5...length {
-            //从这个数的一半开始寻找最大乘积
-            var max = 0
-            for j in 1...i/2 {
-                if j*(i-j) > max{
-                    max = j*(i-j)
-                }
-            }
-            //            products[i] = max
-            products.append(max)
-        }
-    }
+	
+	if length < 2  {
+		return 0
+	}
+	if length == 2 {
+		return 1
+	}
+	if length == 3 {
+		return 2
+	}
+	
+    var products:[Int] = [0,1,2,3]
+	var max = 0
+	for i in 4...length {
+		//第一层循环，由开始数字，一个个计算f(4),f(5),f(6)等等子问题的最大值，到时候的f(n) = f(n-m)+f(m)子问题组成结果
+		max = 0
+		for j in 1...i/2{
+			//第二层循环，计算子问题最大乘积记录下来，用作当前问题的结果供后面更大的问题使用
+			let product = products[j] * products[i-j]
+			if product > max {
+				max = product
+			}
+		}
+		products.append(max)
+	}
+
     
     return products[length]
 }
@@ -1118,7 +1134,7 @@ func DeleteDuplication(pHead:inout ListNode<Int>?){
                 head = head?.pNext
             }
             if preNode == nil {
-                pHead = head
+                preNode = head
             }else {
                 preNode?.pNext = head
             }
@@ -2535,14 +2551,15 @@ func combinationSum(_ candidates: [Int],_ useArray:inout Stack<Int>,_ target: In
 //
 //print(z)
 
-//var a:[Int] = [1,0,1,1,1]
+//var a:[Int] = [17,14,13,23,22,10,5,4,3,2,1,100]
 ////BubbleSort(list: &a)
 ////InsertSort(list: &a)
 ////ShellSort(list: &a)
 ////let z = MergeSort(list: a)
 ////print(z)
-////QuickSort(list: &a)
-////BuildMaxHeap(list: &a)
+//QuickSort(list: &a)
+//HeapSort(list: &a)
+//print(a)
 //let z = Min(list: a, start: 0, end: 4)
 //print(z)
 
@@ -2550,7 +2567,7 @@ func combinationSum(_ candidates: [Int],_ useArray:inout Stack<Int>,_ target: In
 //
 //let z = HasPath(list: a, rows: 3, columns: 4, matchStr: ["b","f","c","e"])
 
-//let z1 = MaxProductAfterCutting_Solution1(length: 10)
+let z1 = MaxProductAfterCutting_Solution1(length: 8)
 //let z2 = MaxProductAfterCutting_Solution2(length: 10)
 //print("\(z1),\(z2)")
 //let z = NumberOf1(n:0b00000111)
@@ -2704,8 +2721,8 @@ func combinationSum(_ candidates: [Int],_ useArray:inout Stack<Int>,_ target: In
 //Permutation(pStr: &a)
 
 
-let a = [1,2,2]
+//let a = [1,2,2]
 
 //print(permuteUnique(a))
 
-print(subsetsWithDup(a))
+//print(subsetsWithDup(a))

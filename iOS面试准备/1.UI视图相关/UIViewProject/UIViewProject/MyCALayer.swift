@@ -12,5 +12,15 @@ import UIKit
 //TODO: 2.CALayer原生的`display`和delegate的`display`顺序和关系如何？
 
 class MyCALayer: CALayer {
+	
+	override func display() {
+		super.display()
+	}
+	
+	override func draw(in ctx: CGContext) {
+		super .draw(in: ctx)
+	}
+	
+	
 
 }
