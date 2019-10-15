@@ -31,7 +31,7 @@
 	if (self = [super init]) {
 			
 		self.target = target;
-		self.selector_ = selector;
+		self.selector = selector;
 		self.timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(middle_timerAction) userInfo:nil repeats:YES];
 	}
 	return self;

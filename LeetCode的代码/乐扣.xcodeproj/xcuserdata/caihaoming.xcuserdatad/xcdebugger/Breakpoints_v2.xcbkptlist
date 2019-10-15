@@ -15,10 +15,10 @@
             timestampString = "580646615.730152"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "171"
-            endingLineNumber = "171"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "172"
+            endingLineNumber = "172"
+            landmarkName = "addTwoNumbers(_:_:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -32,10 +32,10 @@
             timestampString = "580646615.730938"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "245"
-            endingLineNumber = "245"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "246"
+            endingLineNumber = "246"
+            landmarkName = "lengthOfLongestSubstring(_:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -49,10 +49,10 @@
             timestampString = "580646615.731169"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "259"
-            endingLineNumber = "259"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "260"
+            endingLineNumber = "260"
+            landmarkName = "lengthOfLongestSubstring(_:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -66,10 +66,10 @@
             timestampString = "580646615.731618"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "536"
-            endingLineNumber = "536"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "537"
+            endingLineNumber = "537"
+            landmarkName = "longestCommonPrefix2_Support(_:_:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -83,10 +83,10 @@
             timestampString = "580646615.7318439"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "532"
-            endingLineNumber = "532"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "533"
+            endingLineNumber = "533"
+            landmarkName = "longestCommonPrefix2_Support(_:_:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -100,10 +100,10 @@
             timestampString = "580646615.7320729"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "533"
-            endingLineNumber = "533"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "534"
+            endingLineNumber = "534"
+            landmarkName = "longestCommonPrefix2_Support(_:_:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -117,8 +117,8 @@
             timestampString = "580646615.732299"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "691"
-            endingLineNumber = "691"
+            startingLineNumber = "692"
+            endingLineNumber = "692"
             landmarkName = "unknown"
             landmarkType = "0">
          </BreakpointContent>
@@ -134,10 +134,10 @@
             timestampString = "580646615.732583"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "666"
-            endingLineNumber = "666"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "667"
+            endingLineNumber = "667"
+            landmarkName = "isValid(_:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -151,10 +151,10 @@
             timestampString = "580646615.732965"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "713"
-            endingLineNumber = "713"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "714"
+            endingLineNumber = "714"
+            landmarkName = "isValid1(_:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -168,10 +168,10 @@
             timestampString = "580646615.733447"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "727"
-            endingLineNumber = "727"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "728"
+            endingLineNumber = "728"
+            landmarkName = "mergeTwoLists(_:_:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -185,10 +185,10 @@
             timestampString = "580646615.733705"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "777"
-            endingLineNumber = "777"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "778"
+            endingLineNumber = "778"
+            landmarkName = "removeDuplicates(_:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -202,8 +202,8 @@
             timestampString = "580646615.733941"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "804"
-            endingLineNumber = "804"
+            startingLineNumber = "805"
+            endingLineNumber = "805"
             landmarkName = "unknown"
             landmarkType = "0">
          </BreakpointContent>
@@ -219,10 +219,10 @@
             timestampString = "580646615.734265"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "831"
-            endingLineNumber = "831"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "832"
+            endingLineNumber = "832"
+            landmarkName = "removeElement(_:_:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -236,10 +236,10 @@
             timestampString = "580646615.734537"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "872"
-            endingLineNumber = "872"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "873"
+            endingLineNumber = "873"
+            landmarkName = "strStr(_:_:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -253,10 +253,10 @@
             timestampString = "580646615.734767"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "905"
-            endingLineNumber = "905"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "906"
+            endingLineNumber = "906"
+            landmarkName = "getNextArray(matchStr:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -270,10 +270,10 @@
             timestampString = "580646615.734992"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "888"
-            endingLineNumber = "888"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "889"
+            endingLineNumber = "889"
+            landmarkName = "strStr(_:_:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -287,10 +287,10 @@
             timestampString = "580646615.735216"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "901"
-            endingLineNumber = "901"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "902"
+            endingLineNumber = "902"
+            landmarkName = "getNextArray(matchStr:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -304,10 +304,10 @@
             timestampString = "580646615.735436"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "879"
-            endingLineNumber = "879"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "880"
+            endingLineNumber = "880"
+            landmarkName = "strStr(_:_:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -321,10 +321,10 @@
             timestampString = "580646615.735657"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1087"
-            endingLineNumber = "1087"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "1088"
+            endingLineNumber = "1088"
+            landmarkName = "searchInsert(_:_:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -338,10 +338,10 @@
             timestampString = "580646615.7358921"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "964"
-            endingLineNumber = "964"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "965"
+            endingLineNumber = "965"
+            landmarkName = "KMP(_:_:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -355,27 +355,10 @@
             timestampString = "580646615.736119"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "969"
-            endingLineNumber = "969"
-            landmarkName = "unknown"
-            landmarkType = "0">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "708121BC-6F85-4D29-8CB2-974EB3B42257"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "&#x4e50;&#x6263;/main.swift"
-            timestampString = "580646615.736349"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1232"
-            endingLineNumber = "1232"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "970"
+            endingLineNumber = "970"
+            landmarkName = "KMP(_:_:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -389,10 +372,10 @@
             timestampString = "580646615.736578"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1113"
-            endingLineNumber = "1113"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "1114"
+            endingLineNumber = "1114"
+            landmarkName = "searchInsert(_:_:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -406,44 +389,10 @@
             timestampString = "580646615.736807"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1389"
-            endingLineNumber = "1389"
-            landmarkName = "unknown"
-            landmarkType = "0">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "6BDAF0EF-F4C8-428D-B96E-40A031A8AF98"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "&#x4e50;&#x6263;/main.swift"
-            timestampString = "580646615.737038"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1258"
-            endingLineNumber = "1258"
-            landmarkName = "unknown"
-            landmarkType = "0">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "292A0C06-D7B2-44FC-9DE9-60D1096F9833"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "&#x4e50;&#x6263;/main.swift"
-            timestampString = "580646615.737268"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1240"
-            endingLineNumber = "1240"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "1370"
+            endingLineNumber = "1370"
+            landmarkName = "levelOrderBottom(_:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -457,10 +406,10 @@
             timestampString = "580646615.737493"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1303"
-            endingLineNumber = "1303"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "1284"
+            endingLineNumber = "1284"
+            landmarkName = "merge(_:_:_:_:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -473,10 +422,10 @@
             filePath = "&#x4e50;&#x6263;/main.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "279"
-            endingLineNumber = "279"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "280"
+            endingLineNumber = "280"
+            landmarkName = "longestPalindrome(_:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -489,10 +438,10 @@
             filePath = "&#x4e50;&#x6263;/main.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "297"
-            endingLineNumber = "297"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "298"
+            endingLineNumber = "298"
+            landmarkName = "longestPalindrome(_:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -505,10 +454,10 @@
             filePath = "&#x4e50;&#x6263;/main.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "317"
-            endingLineNumber = "317"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "318"
+            endingLineNumber = "318"
+            landmarkName = "longestPalindrome(_:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -521,10 +470,10 @@
             filePath = "&#x4e50;&#x6263;/main.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1935"
-            endingLineNumber = "1935"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "1916"
+            endingLineNumber = "1916"
+            landmarkName = "top()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -537,10 +486,10 @@
             filePath = "&#x4e50;&#x6263;/main.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1956"
-            endingLineNumber = "1956"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "1937"
+            endingLineNumber = "1937"
+            landmarkName = "init()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -553,10 +502,10 @@
             filePath = "&#x4e50;&#x6263;/main.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1963"
-            endingLineNumber = "1963"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "1944"
+            endingLineNumber = "1944"
+            landmarkName = "MyQueue"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -569,10 +518,10 @@
             filePath = "&#x4e50;&#x6263;/main.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2001"
-            endingLineNumber = "2001"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "1982"
+            endingLineNumber = "1982"
+            landmarkName = "longestPalindromeSubseq(_:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -585,10 +534,10 @@
             filePath = "&#x4e50;&#x6263;/main.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1980"
-            endingLineNumber = "1980"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "1961"
+            endingLineNumber = "1961"
+            landmarkName = "peek()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -601,10 +550,10 @@
             filePath = "&#x4e50;&#x6263;/main.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "383"
-            endingLineNumber = "383"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "384"
+            endingLineNumber = "384"
+            landmarkName = "myAtoi(_:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -617,10 +566,10 @@
             filePath = "&#x4e50;&#x6263;/main.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "379"
-            endingLineNumber = "379"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "380"
+            endingLineNumber = "380"
+            landmarkName = "myAtoi(_:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -633,10 +582,10 @@
             filePath = "&#x4e50;&#x6263;/main.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "375"
-            endingLineNumber = "375"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "376"
+            endingLineNumber = "376"
+            landmarkName = "myAtoi(_:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -649,10 +598,10 @@
             filePath = "&#x4e50;&#x6263;/main.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "372"
-            endingLineNumber = "372"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "373"
+            endingLineNumber = "373"
+            landmarkName = "myAtoi(_:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -665,10 +614,10 @@
             filePath = "&#x4e50;&#x6263;/main.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "361"
-            endingLineNumber = "361"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "362"
+            endingLineNumber = "362"
+            landmarkName = "myAtoi(_:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -681,10 +630,10 @@
             filePath = "&#x4e50;&#x6263;/main.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "545"
-            endingLineNumber = "545"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "546"
+            endingLineNumber = "546"
+            landmarkName = "threeSum(_:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -697,10 +646,10 @@
             filePath = "&#x4e50;&#x6263;/main.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "586"
-            endingLineNumber = "586"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "587"
+            endingLineNumber = "587"
+            landmarkName = "threeSum(_:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -713,10 +662,10 @@
             filePath = "&#x4e50;&#x6263;/main.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "554"
-            endingLineNumber = "554"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "555"
+            endingLineNumber = "555"
+            landmarkName = "threeSum(_:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -729,10 +678,10 @@
             filePath = "&#x4e50;&#x6263;/main.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "569"
-            endingLineNumber = "569"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "570"
+            endingLineNumber = "570"
+            landmarkName = "threeSum(_:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -745,10 +694,10 @@
             filePath = "&#x4e50;&#x6263;/main.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "572"
-            endingLineNumber = "572"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "573"
+            endingLineNumber = "573"
+            landmarkName = "threeSum(_:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -761,10 +710,10 @@
             filePath = "&#x4e50;&#x6263;/main.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "565"
-            endingLineNumber = "565"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "566"
+            endingLineNumber = "566"
+            landmarkName = "threeSum(_:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -777,10 +726,10 @@
             filePath = "&#x4e50;&#x6263;/main.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "601"
-            endingLineNumber = "601"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "602"
+            endingLineNumber = "602"
+            landmarkName = "threeSumClosest(_:_:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -793,10 +742,10 @@
             filePath = "&#x4e50;&#x6263;/main.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "995"
-            endingLineNumber = "995"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "996"
+            endingLineNumber = "996"
+            landmarkName = "search(_:_:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -809,10 +758,10 @@
             filePath = "&#x4e50;&#x6263;/main.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1154"
-            endingLineNumber = "1154"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "1155"
+            endingLineNumber = "1155"
+            landmarkName = "search3(_:_:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -825,10 +774,10 @@
             filePath = "&#x4e50;&#x6263;/main.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1640"
-            endingLineNumber = "1640"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "1621"
+            endingLineNumber = "1621"
+            landmarkName = "isPalindrome(_:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -841,10 +790,10 @@
             filePath = "&#x4e50;&#x6263;/main.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1624"
-            endingLineNumber = "1624"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "1605"
+            endingLineNumber = "1605"
+            landmarkName = "maxProfit2(_:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -857,10 +806,10 @@
             filePath = "&#x4e50;&#x6263;/main.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1648"
-            endingLineNumber = "1648"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "1629"
+            endingLineNumber = "1629"
+            landmarkName = "singleNumber(_:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -873,10 +822,10 @@
             filePath = "&#x4e50;&#x6263;/main.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1002"
-            endingLineNumber = "1002"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "1003"
+            endingLineNumber = "1003"
+            landmarkName = "search2(_:_:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -889,10 +838,10 @@
             filePath = "&#x4e50;&#x6263;/main.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1013"
-            endingLineNumber = "1013"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "1014"
+            endingLineNumber = "1014"
+            landmarkName = "search2(_:_:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -905,10 +854,10 @@
             filePath = "&#x4e50;&#x6263;/main.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1037"
-            endingLineNumber = "1037"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "1038"
+            endingLineNumber = "1038"
+            landmarkName = "search2Core(_:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -921,10 +870,10 @@
             filePath = "&#x4e50;&#x6263;/main.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1061"
-            endingLineNumber = "1061"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "1062"
+            endingLineNumber = "1062"
+            landmarkName = "search2Sort(_:_:_:_:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -937,10 +886,10 @@
             filePath = "&#x4e50;&#x6263;/main.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1120"
-            endingLineNumber = "1120"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "1121"
+            endingLineNumber = "1121"
+            landmarkName = "search3(_:_:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -953,10 +902,10 @@
             filePath = "&#x4e50;&#x6263;/main.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1131"
-            endingLineNumber = "1131"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "1132"
+            endingLineNumber = "1132"
+            landmarkName = "search3(_:_:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -969,10 +918,10 @@
             filePath = "&#x4e50;&#x6263;/main.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1158"
-            endingLineNumber = "1158"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "1159"
+            endingLineNumber = "1159"
+            landmarkName = "search3Sort(_:_:_:_:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -985,10 +934,10 @@
             filePath = "&#x4e50;&#x6263;/main.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1179"
-            endingLineNumber = "1179"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "1180"
+            endingLineNumber = "1180"
+            landmarkName = "findMinIndex(_:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1001,10 +950,10 @@
             filePath = "&#x4e50;&#x6263;/main.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1207"
-            endingLineNumber = "1207"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "1208"
+            endingLineNumber = "1208"
+            landmarkName = "findMinIndexCore(_:_:_:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1017,10 +966,10 @@
             filePath = "&#x4e50;&#x6263;/main.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1192"
-            endingLineNumber = "1192"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "1193"
+            endingLineNumber = "1193"
+            landmarkName = "findMinIndex(_:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1033,10 +982,42 @@
             filePath = "&#x4e50;&#x6263;/main.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2035"
-            endingLineNumber = "2035"
+            startingLineNumber = "2016"
+            endingLineNumber = "2016"
             landmarkName = "unknown"
             landmarkType = "0">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "95749EB1-ECFC-4341-94BB-409FEDF3EE47"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "&#x4e50;&#x6263;/main.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1249"
+            endingLineNumber = "1249"
+            landmarkName = "deleteDuplicates1(_:)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "696812ED-F4AC-4C5B-9043-902E8F659EA0"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "&#x4e50;&#x6263;/main.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1233"
+            endingLineNumber = "1233"
+            landmarkName = "deleteDuplicates1(_:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

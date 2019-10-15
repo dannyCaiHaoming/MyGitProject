@@ -1157,6 +1157,8 @@ func DeleteDuplication(pHead:inout ListNode<Int>?){
 
 
 
+
+
 //MARK:面试题19：正则表达式匹配
 
 ///题目
@@ -2507,20 +2509,20 @@ func combinationSum(_ candidates: [Int],_ useArray:inout Stack<Int>,_ target: In
 //let c:[Int] = []
 //var d = Array("We are happy.")
 
-//var l1: ListNode<Int>? = ListNode(value: 1, next: nil)
-//let l2 = ListNode(value: 3, next: nil)
-//let l3 = ListNode(value: 5, next: nil)
-//let l4 = ListNode(value: 7, next: nil)
-//let l5 = ListNode(value: 9, next: nil)
-//let l6 = ListNode(value: 11, next: nil)
-//let l7 = ListNode(value: 13, next: nil)
-////
-//l1!.pNext = l2
-//l2.pNext = l3
-//l3.pNext = l4
-//l4.pNext = l5
-//l5.pNext = l6
-//l6.pNext = l7
+var l1: ListNode<Int>? = ListNode(value: 1, next: nil)
+let l2 = ListNode(value: 1, next: nil)
+let l3 = ListNode(value: 1, next: nil)
+let l4 = ListNode(value: 2, next: nil)
+let l5 = ListNode(value: 3, next: nil)
+let l6 = ListNode(value: 11, next: nil)
+let l7 = ListNode(value: 13, next: nil)
+//
+l1!.pNext = l2
+l2.pNext = l3
+l3.pNext = l4
+l4.pNext = l5
+l5.pNext = l6
+l6.pNext = l7
 //
 //
 //var n1: ListNode<Int>? = ListNode(value: 2, next: nil)
@@ -2567,7 +2569,7 @@ func combinationSum(_ candidates: [Int],_ useArray:inout Stack<Int>,_ target: In
 //
 //let z = HasPath(list: a, rows: 3, columns: 4, matchStr: ["b","f","c","e"])
 
-let z1 = MaxProductAfterCutting_Solution1(length: 8)
+//let z1 = MaxProductAfterCutting_Solution1(length: 8)
 //let z2 = MaxProductAfterCutting_Solution2(length: 10)
 //print("\(z1),\(z2)")
 //let z = NumberOf1(n:0b00000111)
@@ -2579,7 +2581,7 @@ let z1 = MaxProductAfterCutting_Solution1(length: 8)
 
 
 
-//DeleteDuplication(pHead: &l1)
+DeleteDuplication(pHead: &l1)
 //let z = Match(str: ["a","a","a"], pattern: ["a","b","*","a","c","*","a"])
 //print(z)
 

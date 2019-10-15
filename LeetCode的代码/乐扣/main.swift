@@ -33,6 +33,7 @@ public class ListNode {
 				next?.next = temp
 				next = temp
 			}
+			next?.next = nil
 		}
 		return node
 	}
@@ -1216,7 +1217,39 @@ func findMinIndexCore(_ nums:[Int],_ start:Int,_ end:Int) -> Int {
 }
 
 
-
+//MARK:82. 删除排序链表中的重复元素 II
+func deleteDuplicates1(_ head: ListNode?) -> ListNode? {
+	if head == nil {
+		return nil
+	}
+	
+	
+	let dummy:ListNode? = ListNode.init(-1000)
+	dummy?.next = head
+	var slow = dummy
+	
+	var fast = dummy?.next
+	
+	while fast != nil {
+		
+		var needNext = false
+		while fast?.next != nil && fast?.val == fast?.next?.val {
+			needNext = true
+			fast = fast?.next
+		}
+		
+		if !needNext {
+			slow = slow?.next
+		}else{
+			slow?.next = fast?.next
+		}
+		fast = fast?.next
+	}
+	
+	return dummy?.next
+	
+	
+}
 
 
 //MARK: 83.删除排序链表中重复元素
@@ -2110,7 +2143,12 @@ func sortArrayByParityII(_ A: [Int]) -> [Int] {
 //let c = [1,9,6,9,1,7,1,1,5,9,9,9]
 //let t = s.maxProfit2(c)
 
-var a = [1,2,3,4,5,6,7]
+//var a = [1,2,3,4,5,6,7]
+var a = [1,2,3,3,4,4,5]
+
+let l = ListNode.changeIntArrayToListNode(array: a)
+
+let r = deleteDuplicates1(l)
 
 //let c = s.singleNumber(a)
 //
@@ -2135,6 +2173,6 @@ var a = [1,2,3,4,5,6,7]
 //print(findMin2([0,0,1,1,2,0]))
 //print(search2([4,5,6,7,0,1,2], 0))
 //print(search3([2,2,2,0,2,2],0))
-print(sortArrayByParityII([2,0,3,4,1,3]))
+//print(sortArrayByParityII([2,0,3,4,1,3]))
 
 
