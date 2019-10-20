@@ -627,6 +627,54 @@ func threeSumClosest(_ nums: [Int], _ target: Int) -> Int {
 }
 
 
+
+//MARK:19. 删除链表的倒数第N个节点
+///给定一个链表，删除链表的倒数第 n 个节点，并且返回链表的头结点。
+func removeNthFromEnd(_ head: ListNode?, _ n: Int) -> ListNode? {
+	//快慢指针
+	if head == nil {
+		return nil
+	}
+	
+	var result = head
+	var fast:ListNode? = head
+	var n_ = 0
+	while n_ <= n  && fast != nil{
+		fast = fast?.next
+		n_ += 1
+	}
+ 
+	if n_ < n {
+		//n大于链表长度
+		return head
+	}
+	
+	if fast == nil && n_ == n {
+		//移除表头情况
+		return head?.next
+	}
+	
+	while fast != nil {
+		fast = fast?.next
+		result = result?.next
+	}
+	
+
+	guard let temp = result else {
+		return nil
+		
+	}
+	temp.next = temp.next?.next
+	
+	
+
+	
+	return head
+
+}
+
+
+
 //MARK: 20.有效括号
 func isValid(_ s: String) -> Bool {
 	
@@ -2111,13 +2159,13 @@ func sortArrayByParityII(_ A: [Int]) -> [Int] {
 //
 //print(b)
 //
-//let l1 = ListNode.init(1)
-//let l2 = ListNode.init(1)
-//let l3 = ListNode.init(2)
-//let l4 = ListNode.init(3)
-//let l5 = ListNode.init(3)
+let l1 = ListNode.init(1)
+let l2 = ListNode.init(2)
+//let l3 = ListNode.init(3)
+//let l4 = ListNode.init(4)
+//let l5 = ListNode.init(5)
 //
-//l1.next = l2
+l1.next = l2
 //l2.next = l3
 //l3.next = l4
 //l4.next = l5
@@ -2144,11 +2192,11 @@ func sortArrayByParityII(_ A: [Int]) -> [Int] {
 //let t = s.maxProfit2(c)
 
 //var a = [1,2,3,4,5,6,7]
-var a = [1,2,3,3,4,4,5]
-
-let l = ListNode.changeIntArrayToListNode(array: a)
-
-let r = deleteDuplicates1(l)
+//var a = [1,2,3,3,4,4,5]
+//
+//let l = ListNode.changeIntArrayToListNode(array: a)
+//
+//let r = deleteDuplicates1(l)
 
 //let c = s.singleNumber(a)
 //
@@ -2174,5 +2222,8 @@ let r = deleteDuplicates1(l)
 //print(search2([4,5,6,7,0,1,2], 0))
 //print(search3([2,2,2,0,2,2],0))
 //print(sortArrayByParityII([2,0,3,4,1,3]))
+
+let c = removeNthFromEnd(l1, 2)
+print(c)
 
 
