@@ -800,6 +800,35 @@ func mergeTwoLists(_ l1: ListNode?, _ l2: ListNode?) -> ListNode? {
 	
 }
 
+
+//MARK:24. 两两交换链表中的节点
+///给定一个链表，两两交换其中相邻的节点，并返回交换后的链表
+func swapPairs(_ head: ListNode?) -> ListNode? {
+    if head == nil || head?.next == nil {
+        return head
+    }
+    var newHead:ListNode? = ListNode(-1)
+    newHead!.next = head
+    
+    let start = newHead
+    
+    while newHead?.next != nil && newHead?.next?.next != nil {
+        let next = newHead?.next?.next?.next
+        
+        let first = newHead?.next
+        let second = newHead?.next?.next
+        
+        newHead!.next = second
+        second?.next = first
+        
+        first?.next = next
+        
+        newHead = first
+    }
+    
+    return start?.next
+}
+
 //MARK: 26.删除排序数组中的重复项
 func removeDuplicates(_ nums: inout [Int]) -> Int {
 	var dict:[Int : Int] = [:]
@@ -2161,12 +2190,12 @@ func sortArrayByParityII(_ A: [Int]) -> [Int] {
 //
 let l1 = ListNode.init(1)
 let l2 = ListNode.init(2)
-//let l3 = ListNode.init(3)
+let l3 = ListNode.init(3)
 //let l4 = ListNode.init(4)
 //let l5 = ListNode.init(5)
 //
 l1.next = l2
-//l2.next = l3
+l2.next = l3
 //l3.next = l4
 //l4.next = l5
 //
@@ -2223,7 +2252,9 @@ l1.next = l2
 //print(search3([2,2,2,0,2,2],0))
 //print(sortArrayByParityII([2,0,3,4,1,3]))
 
-let c = removeNthFromEnd(l1, 2)
+//let c = removeNthFromEnd(l1, 2)
+//print(c)
+let c = swapPairs(l1)
 print(c)
 
 
