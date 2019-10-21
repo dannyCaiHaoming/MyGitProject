@@ -15,6 +15,13 @@ void helloworld(void){
 	NSLog(@"helloworld1");
 }
 
+- (instancetype)init{
+    if (self = [super init]) {
+        NSLog(@"i am %@",[self class]);
+    }
+    return self;
+}
+
 
 ///动态添加一个方法，YES：让实例重新再次寻找方法
 + (BOOL)resolveInstanceMethod:(SEL)sel{

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		30B9C2862350A1DE008BDFB5 /* Student.m in Sources */ = {isa = PBXBuildFile; fileRef = 30B9C2852350A1DE008BDFB5 /* Student.m */; };
 		335E01C72345B3C300A565D6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 335E01C62345B3C300A565D6 /* AppDelegate.m */; };
 		335E01CA2345B3C300A565D6 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 335E01C92345B3C300A565D6 /* SceneDelegate.m */; };
 		335E01CD2345B3C300A565D6 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 335E01CC2345B3C300A565D6 /* ViewController.m */; };
@@ -19,6 +20,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		30B9C2842350A1DE008BDFB5 /* Student.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Student.h; sourceTree = "<group>"; };
+		30B9C2852350A1DE008BDFB5 /* Student.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Student.m; sourceTree = "<group>"; };
 		335E01C22345B3C300A565D6 /* RuntimeProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RuntimeProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		335E01C52345B3C300A565D6 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		335E01C62345B3C300A565D6 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -77,6 +80,8 @@
 				335E01DF2345C73A00A565D6 /* Person.m */,
 				335E01E12345CA0200A565D6 /* Man.h */,
 				335E01E22345CA0200A565D6 /* Man.m */,
+				30B9C2842350A1DE008BDFB5 /* Student.h */,
+				30B9C2852350A1DE008BDFB5 /* Student.m */,
 				335E01CE2345B3C300A565D6 /* Main.storyboard */,
 				335E01D12345B3C400A565D6 /* Assets.xcassets */,
 				335E01D32345B3C400A565D6 /* LaunchScreen.storyboard */,
@@ -160,6 +165,7 @@
 				335E01CD2345B3C300A565D6 /* ViewController.m in Sources */,
 				335E01C72345B3C300A565D6 /* AppDelegate.m in Sources */,
 				335E01E02345C73A00A565D6 /* Person.m in Sources */,
+				30B9C2862350A1DE008BDFB5 /* Student.m in Sources */,
 				335E01D82345B3C400A565D6 /* main.m in Sources */,
 				335E01CA2345B3C300A565D6 /* SceneDelegate.m in Sources */,
 			);

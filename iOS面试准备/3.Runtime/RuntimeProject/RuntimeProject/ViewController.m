@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import "Person.h"
+#import "Student.h"
 
 @interface ViewController ()
 
@@ -19,10 +20,12 @@
 	[super viewDidLoad];
 	// Do any additional setup after loading the view.
 	
-	Person *p = [[Person alloc] init];
-	
-	[p performSelector:@selector(helloworld)];
-	
+//    Person *p = [[Person alloc] init];
+//
+//    [p performSelector:@selector(helloworld)];
+
+    
+    Student *s = [[Student alloc] init];
 }
 
 
