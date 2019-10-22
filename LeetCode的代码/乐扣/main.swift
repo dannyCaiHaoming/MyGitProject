@@ -1191,6 +1191,61 @@ func searchInsert(_ nums: [Int], _ target: Int) -> Int {
 	return left
 }
 
+
+//MARK:61. 旋转链表
+///给定一个链表，旋转链表，将链表每个节点向右移动 k 个位置，其中 k 是非负数。
+func rotateRight(_ head: ListNode?, _ k: Int) -> ListNode? {
+    if k == 0 {
+        return head
+    }
+    if head == nil {
+        return nil
+    }
+    
+    var count = 0
+    var newHead = head
+    
+    while count < k && newHead != nil {
+        count += 1
+        newHead = newHead?.next
+    }
+    
+    if newHead == nil && k % count == 0 {
+        return head
+    }
+    
+    if count < k {
+        count = k % count
+    }
+    
+    var slow = head
+    newHead = head
+    for _ in 0..<count {
+        newHead = newHead?.next
+    }
+    while slow != nil && newHead != nil {
+        if newHead?.next == nil {
+            let temp = slow?.next
+            slow?.next = nil
+            slow = temp
+        }else{
+            slow = slow?.next
+        }
+        
+        newHead = newHead?.next
+
+    }
+    
+    let start = slow
+    
+    while slow?.next != nil {
+        slow = slow?.next
+    }
+    slow?.next = head
+    
+    return start
+}
+
 //MARK:81. 搜索旋转排序数组 II
 func search3(_ nums: [Int], _ target: Int) -> Bool {
 	//思路，先二分查找出旋转位置
@@ -2189,13 +2244,13 @@ func sortArrayByParityII(_ A: [Int]) -> [Int] {
 //print(b)
 //
 let l1 = ListNode.init(1)
-let l2 = ListNode.init(2)
-let l3 = ListNode.init(3)
+//let l2 = ListNode.init(2)
+//let l3 = ListNode.init(3)
 //let l4 = ListNode.init(4)
 //let l5 = ListNode.init(5)
 //
-l1.next = l2
-l2.next = l3
+//l1.next = l2
+//l2.next = l3
 //l3.next = l4
 //l4.next = l5
 //
@@ -2254,7 +2309,10 @@ l2.next = l3
 
 //let c = removeNthFromEnd(l1, 2)
 //print(c)
-let c = swapPairs(l1)
+//let c = swapPairs(l1)
+//print(c)
+let c = rotateRight(l1, 1)
+
 print(c)
 
 
