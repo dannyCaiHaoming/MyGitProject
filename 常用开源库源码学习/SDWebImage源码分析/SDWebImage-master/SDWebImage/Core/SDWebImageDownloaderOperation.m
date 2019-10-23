@@ -210,6 +210,7 @@ typedef NSMutableDictionary<NSString *, id> SDCallbacksDictionary;
         }
         [self.dataTask resume];
         for (SDWebImageDownloaderProgressBlock progressBlock in [self callbacksForKey:kProgressCallbackKey]) {
+            //就是这里会将所有下载的回调都执行
             progressBlock(0, NSURLResponseUnknownLength, self.request.URL);
         }
         __block typeof(self) strongSelf = self;
@@ -331,6 +332,7 @@ didReceiveResponse:(NSURLResponse *)response
     }
     
     if (valid) {
+        //就是这里会将所有下载的回调都执行
         for (SDWebImageDownloaderProgressBlock progressBlock in [self callbacksForKey:kProgressCallbackKey]) {
             progressBlock(0, expected, self.request.URL);
         }
@@ -387,7 +389,7 @@ didReceiveResponse:(NSURLResponse *)response
                 UIImage *image = SDImageLoaderDecodeProgressiveImageData(imageData, self.request.URL, finished, self, [[self class] imageOptionsFromDownloaderOptions:self.options], self.context);
                 if (image) {
                     // We do not keep the progressive decoding image even when `finished`=YES. Because they are for view rendering but not take full function from downloader options. And some coders implementation may not keep consistent between progressive decoding and normal decoding.
-                    
+                    //就是这里会将所有下载的回调都执行
                     [self callCompletionBlocksWithImage:image imageData:nil error:nil finished:NO];
                 }
             }
@@ -395,6 +397,7 @@ didReceiveResponse:(NSURLResponse *)response
     }
     
     for (SDWebImageDownloaderProgressBlock progressBlock in [self callbacksForKey:kProgressCallbackKey]) {
+        //就是这里会将所有下载的回调都执行
         progressBlock(self.receivedSize, self.expectedSize, self.request.URL);
     }
 }
@@ -466,6 +469,7 @@ didReceiveResponse:(NSURLResponse *)response
                             if (imageSize.width == 0 || imageSize.height == 0) {
                                 [self callCompletionBlocksWithError:[NSError errorWithDomain:SDWebImageErrorDomain code:SDWebImageErrorBadImageData userInfo:@{NSLocalizedDescriptionKey : @"Downloaded image has 0 pixels"}]];
                             } else {
+                                //就是这里会将所有下载的回调都执行
                                 [self callCompletionBlocksWithImage:image imageData:imageData error:nil finished:YES];
                             }
                             [self done];
