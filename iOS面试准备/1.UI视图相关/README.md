@@ -29,9 +29,11 @@
 
 
 #### 1.2.1 CALayer是怎样显示的
-- `CALayer`有一个`contents`属性，指向一块缓存区，称为`backing store`,可以存放位图（Bitmap）,通过赋值，可以在图层上显示你想要显示的图片。
+- `CALayer`有一个`contents`属性，~~指向一块缓存区，称为`backing store`~~,可以存放位图（Bitmap）,通过赋值，可以在图层上显示你想要显示的图片。
 - 你也可以自行绘图，然后经过处理之后最终也会变成类似`图片`
 - `CALayer`无论使用的图片还是自定义绘制，最终展示就类似**纹理**，而**纹理**本质上就是一张图片
+
+**PS:**`CALayer`的`content`，本质上是一个`Bitmap`位图信息，可以直接传递到GPU进行渲染。如果我们传入一个`CGImage`，即一个已经解码完成的数据，也就是`Bitmap`，是可以传到CPU进行渲染然后显示的。因此`content`不叫`Backing Store`,拜托`Backing Store`的概念查一下好吧，后备存储，效率比内存低，这里`Backing Store`是否在磁盘之上，我查不到什么。但是，只有在你使用`draw:inContext:`或者`drawLayer:inContext:`进行获取上下文进行绘制，在这之前，系统会使用`Backing Store`存储了你原来这个`layer`上的`content`！注意是相当于临时存放，因为你需要在原来的`layer`内容之上进行修改的呀大哥。因此你获取到的上下文，是从`Backing Store`中取出来的。有些文章说会通过`push`和`pop`方法在全局取出上下文进行操作，那么可以认为这个`Backing Store`是全局的一个图形上下文栈。等你对操作完的上下文修改后，就会重新赋值回`layer`的`content`属性，然后作为新的`Bitmap`传递到GPU进行渲染！！！
 
 #### 1.2.2 绘制方法
 - `CALayer`自带方法
@@ -57,6 +59,11 @@
 
 
 #### 1.2.4 异步绘制
+
+- 在`CALayer`中实现代理方法`displayLayer`
+- 在里面使用异步线程创建一个新的图形上下文(也就是最终会作为`Bitmap`传递回`CALayer`的`content`属性)
+- 然后在这个图形上下文中绘制内容
+- 在结束绘制之后，将绘制内容作为`Bitmap`赋值到`content`属性
 
 
 ### 1.3 事件传递&视图响应
