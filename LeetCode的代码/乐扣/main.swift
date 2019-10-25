@@ -1192,6 +1192,84 @@ func searchInsert(_ nums: [Int], _ target: Int) -> Int {
 }
 
 
+//59. 螺旋矩阵 II
+///给定一个正整数 n，生成一个包含 1 到 n2 所有元素，且元素按顺时针顺序螺旋排列的正方形矩阵。
+func generateMatrix(_ n: Int) -> [[Int]] {
+    var result:[[Int]] = []
+    for _ in 0..<n {
+        var row:[Int] = []
+        for _ in 0..<n {
+            row.append(0)
+        }
+        result.append(row)
+    }
+    
+    var count = 0
+    
+    var startRow = 0
+    var endRow = n-1
+    var startColumn = 0
+    var endColumn = n-1
+    
+    while true{
+        
+        if !(endRow >= startRow && endColumn >= startColumn){
+            break
+        }
+        
+        //列 左到右
+        for i in startColumn...endColumn {
+            count += 1
+            result[startRow][i] = count
+        }
+        
+        startRow += 1
+        
+        if !(endRow >= startRow && endColumn >= startColumn){
+            break
+        }
+        
+        
+        //行 上到下
+        for i in startRow...endRow {
+            count += 1
+            result[i][endColumn] = count
+        }
+        
+        
+        endColumn -= 1
+        
+        if !(endRow >= startRow && endColumn >= startColumn){
+            break
+        }
+        
+        //列 右到左
+        for i in (startColumn...endColumn).reversed() {
+            count += 1
+            result[endRow][i] = count
+        }
+        
+        endRow -= 1
+        
+        if !(endRow >= startRow && endColumn >= startColumn){
+            break
+        }
+        
+        //行 下到上
+        for i in (startRow...endRow).reversed(){
+            count += 1
+            result[i][startColumn] = count
+        }
+        
+        startColumn += 1
+    }
+    
+    
+    return result
+}
+
+
+
 //MARK:61. 旋转链表
 ///给定一个链表，旋转链表，将链表每个节点向右移动 k 个位置，其中 k 是非负数。
 func rotateRight(_ head: ListNode?, _ k: Int) -> ListNode? {
@@ -1245,6 +1323,54 @@ func rotateRight(_ head: ListNode?, _ k: Int) -> ListNode? {
     
     return start
 }
+
+
+//MARK:62. 不同路径
+/*一个机器人位于一个 m x n 网格的左上角 （起始点在下图中标记为“Start” ）。
+机器人每次只能向下或者向右移动一步。机器人试图达到网格的右下角（在下图中标记为“Finish”）。
+问总共有多少条不同的路径？
+*/
+func uniquePaths(_ m: Int, _ n: Int) -> Int {
+    
+    if m == 1 {
+        return 1
+    }
+    
+    if n == 1 {
+        return 1
+    }
+    
+    return uniquePaths(m-1, n) + uniquePaths(m, n-1)
+}
+
+func uniquePaths2(_ m: Int, _ n: Int) -> Int {
+    
+    var result:[[Int]] = []
+    for _ in 0..<m {
+        var row:[Int] = []
+        for _ in 0..<n {
+            row.append(0)
+        }
+        result.append(row)
+    }
+    
+    for i in 0..<m {
+        result[i][0] = 1
+    }
+    for j in 0..<n {
+        result[0][j] = 1
+    }
+    
+    for i in 1..<m {
+        for j in 1..<n {
+            result[i][j] = result[i-1][j] + result[i][j-1]
+        }
+    }
+    return result[m-1][n-1]
+    
+}
+
+
 
 //MARK:81. 搜索旋转排序数组 II
 func search3(_ nums: [Int], _ target: Int) -> Bool {
@@ -2311,8 +2437,11 @@ let l1 = ListNode.init(1)
 //print(c)
 //let c = swapPairs(l1)
 //print(c)
-let c = rotateRight(l1, 1)
+//let c = rotateRight(l1, 1)
 
+
+//let c = generateMatrix(3)
+let c = uniquePaths2(19, 13)
 print(c)
 
 
