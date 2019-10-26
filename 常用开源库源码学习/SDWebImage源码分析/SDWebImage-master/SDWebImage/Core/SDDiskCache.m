@@ -85,7 +85,7 @@
     NSString *cachePathForKey = [self cachePathForKey:key];
     // transform to NSUrl
     NSURL *fileURL = [NSURL fileURLWithPath:cachePathForKey];
-    
+        
     [data writeToURL:fileURL options:self.config.diskCacheWritingOptions error:nil];
     
     // disable iCloud backup
