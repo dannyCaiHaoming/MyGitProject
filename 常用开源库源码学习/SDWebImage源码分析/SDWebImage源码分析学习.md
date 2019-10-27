@@ -137,9 +137,18 @@
   ````
 
 - #### SDWebImageDownloader(图片缓存管理中心)
+  `SDWebImageDownload`类主要实现了`SDImageLoader`协议的接口方法，然后将整个根据图片`URL`去得图片的逻辑封装起来，只由`SDImageLoader`提供访问接口。<br>  
+    
+  下载的逻辑主要分几步：<br>  
+  1.下载任务是使用`NSURLSession`进行的，使用了`SDWebImageDownloaderOperation`自定了一个`NSOperation`来管理每一个下载任务  
+  2.下载任务的队列使用`NSOperationQueue`管理，由系统管理并发处理  
+  3.队列的优先级顺序是通过`NSOperation`添加依赖的特性实现的  
+    
+  **PS:**<br>  
+  1.同一时间多个相同的`URL`任务不会创建多个下载任务，这里下载任务的唯一`URL`是对应唯一的`NSURLSession`，也是对应唯一的`SDWebImageDownloadOperation`下载任务，在`SDWebImageDownloader`使用字典管理着。那么这些不同任务之间的回调是如何管理的呢？在`SDWebImageDownloadOperation`里面还有一个字典管理这些回调。同于同一个`URL`任务，多次创建只会去增加`SDWebImageDownloadOperation`里面维护的回调字典。然后每次会封装一个用于关联每一个下载任务的`SDWebImageDownloadToken`.
 
 - #### \<SDImageTransformer\>图片转换协议
-  	提供图片在加载完之后的转换和存储转换好的图片到缓存中。
+  提供图片在下载完依照需求进行转换，然后再存储到本地。例如缩放，裁剪，滤镜等，不需要等到解码之后准备加载的时候再去进行转换，而是在本地存储一份转换好的数据。
 
 - SDWebImageCacheKeyFilter(图片缓存键值查找中心)
   	每一次`manager`需要缓存的`key`去使用图片缓存，`cachefilter`提供图片的`URL`转换成缓存的`kye`，
