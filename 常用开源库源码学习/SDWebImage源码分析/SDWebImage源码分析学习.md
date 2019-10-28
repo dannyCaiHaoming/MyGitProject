@@ -30,13 +30,75 @@
 
 `SDWebImageManager`是隐藏在UI层后面的。用于联系`异步下载器`(SDWebImageDownloader)和`图片缓存器(SDImageCache)`
 
-- #### \<SDImageLoader\>图片下载加载协议
-  提供当前`manager`去加载图片
-
-- #### SDWebImageDownloader(图片缓存管理中心)
-
 - #### \<SDImageCache\>图片缓存协议
+  `SDImageCache`的协议声明在`SDImageCacheDefine`里面。<br>  
     
+  主要声明了增删改查等几类方法：  
+    
+  ````  
+  /* ———————定义了提供给SDWebImageManager使用的接口———— */  
+    
+  ///主要提供给SDWebImageManager使用，在内存+磁盘中进行缓存查询  
+  - (nullable id<SDWebImageOperation>)queryImageForKey:(nullable NSString *)key  
+                                               options:(SDWebImageOptions)options  
+                                               context:(nullable SDWebImageContext *)context  
+                                            completion:(nullable SDImageCacheQueryCompletionBlock)completionBlock;  
+    
+  ///用于SDWebImageManger下载图片后，进行缓存操作  
+  - (void)storeImage:(nullable UIImage *)image  
+           imageData:(nullable NSData *)imageData  
+              forKey:(nullable NSString *)key  
+           cacheType:(SDImageCacheType)cacheType  
+          completion:(nullable SDWebImageNoParamsBlock)completionBlock;  
+    
+    
+  ///指定key和缓存类型进行缓存图片移除  
+  - (void)removeImageForKey:(nullable NSString *)key  
+                  cacheType:(SDImageCacheType)cacheType  
+                 completion:(nullable SDWebImageNoParamsBlock)completionBlock;  
+    
+  ///查找key和指定缓存是否存在图片韩村  
+  - (void)containsImageForKey:(nullable NSString *)key  
+                    cacheType:(SDImageCacheType)cacheType  
+                   completion:(nullable SDImageCacheContainsCompletionBlock)completionBlock;  
+    
+  ///清除指定类型的缓存  
+  - (void)clearWithCacheType:(SDImageCacheType)cacheType  
+                  completion:(nullable SDWebImageNoParamsBlock)completionBlock;  
+    
+    
+  ````  
+    
+    
+  `SDImageCache`对象，实现了`SDImageCache`的协议，提供了缓存的增删改查的接口。同时也整合了`SDMemoryCache`,`SDDiskCache`。  
+  借着持有`SDMemoryCache`和`SDDiskCache`的对象，将先内存查找，再到磁盘查找的流程封装起来。并且也能根据查找类型，对查找流程进行拆分。同理也对图片的保存进行流程的封装已经每一步拆分。
+
+	- SDImageCacheConfig
+
+	- SDMemoryCache
+	  `SDMemoryCache`声明了一个协议去定义管理缓存的方法。<br>  
+	  同时`SDMemoryCache`类是继承`NSCache`及遵循`SDMemoryCache`协议的。<br>  
+	    
+	  关于`SDMemoryCache`继承于`NSCache`有几个要点：  
+	  1.`NSCache`是类似`NSDictionary`也是一个哈希表啊的结构  
+	  2.`NSCache`多了个线程安全的特性，这样就不用自己管理锁  
+	  3.`NSCache`会在系统内存低的时候会驱逐一些缓存内的对象  
+	  4.`NSCache`的key不要实现`NSCopying`的方式
+
+	- SDDiskCache
+	  `SDDiskCache`定义了管理磁盘缓存方法的协议。<br>  
+	    
+	  磁盘缓存管理主要分两部分，一个是存储，一个缓存管理。<br>  
+	    
+	  存储:<br>  
+	  1.使用`NSFileManager`进行文件的存取  
+	  2.文件名由于容易重复，这里使用了`MD5`计算得到文件名  
+	    
+	  缓存管理:<br>  
+	  1.默认是对在磁盘上存在一周以上的内容进行清除(策略一：创建时间；策略二：最后修改时间)  
+	  2.如果磁盘上缓存空间大于设置空间的一半，就会按照创建时间，开始循环删除，直到空间大小满足要求。（默认是0）
+
+- #### \<SDImageLoader\>图片下载加载协议
   ````  
     
   定义了C语言的图片解码接口  
@@ -74,8 +136,19 @@
     
   ````
 
+- #### SDWebImageDownloader(图片缓存管理中心)
+  `SDWebImageDownload`类主要实现了`SDImageLoader`协议的接口方法，然后将整个根据图片`URL`去得图片的逻辑封装起来，只由`SDImageLoader`提供访问接口。<br>  
+    
+  下载的逻辑主要分几步：<br>  
+  1.下载任务是使用`NSURLSession`进行的，使用了`SDWebImageDownloaderOperation`自定了一个`NSOperation`来管理每一个下载任务  
+  2.下载任务的队列使用`NSOperationQueue`管理，由系统管理并发处理  
+  3.队列的优先级顺序是通过`NSOperation`添加依赖的特性实现的  
+    
+  **PS:**<br>  
+  1.同一时间多个相同的`URL`任务不会创建多个下载任务，这里下载任务的唯一`URL`是对应唯一的`NSURLSession`，也是对应唯一的`SDWebImageDownloadOperation`下载任务，在`SDWebImageDownloader`使用字典管理着。那么这些不同任务之间的回调是如何管理的呢？在`SDWebImageDownloadOperation`里面还有一个字典管理这些回调。同于同一个`URL`任务，多次创建只会去增加`SDWebImageDownloadOperation`里面维护的回调字典。然后每次会封装一个用于关联每一个下载任务的`SDWebImageDownloadToken`.
+
 - #### \<SDImageTransformer\>图片转换协议
-  	提供图片在加载完之后的转换和存储转换好的图片到缓存中。
+  提供图片在下载完依照需求进行转换，然后再存储到本地。例如缩放，裁剪，滤镜等，不需要等到解码之后准备加载的时候再去进行转换，而是在本地存储一份转换好的数据。
 
 - SDWebImageCacheKeyFilter(图片缓存键值查找中心)
   	每一次`manager`需要缓存的`key`去使用图片缓存，`cachefilter`提供图片的`URL`转换成缓存的`kye`，
