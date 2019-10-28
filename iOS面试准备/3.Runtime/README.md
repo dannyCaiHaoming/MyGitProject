@@ -208,7 +208,26 @@ OC运行时通过调用`- (id)forwardingTargetForSelector:(SEL)aSelector`,允许
 - 动态运行时语言将函数决议推迟到运行时
 - 编译时语言在编译期进行函数决议
 
+### 3.9 load和initialize
 
-#### 3.9 面试题
+#### 3.9.1 load
+
+````
+Invoked whenever a class or category is added to the Objective-C runtime; implement this method to perform class-specific behavior upon loading.
+````
+
+苹果注释的内容，解释了`load`方法加载的时机，就是在每个类或者分类即将被使用的时候就会调用。<br>
+**PS:**这里还有个特殊就是每个类的`load`方法只会在加载的时候调用一次，除非分类也实现了`load`方法，然后会多调用一次，并且会覆盖原来`load`方法。子类复写`load`方法并不会覆盖父类方法，因为`load`方法的调用不会通过`objc_msgSend`到类中逐级查找，而是通过`SEL`地址直接找到方法实现。
+
+#### 3.9.2 initialize
+
+````
+Initializes the class before it receives its first message.
+````
+
+同样苹果的注释，解释了`initialize`调用的时机是第一次类接收到消息的时候。因此`initialize`方法可能永远不会被调用。并且`initialize`方法调用的顺序和普通方法一样，因此会被子类或者分类覆盖。
+
+
+#### 3.10 面试题
 
 - 能否像编译后的类中增加实例变量
