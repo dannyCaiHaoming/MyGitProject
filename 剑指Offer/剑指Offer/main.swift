@@ -536,6 +536,29 @@ func InsertSort(list:inout [Int]){
     print(list)
 }
 
+func InsertSort1(list:inout [Int]){
+    if list.count == 1 {
+        return
+    }
+
+    var temp = 0
+    
+    for i in 1..<list.count {
+        if list[i] < list[i-1] {
+            temp = list[i]
+            list[i] = list[i-1]
+            
+            var j = i-1
+            while j >= 0 && list[j] > temp {
+                list[j+1] = list[j]
+                j -= 1
+            }
+            list[j+1] = temp
+        }
+    }
+    print(list)
+}
+
 
 ///希尔排序
 func ShellSort(list:inout [Int]){
@@ -568,6 +591,27 @@ func ShellSort(list:inout [Int]){
     }
     print(list)
     
+}
+
+func ShellSort1(list: inout [Int])  {
+    var length = list.count / 2
+    while length >= 1 {
+        
+        for var i in 0..<list.count {
+            for var j in i..<list.count {
+                if list[j] < list[i] {
+                    let temp = list[i]
+                    list[i] = list[j]
+                    list[j] = temp
+                }
+                j += length
+            }
+            i += length
+        }
+        
+        length /= 2
+    }
+    print(list)
 }
 
 
@@ -2509,20 +2553,20 @@ func combinationSum(_ candidates: [Int],_ useArray:inout Stack<Int>,_ target: In
 //let c:[Int] = []
 //var d = Array("We are happy.")
 
-var l1: ListNode<Int>? = ListNode(value: 1, next: nil)
-let l2 = ListNode(value: 1, next: nil)
-let l3 = ListNode(value: 1, next: nil)
-let l4 = ListNode(value: 2, next: nil)
-let l5 = ListNode(value: 3, next: nil)
-let l6 = ListNode(value: 11, next: nil)
-let l7 = ListNode(value: 13, next: nil)
-//
-l1!.pNext = l2
-l2.pNext = l3
-l3.pNext = l4
-l4.pNext = l5
-l5.pNext = l6
-l6.pNext = l7
+//var l1: ListNode<Int>? = ListNode(value: 1, next: nil)
+//let l2 = ListNode(value: 1, next: nil)
+//let l3 = ListNode(value: 1, next: nil)
+//let l4 = ListNode(value: 2, next: nil)
+//let l5 = ListNode(value: 3, next: nil)
+//let l6 = ListNode(value: 11, next: nil)
+//let l7 = ListNode(value: 13, next: nil)
+////
+//l1!.pNext = l2
+//l2.pNext = l3
+//l3.pNext = l4
+//l4.pNext = l5
+//l5.pNext = l6
+//l6.pNext = l7
 //
 //
 //var n1: ListNode<Int>? = ListNode(value: 2, next: nil)
@@ -2553,13 +2597,15 @@ l6.pNext = l7
 //
 //print(z)
 
-//var a:[Int] = [17,14,13,23,22,10,5,4,3,2,1,100]
+var a:[Int] = [9,8,7,6,5,4,3]//[17,14,13,23,22,10,5,4,3,2,1,100]
 ////BubbleSort(list: &a)
-////InsertSort(list: &a)
+//InsertSort(list: &a)
+//InsertSort1(list: &a)
 ////ShellSort(list: &a)
+//ShellSort1(list: &a)
 ////let z = MergeSort(list: a)
 ////print(z)
-//QuickSort(list: &a)
+QuickSort(list: &a)
 //HeapSort(list: &a)
 //print(a)
 //let z = Min(list: a, start: 0, end: 4)
@@ -2581,7 +2627,7 @@ l6.pNext = l7
 
 
 
-DeleteDuplication(pHead: &l1)
+//DeleteDuplication(pHead: &l1)
 //let z = Match(str: ["a","a","a"], pattern: ["a","b","*","a","c","*","a"])
 //print(z)
 
