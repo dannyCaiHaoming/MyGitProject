@@ -675,7 +675,7 @@ func QuickSort(list:inout [Int])  {
     }
     
     
-    let index = Partition(list: &list, start: 0, end: list.count - 1)
+    let index = Partition1(list: &list, start: 0, end: list.count - 1)
     
 	
 	var left = Array(list[0...index])
@@ -685,7 +685,7 @@ func QuickSort(list:inout [Int])  {
     
     list = left + right
     
-    print(list)
+//    print(list)
     
 }
 
@@ -707,9 +707,33 @@ func Partition(list:inout [Int],start:Int,end:Int) -> Int {
 	list.swapAt(index, end)
 	
     
-    
+    print(list)
     return index
     
+}
+
+
+func Partition1(list:inout [Int],start:Int,end:Int) -> Int {
+    //将基准数放到最后,调整的时候就不会影响到
+    //将小的往前面放，并记录下放的位置
+    var i = start
+    var j = end
+    let mark = list[i]
+    while i < j {
+        while i < j, list[j] >= mark {
+            //从后找出比基准值小的挪到前面
+            j -= 1
+        }
+        list[i] = list[j]
+        while i < j, list[i] <= mark {
+            //从前找出基准值比大的挪到后面
+            i += 1
+        }
+        list[j] = list[i]
+    }
+    list[i] = mark
+    print(list)
+    return i
 }
 
 
@@ -747,8 +771,41 @@ func AdjustHeap(list:inout [Int],index:Int,length:Int){
         list.swapAt(maxIndex, index)
         AdjustHeap(list: &list, index: maxIndex,length: length)
     }
+    print(list)
 }
 
+
+// 只能调整一个节点的根节和左右字数
+func HeapAdjust(list: inout [Int], s: Int, m: Int){
+    var temp = list[s];
+    var start = s
+    var index = 2*start+1;
+    var j = 2*start+1
+    while j <= m {
+        if j < m, list[j] < list[j+1] {
+            j += 1
+        }
+        if temp > list[j] {
+            break
+        }
+        list[start] = list[j]
+        start = j;
+
+        j = j * 2 + 1
+        index = start;
+    }
+    list[index] = temp;
+    print(list)
+}
+
+func HeapSort1(list: inout [Int], n: Int) {
+    for var i in (0...n/2-1).reversed() {
+        HeapAdjust(list: &list, s: i, m: n-1)
+        print(list)
+        i -= 1
+    }
+    print(list)
+}
 
 func HeapSort(list: inout [Int]) {
     BuildMaxHeap(list: &list)
@@ -2597,7 +2654,7 @@ func combinationSum(_ candidates: [Int],_ useArray:inout Stack<Int>,_ target: In
 //
 //print(z)
 
-var a:[Int] = [9,8,7,6,5,4,3]//[17,14,13,23,22,10,5,4,3,2,1,100]
+var a:[Int] = [2,4,5,8,9]//[17,14,13,23,22,10,5,4,3,2,1,100]
 ////BubbleSort(list: &a)
 //InsertSort(list: &a)
 //InsertSort1(list: &a)
@@ -2605,8 +2662,12 @@ var a:[Int] = [9,8,7,6,5,4,3]//[17,14,13,23,22,10,5,4,3,2,1,100]
 //ShellSort1(list: &a)
 ////let z = MergeSort(list: a)
 ////print(z)
-QuickSort(list: &a)
+//QuickSort(list: &a)
 //HeapSort(list: &a)
+HeapAdjust(list: &a, s: 0, m: 4)
+//HeapSort1(list: &a, n: 9)
+//AdjustHeap(list: &a, index: 0, length: 6)
+//BuildMaxHeap(list: &a)
 //print(a)
 //let z = Min(list: a, start: 0, end: 4)
 //print(z)
