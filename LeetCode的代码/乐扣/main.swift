@@ -2228,6 +2228,28 @@ class MyQueue {
 }
 
 
+//MARK: 343. 整数拆分
+func integerBreak(_ n: Int) -> Int {
+    if n <= 3 {
+        return n-1
+    }
+
+    var arr:[Int] = Array(repeating:0,count:n)
+    for i in 1...n {
+        var temp = 0
+        for j in 1..<i {
+            if j*(i-j) > arr[i-1-j] * j {
+                temp = max(temp, j*(i-j))
+            }else {
+                temp = max(temp,arr[i-1-j] * j)
+            }
+        }
+        arr[i-1] = temp
+    }
+    return arr[n-1]
+}
+
+
 //MARK:415. 字符串相加
 //func addStrings(_ num1: String, _ num2: String) -> String {
 //
@@ -2441,7 +2463,9 @@ let l1 = ListNode.init(1)
 
 
 //let c = generateMatrix(3)
-let c = uniquePaths2(19, 13)
-print(c)
+//let c = uniquePaths2(19, 13)
+//print(c)
 
 
+
+print(integerBreak(10))
