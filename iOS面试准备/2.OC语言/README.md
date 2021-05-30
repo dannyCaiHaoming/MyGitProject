@@ -18,7 +18,7 @@
 - 分类会`覆盖`原类的方法，也会`覆盖`比它**先编译**的分类的方法
 
 #### 2.1.3 分类的原理
-[参考：深入理解 Objective-C](https://devhe.com/2019/02/14/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3-Objective-C-%E2%98%9E-Category/)
+[参考：深入理解 Objective-C](/images/2/分类底层实现.png)
 
 分类实际上也是通过结构体实现---`Category_t`
 
@@ -32,7 +32,7 @@
 	- `protocol_list_t **protolist`
 - `attachLists`实现类的内容及所有分类内容的拼接（新数组大小=原来类的内容+所有分类内容），将原数组复制到新内容数组的最后一位，然后将倒序排序的分类数组内容按顺序在新数组的首位开始放置
 
-![类拼接分类方法示例](https://github.com/dannyCaiHaoming/MyGitProfject/blob/master/iOS%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/images/2/%E5%88%86%E7%B1%BB%E6%89%A9%E5%B1%95%E6%96%B0%E6%97%A7%E6%95%B0%E7%BB%84%E6%8B%BC%E6%8E%A5%E5%8E%9F%E7%90%86.png)
+![类拼接分类方法示例](/images/2/分类扩展新旧数组拼接原理.png)
 
 #### 2.1.4 使用关联对象为分类添加属性
 主要使用到两个方法：
@@ -44,7 +44,7 @@
 #### 2.1.5 关联对象的本质
 `AssocationsManger`维护了一个`spinlock_t`，保证关联对象修改属性的时候是线程安全。
 
-![关联对象底层实现](https://github.com/dannyCaiHaoming/MyGitProfject/blob/master/iOS%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/images/2/%E5%85%B3%E8%81%94%E5%AF%B9%E8%B1%A1%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0.webp)
+![关联对象底层实现](/images/2/分类底层实现.png)
 
 
 ### 2.2 扩展(Extension)----分类和扩展最好还是对比的来记
@@ -78,7 +78,7 @@
 
 #### 2.4.2 通知的实现原理
 
-![通知实现原理](https://github.com/dannyCaiHaoming/MyGitProfject/blob/master/iOS%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/images/2/%E9%80%9A%E7%9F%A5%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86.png)
+![通知实现原理](/images/2/通知实现原理.png)
 
 ### 2.5 KVO
 

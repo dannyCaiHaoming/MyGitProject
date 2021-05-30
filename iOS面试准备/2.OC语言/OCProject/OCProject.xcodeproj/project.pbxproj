@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		33110A9226635B87006014D7 /* NSObject_Category.m in Sources */ = {isa = PBXBuildFile; fileRef = 33110A9126635B87006014D7 /* NSObject_Category.m */; };
+		33110A9626635D93006014D7 /* MyObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 33110A9526635D93006014D7 /* MyObject.m */; };
 		334BAC41231E3BD60047717D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 334BAC40231E3BD60047717D /* AppDelegate.m */; };
 		334BAC44231E3BD60047717D /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 334BAC43231E3BD60047717D /* ViewController.m */; };
 		334BAC47231E3BD60047717D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 334BAC45231E3BD60047717D /* Main.storyboard */; };
@@ -17,6 +19,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		33110A9026635B87006014D7 /* NSObject_Category.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NSObject_Category.h; sourceTree = "<group>"; };
+		33110A9126635B87006014D7 /* NSObject_Category.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NSObject_Category.m; sourceTree = "<group>"; };
+		33110A9426635D79006014D7 /* MyObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyObject.h; sourceTree = "<group>"; };
+		33110A9526635D93006014D7 /* MyObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyObject.m; sourceTree = "<group>"; };
 		334BAC3C231E3BD60047717D /* OCProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OCProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		334BAC3F231E3BD60047717D /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		334BAC40231E3BD60047717D /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -42,6 +48,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		33110A9A26635E6B006014D7 /* 分类和扩展 */ = {
+			isa = PBXGroup;
+			children = (
+				33110A9026635B87006014D7 /* NSObject_Category.h */,
+				33110A9126635B87006014D7 /* NSObject_Category.m */,
+				33110A9426635D79006014D7 /* MyObject.h */,
+				33110A9526635D93006014D7 /* MyObject.m */,
+			);
+			path = "分类和扩展";
+			sourceTree = "<group>";
+		};
 		334BAC33231E3BD60047717D = {
 			isa = PBXGroup;
 			children = (
@@ -61,6 +78,7 @@
 		334BAC3E231E3BD60047717D /* OCProject */ = {
 			isa = PBXGroup;
 			children = (
+				33110A9A26635E6B006014D7 /* 分类和扩展 */,
 				334BAC3F231E3BD60047717D /* AppDelegate.h */,
 				334BAC40231E3BD60047717D /* AppDelegate.m */,
 				334BAC42231E3BD60047717D /* ViewController.h */,
@@ -149,7 +167,9 @@
 				334BAC57231E3CF50047717D /* People.m in Sources */,
 				334BAC44231E3BD60047717D /* ViewController.m in Sources */,
 				334BAC4F231E3BD80047717D /* main.m in Sources */,
+				33110A9626635D93006014D7 /* MyObject.m in Sources */,
 				334BAC41231E3BD60047717D /* AppDelegate.m in Sources */,
+				33110A9226635B87006014D7 /* NSObject_Category.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

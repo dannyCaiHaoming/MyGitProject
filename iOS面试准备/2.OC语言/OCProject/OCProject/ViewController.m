@@ -8,6 +8,8 @@
 
 #import "ViewController.h"
 #import "People.h"
+#import "NSObject_Category.h"
+#import "MyObject.h"
 
 
 @interface ViewController ()
@@ -39,7 +41,9 @@
 //
 //	NSLog(@"%@---",self.people);
 	
-	[self testCopy];
+//	[self testCopy];
+//    [self test_Category];
+    [self test_Extension];
 
 }
 
@@ -91,5 +95,17 @@
 //	}
 //}
 
+
+- (void)test_Category {
+    NSObject *t = [[NSObject alloc] init];
+    t.isTest = true;
+    NSLog(@"%d",t.isTest);
+}
+
+
+- (void)test_Extension {
+    MyObject *object = [[MyObject alloc] init];
+    [object doSomeThing];
+}
 
 @end
