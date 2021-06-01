@@ -8,8 +8,10 @@
 
 #import "ViewController.h"
 #import "People.h"
-#import "NSObject_Category.h"
+//#import "NSObject_Category.h"
 #import "MyObject.h"
+#import "MyObject+Category1.h"
+#import "MyObject+Category2.h"
 
 
 @interface ViewController ()
@@ -98,14 +100,15 @@
 
 - (void)test_Category {
     NSObject *t = [[NSObject alloc] init];
-    t.isTest = true;
-    NSLog(@"%d",t.isTest);
+//    t.isTest = true;
+//    NSLog(@"%d",t.isTest);
+
 }
 
 
 - (void)test_Extension {
     MyObject *object = [[MyObject alloc] init];
-    [object doSomeThing];
+//    [object doSomeThing];
 }
 
 @end
