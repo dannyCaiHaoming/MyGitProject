@@ -80,6 +80,24 @@
 
 ![通知实现原理](\../images/2/通知实现原理.png)
 
+##### 从怎么发送一个`NSNotification`说起。
+1. 如果我们使用`addObserver:selector:name:object:`方法注册
+2. 会根据`name`,生成一个哈希表，`key`是这个`name`,`value`是一个哈希表
+   1. 这个哈希表`key`是这个`object`,而`value`是一个链表结构相连的`notification`对象
+   2. `notification`对象存有`info`,`selector`,`observer`
+3. 如果没有传入`name`，那么就会在一个`nameless`的哈希表中查找`object`对应的`notification`，其实就是少了第一级根据`name`查找哈希表的过程
+4. 如果`name`,`object`都为空，那么就会在一个`wildcard`(通配符的意思)的链表中查找`notification`
+
+##### `NSNotification与多线程`
+1. 线程安全的，接受消息很发送消息是同一个线程。但是可能会出现消息返回的时候，`observer`对象已经销毁的情况。`[weak self]`能解决
+2. 通知的执行是`同步`的，即通知`post`方法需要等到`observer`处理完才能继续下文
+3. 线程`重定向`的思维扩展
+   1. 使用一个队列维护需要处理的`Notification`
+   2. 当消息回来的时候，判断当前的线程是否是目标线程
+   3. （需要锁的操作，保证线程安全）如果不是，则将这个消息放进队列里面，如果是则执行
+   4. 在`runloop`空闲的时候，（需要锁的操作，保证线程安全）从队列中取出消息执行
+
+
 ### 2.5 KVO
 
 #### 2.5.1 KVO使用
@@ -144,6 +162,10 @@
 - **`atonmic`**
 - `nonatonmic`
 
+##### `atonmic`的实现，及能否保证线程安全。
+
+
+
 #### 2.7.3 引用计数
 
 ##### 对象
@@ -199,7 +221,8 @@ Q: **NSMutable对象，经常使用strong关键字，为什么**
 **补充一些内容**
 
 - `atomic`的实现机制，为什么不能保证绝对线程安全
-
+- `isMemberOfClass`相关的一些方法
+- 
 
 -----
 -----
