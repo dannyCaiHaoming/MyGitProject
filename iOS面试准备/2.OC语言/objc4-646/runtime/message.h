@@ -66,6 +66,13 @@ OBJC_EXPORT void objc_msgSend(void /* id self, SEL op, ... */ )
 OBJC_EXPORT void objc_msgSendSuper(void /* struct objc_super *super, SEL op, ... */ )
     __OSX_AVAILABLE_STARTING(__MAC_10_0, __IPHONE_2_0);
 #else
+
+/**
+ 备注：
+ 向对象发送消息的使用使用`objc_msgSend`
+ 调用[super method]的时候，使用`objc_msgSendSuper`想父类传递消息或者从父类开始查找方法。
+ */
+
 /** 
  * Sends a message with a simple return value to an instance of a class.
  * 
@@ -84,6 +91,12 @@ OBJC_EXPORT void objc_msgSendSuper(void /* struct objc_super *super, SEL op, ...
  */
 OBJC_EXPORT id objc_msgSend(id self, SEL op, ...)
     __OSX_AVAILABLE_STARTING(__MAC_10_0, __IPHONE_2_0);
+
+/**
+ 备注：
+ 调用[super method]的时候，`super`会指向一个objc_super的结构，里面包含了消息将要发送到的类，和将要找方法的superclass
+ */
+
 /** 
  * Sends a message with a simple return value to the superclass of an instance of a class.
  * 
