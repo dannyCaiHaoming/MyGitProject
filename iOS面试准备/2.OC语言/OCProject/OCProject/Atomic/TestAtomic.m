@@ -10,6 +10,10 @@
 
 @interface TestAtomic ()
 
+{
+    NSString *instanceString;
+}
+
 @property (atomic, assign) BOOL isTest;
 
 @end

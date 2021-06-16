@@ -179,6 +179,7 @@
 
 - `weak`
 - `copy`
+- `unsafe_unretained`
 
 
 ##### C语言基础类型及一些基础数类型

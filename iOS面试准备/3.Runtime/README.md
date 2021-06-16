@@ -115,7 +115,7 @@ ps:`properties`,`protocols`,`methodList`是一维数组，在编译期间确认�
 ![对象类元类之间关系](\../images/3/对象类元类之间关系.png)
 
 
-
+ 
 ### 3.3 消息传递
 
 
