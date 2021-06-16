@@ -1734,6 +1734,13 @@ void arr_init(void)
     return self;
 }
 
+/**
+ 备注:
+ `object_getClass`是查找isa指针中的cls地址
+ 实例的class方法会返回isa指针中cls类地址
+ 类的class方法返回自身
+ */
+
 + (Class)class {
     return self;
 }
@@ -1750,6 +1757,10 @@ void arr_init(void)
     return [self class]->superclass;
 }
 
+/**
+ 备注:
+ object_getClass是查找类或者实例的isa指针
+ */
 + (BOOL)isMemberOfClass:(Class)cls {
     return object_getClass((id)self) == cls;
 }
@@ -1758,6 +1769,10 @@ void arr_init(void)
     return [self class] == cls;
 }
 
+/**
+ 备注:
+ isKindOfClass是遍历查找父类,无论是类方法还是实例方法，也是找父类
+ */
 + (BOOL)isKindOfClass:(Class)cls {
     for (Class tcls = object_getClass((id)self); tcls; tcls = tcls->superclass) {
         if (tcls == cls) return YES;

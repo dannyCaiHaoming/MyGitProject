@@ -686,6 +686,12 @@ public:
 
 struct objc_class : objc_object {
     // Class ISA;
+    /*
+     备注：
+     1.objc_class也是继承objc_object，所以类也能看做是一个对象
+     2.objc_object结构体里面包含一个isa_t结构体
+     3.objc_class中包含（1）父类的指针（2）方法缓存（3）类实例的方法链表
+     */
     Class superclass;
     cache_t cache;             // formerly cache pointer and vtable
     class_data_bits_t bits;    // class_rw_t * plus custom rr/alloc flags

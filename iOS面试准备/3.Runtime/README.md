@@ -44,7 +44,7 @@ OC中用`Class`来表示类对象，而`Class`实际上是`objc_class`,继承于
 - 是可增量扩展的哈希表结构
 - 是`局部性原理`的最佳应用（类比CPU中也是有缓存，将常用的内容缓存起来）
 
-![cache_t结构图](https://github.com/dannyCaiHaoming/MyGitProfject/blob/master/iOS%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/images/3/cache_t%E7%BB%93%E6%9E%84%E5%9B%BE.png)
+![cache_t结构图](\../images/3/cache_t结构图.png)
 `cache_t`的哈希表构造如何处理冲突：**开放地址法**
 
 
@@ -68,6 +68,7 @@ OC中用`Class`来表示类对象，而`Class`实际上是`objc_class`,继承于
 ps:`properties`,`protocols`,`methodList`在这里是二维数组，会在运行时将先最后编译的分类的内容添加到这个二维数组的前面，最后才将原来类中的`class_ro_t`的内容加上
 
 [具体在2.1.3的分类的原理中有说明](https://github.com/dannyCaiHaoming/MyGitProfject/tree/master/iOS%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/2.OC%E8%AF%AD%E8%A8%80#213-%E5%88%86%E7%B1%BB%E7%9A%84%E5%8E%9F%E7%90%86)
+
 
 
 
@@ -102,7 +103,7 @@ ps:`properties`,`protocols`,`methodList`是一维数组，在编译期间确认�
 
 #### 3.1.9 整体数据结构
 
-![Runtime整体数据结构](https://github.com/dannyCaiHaoming/MyGitProfject/blob/master/iOS%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/images/3/Rumtime%E6%95%B4%E4%BD%93%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%9B%BE.png)
+![Runtime整体数据结构](\../images/3/Rumtime整体数据结构图.png)
 
 
 
@@ -111,14 +112,14 @@ ps:`properties`,`protocols`,`methodList`是一维数组，在编译期间确认�
 - `类对象`存储实例方法列表等信息
 - `元类对象`存储类方法列表等信息
 
-![对象类元类之间关系](https://github.com/dannyCaiHaoming/MyGitProfject/blob/master/iOS%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/images/3/%E5%AF%B9%E8%B1%A1%E7%B1%BB%E5%85%83%E7%B1%BB%E4%B9%8B%E9%97%B4%E5%85%B3%E7%B3%BB.png)
+![对象类元类之间关系](\../images/3/对象类元类之间关系.png)
 
 
 
 ### 3.3 消息传递
 
 
-![消息传递流程](https://github.com/dannyCaiHaoming/MyGitProfject/blob/master/iOS%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/images/3/%E6%B6%88%E6%81%AF%E4%BC%A0%E9%80%92%E6%B5%81%E7%A8%8B.png)
+![消息传递流程](\../images/3/消息传递流程.png)
 
 ##### 3.3.1.1 `objc_msgSend `
 OC中的函数调用叫做`消息传递`，原因是
@@ -162,7 +163,7 @@ OC中的函数调用叫做`消息传递`，原因是
 
 [参考：深入浅出理解消息的传递和转发机制](https://www.cnblogs.com/zhanggui/p/7731394.html)
 
-![消息转发流程](https://github.com/dannyCaiHaoming/MyGitProfject/blob/master/iOS%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/images/3/%E6%B6%88%E6%81%AF%E8%BD%AC%E5%8F%91%E6%B5%81%E7%A8%8B.png)
+![消息转发流程](\../images/3/消息转发流程.pngg)
 
 #### 3.5.1 动态方法解析：Method Resolution
 OC运行时调用`+ (BOOL)resolveInstanceMethod:`或者 `+ (BOOL)resolveClassMethod:`，让你有机会提供一个函数实现
@@ -186,7 +187,7 @@ OC运行时通过调用`- (id)forwardingTargetForSelector:(SEL)aSelector`,允许
 ### 3.6 Method-Swizzling（方法混淆）
 实际上是修改选择器(`SEL`)对应的方法实现(`IMP`)
 
-![方法混淆](https://github.com/dannyCaiHaoming/MyGitProfject/blob/master/iOS%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/images/3/%E6%96%B9%E6%B3%95%E6%B7%B7%E6%B7%86.png)
+![方法混淆](h\../images/3/方法混淆.png)
 
 
 ### 3.7 动态添加方法
