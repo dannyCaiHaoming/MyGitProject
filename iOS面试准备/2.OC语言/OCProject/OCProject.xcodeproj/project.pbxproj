@@ -19,6 +19,7 @@
 		84A5438726662E7800627235 /* MyObject+Category1.m in Sources */ = {isa = PBXBuildFile; fileRef = 84A5438626662E7800627235 /* MyObject+Category1.m */; };
 		84A5438B26662E8200627235 /* MyObject+Category2.m in Sources */ = {isa = PBXBuildFile; fileRef = 84A5438A26662E8200627235 /* MyObject+Category2.m */; };
 		84A54390266645F200627235 /* SubObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 84A5438F266645F200627235 /* SubObject.m */; };
+		84A54481266877F100627235 /* TestAtomic.m in Sources */ = {isa = PBXBuildFile; fileRef = 84A54480266877F100627235 /* TestAtomic.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,8 @@
 		84A5438A26662E8200627235 /* MyObject+Category2.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "MyObject+Category2.m"; sourceTree = "<group>"; };
 		84A5438E266645F200627235 /* SubObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SubObject.h; sourceTree = "<group>"; };
 		84A5438F266645F200627235 /* SubObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SubObject.m; sourceTree = "<group>"; };
+		84A5447F266877F100627235 /* TestAtomic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestAtomic.h; sourceTree = "<group>"; };
+		84A54480266877F100627235 /* TestAtomic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestAtomic.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +96,8 @@
 		334BAC3E231E3BD60047717D /* OCProject */ = {
 			isa = PBXGroup;
 			children = (
+				84A5447E266877F100627235 /* Atomic */,
+				84A543962667366600627235 /* NSNotification */,
 				33110A9A26635E6B006014D7 /* 分类和扩展 */,
 				334BAC3F231E3BD60047717D /* AppDelegate.h */,
 				334BAC40231E3BD60047717D /* AppDelegate.m */,
@@ -107,6 +112,22 @@
 				334BAC4E231E3BD80047717D /* main.m */,
 			);
 			path = OCProject;
+			sourceTree = "<group>";
+		};
+		84A543962667366600627235 /* NSNotification */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = NSNotification;
+			sourceTree = "<group>";
+		};
+		84A5447E266877F100627235 /* Atomic */ = {
+			isa = PBXGroup;
+			children = (
+				84A5447F266877F100627235 /* TestAtomic.h */,
+				84A54480266877F100627235 /* TestAtomic.m */,
+			);
+			path = Atomic;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -179,6 +200,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84A54481266877F100627235 /* TestAtomic.m in Sources */,
 				84A54390266645F200627235 /* SubObject.m in Sources */,
 				84A5438726662E7800627235 /* MyObject+Category1.m in Sources */,
 				84A5438B26662E8200627235 /* MyObject+Category2.m in Sources */,
