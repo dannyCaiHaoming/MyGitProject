@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		30B9C2862350A1DE008BDFB5 /* Student.m in Sources */ = {isa = PBXBuildFile; fileRef = 30B9C2852350A1DE008BDFB5 /* Student.m */; };
+		30CA8AD6267F3167004D02BB /* StackHeap.m in Sources */ = {isa = PBXBuildFile; fileRef = 30CA8AD5267F3167004D02BB /* StackHeap.m */; };
 		335E01C72345B3C300A565D6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 335E01C62345B3C300A565D6 /* AppDelegate.m */; };
 		335E01CA2345B3C300A565D6 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 335E01C92345B3C300A565D6 /* SceneDelegate.m */; };
 		335E01CD2345B3C300A565D6 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 335E01CC2345B3C300A565D6 /* ViewController.m */; };
@@ -22,6 +23,8 @@
 /* Begin PBXFileReference section */
 		30B9C2842350A1DE008BDFB5 /* Student.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Student.h; sourceTree = "<group>"; };
 		30B9C2852350A1DE008BDFB5 /* Student.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Student.m; sourceTree = "<group>"; };
+		30CA8AD4267F3167004D02BB /* StackHeap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StackHeap.h; sourceTree = "<group>"; };
+		30CA8AD5267F3167004D02BB /* StackHeap.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StackHeap.m; sourceTree = "<group>"; };
 		335E01C22345B3C300A565D6 /* RuntimeProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RuntimeProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		335E01C52345B3C300A565D6 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		335E01C62345B3C300A565D6 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -51,6 +54,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		30CA8AD3267F315C004D02BB /* 堆栈 */ = {
+			isa = PBXGroup;
+			children = (
+				30CA8AD4267F3167004D02BB /* StackHeap.h */,
+				30CA8AD5267F3167004D02BB /* StackHeap.m */,
+			);
+			path = "堆栈";
+			sourceTree = "<group>";
+		};
 		335E01B92345B3C300A565D6 = {
 			isa = PBXGroup;
 			children = (
@@ -70,6 +82,7 @@
 		335E01C42345B3C300A565D6 /* RuntimeProject */ = {
 			isa = PBXGroup;
 			children = (
+				30CA8AD3267F315C004D02BB /* 堆栈 */,
 				335E01C52345B3C300A565D6 /* AppDelegate.h */,
 				335E01C62345B3C300A565D6 /* AppDelegate.m */,
 				335E01C82345B3C300A565D6 /* SceneDelegate.h */,
@@ -163,6 +176,7 @@
 			files = (
 				335E01E32345CA0200A565D6 /* Man.m in Sources */,
 				335E01CD2345B3C300A565D6 /* ViewController.m in Sources */,
+				30CA8AD6267F3167004D02BB /* StackHeap.m in Sources */,
 				335E01C72345B3C300A565D6 /* AppDelegate.m in Sources */,
 				335E01E02345C73A00A565D6 /* Person.m in Sources */,
 				30B9C2862350A1DE008BDFB5 /* Student.m in Sources */,

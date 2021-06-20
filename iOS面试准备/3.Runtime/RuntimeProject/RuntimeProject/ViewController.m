@@ -9,6 +9,7 @@
 #import "ViewController.h"
 #import "Person.h"
 #import "Student.h"
+#import "StackHeap.h"
 
 @interface ViewController ()
 
@@ -25,8 +26,13 @@
 //    [p performSelector:@selector(helloworld)];
 
     
-    Student *s = [[Student alloc] init];
+//    Student *s = [[Student alloc] init];
+    
+    [self stackHeap];
 }
 
 
+- (void)stackHeap {
+    [[StackHeap new] test];
+}
 @end

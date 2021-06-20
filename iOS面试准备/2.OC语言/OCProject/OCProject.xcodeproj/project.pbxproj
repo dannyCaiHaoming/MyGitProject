@@ -110,7 +110,6 @@
 			children = (
 				30C2866F267A528C00109642 /* 关键字 */,
 				84A5447E266877F100627235 /* Atomic */,
-				84A543962667366600627235 /* NSNotification */,
 				33110A9A26635E6B006014D7 /* 分类和扩展 */,
 				334BAC3F231E3BD60047717D /* AppDelegate.h */,
 				334BAC40231E3BD60047717D /* AppDelegate.m */,
@@ -125,13 +124,6 @@
 				334BAC4E231E3BD80047717D /* main.m */,
 			);
 			path = OCProject;
-			sourceTree = "<group>";
-		};
-		84A543962667366600627235 /* NSNotification */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = NSNotification;
 			sourceTree = "<group>";
 		};
 		84A5447E266877F100627235 /* Atomic */ = {
