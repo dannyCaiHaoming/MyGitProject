@@ -5,7 +5,7 @@
 
 [参考：程序内存布局](https://cloud.tencent.com/developer/article/1177538)
 
-![内存布局图示1](https://github.com/dannyCaiHaoming/MyGitProfject/blob/master/iOS%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/images/4/%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80%E5%9B%BE%E7%A4%BA.png)
+![内存布局图示1](\../images/4/内存布局图示.png)
 
 从低地址往高地址：
 
@@ -15,6 +15,21 @@
 - `堆`：用于程序执行中，分配和销毁空间，用于存放程序执行中的变量，是`不连续的内存区域`
 - `栈`：存储方法调用过程中的上下文，还有方法中的内部临时变量，程序在调用函数时，系统会自动调用压栈和弹栈完成保存函数现场的操作。栈是一块`连续的内存区域`
 
+
+#### 4.1.1 `NSString`内存中的位置
+
+```
+
+NSString *a = @"123";
+
+NSString *b = [@"123" stringByAppendingString @"456"];
+
+NSMutableString *c = [NSMutableString stringWithString:@"123"];
+
+```
+
+`NSString`是一个常量，我们经常初始化的时候`NSString *a = @"123";`如是。在编译过程中，`"123"`已经存储在常量区，只要我们的字符串内容不进行改变，这个内容的地址就是在初始化的数据段中的常量区。我们初始化的对象`a`如果是在对象中或者函数中使用，那么这个对象或说指针不过是在栈上创建的。而如果，当我们使用一个`NSS`
+
 ### 4.2 内存管理方法
 
 #### 4.2.1 `TaggedPointer`
@@ -23,8 +38,8 @@
 
 #### 4.2.2 ==NONPOINTER_ISA==
 
-![ISA指针数据结构1](https://github.com/dannyCaiHaoming/MyGitProfject/blob/master/iOS%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/images/4/ISA%E6%8C%87%E9%92%88%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%841.png)
-![ISA指针数据结构2](https://github.com/dannyCaiHaoming/MyGitProfject/blob/master/iOS%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/images/4/ISA%E6%8C%87%E9%92%88%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%842.png)
+![ISA指针数据结构1](\../images/4/ISA指针数据结构1.png)
+![ISA指针数据结构2](\../images/4/ISA指针数据结构2.png)
 
 - 在`arm64`架构下
 	- 第1位，表示是否是指针型的`isa`指针，如果是非指针型的`isa`
@@ -71,7 +86,7 @@
 
 - `size_t`,`unsign long`,实际是引用计数值
 
-![引用计数表数据结构](https://github.com/dannyCaiHaoming/MyGitProfject/blob/master/iOS%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/images/4/%E5%BC%B1%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0%E8%A1%A8%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.png)
+![引用计数表数据结构](\../images/4/弱引用计数表数据结构.png)
 
 
 #### 4.2.3.3 ==弱引用表==
@@ -140,7 +155,7 @@
 
 - `dealloc`
 
-![dealloc实现流程](https://github.com/dannyCaiHaoming/MyGitProfject/blob/master/iOS%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/images/4/dealloc%E5%AE%9E%E7%8E%B0%E6%B5%81%E7%A8%8B.png)
+![dealloc实现流程](\../images/4/dealloc实现流程.png)
 
 
 ### 4.5 弱引用管理
@@ -161,7 +176,7 @@
 
 #### 4.6.1 `AutoreleasePool`的实现原理是怎样？
 
-![AutoreleasePoolPage实现结构](https://github.com/dannyCaiHaoming/MyGitProfject/blob/master/iOS%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/images/4/AutoreleasePool%E5%AE%9E%E7%8E%B0%E7%BB%93%E6%9E%84.png)
+![AutoreleasePoolPage实现结构](\../images/4/AutoreleasePool实现结构.png)
 
 #### 4.6.2 `AutoreleasePool`为何可以嵌套使用？
 
@@ -193,7 +208,7 @@
 
 #### 4.7.3 NSTimer的循环引用问题
 
-![NSTimer循环引用问题图示](https://github.com/dannyCaiHaoming/MyGitProfject/blob/master/iOS%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/images/4/NSTimer%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8%E9%97%AE%E9%A2%98%E5%9B%BE%E7%A4%BA.png)
+![NSTimer循环引用问题图示](\../images/4/NSTimer循环引用问题图示.png)
 
 - 增加中间对象
 - 在timer回调中销毁timer
