@@ -7,6 +7,7 @@
 //
 
 #import "Keyword.h"
+#import <objc/runtime.h>
 
 @interface Keyword ()
 /*
@@ -19,17 +20,27 @@
 
 @property (nonatomic, strong) NSArray *array;
 
-@property (nonatomic, copy) NSString *cString;
+@property (nonatomic, unsafe_unretained) NSArray *unsafeArray;
+
+//@property (nonatomic, weak) NSArray *weakArray;
+
+//@property (nonatomic, copy) NSString *cString;
 
 @property (nonatomic, strong) NSString *sString;
 
-@property (nonatomic, weak) NSString *unsafeString;
+@property (nonatomic, unsafe_unretained) NSString *unsafeString;
 
-@property (nonatomic, unsafe_unretained) NSArray *unsafeArray;
 
-@property (nonatomic, weak) NSString *weakString;
+
+//@property (nonatomic, weak) NSString *weakString;
 
 @property (nonatomic, assign) int integer;
+
+@property (nonatomic, strong) NSObject *sObj;
+
+@property (nonatomic, unsafe_unretained) NSObject *unsafeObj;
+
+//@property (nonatomic, weak) NSObject *weakObj;
 
 
 @end
@@ -39,42 +50,45 @@
 
 - (void)keyword {
     
-    self.weakString = [[NSString alloc] initWithString:@"123"];
-
+    // 字符串
+    self.sString = @"123";
+    
+    self.unsafeString = self.sString;
+    
 //    self.weakString = self.sString;
-
-    self.unsafeString = self.weakString;
-
-    self.weakString = nil;
+    
+    self.sString = nil;
+    
+    // 数组
+    self.array = [NSArray arrayWithObject:@"123"];
+    
+    self.unsafeArray = self.array;
+    
+//    self.weakArray = self.array;
+    
+    self.array = nil;
+    
+    // NSObject
+    self.sObj = [[NSObject alloc] init];
+    
+    self.unsafeObj = self.sObj;
+    
+//    self.weakObj = self.sObj;
+    
+    self.sObj = nil;
     
     
-    __unsafe_unretained NSArray *a = [NSArray arrayWithObject:@"132"];
-    
-    NSLog(@"%@",a);
-    
-    self.unsafeArray = a;
-    
-//    NSLog(@"sString = %@,wString = %@,unsafeString = %@",self.sString,self.weakString,self.unsafeString);
-    
-//    self.array = [NSArray array];
-//
-//    self.unsafeArray = self.array;
-//
-//    self.array = nil;
-//
-//    [self.unsafeArray count];
-    
-
-    
-    
-    
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, NSEC_PER_MSEC * 0.5), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, NSEC_PER_SEC * 0.5), dispatch_get_main_queue(), ^{
         [self afterDo];
     });
 }
 
 - (void)afterDo {
-    [self.unsafeString boolValue];
+//    [self.unsafeString boolValue];
+    
+//    NSLog(@"unsafe--%p;weak--%@",self.unsafeString,self.weakString);
+//    NSLog(@"unsafe--%@;weak--%@",self.unsafeArray,self.weakArray);
+//    NSLog(@"unsafe--%@;weak--%@",self.unsafeObj,self.weakObj);
 }
 
 @end

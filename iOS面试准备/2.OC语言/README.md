@@ -181,6 +181,8 @@
 - `copy`
 - `unsafe_unretained`
 
+`weak`在引用对象
+
 
 ##### C语言基础类型及一些基础数类型
 

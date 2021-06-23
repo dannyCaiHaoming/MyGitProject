@@ -18,21 +18,32 @@
 
 @property (nonatomic, strong) People *people;
 
+
+@property (nonatomic, unsafe_unretained) NSObject *obj;
+
 @end
 
 @implementation ViewController
 
-- (People *)people{
-	if (_people == nil) {
-		_people = [[People alloc] init];
+//- (People *)people{
+//	if (_people == nil) {
+//		_people = [[People alloc] init];
+//
+//	}
+//	return _people;
+//}
 
-	}
-	return _people;
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+//    NSLog(@"%@",self.obj);
 }
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	// Do any additional setup after loading the view.
+    
+//    self.obj = [[NSObject alloc] init];
 	
 //	[self.people addObserver:self forKeyPath:@"money" options:NSKeyValueObservingOptionOld|NSKeyValueObservingOptionNew  context:nil];
 //
