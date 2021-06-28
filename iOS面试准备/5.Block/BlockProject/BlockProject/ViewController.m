@@ -28,11 +28,12 @@ typedef void(^TestBlock)(void);
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-//	Person *person = [[Person alloc] init];
+	Person *person = [[Person alloc] init];
 //
-//	person.initBlock;
+    [person initBlock];
 //	//
 //	person.testBlock();
+    [person executeBlock];
 //	object = [NSObject new];
 //
 //	__weak typeof(self) weakSelf = self;
@@ -54,8 +55,8 @@ typedef void(^TestBlock)(void);
 //	self.block();
     
     
-    Test *test = [Test new];
-    [test print];
+//    Test *test = [Test new];
+//    [test print];
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{

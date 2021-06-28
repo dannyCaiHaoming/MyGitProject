@@ -1986,7 +1986,12 @@ void arr_init(void)
     return [self description];
 }
 
-
+/*
+ 备注：
+ 可以看到new和[[xx alloc] init]实际调用是相等的。
+ alloc方法实际调用_objc_rootAlloc -> callAlloc
+ 差别是最后allocWithZone的参数，new是false
+ */
 + (id)new {
     return [callAlloc(self, false/*checkNil*/) init];
 }
@@ -2081,7 +2086,26 @@ void arr_init(void)
 + (void)dealloc {
 }
 
-
+/*
+ 备注：
+ dealloc实际调用
+ 1.objc_rootDealloc方法
+ 2.调用obj的rootDealloc方法
+ 3.调用object_dispose方法
+ 4.调用objc_destructInstance方法，然后free这块内存
+ 5.获取这个id指针的isa指向的对象
+    1.判断是否有cxx构造器内容，调用object_cxxDestruct销毁
+    2.判断是否有关联对象，调用object_remove_associations销毁关联对象
+ 6.调用objc_clear_deallocating方法
+ 7.判断是否为taggedPointer，然后调用objc的clearDeallocating方法
+ 8.调用sidetable_clearDeallocating，清除弱引用表记录
+ 9.根据当前对象指针从全局弱引用表找出`SideTable`
+ 10.根据当前对象指针地址在`SideTable`中查找得到`weak_entry_t`弱引用表结构
+ 11.查找weak_entry_t，根据对象指针地址，查找所有弱引用指针
+ 12.将所有指向当前对象地址的弱引用指针都置位nil
+ 13.结束
+ 
+ */
 // Replaced by NSZombies
 - (void)dealloc {
     _objc_rootDealloc(self);

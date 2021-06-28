@@ -2908,7 +2908,21 @@ void _read_images(header_info **hList, uint32_t hCount)
             resolvedFutureClasses[i]->setRequiresRawIsa(false/*inherited*/);
         }
         _free_internal(resolvedFutureClasses);
-    }    
+    }
+    
+    /*
+     备注：
+     1.Category是通过map_images附加到类上面的
+     2.map_images是调用_read_images的方法
+     3.然后主要是下面这块
+     4.根据clang编译的代码获取到cat_list，Category列表
+     5.调用addUnattachedCategoryForClass进行映射
+     6.调用remethodizeClass进行处理添加
+     7.对于属性和方法，都是后编译的会在最终内容数组前面，协议的话就是顺序添加
+     8.对于方法，或先将所有Category的实例方法拼成一个大的实例方法列表，然后交给attachMethodLists
+     9.即是在所有Category的实例方法后面加上原来类的实例方法。
+     
+     */
 
     // Discover categories. 
     for (EACH_HEADER) {

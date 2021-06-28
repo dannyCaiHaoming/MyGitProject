@@ -24,12 +24,23 @@
 - (void)initBlock {
 	
 	
-	NSLog(@"%p",self);
-	NSLog(@"before - %lu",self.retainCount);
-	
-//	__block Person *blockSelf = self;
-	
-	NSLog(@"outside = %p,%@",&self,self);
+//	NSLog(@"%p",self);
+//	NSLog(@"before - %lu",self.retainCount);
+//
+////	__block Person *blockSelf = self;
+//
+//	NSLog(@"outside = %p,%@",&self,self);
+    
+//    self.testBlock = ^{
+//
+//        //        [self.testBlock release];
+//
+//        //        blockSelf = nil;
+//        NSLog(@"inside = %p,%@",&self,self);
+//
+//
+//    } ;
+    __block int age;
 	
 	self.testBlock = [^{
 		
@@ -37,24 +48,26 @@
 		
 		//		blockSelf = nil;
 		NSLog(@"inside = %p,%@",&self,self);
+        
+        NSLog(@"%d",age);
 		
 		
 	} copy];
 	
-	NSLog(@"%@",[self.testBlock class]);
-	
-	NSLog(@"after - %lu",(unsigned long)self.retainCount);
-	
-	
-	NSLog(@"before - %lu",self.retainCount);
-	self.obj1 = [[NSObject alloc] init];
-	
-	
-	self.testBlock();
-	
-	
-	
-	NSLog(@"after - %lu",(unsigned long)self.retainCount);
+//	NSLog(@"%@",[self.testBlock class]);
+//
+//	NSLog(@"after - %lu",(unsigned long)self.retainCount);
+//
+//
+//	NSLog(@"before - %lu",self.retainCount);
+//	self.obj1 = [[NSObject alloc] init];
+//
+//
+//	self.testBlock();
+//
+//
+//
+//	NSLog(@"after - %lu",(unsigned long)self.retainCount);
 	
 	
 }
