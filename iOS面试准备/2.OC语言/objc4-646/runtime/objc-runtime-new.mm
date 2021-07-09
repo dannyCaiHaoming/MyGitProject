@@ -699,6 +699,7 @@ attachMethodLists(Class cls, method_list_t **addedLists, int addedCount,
      备注：
      1.先给新来的方法数组添加到数组前面
      2.后面再把原来的方法数组内容添加到后面
+     3.注意是二位数组，指针的指针
      */
 
     // Copy old methods to the method list array
@@ -985,6 +986,10 @@ static void remethodizeClass(Class cls)
             _free_internal(cls->data()->protocols);
         }
         cls->data()->protocols = newprotos;
+        /*
+         备注：
+         1.将属性，方法，协议列表重新构建好后，加入到类的class_rw_t结构中
+         */
         
         _free_internal(cats);
     }

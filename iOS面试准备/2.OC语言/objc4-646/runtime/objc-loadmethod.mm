@@ -174,6 +174,10 @@ void remove_category_from_loadable_list(Category cat)
 }
 
 
+/*
+ 备注：
+ 1.经典调用+load()方法
+ */
 /***********************************************************************
 * call_class_loads
 * Call all pending class +load methods.
