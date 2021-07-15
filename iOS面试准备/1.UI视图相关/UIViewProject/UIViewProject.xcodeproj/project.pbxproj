@@ -13,6 +13,7 @@
 		300780A9231811EB00A04AB4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 300780A8231811EB00A04AB4 /* Assets.xcassets */; };
 		300780AC231811EB00A04AB4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 300780AA231811EB00A04AB4 /* LaunchScreen.storyboard */; };
 		300780B42318120900A04AB4 /* MyCALayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 300780B32318120900A04AB4 /* MyCALayer.swift */; };
+		8420A74D269832ED0075CA55 /* MyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8420A74C269832ED0075CA55 /* MyViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		300780AB231811EB00A04AB4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		300780AD231811EB00A04AB4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		300780B32318120900A04AB4 /* MyCALayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCALayer.swift; sourceTree = "<group>"; };
+		8420A74C269832ED0075CA55 /* MyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +60,7 @@
 			children = (
 				300780A1231811E900A04AB4 /* AppDelegate.swift */,
 				300780A3231811E900A04AB4 /* ViewController.swift */,
+				8420A74C269832ED0075CA55 /* MyViewController.swift */,
 				300780B32318120900A04AB4 /* MyCALayer.swift */,
 				300780A5231811E900A04AB4 /* Main.storyboard */,
 				300780A8231811EB00A04AB4 /* Assets.xcassets */,
@@ -140,6 +143,7 @@
 			files = (
 				300780A4231811E900A04AB4 /* ViewController.swift in Sources */,
 				300780B42318120900A04AB4 /* MyCALayer.swift in Sources */,
+				8420A74D269832ED0075CA55 /* MyViewController.swift in Sources */,
 				300780A2231811E900A04AB4 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
