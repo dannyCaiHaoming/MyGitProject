@@ -11,7 +11,7 @@
 
 - `.text(代码段)`：存放的是成程序编译好的代码段
 - `.data(已初始化数据段)`：存放已经初始化的全局变量或者静态变量
-- `.bss(未初始化数据段)`：存放未初始化的全局变量或静态变量
+- `.bss(block storage segment)(未初始化数据段)`：存放未初始化的全局变量或静态变量
 - `堆`：用于程序执行中，分配和销毁空间，用于存放程序执行中的变量，是`不连续的内存区域`
 - `栈`：存储方法调用过程中的上下文，还有方法中的内部临时变量，程序在调用函数时，系统会自动调用压栈和弹栈完成保存函Z数现场的操作。栈是一块`连续的内存区域`
 
@@ -86,8 +86,10 @@ NSMutableString *c = [NSMutableString stringWithString:@"123"];
 - 使用`对象地址`进行`哈希算法`得到`key`，在`引用计数表`中查询得出`size_t`，进行获取和插入
 
 - `size_t`,`unsign long`,实际是引用计数值
+- 在全局SideTable中获取RefcountMap另一个散列表。
+- 然后从RefcountMap中根据对象的地址，获取size_t引用计数
 
-![引用计数表数据结构](\../images/4/弱引用计数表数据结构.png)
+
 
 
 #### 4.2.3.3 ==弱引用表==
@@ -96,6 +98,7 @@ NSMutableString *c = [NSMutableString stringWithString:@"123"];
 
 - `weak_entry_t`实际是一个数组，存储着指向该对象的`弱引用指针`
 
+![引用计数表数据结构](\../images/4/弱引用计数表数据结构.png)
 
 ### 4.3 MRC & ARC
 
@@ -181,6 +184,22 @@ NSMutableString *c = [NSMutableString stringWithString:@"123"];
 
 #### 4.6.2 `AutoreleasePool`为何可以嵌套使用？
 
+- autoreleasepool本来是一个双向链表，在调用@autoreleasepool嵌套的时候，其实在push，pop之间写逻辑代码
+- push的时候会生成一个autoreleasepool，且将哨兵对象插入到当前页中，然后以下一个可插入地址作为返回。
+- 因此如果嵌套的时候，其实就是一层用一个哨兵管理，只要每层都pop到自己的哨兵对象处，就不会乱。
+
+- push到pool的时候
+  - 不满，直接添加
+  - 满了，从循环寻找child不满的添加
+  - 没有pool，直接创建，先加了个哨兵再添加
+
+- runloop和autoreleasepool的关系
+  - 旧版本的main函数，是@autoreleasepool包裹着UIApplication的代码，因此这一层需要等到程序退出才会释放
+  - 然后主线程的runloop维护了一个autoreleasepool，即在runloop即将进入和即将退出的时候，调用push和pop的方法
+  - 此外对于需要arc手动添加release，retain，autorelease的对象，会在runloop即将进入，即将休眠，即将唤醒，退出。
+    - 即将进去，push一个哨兵
+    - 即将休眠，将哨兵之前的pop出来release了，然后再push一个哨兵
+    - 退出将哨兵之前的pop出来release了
 
 - 在当次`runloop`将要结束的时候调用`AutoreleasePoolPage::pop()`
 - 多层嵌套就是多次插入`哨兵对象`
