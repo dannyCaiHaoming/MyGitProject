@@ -49,6 +49,10 @@ class MyView: UIView {
 //        super.display(layer)
     }
     
+    override func draw(_ layer: CALayer, in ctx: CGContext) {
+        
+    }
+    
     /// 绘制第4步
     override func draw(_ rect: CGRect) {
         super.draw(rect)
