@@ -42,6 +42,14 @@
 
 //@property (nonatomic, weak) NSObject *weakObj;
 
+@property (nonatomic, copy) NSArray *cArray;
+
+@property (nonatomic, strong) NSArray *sArray;
+
+@property (nonatomic, copy) NSMutableArray *cMArray;
+
+@property (nonatomic, strong) NSMutableArray *sMArray;
+
 
 @end
 
@@ -50,6 +58,38 @@
 
 - (void)keyword {
     
+    NSObject *test = [NSObject new];
+    
+    NSLog(@"test = %@",test);
+    
+    NSArray *iArray = @[test];
+    NSMutableArray *mArray = [NSMutableArray arrayWithObjects:test, nil];
+    
+    NSLog(@"iArray copy = %@, deepCopy = %@",[iArray copy],[iArray mutableCopy]);
+    
+    NSLog(@"mArray copy = %@, deepCopy = %@",[mArray copy],[mArray mutableCopy]);
+    
+    return;
+    
+    self.cArray = mArray;
+    
+    self.sArray = mArray;
+    
+    NSLog(@"copy = %@, strong = %@",self.cArray,self.sArray);
+    
+    [mArray addObject:@"adf"];
+    
+    NSLog(@"copy = %@, strong = %@",self.cArray,self.sArray);
+    
+    self.cMArray = mArray;
+    
+    self.sMArray = mArray;
+    
+    [self.cMArray addObject:@"a"];
+    
+    [self.sMArray addObject:@"a"];
+    
+    return;;
     // 字符串
     self.sString = @"123";
     

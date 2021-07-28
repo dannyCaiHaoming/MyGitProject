@@ -23,7 +23,6 @@ import UIKit
 //TODO: 2.CALayer原生的`display`和delegate的`display`顺序和关系如何？
 
 class MyCALayer: CALayer {
-	
     
     /// 绘制第1步
 	override func display() {
@@ -35,6 +34,21 @@ class MyCALayer: CALayer {
         super.draw(in: ctx)
 	}
 	
+    
+    func pauseAnimation() {
+        let pausedTime = self.convertTime(CACurrentMediaTime(), from: nil)
+        self.speed = 0
+        self.timeOffset = pausedTime
+    }
+    
+    func resumeAnimation() {
+        let pausedTime = self.timeOffset
+        self.speed = 1
+        self.timeOffset = 0
+        self.beginTime = 0
+        let timeSincePause = self.convertTime(CACurrentMediaTime(), from: nil)
+        self.beginTime = timeSincePause
+    }
 	
 
 }
@@ -58,5 +72,63 @@ class MyView: UIView {
         super.draw(rect)
     }
     
+    override func willMove(toSuperview newSuperview: UIView?) {
+        print("\(#function)")
+    }
+    
+    override func willMove(toWindow newWindow: UIWindow?) {
+        print("\(#function)")
+    }
+    
+    override func didMoveToSuperview() {
+        print("\(#function)")
+    }
+    
+    override func didMoveToWindow() {
+        print("\(#function)")
+    }
+    
+    override func addSubview(_ view: UIView) {
+        super.addSubview(view)
+    }
+    
+    override func didAddSubview(_ subview: UIView) {
+        print("\(#function)")
+    }
+    
+    override func willRemoveSubview(_ subview: UIView) {
+        print("\(#function)")
+    }
+    
+    override func layoutSubviews() {
+//        super.layoutSubviews()
+        print("\(#function)")
+    }
+    
+    override func setNeedsLayout() {
+        
+        print("\(#function)")
+    }
+    
+    override func layoutIfNeeded() {
+        print("\(#function)")
+    }
+    
+    
+    /*
+     setNeedsDisplay
+     
+     
+     
+     layoutIfNeeded
+     
+     
+     layoutSubviews
+     
+     
+     setNeedsLayout
+     
+     
+     */
 
 }

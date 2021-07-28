@@ -926,6 +926,11 @@ struct swift_class_t : objc_class {
 };
 
 
+/*
+ 备注：
+ 1.通过clang编译的源码，可以看到name，cls都是指向category扩展的类
+ */
+
 struct category_t {
     const char *name;
     classref_t cls;

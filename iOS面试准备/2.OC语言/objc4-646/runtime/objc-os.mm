@@ -867,6 +867,10 @@ unmap_image_nolock(const struct mach_header *mh)
 #if !__OBJC2__
 static __attribute__((constructor))
 #endif
+/*
+ 备注：
+ 1.runtime对象加载入口
+ */
 void _objc_init(void)
 {
     static bool initialized = false;
