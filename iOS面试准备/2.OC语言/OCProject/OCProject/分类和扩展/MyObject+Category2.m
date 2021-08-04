@@ -15,7 +15,7 @@
 }
 
 + (void)initialize {
-    NSLog(@"MyObject+Category1 initialize");
+    NSLog(@"MyObject+Category2 initialize");
 }
 
 - (void)printTest {

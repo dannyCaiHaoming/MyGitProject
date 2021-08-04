@@ -13,6 +13,7 @@
 #import "MyObject+Category1.h"
 #import "MyObject+Category2.h"
 #import "Keyword.h"
+#import "SubObject.h"
 
 @interface ViewController ()
 
@@ -59,9 +60,9 @@
 	
 //	[self testCopy];
 //    [self test_Category];
-//    [self test_Extension];
+    [self test_Extension];
 
-    [self testKeyword];
+//    [self testKeyword];
 }
 
 - (void)testCopy{
@@ -124,6 +125,9 @@
 - (void)test_Extension {
     MyObject *object = [[MyObject alloc] init];
 //    [object doSomeThing];
+    
+    SubObject *sub = [[SubObject alloc] init];
+    
 }
 
 - (void)testKeyword {
