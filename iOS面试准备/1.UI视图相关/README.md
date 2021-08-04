@@ -167,3 +167,50 @@
 - 复杂形状设置圆角等
 - 渐变
 
+
+
+### 1.6 Constraints，Layout，Display三者关系。
+
+####  `update`,`setNeeds`,`IfNeeded`
+
+##### 分别
+- updateConstraints,setNeedsUpdateConstraints,updateConstraintsIfNeeded
+- layoutSubView,setNeedsLayout,layoutIfNeed
+- draw(),setNeedsDisplay, ----------
+
+##### 区别：
+- `update`方法复写可以自己提供额外到操作，即当限制更新了，布局更新了，绘制有内容了，自己可以在这个时机后面做事情。例如布局更新了，你需要再之前基础上另外做新的限制，即可以。
+- `setNeeds`：即只是设置需要。不会立刻马上调！。不过这个更新不会立刻做，只是打上脏标记，等到runloop进行下一个绘制流程，才会调用实际`update`方法。
+- `ifNeeded`：不需要等待到下个，判断是否需要，如果需要马上调！
+
+  
+
+
+
+# 问题
+1. 什么是事件响应链  
+```
+首先由事件传递，找到屏幕中触控手势落点的最上层视图。然后从该视图开始，如果是vc的view，即把事件传递给vc，如果view有superview即一层层往上传，uiwindow会给uiapplication传递，UIApplication都不能响应的话，就会把这个事件忽略掉。
+```
+2. 什么是离屏渲染   为什么不能一次渲染出来？
+```
+离屏渲染的成因是，GPU中提供屏幕展示的frame buffer中，有一些渲染操作无法在一个缓冲区的情况下完成，需要另外使用辅助frame buffer才能完成。具体一个操作为什么不能一次完成？因为GPU渲染的时候，使用的是画家算法，即按照渲染队列，先来先渲染，后到会直接盖在上面。而当一些先到的渲染任务，需要依赖后面到来的任务的时候，就需要另外开辟frame buffer来处理，等处理完之后，再把这个内容提交回去。
+```
+3. UI的刷新原理
+```
+是CPU将视图创建，计算位置，解码等计算完，将需要绘制的内容提交给GPU，然后GPU进行渲染完提交到frame buffer，等待展示设备获取并展示的流程？
+还说刷当我们在view或者layersetNeedsDisplay之后，在runloop进入下一个渲染流程的时候，会先调起layer的display方法，如果layer有delegate且有实现delegate的display(layer)方法。然后会创建跟layer尺寸一样大小的辅助buffer和上下文传递给layer的draw(inctx)方法，如果layer有delegate且实现了delegate的draw(layer inctx)，然后下一步是UIView的draw(rect)方法。
+
+```
+4. UIView和CALayer
+```
+基于单一职责理念，将渲染和手势识别的功能区分开。CALayer有一个content属性，是负责渲染的内容，是最终让GPU渲染的内容。而UIView相当于一个容器，且由于是继承与UIResponder，他还有响应触控的功能。
+```
+5. layoutSubViews
+当当前视图的子视图布局完之后，就会调起这个方法。这个方法会在初始化的时候frame不为0的时候调起，且会在frame值发生变化，或者子视图数量变化，scrollView滑动的时候变化
+6. AutoLayout的原理与性能
+autolayout基于一个engine，我们需要声明横纵轴上的数量关系，等于列出一条条的等式，即可能是某个元素，距离左边右边分别是100，就有x+200=屏幕宽度，这个引擎就是帮我们算出每个视图最终实际上的位置即大小，然后最终还是回到是用frame去设置位置。在iOS12后，这个得到优化，二者性能能做到差不多。但是由于刚刚说的，是一个类似函数等于，因此如果层级多了，或者元素多的时候，这个等于计算可能就会花更多的时间。
+7. 图片的解码时机和优化
+8. 图片渲染优化
+9.  多个相同图片重复加载
+10. imageName

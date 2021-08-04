@@ -40,7 +40,9 @@ class ViewController: UIViewController {
 //            self.navigationController?.pushViewController(vc, animated: true)
 //        }
         
-        self.view.addSubview(MyView())
+//        self.view.addSubview(MyView())
+        
+        offScreen()
         
     }
 
@@ -98,6 +100,12 @@ class ViewController: UIViewController {
         print(v)
     }
     
+    
+    func offScreen() {
+        OffScreenView.a(self.view)
+        OffScreenView.b(self.view)
+        OffScreenView.c(self.view)
+    }
     
 
 }
