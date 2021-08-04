@@ -37,6 +37,9 @@
     [super viewDidAppear:animated];
     
 //    NSLog(@"%@",self.obj);
+    
+    __unsafe_unretained People *p = [People new];
+    [p log];
 }
 
 - (void)viewDidLoad {

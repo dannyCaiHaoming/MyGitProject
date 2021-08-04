@@ -32,6 +32,11 @@
 	return self;
 }
 
+
+- (void)log {
+    NSLog(@"log");
+}
+
 //MARK:First Step
 //- (void)setYear:(int)year{
 //	NSLog(@"setYear");
