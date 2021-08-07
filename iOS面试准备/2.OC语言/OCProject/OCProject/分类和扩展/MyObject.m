@@ -36,16 +36,38 @@
 
 
 @implementation MyObject
+/*
+ 属性 = _ivar + setter + getter
+ 1.声明属性会自动生成实例变量+setter+getter方法
+ 2.若然我们重写setter和getter方法，里面是不能使用_ivar
+    a.我们可以使用synthesize告诉编译器，指定实例变量为_title
+    b.或者按照声明实例变量或者叫成员变量的方式
+ */
 
+//@synthesize title = _title;
+
+- (NSString *)title {
+    return _title;
+}
+
+- (void)setTitle:(NSString *)title {
+    _title = [title copy];
+}
+
+//- (void)setTestOb:(NSString *)testOb{
+//    _testOb = testOb;
+//}
 
 - (void)printTest {
     NSLog(@"MyObject");
 }
 
-//- (void)doSomeThing {
-////    [MyObject ClassMethod];
-////    [self printTest];
-//}
+- (void)doSomeThing {
+//    [MyObject ClassMethod];
+//    [self printTest];
+//    _testOb = @"testOb";
+    self.testOb = @"testOb";
+}
 
 + (void)load {
     NSLog(@"MyObject load");

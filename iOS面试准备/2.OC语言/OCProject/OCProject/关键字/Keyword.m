@@ -9,6 +9,27 @@
 #import "Keyword.h"
 #import <objc/runtime.h>
 
+@interface CopyObject : NSObject<NSCopying,NSMutableCopying>
+
+
+@end
+
+
+@implementation CopyObject
+
+- (nonnull id)copyWithZone:(nullable NSZone *)zone {
+    CopyObject *copy = [[CopyObject allocWithZone:zone]init];
+    return copy;
+}
+
+- (id)mutableCopyWithZone:(NSZone *)zone {
+    CopyObject *copy = [[CopyObject allocWithZone:zone]init];
+    return copy;
+}
+
+
+@end
+
 @interface Keyword ()
 /*
  1.  nonatomic  atomic
@@ -50,6 +71,12 @@
 
 @property (nonatomic, strong) NSMutableArray *sMArray;
 
+/*
+ 1. copy修饰的永远是InMutabale对象，因此后面想调用mutable方法的时候会crash.
+    也正因为copy是InMutable，因此我们修饰不可变属性的时候，使用copy的时候有两点：
+    a. 进行的是值复制，即赋值的实例进行改变也不会影响我们持有的对象
+    b. 如果是strong的话，外面如果传入的是可变的，当前持有的实例也变成可变的，会改变原来声明的意思。
+ */
 
 @end
 
@@ -58,34 +85,41 @@
 
 - (void)keyword {
     
-    NSObject *test = [NSObject new];
+    CopyObject *test = [CopyObject new];
     
     NSLog(@"test = %@",test);
     
-    NSArray *iArray = @[test];
-    NSMutableArray *mArray = [NSMutableArray arrayWithObjects:test, nil];
+//    NSArray *iArray = @[test];
+    NSMutableArray <CopyObject*>*mArray = [NSMutableArray arrayWithObjects:test, nil];
     
-    NSLog(@"iArray copy = %@, deepCopy = %@",[iArray copy],[iArray mutableCopy]);
+//    NSLog(@"iArray copy = %@, deepCopy = %@",[iArray copy],[iArray mutableCopy]);
+//
+//    NSLog(@"mArray copy = %@, deepCopy = %@",[mArray copy],[mArray mutableCopy]);
+//
+//    return;
     
-    NSLog(@"mArray copy = %@, deepCopy = %@",[mArray copy],[mArray mutableCopy]);
+//    self.cArray = mArray;
+//    
+//    self.sArray = mArray;
+//    
+//    NSLog(@"copy = %@, strong = %@",self.cArray,self.sArray);
+//    
+//    [mArray addObject:@"adf"];
+//    
+//    NSLog(@"copy = %@, strong = %@",self.cArray,self.sArray);
     
-    return;
+//    NSLog(@"Mcopy = %@, Mstrong = %@",self.cMArray,self.sMArray);
     
-    self.cArray = mArray;
-    
-    self.sArray = mArray;
-    
-    NSLog(@"copy = %@, strong = %@",self.cArray,self.sArray);
-    
-    [mArray addObject:@"adf"];
-    
-    NSLog(@"copy = %@, strong = %@",self.cArray,self.sArray);
+    NSLog(@"====== = %@",mArray);
     
     self.cMArray = mArray;
     
-    self.sMArray = mArray;
+    self.sMArray = [mArray copy];
+//    self.sMArray = [[NSMutableArray alloc] initWithArray:mArray copyItems:YES];
     
-    [self.cMArray addObject:@"a"];
+    NSLog(@"Mcopy = %@, Mstrong = %@",self.cMArray,self.sMArray);
+    
+//    [self.cMArray addObject:@"a"];
     
     [self.sMArray addObject:@"a"];
     

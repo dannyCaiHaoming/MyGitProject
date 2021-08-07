@@ -211,22 +211,20 @@ OC运行时通过调用`- (id)forwardingTargetForSelector:(SEL)aSelector`,允许
 
 ### 3.9 load和initialize
 
-#### 3.9.1 load
++load():
+ 会在程序第一次加载到内存的时候，main函数执行前调用，且只会执行一次。与这个类是否使用到无关。
+ 
+ 1.load方法执行的顺序是`根类-父类-子类-分类`,且根据编译顺序
+ 2.该方法不会继承
+ 3.不需要调用[super load]
+ 4.分类的拼接会在load方法执行之前
 
-````
-Invoked whenever a class or category is added to the Objective-C runtime; implement this method to perform class-specific behavior upon loading.
-````
-
-苹果注释的内容，解释了`load`方法加载的时机，就是在每个类或者分类即将被使用的时候就会调用。<br>
-**PS:**这里还有个特殊就是每个类的`load`方法只会在加载的时候调用一次，除非分类也实现了`load`方法，然后会多调用一次，并且会覆盖原来`load`方法。子类复写`load`方法并不会覆盖父类方法，因为`load`方法的调用不会通过`objc_msgSend`到类中逐级查找，而是通过`SEL`地址直接找到方法实现。
-
-#### 3.9.2 initialize
-
-````
-Initializes the class before it receives its first message.
-````
-
-同样苹果的注释，解释了`initialize`调用的时机是第一次类接收到消息的时候。因此`initialize`方法可能永远不会被调用。并且`initialize`方法调用的顺序和普通方法一样，因此会被子类或者分类覆盖。
++initialize
+ 会在对象创建的时候调用一次，就是懒加载的机制。并且只会执行一次。
+ 1.initialize的执行顺序是`根类-父类-子类`，如果分类重写了，则会被覆盖
+ 2.该方法会被继承，如果子类没有实现，则会调用父类
+ 4.分类中如果重写了该方法，则会被覆盖。
+ 3.不需要调用[super initialize]
 
 
 #### 3.10 面试题
