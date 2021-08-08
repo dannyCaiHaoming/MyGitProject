@@ -14,6 +14,7 @@
 #import "MyObject+Category2.h"
 #import "Keyword.h"
 #import "SubObject.h"
+#import "KindAndMember.h"
 
 @interface ViewController ()
 
@@ -59,7 +60,9 @@
 //    [self test_Category];
 //    [self test_Extension];
 
-    [self testKeyword];
+//    [self testKeyword];
+    
+    [self kindAndMember];
 }
 
 - (void)testCopy{
@@ -134,6 +137,10 @@
 - (void)testKeyword {
     Keyword *k = [[Keyword alloc] init];
     [k keyword];
+}
+
+- (void)kindAndMember {
+    [[KindAndMember new] doSomeThings];
 }
 
 - (void)notification {
