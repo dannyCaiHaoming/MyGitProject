@@ -18,7 +18,7 @@ typedef void(^TestBlock)(void);
 }
 
 @property (nonatomic, copy) TestBlock block;
-
+@property (nonatomic, strong) Person *p;
 
 @end
 
@@ -28,12 +28,22 @@ typedef void(^TestBlock)(void);
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-	Person *person = [[Person alloc] init];
-//
-    [person initBlock];
-//	//
-//	person.testBlock();
-    [person executeBlock];
+//    self.p = [[Person alloc] init];
+//    self.p.hold = self;
+    
+//    [Person share].hold = self;
+//    [[Person share] setHoldBlock:^{
+//        NSLog(@"%@",self);
+//     }];
+    
+    [[Person share].dicts setValue:self forKey:@"self"];
+    
+//	Person *person = [[Person alloc] init];
+////
+//    [person initBlock];
+////	//
+////	person.testBlock();
+//    [person executeBlock];
 //	object = [NSObject new];
 //
 //	__weak typeof(self) weakSelf = self;
@@ -61,7 +71,8 @@ typedef void(^TestBlock)(void);
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
 	
-	object = nil;
+//	object = nil;
+    [self.navigationController popViewControllerAnimated:true];
 }
 
 - (void)dealloc{

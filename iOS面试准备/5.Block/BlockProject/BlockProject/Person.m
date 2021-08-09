@@ -19,8 +19,18 @@
 
 static int value = 3;
 static int value1 = 6;
-
+static Person *person;
 @implementation Person
+
++ (instancetype) share {
+    static dispatch_once_t once = 0;
+    dispatch_once(&once, ^{
+        if (person == nil) {
+            person = [[Person alloc] init];
+        }
+    });
+    return person;
+}
 
 - (void)initBlock {
 	
