@@ -1,0 +1,35 @@
+# Exclude the build directory
+build/*
+examples/FilterShowcase/build*
+examples/Linux-OpenGL/SimpleVideoFilter/.build
+examples/Linux-OpenGL/swift-install
+examples/Linux-OpenGL/.ipynb_checkpoints
+examples/Linux-OpenGL/test.png
+.build
+.swiftpm
+Package.resolved
+ 
+# Exclude temp nibs and swap files
+*~.nib
+*.swp
+ 
+# Exclude OS X folder attributes
+.DS_Store
+.svn
+ 
+# Exclude user-specific XCode 3 and 4 files
+*.mode1
+*.mode1v3
+*.mode2v3
+*.perspective
+*.perspectivev3
+*.pbxuser
+*.xcworkspace
+xcuserdata
+.vscode
+
+# Documentation
+documentation/*
+
+# Carthage
+Carthage/Build
