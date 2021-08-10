@@ -16,4 +16,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+
+@interface NSObject ()
+
+{
+    BOOL test;
+}
+
+@end
+
 NS_ASSUME_NONNULL_END
