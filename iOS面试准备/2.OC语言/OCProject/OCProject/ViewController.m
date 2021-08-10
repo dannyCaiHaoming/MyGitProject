@@ -131,7 +131,8 @@
 //    [object doSomeThing];
     [object addObserver:self forKeyPath:@"testOb" options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew context:nil];
     
-//    SubObject *sub = [[SubObject alloc] init];
+    SubObject *sub = [[SubObject alloc] init];
+//    sub.mytest
     
     [object doSomeThing];
     

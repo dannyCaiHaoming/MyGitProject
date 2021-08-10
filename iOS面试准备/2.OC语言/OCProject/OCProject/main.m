@@ -11,6 +11,7 @@
 
 int main(int argc, char * argv[]) {
 	@autoreleasepool {
+        NSLog(@"%lu",sizeof(uint));
 	    return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
 	}
 }

@@ -14,4 +14,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+
+/*
+ extension的成员变量声明是私有的，属性可以公开
+ */
+@interface SubObject ()
+{
+    BOOL test;
+    BOOL otherTest;
+}
+@property (readwrite,assign) BOOL mytest;
+@end
+
 NS_ASSUME_NONNULL_END
