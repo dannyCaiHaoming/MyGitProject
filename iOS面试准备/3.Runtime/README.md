@@ -14,6 +14,12 @@
 - `关联对象相关`
 - `内存管理相关`
 
+- 所有内容都是对象，对象皆是`ojbc_object`，而里面只有一个变量即`isa_t`指针。
+- `isa_t`指针，里面存储了一些关于当前对象的信息，可能会使用优化， 即在64位系统，8字节的`isa_t`指针里面，只有33位是存储这个对象实际的地址，剩余的用来存储一些信息，例如使用使用cxx析构器（destructor），引用计数，是否有关联对象，是否使用弱引用计数表，是否正在dealloc等。
+
+
+#### 3.1.1.1  指针优化--Tagged Pointer
+对于一些本身值可能不需要8字节来表示，例如NSNumber，NSDate。在引用64位系统之后，如果用一个64位的地址存储一个数字，并且引入一个指针指向这个数字的话，存储空间会浪费会浪费很多。如今这个指针里面直接存储这个值，不仅省了空间还提升了效率。
 
 
 #### 3.1.2 `objc_class`
@@ -133,7 +139,7 @@ OC中的函数调用叫做`消息传递`，原因是
 
 	[super class];
 	//等同于
-	objc_msgSendSuper(super,@selector(class));
+	objc_msgSendSuper(objc_super->receiver,@selector(class));
 	
 ##### 3.3.1.3`objc_super`结构体，实际上消息接收者还是调用者本身
 	
@@ -211,24 +217,32 @@ OC运行时通过调用`- (id)forwardingTargetForSelector:(SEL)aSelector`,允许
 
 ### 3.9 load和initialize
 
-#### 3.9.1 load
++load():
+ 会在程序第一次加载到内存的时候，main函数执行前调用，且只会执行一次。与这个类是否使用到无关。
+ 
+ 1.load方法执行的顺序是`根类-父类-子类-分类`,且根据编译顺序
+ 2.该方法不会继承
+ 3.不需要调用[super load]
+ 4.分类的拼接会在load方法执行之前
 
-````
-Invoked whenever a class or category is added to the Objective-C runtime; implement this method to perform class-specific behavior upon loading.
-````
-
-苹果注释的内容，解释了`load`方法加载的时机，就是在每个类或者分类即将被使用的时候就会调用。<br>
-**PS:**这里还有个特殊就是每个类的`load`方法只会在加载的时候调用一次，除非分类也实现了`load`方法，然后会多调用一次，并且会覆盖原来`load`方法。子类复写`load`方法并不会覆盖父类方法，因为`load`方法的调用不会通过`objc_msgSend`到类中逐级查找，而是通过`SEL`地址直接找到方法实现。
-
-#### 3.9.2 initialize
-
-````
-Initializes the class before it receives its first message.
-````
-
-同样苹果的注释，解释了`initialize`调用的时机是第一次类接收到消息的时候。因此`initialize`方法可能永远不会被调用。并且`initialize`方法调用的顺序和普通方法一样，因此会被子类或者分类覆盖。
++initialize
+ 会在对象创建的时候调用一次，就是懒加载的机制。并且只会执行一次。
+ 1.initialize的执行顺序是`根类-父类-子类`，如果分类重写了，则会被覆盖
+ 2.该方法会被继承，如果子类没有实现，则会调用父类
+ 4.分类中如果重写了该方法，则会被覆盖。
+ 3.不需要调用[super initialize]
 
 
 #### 3.10 面试题
 
 - 能否像编译后的类中增加实例变量
+
+1. [self class] & [super class]分别输出是什么？
+	[self clsss] 方法，类对用即返回自己，对象即返回isa指向的类
+2. isKindOfClass & isMemberOfClass
+	a.isKindOfClass第一步先找isa指向的是否相等，然后循环遍历superClass指针指向的内容来判断
+    - +()isKindOfClass,会先从类的元类开始，然后每次找元类的父类
+	- -()isKindOfClass，从对象的类开始，然后每次找父类 
+	b.isMemeberOfClass只会找一次isa指针指向的内容来判断
+	- +()isMemberOfClass,即拿类的isa指针跟后面的内容判断是否相等 
+	- -()isMemberOfClass,即拿对象的类来跟后面的内容判断是否相等

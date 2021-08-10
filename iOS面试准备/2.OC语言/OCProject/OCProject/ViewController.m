@@ -8,12 +8,13 @@
 
 #import "ViewController.h"
 #import "People.h"
-//#import "NSObject_Category.h"
+#import "NSObject_Category.h"
 #import "MyObject.h"
 #import "MyObject+Category1.h"
 #import "MyObject+Category2.h"
 #import "Keyword.h"
 #import "SubObject.h"
+#import "KindAndMember.h"
 
 @interface ViewController ()
 
@@ -60,9 +61,11 @@
 	
 //	[self testCopy];
 //    [self test_Category];
-    [self test_Extension];
+//    [self test_Extension];
 
 //    [self testKeyword];
+    
+    [self kindAndMember];
 }
 
 - (void)testCopy{
@@ -116,7 +119,7 @@
 
 - (void)test_Category {
     NSObject *t = [[NSObject alloc] init];
-//    t.isTest = true;
+    t.isTest = true;
 //    NSLog(@"%d",t.isTest);
 
 }
@@ -124,15 +127,37 @@
 
 - (void)test_Extension {
     MyObject *object = [[MyObject alloc] init];
+//    [object printTest_Ext];
 //    [object doSomeThing];
+    [object addObserver:self forKeyPath:@"testOb" options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew context:nil];
     
-    SubObject *sub = [[SubObject alloc] init];
+//    SubObject *sub = [[SubObject alloc] init];
+    
+    [object doSomeThing];
     
 }
 
 - (void)testKeyword {
     Keyword *k = [[Keyword alloc] init];
     [k keyword];
+}
+
+- (void)kindAndMember {
+    [[KindAndMember new] doSomeThings];
+}
+
+- (void)notification {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(testKeyword) name:UIApplicationWillTerminateNotification object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationWillTerminateNotification object:nil userInfo:nil];
+    
+//    [NSNotificationCenter defaultCenter] addObserverForName:<#(nullable NSNotificationName)#> object:<#(nullable id)#> queue:<#(nullable NSOperationQueue *)#> usingBlock:<#^(NSNotification * _Nonnull note)block#>
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if ([keyPath isEqualToString: @"testOb"]) {
+        NSLog(@"-------");
+    }
 }
 
 @end

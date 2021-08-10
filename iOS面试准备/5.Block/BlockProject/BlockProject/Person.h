@@ -16,10 +16,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (copy) TestBlock testBlock;
 
-
+@property (nonatomic, strong) id hold;
+@property (nonatomic, copy) void(^holdBlock)(void);
+@property (nonatomic, strong) NSMutableArray *objs;
+@property (nonatomic, strong) NSMutableDictionary *dicts;
 
 - (void)initBlock;
 - (void)executeBlock;
+
+
++ (instancetype) share;
 
 
 @end
