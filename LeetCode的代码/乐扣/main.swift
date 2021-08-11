@@ -91,49 +91,114 @@ extension String {
 
 
 //MARK: 1.两数之和
+/*
+ 给定一个整数数组 nums 和一个整数目标值 target，请你在该数组中找出 和为目标值 target  的那 两个 整数，并返回它们的数组下标。
+
+ 你可以假设每种输入只会对应一个答案。但是，数组中同一个元素在答案里不能重复出现。
+
+ 你可以按任意顺序返回答案。
+ 
+ 示例 1：
+ 输入：nums = [2,7,11,15], target = 9
+ 输出：[0,1]
+ 解释：因为 nums[0] + nums[1] == 9 ，返回 [0, 1] 。
+
+ */
+
+/*
+ 1.没审题好
+ */
 func twoSum(_ nums: [Int], _ target: Int) -> [Int] {
-	
-	
-	//        var result:[Int] = []
-	
-	
-	
-	//        for i in stride(from: 0, to:nums.count, by: 1) {
-	//            for j in stride(from: i+1, to: nums.count, by: 1){
-	//                if result.count > 0 {
-	//                    break
-	//                }
-	//                if nums[i] + nums[j] == target{
-	//                    result.append(i)
-	//                    result.append(j)
-	//                    break
-	//                }
-	//
-	//            }
-	//        }
-	
-	
-	var dic:[Int:Int] = [:]
-	
-	for i in 0...nums.count - 1 {
-		dic[nums[i]] = i
-	}
-	
-	for i in 0...nums.count{
-		let key = target - nums[i]
-		if let j = dic[key], i != j{
-			return[i,j]
-		}
-	}
-	
-	
-	return []
-	
+
+    var dict:[Int:Int] = [:]
+    
+    for index in 0...nums.count-1 {
+        let num = nums[index]
+        if dict[num] == nil {
+            dict[num] = index
+            if let i = dict[target-num],
+               i != index { //处理这种特例 3,2,4
+                return [i,index]
+            }
+        }else if let i = dict[num],
+                 num + num == target {  // 处理 3，3这种特例
+            return [i,index]
+        }
+    }
+    return []
 }
 
 
 //MARK: 2.两数相加
 func addTwoNumbers(_ l1: ListNode?, _ l2: ListNode?) -> ListNode? {
+
+    
+    var templ1 = l1
+    var templ2 = l2
+    
+    var carry: Int = 0
+    while templ1 != nil && templ2 != nil {
+        if let t1 = templ1?.val,
+           let t2 = templ2?.val {
+            let t = t1 + t2 + carry
+            templ1?.val = t >= 10 ? t-10 : t
+            carry = (t)/10
+        }
+        templ1 = templ1?.next
+        templ2 = templ2?.next
+    }
+    
+    var temp: ListNode? = l1
+    if templ2 != nil {
+        while true {
+            if temp?.next == nil {
+                break
+            }
+            temp = temp?.next
+        }
+        
+//        var temp = result
+        var temp2 = temp
+        
+        while temp2 != nil {
+            if let t2 = templ2?.val {
+                let t = t2 + carry
+                templ2?.val = t >= 10 ? t-10 : t
+                carry = (t)/10
+            }
+            temp?.next = temp2
+            temp2 = temp2?.next
+        }
+    }
+
+    
+//    if templ1 != nil {
+//        result = l1
+//    }else if templ2 != nil {
+//        result = l2
+//    }
+//    var next = templ1 ?? templ2
+    
+    
+    while next != nil {
+        if let n = next?.val {
+            let t = n + carry
+            next?.val = t >= 10 ? t-10 : t
+            carry = (t)/10
+        }
+        
+        if next?.next == nil && carry > 0 {
+            next?.next = .init(carry)
+            break
+        } else {
+            next = next?.next
+        }
+    }
+
+    
+    return result
+    
+    
 	var newNode:ListNode? = nil;
 	var tempNode:ListNode? = nil;
 	
