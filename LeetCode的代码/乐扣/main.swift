@@ -88,7 +88,7 @@ extension String {
 }
 
 
-
+// MARK: ------- 数组
 
 //MARK: 1.两数之和
 /*
@@ -129,176 +129,115 @@ func twoSum(_ nums: [Int], _ target: Int) -> [Int] {
 }
 
 
+//MARK: 560. 和为K的子数
+
+/*
+ 给定一个整数数组和一个整数 k，你需要找到该数组中和为 k 的连续的子数组的个数。
+ 
+ 输入:nums = [1,1,1], k = 2
+ 输出: 2 , [1,1] 与 [1,1] 为两种不同的情况。
+ */
+
+//MARK: 974. 和可被 K 整除的子数组
+
+/*
+ 给定一个整数数组 A，返回其中元素之和可被 K 整除的（连续、非空）子数组的数目。
+ 
+ 输入：A = [4,5,0,-2,-3,1], K = 5
+ 输出：7
+ 解释：
+ 有 7 个子数组满足其元素之和可被 K = 5 整除：
+ [4, 5, 0, -2, -3, 1], [5], [5, 0], [5, 0, -2, -3], [0], [0, -2, -3], [-2, -3]
+
+ */
+
+
+
+/*
+ 1. 这题没有特别好的想法 ----  看了答案后 ------ <前缀和>思想  ---- 看完前缀和之后再做，又发现自己审题漏了一个连续非空的条件又把自己劝退了。
+ 
+ 
+ */
+
+
+
+func subarraysDivByK(_ nums: [Int], _ k: Int) -> Int {
+    
+    var max = 0
+    var result: [Int] = Array.init(repeating: 0, count: nums.count+1)
+    var count = 0
+    for i in 0..<nums.count {
+        result[i] = 0
+        for j in i..<nums.count {
+            result[j+1] = nums[j] + result[j]
+            if result[j+1] % k == 0 {
+                count += 1
+            }
+        }
+    }
+
+    
+    
+    return count
+    
+    
+
+}
+
+
 //MARK: 2.两数相加
+
+/*
+ 给你两个 非空 的链表，表示两个非负的整数。它们每位数字都是按照 逆序 的方式存储的，并且每个节点只能存储 一位 数字。
+
+ 请你将两个数相加，并以相同形式返回一个表示和的链表。
+
+ 你可以假设除了数字 0 之外，这两个数都不会以 0 开头。
+
+ 输入：l1 = [2,4,3], l2 = [5,6,4]
+ 输出：[7,0,8]
+ 解释：342 + 465 = 807.
+ */
+
+/*
+ 1. 没想好就下手，很多情况没想到
+ 2. 链表的循环条件，  可以为next不为空，也可以是当下不为空
+ */
 func addTwoNumbers(_ l1: ListNode?, _ l2: ListNode?) -> ListNode? {
-
     
-    var templ1 = l1
-    var templ2 = l2
-    
-    var carry: Int = 0
-    while templ1 != nil && templ2 != nil {
-        if let t1 = templ1?.val,
-           let t2 = templ2?.val {
-            let t = t1 + t2 + carry
-            templ1?.val = t >= 10 ? t-10 : t
-            carry = (t)/10
-        }
-        templ1 = templ1?.next
-        templ2 = templ2?.next
-    }
-    
-    var temp: ListNode? = l1
-    if templ2 != nil {
-        while true {
-            if temp?.next == nil {
-                break
-            }
-            temp = temp?.next
-        }
+    // 这个方法还是要构建一个链表。。我自己也知道可以，但是我想用原来的链表直接拼接起来。当下刷题还是快为主吧，不然一小时只有一题
+    var r1 = l1
+    var r2 = l2
+    var head :ListNode?
+    var result :ListNode?
+    var carry = 0
+    while r1 != nil || r2 != nil {
         
-//        var temp = result
-        var temp2 = temp
+        let t1 = r1?.val ?? 0
+        let t2 = r2?.val ?? 0
+        let t = t1 + t2 + carry
+        if result == nil {
+            result = .init(0)
+            head = result
+        }else {
+            result?.next = .init(0)
+            result = result?.next
+        }
+        result?.val = t >= 10 ? t-10 : t
+        carry = t/10
         
-        while temp2 != nil {
-            if let t2 = templ2?.val {
-                let t = t2 + carry
-                templ2?.val = t >= 10 ? t-10 : t
-                carry = (t)/10
-            }
-            temp?.next = temp2
-            temp2 = temp2?.next
+        if r1 != nil {
+            r1 = r1?.next
+        }
+        if r2 != nil {
+            r2 = r2?.next
         }
     }
-
-    
-//    if templ1 != nil {
-//        result = l1
-//    }else if templ2 != nil {
-//        result = l2
-//    }
-//    var next = templ1 ?? templ2
-    
-    
-    while next != nil {
-        if let n = next?.val {
-            let t = n + carry
-            next?.val = t >= 10 ? t-10 : t
-            carry = (t)/10
-        }
-        
-        if next?.next == nil && carry > 0 {
-            next?.next = .init(carry)
-            break
-        } else {
-            next = next?.next
-        }
+    if carry > 0 {
+        result?.next = .init(carry)
     }
+    return head
 
-    
-    return result
-    
-    
-	var newNode:ListNode? = nil;
-	var tempNode:ListNode? = nil;
-	
-	
-	var tempL1 = l1
-	var tempL2 = l2
-	
-	var needAdd = 0
-	
-	while true {
-		if tempL1 == nil || tempL2 == nil {
-			break;
-		}
-		
-		var sum = (tempL1?.val)! + (tempL2?.val)! + needAdd
-		
-		if sum >= 10 {
-			needAdd = 1
-			sum = sum - 10
-		}else{
-			needAdd = 0
-		}
-		
-		
-		
-		let node = ListNode.init(sum)
-		
-		
-		
-		
-		if newNode == nil {
-			newNode = node
-		}
-		
-		
-		
-		if tempNode != nil{
-			tempNode!.next = node;
-		}
-		
-		tempNode = node;
-		tempL1 = tempL1?.next
-		tempL2 = tempL2?.next
-	}
-	
-	
-	while true{
-		if tempL1 == nil {
-			break
-		}
-		var sum = (tempL1?.val)! + needAdd
-		
-		
-		if sum >= 10 {
-			needAdd = 1
-			sum = sum - 10
-		}else{
-			needAdd = 0
-		}
-		let node = ListNode.init(sum)
-		
-		tempNode?.next = node
-		
-		tempNode = node
-		
-		tempL1 = tempL1?.next
-		
-	}
-	
-	
-	while true{
-		if tempL2 == nil {
-			break
-		}
-		var sum = (tempL2?.val)! + needAdd
-		
-		
-		if sum >= 10 {
-			needAdd = 1
-			sum = sum - 10
-		}else{
-			needAdd = 0
-		}
-		let node = ListNode.init(sum)
-		
-		tempNode?.next = node
-		
-		tempNode = node
-		
-		tempL2 = tempL2?.next
-		
-	}
-	
-	
-	if needAdd == 1 {
-		tempNode?.next = ListNode.init(needAdd)
-	}
-	
-	
-	return newNode
 }
 
 
