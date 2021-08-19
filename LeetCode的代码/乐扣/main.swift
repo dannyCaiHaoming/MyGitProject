@@ -2508,4 +2508,21 @@ let l1 = ListNode.init(1)
 //print(integerBreak(10))
 
 
-print(pivotIndex([1, 2, 3]))
+//print(pivotIndex([1, 2, 3]))
+
+class Base: NSObject {
+    @objc  func method5() {print("Base.method5")}
+}
+class Subclass: Base {
+    
+}
+
+extension Subclass {
+    @objc override func method5() {
+        print("Subclass.method5")
+    }
+}
+
+
+let base: Base = Subclass()
+base.method5()
