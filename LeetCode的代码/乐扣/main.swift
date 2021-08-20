@@ -186,6 +186,39 @@ func subarraysDivByK(_ nums: [Int], _ k: Int) -> Int {
 }
 
 
+//MARK: 724.  寻找数组的中心下标
+
+/*
+ 给你一个整数数组 nums ，请计算数组的 中心下标
+ 
+ 输入：nums = [1, 7, 3, 6, 5, 6]
+ 输出：3
+ 解释：
+ 中心下标是 3 。
+ 左侧数之和 sum = nums[0] + nums[1] + nums[2] = 1 + 7 + 3 = 11 ，
+ 右侧数之和 sum = nums[4] + nums[5] = 5 + 6 = 11 ，二者相等。
+ 
+ */
+
+func pivotIndex(_ nums: [Int]) -> Int {
+
+    let sum = nums.reduce(0) { r, next in
+        return r+next
+    }
+    
+    var presum = 0
+    
+    for i in 0..<nums.count {
+        if sum-nums[i]-presum == presum {
+            return i
+        }
+        presum += nums[i]
+    }
+    
+    return -1
+}
+
+
 //MARK: 2.两数相加
 
 /*
@@ -2473,4 +2506,24 @@ let l1 = ListNode.init(1)
 
 
 
-print(integerBreak(10))
+//print(integerBreak(10))
+
+
+//print(pivotIndex([1, 2, 3]))
+
+class Base: NSObject {
+    @objc  func method5() {print("Base.method5")}
+}
+class Subclass: Base {
+    
+}
+
+extension Subclass {
+    @objc override func method5() {
+        print("Subclass.method5")
+    }
+}
+
+
+let base: Base = Subclass()
+base.method5()
