@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		308761AC26D40B4D00EE5E1D /* 字符串.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308761AB26D40B4D00EE5E1D /* 字符串.swift */; };
 		33943A852253461B00D9B1FB /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33943A842253461B00D9B1FB /* main.swift */; };
 /* End PBXBuildFile section */
 
@@ -23,6 +24,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		308761AB26D40B4D00EE5E1D /* 字符串.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "字符串.swift"; sourceTree = "<group>"; };
 		33943A812253461B00D9B1FB /* 乐扣 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "乐扣"; sourceTree = BUILT_PRODUCTS_DIR; };
 		33943A842253461B00D9B1FB /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -58,6 +60,7 @@
 			isa = PBXGroup;
 			children = (
 				33943A842253461B00D9B1FB /* main.swift */,
+				308761AB26D40B4D00EE5E1D /* 字符串.swift */,
 			);
 			path = "乐扣";
 			sourceTree = "<group>";
@@ -120,6 +123,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				33943A852253461B00D9B1FB /* main.swift in Sources */,
+				308761AC26D40B4D00EE5E1D /* 字符串.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -444,11 +444,11 @@ func longestPalindrome1_1(_ s: String) -> String {
         // 偶数
         let b = expandCenterLength(s: s, left: i, right: i+1)
             
-        let max = max(a, b)
+        let maxValue = max(a, b)
         
-        if max > end - start {
-            start = i - (max-1)/2
-            end = i + max/2
+        if maxValue > end - start {
+            start = i - (maxValue-1)/2
+            end = i + maxValue/2
         }
 
     }
@@ -457,6 +457,62 @@ func longestPalindrome1_1(_ s: String) -> String {
     
 }
 
+/*
+ 动态规划：
+  规则是，一个i<->j为回文串，那么i+1 <-> j-1
+  此外有一个要注意的点事，可以从0开始每次找2个数字找2长度的回文，一直到整个输入字符串长度进行寻找
+ 
+ */
+func longestPalindrome_2(_ s: String) -> String {
+    if s.count < 2 {
+        return s
+    }
+//    if s.count == 2 {
+//        if s[s.index(s.startIndex, offsetBy: 0)] == s[s.index(s.startIndex, offsetBy: 1)] {
+//            return s
+//        }else {
+//            return String(s[s.index(s.startIndex, offsetBy: 0)])
+//        }
+//    }
+    let length = s.count
+    var dp:[[Bool]] = .init(repeating: .init(repeating: false, count: length), count: length)
+    var maxLen = 0
+    var begin = 0
+    for i in 0..<length {
+        dp[i][i] = true
+    }
+    for L in 2...length {
+        for i in 0..<length {
+            let j = L + i - 1
+            if j >= length {
+                break
+            }
+            
+            if s[s.index(s.startIndex, offsetBy: i)] != s[s.index(s.startIndex, offsetBy: j)] {
+                dp[i][j] = false
+            }else {
+                if j-i < 3 {
+                    dp[i][j] = true
+                }else {
+                    // 由于遍历的内容宽度是由小到大的，所以右边内容少于左边的，肯定值是提前存在的。
+                    dp[i][j] = dp[i+1][j-1]
+                }
+            }
+            
+            if dp[i][j] && j-i+1 > maxLen {
+                maxLen = j-i+1
+                begin = i
+            }
+        }
+    }
+    if maxLen > 0 {
+        maxLen -= 1
+    }
+    let beginIndex = s.index(s.startIndex, offsetBy: begin)
+    let endIndex = s.index(beginIndex, offsetBy: maxLen)
+    return String(s[beginIndex...endIndex])
+    
+}
 
 func longestPalindrome(_ s: String) -> String {
 	
@@ -2514,7 +2570,7 @@ func countSubstrings(_ s: String) -> Int {
 				count += 1
 				continue
 			}
-		
+		                         
 			if str[j] == str[i] && (i-j <= 1 || (dp[i-1])[j+1] == true) {
 				count += 1
 				(dp[i])[j] = true
@@ -2680,4 +2736,4 @@ let l1 = ListNode.init(1)
 //base.method5()
 
 
-print(longestPalindrome1_1("babad"))
+print(longestPalindrome_2("jglknendplocymmvwtoxvebkekzfdhykknufqdkntnqvgfbahsljkobhbxkvyictzkqjqydczuxjkgecdyhixdttxfqmgksrkyvopwprsgoszftuhawflzjyuyrujrxluhzjvbflxgcovilthvuihzttzithnsqbdxtafxrfrblulsakrahulwthhbjcslceewxfxtavljpimaqqlcbrdgtgjryjytgxljxtravwdlnrrauxplempnbfeusgtqzjtzshwieutxdytlrrqvyemlyzolhbkzhyfyttevqnfvmpqjngcnazmaagwihxrhmcibyfkccyrqwnzlzqeuenhwlzhbxqxerfifzncimwqsfatudjihtumrtjtggzleovihifxufvwqeimbxvzlxwcsknksogsbwwdlwulnetdysvsfkonggeedtshxqkgbhoscjgpiel"))
