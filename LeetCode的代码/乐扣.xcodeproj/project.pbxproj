@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		308761AC26D40B4D00EE5E1D /* 字符串.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308761AB26D40B4D00EE5E1D /* 字符串.swift */; };
 		33943A852253461B00D9B1FB /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33943A842253461B00D9B1FB /* main.swift */; };
+		848CEB6D26D49CD000F685AD /* 动态规划.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848CEB6C26D49CD000F685AD /* 动态规划.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -27,6 +28,7 @@
 		308761AB26D40B4D00EE5E1D /* 字符串.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "字符串.swift"; sourceTree = "<group>"; };
 		33943A812253461B00D9B1FB /* 乐扣 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "乐扣"; sourceTree = BUILT_PRODUCTS_DIR; };
 		33943A842253461B00D9B1FB /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		848CEB6C26D49CD000F685AD /* 动态规划.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "动态规划.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +63,7 @@
 			children = (
 				33943A842253461B00D9B1FB /* main.swift */,
 				308761AB26D40B4D00EE5E1D /* 字符串.swift */,
+				848CEB6C26D49CD000F685AD /* 动态规划.swift */,
 			);
 			path = "乐扣";
 			sourceTree = "<group>";
@@ -122,6 +125,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				848CEB6D26D49CD000F685AD /* 动态规划.swift in Sources */,
 				33943A852253461B00D9B1FB /* main.swift in Sources */,
 				308761AC26D40B4D00EE5E1D /* 字符串.swift in Sources */,
 			);
