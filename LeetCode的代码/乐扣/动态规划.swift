@@ -26,7 +26,10 @@ class 动态规划: Do {
         
 //        print(canPartition([23,13,11,7,6,5,5]))
 //        print(canPartition1([9,5]))
-        print(canPartition2([1,2,5]))
+//        print(canPartition2([1,2,5]))
+        
+//        print(lastStoneWeightII([2,7,4,1,8,1]))
+        
         
     }
     
@@ -131,6 +134,7 @@ class 动态规划: Do {
                      ~~~~~~~~~~~~~~~~~~~~~~~~
                      例如总空间只有15， [1,7,7,10]，即当最大元素空间占用之后，能放下的内容不够最大空间物品之前之和的大。
                      所以除了判断这个物品能不能放下，还要判断这个物品放下之后有没有贡献
+                     用了占体积的，剩下的填不上比较占体积的。
                      ~~~~~~~~~~~~~~~~~~~~~~~~
                      */
                     status[c][q] = max(status[c-1][q-current] + current, status[c-1][q])
@@ -274,8 +278,92 @@ class 动态规划: Do {
                 status[T] = status[T] || status[T-nums[c]]
             }
         }
-        
-        
         return status[half]
+    }
+    
+    
+    //MARK: 1049. 最后一块石头的重量 II
+    /*
+     有一堆石头，用整数数组 stones 表示。其中 stones[i] 表示第 i 块石头的重量。
+
+     每一回合，从中选出任意两块石头，然后将它们一起粉碎。假设石头的重量分别为 x 和 y，且 x <= y。那么粉碎的可能结果如下：
+
+     如果 x == y，那么两块石头都会被完全粉碎；
+     如果 x != y，那么重量为 x 的石头将会完全粉碎，而重量为 y 的石头新重量为 y-x。
+     最后，最多只会剩下一块 石头。返回此石头 最小的可能重量 。如果没有石头剩下，就返回 0。
+
+     示例：
+     输入：stones = [2,7,4,1,8,1]
+     输出：1
+     解释：
+     组合 2 和 4，得到 2，所以数组转化为 [2,7,1,8,1]，
+     组合 7 和 8，得到 1，所以数组转化为 [2,1,1,1]，
+     组合 2 和 1，得到 1，所以数组转化为 [1,1,1]，
+     组合 1 和 1，得到 0，所以数组转化为 [1]，这就是最优值。
+
+     */
+    
+    /*
+     规则分析：  先用三个石头距离，由于需要找到x,y,z相互做差后值最小，因此可以列式(z-(y-x))尽可能小，所以得到是(z+x-y)尽可能小。
+     因此全局来看，就是划分成两堆，看看是否存在一堆的和，能尽量靠近和的一半。用总和减去尽可能大的值。 所以这个规则就是将一堆石头，
+     划成左右两堆，使得左边每个减去右边每个之后的和，为最小值，因此可知，左边和最靠近sum的一半，这个值会尽可能小。
+     
+     */
+    static func lastStoneWeightII(_ stones: [Int]) -> Int {
+        if stones.isEmpty {
+            return 0
+        }
+        if stones.count == 1 {
+            return stones[0]
+        }
+        let temp = stones.sorted()
+        let sum = temp.reduce(0, { $0 + $1})
+        let half = sum/2
+        var status:[Int] = .init(repeating: 0, count: half+1)
+        for c in 0..<temp.count {
+            if temp[c] > half {
+                continue
+            }
+
+            for T in (1...half).reversed() {
+                if status[T] >= half {
+                    continue
+                }
+                let current = temp[c]
+                
+                if current > half {
+                    continue
+                }
+                // 这里的条件 每次都需要画图让自己加深。
+                if current + status[T] > T {
+                    if T-current >= 0 {
+                        status[T] = max(status[T-current]+current, status[T])
+                    }
+                    continue
+                }
+                status[T] = max(status[T-current]+current, status[T])
+            }
+        }
+        
+        return abs(sum - 2*status[half])
+    }
+    
+    
+    //MARK: 474. 一和零
+    /*
+     给你一个二进制字符串数组 strs 和两个整数 m 和 n 。
+
+     请你找出并返回 strs 的最大子集的大小，该子集中 最多 有 m 个 0 和 n 个 1 。
+
+     如果 x 的所有元素也是 y 的元素，集合 x 是集合 y 的 子集 。
+
+     输入：strs = ["10", "0001", "111001", "1", "0"], m = 5, n = 3
+     输出：4
+     解释：最多有 5 个 0 和 3 个 1 的最大子集是 {"10","0001","1","0"} ，因此答案是 4 。
+     其他满足题意但较小的子集包括 {"0001","1"} 和 {"10","1","0"} 。{"111001"} 不满足题意，因为它含 4 个 1 ，大于 n 的值 3 。
+     */
+    static func findMaxForm(_ strs: [String], _ m: Int, _ n: Int) -> Int {
+
+        return 0
     }
 }
