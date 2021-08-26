@@ -16,6 +16,22 @@ class 数组: Do {
         print(test.threeSum([0,0,0,0]))
     }
     
+    //MARK: 1. 两数之和
+    /*
+     给定一个整数数组 nums 和一个整数目标值 target，请你在该数组中找出 和为目标值 target  的那 两个 整数，并返回它们的数组下标。
+     */
+    func twoSum(_ nums: [Int], _ target: Int) -> [Int] {
+        var dict:[Int:Int] = [:]
+        for index in 0..<nums.count {
+            let n = nums[index]
+            if let pre = dict[target-n] {
+                return [pre,index]
+            }else {
+                dict[n] = index
+            }
+        }
+        return []
+    }
     
     //MARK: 136. 只出现一次的数字
     /*

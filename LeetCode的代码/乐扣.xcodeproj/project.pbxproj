@@ -31,6 +31,7 @@
 		33943A842253461B00D9B1FB /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		848CEB6C26D49CD000F685AD /* 动态规划.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "动态规划.swift"; sourceTree = "<group>"; };
 		848CEB7426D65E6700F685AD /* 数组.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "数组.swift"; sourceTree = "<group>"; };
+		848CEB7826D7A53000F685AD /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +68,7 @@
 				308761AB26D40B4D00EE5E1D /* 字符串.swift */,
 				848CEB6C26D49CD000F685AD /* 动态规划.swift */,
 				848CEB7426D65E6700F685AD /* 数组.swift */,
+				848CEB7826D7A53000F685AD /* README.md */,
 			);
 			path = "乐扣";
 			sourceTree = "<group>";
