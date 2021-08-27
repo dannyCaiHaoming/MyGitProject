@@ -15,8 +15,22 @@ class 数组: Do {
         
 //        print(test.threeSum([0,0,0,0]))
         
-        print(test.jump( [2,3,1,1,4]))
+//        print(test.jump( [2,3,1,1,4]))
+        
+//        var i = [5,2,3,1]
+//        test.quick(array: &i, start: 0, end: i.count-1)
+//        print(i)
+        
+//        print(test.trap([0,1,0,2,1,0,1,3,2,1,2,1]))
+        
+//        print(test.findMedianSortedArrays([1,2], [3,4]))
+        
+        var i = [0]
+        test.merge(&i, 0, [1], 1)
+        print(i)
     }
+    
+    
     
     //MARK: 1. 两数之和
     /*
@@ -35,23 +49,72 @@ class 数组: Do {
         return []
     }
     
+    
+    
+    //MARK: 剑指 Offer 03. 数组中重复的数字
+    /*
+     在一个长度为 n 的数组 nums 里的所有数字都在 0～n-1 的范围内。数组中某些数字是重复的，但不知道有几个数字重复了，也不知道每个数字重复了几次。请找出数组中任意一个重复的数字。
+
+     */
+    func findRepeatNumber(_ nums: [Int]) -> Int {
+        var dict:[Int:Int] = [:]
+        for n in nums {
+            if let i = dict[n] {
+                dict[n] = i+1
+                return n
+            }else {
+                dict[n] = 1
+            }
+        }
+        return 0
+    }
+    
+    //MARK: 42. 接雨水
+    /*
+     给定 n 个非负整数表示每个宽度为 1 的柱子的高度图，计算按此排列的柱子，下雨之后能接多少雨水。
+     */
+    /*
+     思路： 对每一个坑位，往左，往右找第一个比自己高的，如果找不到即没有。同时找到左右都有比自己高的，
+     取最小值减去当前自己的值，则为可以装入的水。
+     */
+    func trap(_ height: [Int]) -> Int {
+        var result = 0
+        for i in 0..<height.count {
+            let current = height[i]
+            var l = i-1
+            var lMax = -1
+            var r = i+1
+            var rMax = -1
+            while l >= 0 {
+                if height[l] > current {
+                    lMax = max(lMax, height[l])
+                }
+                l -= 1
+            }
+            while r < height.count {
+                if height[r] > current {
+                    rMax = max(rMax, height[r])
+                }
+                r += 1
+            }
+            if lMax > current && rMax > current {
+                result += min(lMax, rMax)-current
+            }
+        }
+        return result
+    }
+    
     //MARK: 45. 跳跃游戏 II
     /*
      给你一个非负整数数组 nums ，你最初位于数组的第一个位置。
-
      数组中的每个元素代表你在该位置可以跳跃的最大长度。
-
      你的目标是使用最少的跳跃次数到达数组的最后一个位置。
-
      假设你总是可以到达数组的最后一个位置。
-     
      */
-    
     /*
      思路：  从最后一个下标开始，从题干的意思，从前往后找，找到最接近的一个数字达到最后的下标，然后从那个位置继续
      从头开始找最接近的一个数字达到当下位置。
      */
-    
     func jump(_ nums: [Int]) -> Int {
         var position = nums.count - 1
         var steps = 0
@@ -67,6 +130,60 @@ class 数组: Do {
         return steps
     }
     
+    
+    //MARK: 4. 寻找两个正序数组的中位数
+    /*
+     给定两个大小分别为 m 和 n 的正序（从小到大）数组 nums1 和 nums2。请你找出并返回这两个正序数组的 中位数 。
+     */
+    /*
+     思路：用归并排序，将两个数组合并成有序数组，然后根据是奇偶长度，获取中位数下标值
+     */
+    func findMedianSortedArrays(_ nums1: [Int], _ nums2: [Int]) -> Double {
+        var temp = nums1 + nums2
+        temp.sort()
+        let count = temp.count
+        if count&1 == 1 {
+            //
+            return Double(temp[count/2])
+        }else {
+            let r:Double = Double(temp[count/2] + temp[count/2-1])
+            return r/2
+        }
+    }
+    
+    
+    //MARK: 88. 合并两个有序数组
+    /*
+     给你两个按 非递减顺序 排列的整数数组 nums1 和 nums2，另有两个整数 m 和 n ，分别表示 nums1 和 nums2 中的元素数目。
+     请你 合并 nums2 到 nums1 中，使合并后的数组同样按 非递减顺序 排列。
+     */
+    /*
+     思路: 从后向前，一个指针指向最后面可以插入的位置，两个指针分别指向两个数组末尾，比较哪个大，插入哪个。
+     由于如果nums1有剩余，那不用管，肯定是都是比nums2小的。
+     如果剩余的是nums2，则需要依次插入到num1剩余位置上。
+     */
+    func merge(_ nums1: inout [Int], _ m: Int, _ nums2: [Int], _ n: Int) {
+        var m = m-1
+        var n = n-1
+        var end = nums1.count-1
+        while end >= 0 && m >= 0 {
+            if m >= 0 && n >= 0 {
+                if nums1[m] > nums2[n] {
+                    nums1[end] = nums1[m]
+                    m -= 1
+                }else {
+                    nums1[end] = nums2[n]
+                    n -= 1
+                }
+            }
+            end -= 1
+        }
+        while n >= 0  {
+            nums1[end] = nums2[n]
+            n -= 1
+            end -= 1
+        }
+    }
     
     //MARK: 136. 只出现一次的数字
     /*
@@ -166,9 +283,69 @@ class 数组: Do {
                     l += 1
                 }
             }
-
+            
             
         }
         return result
+    }
+    
+    
+    
+    //MARK: 912. 排序数组
+    
+    /*
+     给你一个整数数组 nums，请你将该数组升序排列。
+     */
+    
+    /*
+     思路：
+     用的快排，为的是检验自己能不能写出快排
+     问题：
+     快排在有序倒序的情况下，时间复杂度为O(n2)，因此可以在每次开始计算portrait之前，
+     将随机数和最后一个哨兵进行替换，人为打断有序
+     */
+    func sortArray(_ nums: [Int]) -> [Int] {
+        var i = nums;
+        quick(array:&i,start:0,end:nums.count-1)
+        return i
+    }
+    
+    func quick(array: inout [Int],start: Int, end: Int)  {
+        
+        guard start >= 0,
+              end < array.count,
+              end > start else {
+            return
+        }
+        let range = Array(start...end)
+        if let i = range.randomElement()  {
+            swap(&array, l: i, r: end)
+        }
+        let p = portrait(array: &array, start: start, end: end)
+        
+        quick(array: &array, start: start, end: p-1)
+        quick(array: &array, start: p+1, end: end)
+    }
+    
+    func portrait( array:inout [Int],start: Int, end: Int) -> Int {
+        var s = start-1
+        let p = array[end]
+        var c = start
+        while c < end {
+            if array[c] < p {
+                s += 1
+                swap(&array, l: s, r: c)
+            }
+            c += 1
+        }
+        s += 1
+        swap(&array, l: s, r: end)
+        return s
+    }
+    
+    func swap(_ array: inout[Int] ,l: Int, r: Int) {
+        let temp = array[l]
+        array[l] = array[r]
+        array[r] = temp
     }
 }
