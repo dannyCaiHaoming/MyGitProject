@@ -25,9 +25,11 @@ class 数组: Do {
         
 //        print(test.findMedianSortedArrays([1,2], [3,4]))
         
-        var i = [0]
-        test.merge(&i, 0, [1], 1)
-        print(i)
+//        var i = [0]
+//        test.merge(&i, 0, [1], 1)
+//        print(i)
+        
+        print(test.threeSum([-1,0,1,2,-1,-4]))
     }
     
     
@@ -185,6 +187,61 @@ class 数组: Do {
         }
     }
     
+    
+    //MARK: 15. 三数之和
+    /*
+     给你一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？请你找出所有和为 0 且不重复的三元组。
+     注意：答案中不可以包含重复的三元组。
+     */
+    /*
+     暴力破解，从首位开始，每次从当前位的下一位，同时从末尾开始，找到一个存在为三位数和为0的。
+     先将数组排序，然后遍历当前等于上一个的时候就不需要再遍历，就跳过。当前值大于0页不需要了.
+     
+     */
+    func threeSum(_ nums: [Int]) -> [[Int]] {
+        let temp = nums.sorted()
+        var result: [[Int]] = []
+        let count = temp.count
+        for i in 0..<count {
+            if temp[i] > 0 {
+                return result
+            }
+            if i > 0 && temp[i-1] == temp[i] {
+                continue
+            }
+            var l = i+1
+            var r = count-1
+
+            while l < r {
+                /*
+                 
+                 */
+                let t = temp[i] + temp[l] + temp[r]
+                if t == 0 {
+                    result.append([temp[i] , temp[l] , temp[r]])
+
+                    while l < r && temp[l] == temp[l+1] {
+                        l += 1
+                    }
+                    while l < r && temp[r] == temp[r-1] {
+                        r -= 1
+                    }
+                    l += 1
+                    r -= 1
+                } else if t > 0 {
+                    r -= 1
+                } else {
+                    l += 1
+                }
+            }
+
+
+        }
+        return result
+    }
+
+    
+    
     //MARK: 136. 只出现一次的数字
     /*
      给定一个非空整数数组，除了某个元素只出现一次以外，其余每个元素均出现两次。找出那个只出现了一次的元素。
@@ -235,59 +292,7 @@ class 数组: Do {
         return -1
     }
     
-    //MARK: 15. 三数之和
-    /*
-     给你一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？请你找出所有和为 0 且不重复的三元组。
 
-     注意：答案中不可以包含重复的三元组。
-     */
-    
-    /*
-     我的解法：
-     使用了i,j,k三重循环，毫无意外，超时。而且少了很多提前折枝的操作.
-     (1)因为是三数字和等于0，因此排序之后如果第一个数大于0就不需要了
-     (2)j,k这个循环，其实可以同时进行j++,k--,因为不允许数字重复使用
-     (3)不允许重复的话，就得while循环到下一个不是当前数字的下标上
-     */
-    func threeSum(_ nums: [Int]) -> [[Int]] {
-        let temp = nums.sorted()
-        var result: [[Int]] = []
-        let count = temp.count
-//        var dict: [Int:Int] = [:]
-        for i in 0..<count {
-            if temp[i] > 0 {
-                return result
-            }
-            if i > 0 && temp[i-1] == temp[i] {
-                continue
-            }
-            var l = i+1
-            var r = count-1
-            
-            while l < r {
-                let t = temp[i] + temp[l] + temp[r]
-                if t == 0 {
-                    result.append([temp[i] , temp[l] , temp[r]])
-                    
-                    while l < r && temp[l] == temp[l+1] {
-                        l += 1
-                    }
-                    while l < r && temp[r] == temp[r-1] {
-                        r -= 1
-                    }
-                    l += 1
-                    r -= 1
-                } else if t > 0 {
-                    r -= 1
-                } else {
-                    l += 1
-                }
-            }
-            
-            
-        }
-        return result
-    }
     
     
     
