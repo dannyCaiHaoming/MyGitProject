@@ -25,7 +25,7 @@
     
     // Test invalid format
     CFStringRef type = [NSData sd_UTTypeFromImageFormat:SDImageFormatUndefined];
-    expect(CFStringCompare(kUTTypePNG, type, 0)).equal(kCFCompareEqualTo);
+    expect(CFStringCompare(kUTTypeImage, type, 0)).equal(kCFCompareEqualTo);
     expect([NSData sd_imageFormatFromUTType:kUTTypeImage]).equal(SDImageFormatUndefined);
 }
 
@@ -59,6 +59,7 @@
     image = [UIImage sd_imageWithGIFData:data];
     expect(image).notTo.beNil();
     expect(image.sd_isAnimated).beTruthy();
+    expect(image.sd_imageFrameCount).equal(5);
 }
 
 #pragma mark - Helper

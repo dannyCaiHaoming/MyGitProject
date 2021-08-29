@@ -16,7 +16,20 @@
 
 @implementation SDWebImageTestLoader
 
++ (SDWebImageTestLoader *)sharedLoader {
+    static dispatch_once_t onceToken;
+    static SDWebImageTestLoader *loader;
+    dispatch_once(&onceToken, ^{
+        loader = [[SDWebImageTestLoader alloc] init];
+    });
+    return loader;
+}
+
 - (BOOL)canRequestImageForURL:(NSURL *)url {
+    return [self canRequestImageForURL:url options:0 context:nil];
+}
+
+- (BOOL)canRequestImageForURL:(NSURL *)url options:(SDWebImageOptions)options context:(SDWebImageContext *)context {
     return YES;
 }
 
@@ -51,6 +64,10 @@
 }
 
 - (BOOL)shouldBlockFailedURLWithURL:(NSURL *)url error:(NSError *)error {
+    return [self shouldBlockFailedURLWithURL:url error:error options:0 context:nil];
+}
+
+- (BOOL)shouldBlockFailedURLWithURL:(NSURL *)url error:(NSError *)error options:(SDWebImageOptions)options context:(SDWebImageContext *)context {
     return NO;
 }
 
