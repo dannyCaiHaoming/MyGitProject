@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		308761AC26D40B4D00EE5E1D /* 字符串.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308761AB26D40B4D00EE5E1D /* 字符串.swift */; };
 		33943A852253461B00D9B1FB /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33943A842253461B00D9B1FB /* main.swift */; };
+		8467F95D26DCFC49006BB967 /* 链表.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8467F95C26DCFC49006BB967 /* 链表.swift */; };
 		848CEB6D26D49CD000F685AD /* 动态规划.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848CEB6C26D49CD000F685AD /* 动态规划.swift */; };
 		848CEB7526D65E6700F685AD /* 数组.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848CEB7426D65E6700F685AD /* 数组.swift */; };
 /* End PBXBuildFile section */
@@ -29,6 +30,7 @@
 		308761AB26D40B4D00EE5E1D /* 字符串.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "字符串.swift"; sourceTree = "<group>"; };
 		33943A812253461B00D9B1FB /* 乐扣 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "乐扣"; sourceTree = BUILT_PRODUCTS_DIR; };
 		33943A842253461B00D9B1FB /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		8467F95C26DCFC49006BB967 /* 链表.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "链表.swift"; sourceTree = "<group>"; };
 		848CEB6C26D49CD000F685AD /* 动态规划.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "动态规划.swift"; sourceTree = "<group>"; };
 		848CEB7426D65E6700F685AD /* 数组.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "数组.swift"; sourceTree = "<group>"; };
 		848CEB7826D7A53000F685AD /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -68,6 +70,7 @@
 				308761AB26D40B4D00EE5E1D /* 字符串.swift */,
 				848CEB6C26D49CD000F685AD /* 动态规划.swift */,
 				848CEB7426D65E6700F685AD /* 数组.swift */,
+				8467F95C26DCFC49006BB967 /* 链表.swift */,
 				848CEB7826D7A53000F685AD /* README.md */,
 			);
 			path = "乐扣";
@@ -133,6 +136,7 @@
 				848CEB6D26D49CD000F685AD /* 动态规划.swift in Sources */,
 				33943A852253461B00D9B1FB /* main.swift in Sources */,
 				308761AC26D40B4D00EE5E1D /* 字符串.swift in Sources */,
+				8467F95D26DCFC49006BB967 /* 链表.swift in Sources */,
 				848CEB7526D65E6700F685AD /* 数组.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
