@@ -29,7 +29,7 @@ class 数组: Do {
 //        test.merge(&i, 0, [1], 1)
 //        print(i)
         
-        print(test.threeSum([-1,0,1,2,-1,-4]))
+//        print(test.threeSum([-1,0,1,2,-1,-4]))
     }
     
     

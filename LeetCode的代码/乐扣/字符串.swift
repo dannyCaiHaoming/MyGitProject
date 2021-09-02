@@ -17,7 +17,7 @@ class 字符串: Do {
         
         let t = 字符串()
         
-        print(t.reverseParentheses("(u(love)i)"))
+//        print(t.reverseParentheses("(u(love)i)"))
     }
     
     func reverseString(str:String) -> String {

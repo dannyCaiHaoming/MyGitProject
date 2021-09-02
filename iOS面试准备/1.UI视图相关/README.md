@@ -42,7 +42,7 @@
 	- `func draw(_ layer: CALayer, in ctx: CGContext)`可以获取`context`，更加丰富的绘制入口
 
 - `CALayerDelegate`
-如果自带的方法没有实现，则可以使用`delegate`的方法
+	如果自带的方法没有实现，则可以使用`delegate`的方法
 	- `func display(_ layer: CALayer)` **异步绘制的入口**
 	- `func draw(_ layer: CALayer, in ctx: CGContext)`
 
@@ -183,7 +183,13 @@
 - `setNeeds`：即只是设置需要。不会立刻马上调！。不过这个更新不会立刻做，只是打上脏标记，等到runloop进行下一个绘制流程，才会调用实际`update`方法。
 - `ifNeeded`：不需要等待到下个，判断是否需要，如果需要马上调！
 
-  
+##### 还有三者联系：
+
+
+
+
+
+
 
 
 
