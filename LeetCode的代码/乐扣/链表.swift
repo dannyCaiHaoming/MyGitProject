@@ -39,19 +39,81 @@ class 链表: Do {
       
      进阶：你是否可以在 O(1) 时间复杂度内完成这两种操作？
      */
+    /*
+     思路：
+     利用的特性
+     1. 好像就是利用链表特性，能O（1）将链表元素移动到指定位置
+     */
     class LRUCache {
+        
+        var dict:[Int: DulNode] = [:]
+        var node: DulNode? = nil
+        
+        var head: DulNode?
+        var tail: DulNode?
+        
+        var capacity: Int = 0
+        var size: Int = 0
 
         init(_ capacity: Int) {
-
+            self.capacity = capacity
+            head = .init(-1, -1)
+            tail = .init(-1, -1)
+            head?.next = tail
+            tail?.prior = head
         }
         
         func get(_ key: Int) -> Int {
-            
-            return 0
+            guard let node = dict[key] else {
+                return -1
+            }
+            moveToHead(node)
+            return node.val
         }
         
         func put(_ key: Int, _ value: Int) {
-
+            let node = dict[key]
+            if node == nil {
+                let new = DulNode.init(value, key)
+                dict[key] = new
+                addToHead(new)
+                size += 1
+                if size > capacity {
+                    if let tail = removeTail() {
+                        
+                        dict.removeValue(forKey: tail.key)
+                        size -= 1
+                    }
+                }
+            } else {
+                node?.val = value
+                moveToHead(node!)
+            }
+        }
+        
+        func addToHead(_ node: DulNode) {
+            node.prior = head
+            node.next = head?.next
+            head?.next?.prior = node
+            head?.next = node
+        }
+        
+        func removeNode(_ node: DulNode) {
+            node.prior?.next = node.next
+            node.next?.prior = node.prior
+        }
+        
+        func moveToHead(_ node: DulNode) {
+            removeNode(node)
+            addToHead(node)
+        }
+        
+        func removeTail() -> DulNode? {
+            if let res = tail?.prior {
+                removeNode(res)
+                return res
+            }
+            return nil
         }
     }
     

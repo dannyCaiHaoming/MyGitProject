@@ -41,6 +41,29 @@ public class ListNode {
 }
 
 
+public class DulNode: Hashable {
+    public static func == (lhs: DulNode, rhs: DulNode) -> Bool {
+        return lhs.key == rhs.key && lhs.val == rhs.val && lhs.next == rhs.next && lhs.prior == rhs.prior
+    }
+    
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(ObjectIdentifier(self))
+    }
+    
+    public var key: Int
+    public var val: Int
+    public var next: DulNode?
+    public var prior: DulNode?
+    
+    public init(_ val: Int,_ key: Int) {
+        self.key = key
+        self.val = val
+        self.next = nil
+        self.prior = nil
+    }
+}
+
+
 public class TreeNode {
 	public var val: Int
 	public var left: TreeNode?
