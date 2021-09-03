@@ -13,18 +13,26 @@ class 链表: Do {
         let test = 链表()
         
 
-        let l1 = ListNode.init(3)
+        let l1 = ListNode.init(1)
         let l2 = ListNode.init(2)
-        let l3 = ListNode.init(0)
-        let l4 = ListNode.init(-4)
+        let l3 = ListNode.init(4)
+        
+        let l4 = ListNode.init(1)
+        let l5 = ListNode.init(3)
+        let l6 = ListNode.init(4)
     
         
         l1.next = l2
         l2.next = l3
-        l3.next = l4
-        l4.next = l2
         
-        print(test.detectCycle(l1)?.val)
+        
+        l4.next = l5
+        l5.next = l6
+        
+        test.mergeTwoLists(l1, l4)
+        
+        
+//        print(test.detectCycle(l1)?.val)
     }
     
     
@@ -39,19 +47,81 @@ class 链表: Do {
       
      进阶：你是否可以在 O(1) 时间复杂度内完成这两种操作？
      */
+    /*
+     思路：
+     利用的特性
+     1. 好像就是利用链表特性，能O（1）将链表元素移动到指定位置
+     */
     class LRUCache {
+        
+        var dict:[Int: DulNode] = [:]
+        var node: DulNode? = nil
+        
+        var head: DulNode?
+        var tail: DulNode?
+        
+        var capacity: Int = 0
+        var size: Int = 0
 
         init(_ capacity: Int) {
-
+            self.capacity = capacity
+            head = .init(-1, -1)
+            tail = .init(-1, -1)
+            head?.next = tail
+            tail?.prior = head
         }
         
         func get(_ key: Int) -> Int {
-            
-            return 0
+            guard let node = dict[key] else {
+                return -1
+            }
+            moveToHead(node)
+            return node.val
         }
         
         func put(_ key: Int, _ value: Int) {
-
+            let node = dict[key]
+            if node == nil {
+                let new = DulNode.init(value, key)
+                dict[key] = new
+                addToHead(new)
+                size += 1
+                if size > capacity {
+                    if let tail = removeTail() {
+                        
+                        dict.removeValue(forKey: tail.key)
+                        size -= 1
+                    }
+                }
+            } else {
+                node?.val = value
+                moveToHead(node!)
+            }
+        }
+        
+        func addToHead(_ node: DulNode) {
+            node.prior = head
+            node.next = head?.next
+            head?.next?.prior = node
+            head?.next = node
+        }
+        
+        func removeNode(_ node: DulNode) {
+            node.prior?.next = node.next
+            node.next?.prior = node.prior
+        }
+        
+        func moveToHead(_ node: DulNode) {
+            removeNode(node)
+            addToHead(node)
+        }
+        
+        func removeTail() -> DulNode? {
+            if let res = tail?.prior {
+                removeNode(res)
+                return res
+            }
+            return nil
         }
     }
     
@@ -179,6 +249,53 @@ class 链表: Do {
         return p1
     }
     
+    
+    //MARK: 剑指 Offer 25. 合并两个排序的链表
+    /*
+     输入两个递增排序的链表，合并这两个链表并使新链表中的节点仍然是递增排序的。
+
+     示例1：
+
+     输入：1->2->4, 1->3->4
+     输出：1->1->2->3->4->4
+     */
+    func mergeTwoLists(_ l1: ListNode?, _ l2: ListNode?) -> ListNode? {
+        
+        var t1 = l1
+        var t2 = l2
+        guard t1 != nil ,
+              t2 != nil
+        else {
+            return l1 ?? l2
+        }
+        
+        
+        var h: ListNode? = ListNode.init(-1)
+        let r = h
+        
+        while t1 != nil,t2 != nil {
+            if t1!.val < t2!.val {
+                h?.next = t1
+                h = t1
+                t1 = t1!.next
+//                h = t1
+            }else {
+                h?.next = t2
+                h = t2
+                t2 = t2!.next
+                
+            }
+        }
+        var notNil = t1 ?? t2
+        while notNil != nil {
+            h?.next = notNil
+            h = notNil
+            notNil = notNil!.next
+        }
+        
+        
+        return r?.next
+    }
     
     
     
