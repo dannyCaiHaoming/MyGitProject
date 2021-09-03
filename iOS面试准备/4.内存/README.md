@@ -117,6 +117,44 @@ NSMutableString *c = [NSMutableString stringWithString:@"123"];
 - ARC中禁止手动调用上面特殊标记的关键字
 - ARC中新增==weak==,==strong==关键字
 
+#### 4.3.3 ARC --- 优化
+
+- id objc_autorelease(id value);
+
+  放入自动释放池
+
+- id objc_retainAutorelease(id value);
+
+  先调用retain，再放入自动释放池
+
+- id objc_autoreleaseReturnValue(id value);
+
+  根据返回值，先判断是否需要加入自动释放池，需要的话先加入自动释放池，
+
+  不需要就直接返回
+
+- id objc_retainAutoreleaseReturnValue(id value);
+
+  先调用retain，然后走`objc_autoreleaseReturnValue`
+
+- id objc_retainAutoreleasedReturnValue(id value);
+
+  根据返回值，判断是否需要`retain`，需要就调用`retain`，不需要就直接返回
+
+​        ARC中，本来我们需要在需要持有的地方调用`retain`，不需要的地方调用`release`，但如果在一个较大的工程中，这样做就会导致低效的问题。所以编译器的开发者对这类问题进行了很多优化，其中一个优化方式就是避免插入过多的`retain/release`。 `retain`-`release`优化的原理，就是根据返回值的引用，例如
+
+```objectivec
+// 由于返回值需要由obj持有，因此实际用的是objc_retainAutoreleasedReturnValue，且最终需要obj来释放
+id obj = [TestObject foo];
+```
+
+```objectivec
+// 由于返回值不存在持有，因此需要在返回值中自动释放。因此用的是objc_autoreleaseReturnValue
+[TestObject foo];
+```
+
+​		
+
 
 
 ### 4.4 引用计数管理
@@ -135,11 +173,11 @@ NSMutableString *c = [NSMutableString stringWithString:@"123"];
 
 			-(void)setName:(NSString *)name{
     		//如果不判断，可能会把原来对象释放
-              if (_name != name) {
-               [_name release];
-               _name = [name retain];
-            	}
-            }
+    	      if (_name != name) {
+    	       [_name release];
+    	       _name = [name retain];
+    	    	}
+    	    }
 
 **PS**:由于`引用计数值`是从`第3位`开始，因此`+1`操作等于`+0x4`,获取引用计数值也需要先`右移2位`
 
@@ -210,7 +248,7 @@ NSMutableString *c = [NSMutableString stringWithString:@"123"];
 
 
 #### 4.7.1 循环引用分类
-	
+
 - 自循环引用
 对象跟成员对象之间
 - 相互循环引用
@@ -290,24 +328,3 @@ int main()
 // 最终输出是32. 一个isa指针，一个5字节内容，一个isa指针，一个1字节的char
 // 如果是放到结构体中，则是16
 ```
-
-----
-----
-----
-----
-----
-----
-----
-----
-----
-----
-----
-----
-----
-----
-----
-----
-----
-----
-----
-----

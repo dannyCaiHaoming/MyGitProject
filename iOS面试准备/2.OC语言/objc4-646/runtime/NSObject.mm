@@ -1389,6 +1389,14 @@ objc_release(id obj)
 
 
 __attribute__((aligned(16)))
+
+/*
+ 备注:
+ 1.调用自动释放方法，判断是否是taggedPointer，是的话直接可以返回
+ 如果类指针，则需要执行对象的自动释放方法
+ 2.autorelease方法，其实也是找到一个autoreleasepool进行插入，然后待到pool在需要释放的时候，
+ 跟随里面的内容一起释放
+ */
 id
 objc_autorelease(id obj)
 {
@@ -1662,6 +1670,10 @@ _objc_autoreleasePoolPrint(void)
     AutoreleasePoolPage::printAll();
 }
 
+/*
+ 备注：
+ 判断是否是需要进行添加到自动释放池，如果不需要则直接返回
+ */
 id 
 objc_autoreleaseReturnValue(id obj)
 {
@@ -1670,12 +1682,22 @@ objc_autoreleaseReturnValue(id obj)
     return objc_autorelease(obj);
 }
 
+/*
+ 备注：
+ 先对obj进行retain操作，然后判断是否需要进入自动释放池，不需要则返回
+ */
 id 
 objc_retainAutoreleaseReturnValue(id obj)
 {
     return objc_autoreleaseReturnValue(objc_retain(obj));
 }
 
+
+/*
+ 备注：
+ 判断obj是否需要retain，不需要则直接返回
+ 否则进行retain操作
+ */
 id
 objc_retainAutoreleasedReturnValue(id obj)
 {
@@ -1684,6 +1706,10 @@ objc_retainAutoreleasedReturnValue(id obj)
     return objc_retain(obj);
 }
 
+/*
+ 备注：
+ 先进行retain，然后再加入自动释放池
+ */
 id
 objc_retainAutorelease(id obj)
 {

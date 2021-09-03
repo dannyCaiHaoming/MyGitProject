@@ -1010,6 +1010,10 @@ bool fastAutoreleaseForReturn(id obj)
 {
     assert(tls_get_direct(AUTORELEASE_POOL_RECLAIM_KEY) == nil);
 
+    /*
+     备注：
+     判断返回是否有autoreleasepool
+     */
     if (callerAcceptsFastAutorelease(__builtin_return_address(0))) {
         tls_set_direct(AUTORELEASE_POOL_RECLAIM_KEY, obj);
         return true;
@@ -1022,6 +1026,12 @@ bool fastAutoreleaseForReturn(id obj)
 static ALWAYS_INLINE
 bool fastRetainFromReturn(id obj)
 {
+    /*
+     备注：
+     判断返回是否有retain
+     1. ture的话，则表示，没有使用autoRelease,那么可以快速返回，不需要retain
+     2. false的话，能校测到autoReleasePool里面是否有使用。
+     */
     if (obj == tls_get_direct(AUTORELEASE_POOL_RECLAIM_KEY)) {
         tls_set_direct(AUTORELEASE_POOL_RECLAIM_KEY, 0);
         return true;

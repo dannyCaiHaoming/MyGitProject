@@ -694,6 +694,11 @@ tls_set_direct(void **tsdb, tls_key_t k, void *v)
 #define tls_set_direct(k, v)                    \
         tls_set_direct(tls_base(), (k), (v))
 
+/*
+ 备注：
+ 每个线程会有一个TLS(Thread Local Storage)，理解为每个线程安全的一份数据，跟线程绑定。
+ 然后这个自动自动释放池，也是从这个TLS取出，
+ */
 
 static ALWAYS_INLINE void *
 tls_get_direct(void **tsdb, tls_key_t k)
