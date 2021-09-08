@@ -22,6 +22,10 @@
 //	return set;
 //}
 
++ (id)born {
+    return [[People alloc] init];
+}
+
 - (instancetype)init{
 	if (self = [super init]){
 //		self->_year = 1;

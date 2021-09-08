@@ -15,7 +15,8 @@
 		30D0507D233BA2C800120C28 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D0507C233BA2C800120C28 /* main.m */; };
 		30D05085233BAB0400120C28 /* LongLifeThread.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D05084233BAB0400120C28 /* LongLifeThread.m */; };
 		30D05088233BAB4700120C28 /* ViewController2.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D05087233BAB4700120C28 /* ViewController2.m */; };
-		848A1F90268B4EDB00659F37 /* CFRunLoop.c in Sources */ = {isa = PBXBuildFile; fileRef = 848A1F8F268B4EDB00659F37 /* CFRunLoop.c */; };
+		8441ED8C26E8625F006A5C49 /* CheckStuck.m in Sources */ = {isa = PBXBuildFile; fileRef = 8441ED8B26E8625F006A5C49 /* CheckStuck.m */; };
+		8441ED8F26E8A651006A5C49 /* ViewController3.m in Sources */ = {isa = PBXBuildFile; fileRef = 8441ED8E26E8A651006A5C49 /* ViewController3.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,7 +34,10 @@
 		30D05084233BAB0400120C28 /* LongLifeThread.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LongLifeThread.m; sourceTree = "<group>"; };
 		30D05086233BAB4700120C28 /* ViewController2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController2.h; sourceTree = "<group>"; };
 		30D05087233BAB4700120C28 /* ViewController2.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController2.m; sourceTree = "<group>"; };
-		848A1F8F268B4EDB00659F37 /* CFRunLoop.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = CFRunLoop.c; sourceTree = "<group>"; };
+		8441ED8A26E8625F006A5C49 /* CheckStuck.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CheckStuck.h; sourceTree = "<group>"; };
+		8441ED8B26E8625F006A5C49 /* CheckStuck.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CheckStuck.m; sourceTree = "<group>"; };
+		8441ED8D26E8A651006A5C49 /* ViewController3.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController3.h; sourceTree = "<group>"; };
+		8441ED8E26E8A651006A5C49 /* ViewController3.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController3.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,12 +78,15 @@
 				30D05071233BA2C600120C28 /* ViewController.m */,
 				30D05086233BAB4700120C28 /* ViewController2.h */,
 				30D05087233BAB4700120C28 /* ViewController2.m */,
+				8441ED8D26E8A651006A5C49 /* ViewController3.h */,
+				8441ED8E26E8A651006A5C49 /* ViewController3.m */,
+				8441ED8A26E8625F006A5C49 /* CheckStuck.h */,
+				8441ED8B26E8625F006A5C49 /* CheckStuck.m */,
 				30D05073233BA2C600120C28 /* Main.storyboard */,
 				30D05076233BA2C800120C28 /* Assets.xcassets */,
 				30D05078233BA2C800120C28 /* LaunchScreen.storyboard */,
 				30D0507B233BA2C800120C28 /* Info.plist */,
 				30D0507C233BA2C800120C28 /* main.m */,
-				848A1F8F268B4EDB00659F37 /* CFRunLoop.c */,
 			);
 			path = RunLoopProject;
 			sourceTree = "<group>";
@@ -154,12 +161,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				848A1F90268B4EDB00659F37 /* CFRunLoop.c in Sources */,
 				30D05072233BA2C600120C28 /* ViewController.m in Sources */,
 				30D0507D233BA2C800120C28 /* main.m in Sources */,
 				30D05088233BAB4700120C28 /* ViewController2.m in Sources */,
 				30D0506F233BA2C600120C28 /* AppDelegate.m in Sources */,
+				8441ED8C26E8625F006A5C49 /* CheckStuck.m in Sources */,
 				30D05085233BAB0400120C28 /* LongLifeThread.m in Sources */,
+				8441ED8F26E8A651006A5C49 /* ViewController3.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

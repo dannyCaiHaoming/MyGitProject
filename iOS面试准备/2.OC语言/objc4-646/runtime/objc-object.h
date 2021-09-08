@@ -970,7 +970,10 @@ callerAcceptsFastAutorelease(const void *ra)
 
 // __arm__
 # elif __arm64__
-
+/*
+ 备注：  arm64架构
+ 检查调用方的汇编指令，是否等于'mov x29,x29'
+ */
 static ALWAYS_INLINE bool 
 callerAcceptsFastAutorelease(const void *ra)
 {
@@ -1012,7 +1015,9 @@ bool fastAutoreleaseForReturn(id obj)
 
     /*
      备注：
-     判断返回是否有autoreleasepool
+     将obj存储到tls中，不额外进行内存管理,
+     根据__builtin_return_address(x)，x参数的偏移量，可以定位到调用方在返回值后面的汇编指令，
+     然后依据此来判断，调用方是否调用了objc_retainAutoreleasedReturnValue，然后来判断是否走优化
      */
     if (callerAcceptsFastAutorelease(__builtin_return_address(0))) {
         tls_set_direct(AUTORELEASE_POOL_RECLAIM_KEY, obj);
@@ -1028,7 +1033,7 @@ bool fastRetainFromReturn(id obj)
 {
     /*
      备注：
-     判断返回是否有retain
+     判断tls中是否能找到这个obj，有的话就可以快速返回，忽略了中间过程的内存管理。
      1. ture的话，则表示，没有使用autoRelease,那么可以快速返回，不需要retain
      2. false的话，能校测到autoReleasePool里面是否有使用。
      */

@@ -29,6 +29,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)log;
 
+
++ (id)born;
 @end
 
 NS_ASSUME_NONNULL_END
