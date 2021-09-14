@@ -21,7 +21,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    [self test1];
+    [self test2];
 }
 
 
@@ -89,6 +89,10 @@
 //
     [[NSRunLoop currentRunLoop] addPort:[NSMachPort port] forMode:NSRunLoopCommonModes];
     [[NSRunLoop currentRunLoop] run];
+    
+    
+    //
+    [[NSRunLoop currentRunLoop] runMode:NSRunLoopCommonModes beforeDate:[NSDate date]];
     
 
 }

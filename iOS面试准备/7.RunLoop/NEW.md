@@ -412,9 +412,22 @@ CFRunLoopObserverRef是观察者，能够监听RunLoop的状态改变
 
 ##### 1. 线程保活
 
+```objc
+- (void)performSelector:(SEL)aSelector onThread:(NSThread *)thr withObject:(nullable id)arg waitUntilDone:(BOOL)wait API_AVAILABLE(macos(10.5), ios(2.0), watchos(2.0), tvos(9.0));
+```
+
+1. 线程执行完任务之后，如果需要再次执行的话， 就需要重新创建线程并且重新指定任务。
+2. 因为指定线程执行的`performSelector`方法，需要RunLoop的参与。
+
 ##### 2.RunLoop和自动释放池，GCD的关系
 
+
+
 ##### 3. 滑动ScrollView，Timer暂停计时的问题
+
+1. 将`Timer`加入的`NSRunLoopCommonMode`中，使得`Timer`加入到`commonModeItems`中，在RunLoop切换不同的mode的时候，只需要还是这个`CommonMode`标志位中的，即可以继续执行这个`Timer`的事件。
+
+2. 也可以开启一个子线程，然后在子线程中单独使用`Timer`添加到该子线程的RunLoop中运行
 
 ##### 4. 优化TableView由于大图加载卡顿
 
@@ -422,7 +435,7 @@ CFRunLoopObserverRef是观察者，能够监听RunLoop的状态改变
 
 ##### 6. 崩溃收集
 
-##### 7. 
+##### 
 
 
 
