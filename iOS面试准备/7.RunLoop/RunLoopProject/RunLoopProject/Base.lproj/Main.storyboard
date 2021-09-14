@@ -296,6 +296,22 @@
             </objects>
             <point key="canvasLocation" x="1229" y="1292"/>
         </scene>
+        <!--Thread Live View Controller-->
+        <scene sceneID="oGV-cN-NY4">
+            <objects>
+                <viewController id="MAD-aT-lex" customClass="ThreadLiveViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="jRO-gV-VFs">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="0uW-x5-2H3"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="GQo-ci-qv8"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qgo-tW-S2J" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1146" y="2022"/>
+        </scene>
         <!--Root View Controller-->
         <scene sceneID="BPO-q0-DNG">
             <objects>
@@ -342,8 +358,25 @@
                                             <rect key="frame" x="0.0" y="0.0" width="384.5" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="textLabel.text" value="3"/>
+                                        </userDefinedRuntimeAttributes>
                                         <connections>
                                             <segue destination="EMA-jF-IzU" kind="push" id="LvE-u9-4Fd"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="gZE-za-P5T">
+                                        <rect key="frame" x="0.0" y="156.5" width="414" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="gZE-za-P5T" id="mje-ub-bOB">
+                                            <rect key="frame" x="0.0" y="0.0" width="384.5" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="textLabel.text" value="4"/>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <segue destination="MAD-aT-lex" kind="push" id="cx9-Yy-b7c"/>
                                         </connections>
                                     </tableViewCell>
                                 </cells>

@@ -17,6 +17,7 @@
 		30D05088233BAB4700120C28 /* ViewController2.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D05087233BAB4700120C28 /* ViewController2.m */; };
 		8441ED8C26E8625F006A5C49 /* CheckStuck.m in Sources */ = {isa = PBXBuildFile; fileRef = 8441ED8B26E8625F006A5C49 /* CheckStuck.m */; };
 		8441ED8F26E8A651006A5C49 /* ViewController3.m in Sources */ = {isa = PBXBuildFile; fileRef = 8441ED8E26E8A651006A5C49 /* ViewController3.m */; };
+		848CED0726F04D14001BF9BB /* ThreadLiveViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 848CED0626F04D14001BF9BB /* ThreadLiveViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,8 @@
 		8441ED8B26E8625F006A5C49 /* CheckStuck.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CheckStuck.m; sourceTree = "<group>"; };
 		8441ED8D26E8A651006A5C49 /* ViewController3.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController3.h; sourceTree = "<group>"; };
 		8441ED8E26E8A651006A5C49 /* ViewController3.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController3.m; sourceTree = "<group>"; };
+		848CED0526F04D14001BF9BB /* ThreadLiveViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ThreadLiveViewController.h; sourceTree = "<group>"; };
+		848CED0626F04D14001BF9BB /* ThreadLiveViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ThreadLiveViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +73,7 @@
 		30D0506C233BA2C600120C28 /* RunLoopProject */ = {
 			isa = PBXGroup;
 			children = (
+				848CED0426F04CF7001BF9BB /* 线程存活 */,
 				30D0506D233BA2C600120C28 /* AppDelegate.h */,
 				30D0506E233BA2C600120C28 /* AppDelegate.m */,
 				30D05083233BAB0400120C28 /* LongLifeThread.h */,
@@ -89,6 +93,15 @@
 				30D0507C233BA2C800120C28 /* main.m */,
 			);
 			path = RunLoopProject;
+			sourceTree = "<group>";
+		};
+		848CED0426F04CF7001BF9BB /* 线程存活 */ = {
+			isa = PBXGroup;
+			children = (
+				848CED0526F04D14001BF9BB /* ThreadLiveViewController.h */,
+				848CED0626F04D14001BF9BB /* ThreadLiveViewController.m */,
+			);
+			path = "线程存活";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -165,6 +178,7 @@
 				30D0507D233BA2C800120C28 /* main.m in Sources */,
 				30D05088233BAB4700120C28 /* ViewController2.m in Sources */,
 				30D0506F233BA2C600120C28 /* AppDelegate.m in Sources */,
+				848CED0726F04D14001BF9BB /* ThreadLiveViewController.m in Sources */,
 				8441ED8C26E8625F006A5C49 /* CheckStuck.m in Sources */,
 				30D05085233BAB0400120C28 /* LongLifeThread.m in Sources */,
 				8441ED8F26E8A651006A5C49 /* ViewController3.m in Sources */,

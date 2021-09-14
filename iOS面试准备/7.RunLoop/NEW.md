@@ -381,11 +381,48 @@ CFRunLoopObserverRef是观察者，能够监听RunLoop的状态改变
 
 ### RunLoop处理逻辑
 
+1. 用指定的mode启动`CFRunLoopRunSpecific`，然后调用`__CFRunLoopRun`
 
+2. 整理起来就是
+
+- 指定runloopmode启动
+
+- 通知observers：RunLoop进入一个循环
+  - 通知observers：即将出发Timer回调
+
+  - 通知observers：即将触发Source0回调
+  - 执行RunLoop的block
+  - 执行Source0的block
+  - 检查是否有Source1的事件
+
+  - 进入休眠
+  - 处理Timer事件
+  - 处理GCD main dispatch事件
+  - 处理Source1事件
+  - 执行RunLoop的block
+  - 判断循环处理结果标志位
+
+- 通知observers:RunLoop退出一个循环
 
 
 
 ### RunLoop应用
+
+
+
+##### 1. 线程保活
+
+##### 2.RunLoop和自动释放池，GCD的关系
+
+##### 3. 滑动ScrollView，Timer暂停计时的问题
+
+##### 4. 优化TableView由于大图加载卡顿
+
+##### 5. 卡顿监控
+
+##### 6. 崩溃收集
+
+##### 7. 
 
 
 

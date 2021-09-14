@@ -2055,6 +2055,10 @@ static Boolean __CFRunLoopDoBlocks(CFRunLoopRef rl, CFRunLoopModeRef rlm)
     return did;
 }
 
+/*
+注解：
+调起通知Observer的方法，核心是__CFRUNLOOP_IS_CALLING_OUT_TO_AN_OBSERVER_CALLBACK_FUNCTION__
+*/
 /* rl is locked, rlm is locked on entrance and exit */
 static void __CFRunLoopDoObservers() __attribute__((noinline));
 static void __CFRunLoopDoObservers(CFRunLoopRef rl, CFRunLoopModeRef rlm, CFRunLoopActivity activity)
@@ -2951,10 +2955,10 @@ static int32_t __CFRunLoopRun(CFRunLoopRef rl, CFRunLoopModeRef rlm, CFTimeInter
         __CFPortSet waitSet = rlm->_portSet;
 
         __CFRunLoopUnsetIgnoreWakeUps(rl);
-        //注解：即将触发Timer的回调
+        //注解：通知Observer即将触发Timer的回调
         if (rlm->_observerMask & kCFRunLoopBeforeTimers)
             __CFRunLoopDoObservers(rl, rlm, kCFRunLoopBeforeTimers);
-        //注解：即将触发Source0的回调
+        //注解：通知Observer即将触发Source0的回调
         if (rlm->_observerMask & kCFRunLoopBeforeSources)
             __CFRunLoopDoObservers(rl, rlm, kCFRunLoopBeforeSources);
 
@@ -2987,7 +2991,7 @@ static int32_t __CFRunLoopRun(CFRunLoopRef rl, CFRunLoopModeRef rlm, CFTimeInter
         }
 
         didDispatchPortLastTime = false;
-        //注解：runloop的线程即将进入休眠
+        //注解：通知Observerrunloop的线程即将进入休眠
         if (!poll && (rlm->_observerMask & kCFRunLoopBeforeWaiting))
             __CFRunLoopDoObservers(rl, rlm, kCFRunLoopBeforeWaiting);
         __CFRunLoopSetSleeping(rl);
@@ -3083,6 +3087,10 @@ static int32_t __CFRunLoopRun(CFRunLoopRef rl, CFRunLoopModeRef rlm, CFTimeInter
             __CFRunLoopDoObservers(rl, rlm, kCFRunLoopAfterWaiting);
 
     handle_msg:;
+    /*
+    注解：
+    如果有source1消息唤醒，则跳过休眠，进入到唤醒消息处理
+    */
         __CFRunLoopSetIgnoreWakeUps(rl);
 
         // #if DEPLOYMENT_TARGET_WINDOWS
@@ -3272,10 +3280,19 @@ static int32_t __CFRunLoopRun(CFRunLoopRef rl, CFRunLoopModeRef rlm, CFTimeInter
 1.用指定的mode启动`CFRunLoopRunSpecific`，然后调用`__CFRunLoopRun`
 2.整理起来就是
     - 指定runloopmode启动
-    - 通知observers：RunLoop即将进入
-    - 通知observers：即将出发Timer回调
-    - 通知observers：即将触发Source0回调
-    - 
+    - 通知observers：RunLoop进入一个循环
+        - 通知observers：即将出发Timer回调
+        - 通知observers：即将触发Source0回调
+        - 执行RunLoop的block
+        - 执行Source0的block
+        - 检查是否有Source1的事件
+        - 进入休眠
+        - 处理Timer事件
+        - 处理GCD main dispatch事件
+        - 处理Source1事件
+        - 执行RunLoop的block
+        - 判断循环处理结果标志位
+    - 通知observers:RunLoop退出一个循环
 
 */
 SInt32 CFRunLoopRunSpecific(CFRunLoopRef rl, CFStringRef modeName, CFTimeInterval seconds, Boolean returnAfterSourceHandled)
@@ -3299,9 +3316,17 @@ SInt32 CFRunLoopRunSpecific(CFRunLoopRef rl, CFStringRef modeName, CFTimeInterva
     int32_t result = kCFRunLoopRunFinished;
 
     if (currentMode->_observerMask & kCFRunLoopEntry)
+        /*
+        注解：
+        RunLoop循环的第一个通知，通知进入RunLoop循环。
+        */
         __CFRunLoopDoObservers(rl, currentMode, kCFRunLoopEntry);
     result = __CFRunLoopRun(rl, currentMode, seconds, returnAfterSourceHandled, previousMode);
     if (currentMode->_observerMask & kCFRunLoopExit)
+        /*
+        注解：
+        RunLoop一个循环的最后一个通知，通知退出RunLoop循环。
+        */
         __CFRunLoopDoObservers(rl, currentMode, kCFRunLoopExit);
 
     __CFRunLoopModeUnlock(currentMode);
