@@ -197,7 +197,7 @@ id obj = [TestObject foo];
 
 - `dealloc`
 
-![dealloc实现流程](\../images/4/dealloc实现流程.png)
+![dealloc实现流程](../images/4/dealloc实现流程.png)
 
 
 ### 4.5 弱引用管理

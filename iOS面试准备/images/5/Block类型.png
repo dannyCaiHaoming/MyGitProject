@@ -1,0 +1,78 @@
+##### 面试题
+
+- 一个NSObject对象占用多少内存	
+- 对象的isa指针指向哪里
+- OC的类信息放在哪里
+
+
+
+### 1. Objective-C的本质
+
+OC代码底层实现是C/C++的代码，OC对象的底层是一个结构体，对象结构体里面都有`isa`指针及其他信息。
+
+将Objective-C转成c/c++源码可以使用：
+
+```
+xcrun -sdk iphones clang -arch arm64 -rewrite-objc xxx.m -o xxx.cpp
+```
+
+
+
+### 2. OC对象分类
+
+可以分为三类：
+
+- 实例对象(instance)
+- 类对象(class)
+- 元类对象(meta-class)
+
+#### 2.1 实例对象
+
+由[[xx alloc] init]生成的对象，底层实现是一个结构体。
+
+结构体里面包含一个`isa`指针，指向他类对象的地址。然后和它的其他成员变量信息。
+
+alloc后内存空间就固定了，内存大小和成员变量是相关的。跟结构体内存对齐有关。
+
+
+
+
+
+
+
+### 面试题答案
+
+#### 1. 
+
+系统分配16个字节给NSObject对象，但`NSObject`对象内部只使用了8个字节的空间(64bits下)，可以使用`class_getInstanceSize`获取
+
+#### 获取对象的空间
+
+```objc
+// 获取对象实际占用空间，结构体对齐
+class_getInstanceSize([NSObject class]);
+/* 获取对象内存分配大小。 oc代码有优化，使用16，32，64，128，256字节这几种大小进行分配。
+alloc -> allocWithZone ，底层源码中，指定最低分配16字节。
+*/
+malloc_size((__bridge const void*)obj);
+
+```
+
+##### 验证给NSObject对象分配了16个字节，但实际使用的是8个字节
+
+使用xocde->Debug->Debug workflow->view memory,然后在窗口地址中输入类地址信息，即可以在窗口查看类在内存中存储的内容。
+
+<img src="../images/2/查看内存地址内容.jpg" style="zoom:33%;" />
+
+从图中可以看到，(iOS是小端)所以每8个字节从右往左读。可以看到后面的8组数都是0.一对16进制数等于8位，等于一个字节。因此图中4个分组为4个字节。
+
+
+
+
+
+#### 附
+
+
+
+
+
