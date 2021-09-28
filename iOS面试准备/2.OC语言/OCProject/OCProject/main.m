@@ -10,14 +10,17 @@
 #import "AppDelegate.h"
 #import <objc/runtime.h>
 
+
 int main(int argc, char * argv[]) {
 	@autoreleasepool {
+        
+
 //        NSLog(@"%lu",sizeof(uint));
         
         
-        NSObject *obj = [[NSObject alloc] init];
-        NSLog(@"NSObject instance size = %zu",class_getInstanceSize([NSObject class]));
+//        NSObject *obj = [[NSObject alloc] init];
+//        NSLog(@"NSObject instance size = %zu",class_getInstanceSize([NSObject class]));
         
-//	    return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
+	    return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
 	}
 }

@@ -15,6 +15,8 @@
 #import "Keyword.h"
 #import "SubObject.h"
 #import "KindAndMember.h"
+#import "KVC.h"
+#import "KVOCrash.h"
 
 @interface ViewController ()
 
@@ -40,8 +42,8 @@
     
 //    NSLog(@"%@",self.obj);
     
-    __unsafe_unretained People *p = [People new];
-    [p log];
+//    __unsafe_unretained People *p = [People new];
+//    [p log];
 }
 
 - (void)viewDidLoad {
@@ -65,7 +67,11 @@
 
 //    [self testKeyword];
     
-    [self kindAndMember];
+//    [self kindAndMember];
+    
+    [self testKVOCrash];
+    
+
 }
 
 - (void)testCopy{
@@ -147,6 +153,11 @@
     [[KindAndMember new] doSomeThings];
 }
 
+
+- (void)testKVOCrash {
+    [[KVOCrash new] test];
+}
+
 - (void)notification {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(testKeyword) name:UIApplicationWillTerminateNotification object:nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationWillTerminateNotification object:nil userInfo:nil];
@@ -156,9 +167,15 @@
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    if ([keyPath isEqualToString: @"testOb"]) {
-        NSLog(@"-------");
-    }
+//    if ([keyPath isEqualToString: @"testOb"]) {
+//        NSLog(@"-------");
+//    }
+//    NSLog(@"%@",change);
+//
+//    KVC *obj = (KVC *)object;
+//    if (obj != nil) {
+//        NSLog(@"%@",obj);
+//    }
 }
 
 @end
