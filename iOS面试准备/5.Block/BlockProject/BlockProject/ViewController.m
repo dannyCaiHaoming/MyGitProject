@@ -9,6 +9,7 @@
 #import "ViewController.h"
 #import "Person.h"
 #import "Test.h"
+#import "BlockMemoryLayout.h"
 
 
 typedef void(^TestBlock)(void);
@@ -19,6 +20,7 @@ typedef void(^TestBlock)(void);
 
 @property (nonatomic, copy) TestBlock block;
 @property (nonatomic, strong) Person *p;
+
 
 @end
 
@@ -67,6 +69,9 @@ typedef void(^TestBlock)(void);
     
 //    Test *test = [Test new];
 //    [test print];
+    
+    
+    [[[BlockMemoryLayout alloc] init] find];
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{

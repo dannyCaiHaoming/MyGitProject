@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		303E38882711EC69006DA803 /* BlockMemoryLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 303E38872711EC69006DA803 /* BlockMemoryLayout.m */; };
 		305D753E23312B4B0073967E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 305D753D23312B4B0073967E /* AppDelegate.m */; };
 		305D754123312B4B0073967E /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 305D754023312B4B0073967E /* ViewController.m */; };
 		305D754423312B4B0073967E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 305D754223312B4B0073967E /* Main.storyboard */; };
@@ -18,6 +19,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		303E38862711EC69006DA803 /* BlockMemoryLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BlockMemoryLayout.h; sourceTree = "<group>"; };
+		303E38872711EC69006DA803 /* BlockMemoryLayout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BlockMemoryLayout.m; sourceTree = "<group>"; };
 		305D753923312B4B0073967E /* BlockProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BlockProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		305D753C23312B4B0073967E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		305D753D23312B4B0073967E /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -45,6 +48,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		303E38852711EC3D006DA803 /* 找出block内存布局 */ = {
+			isa = PBXGroup;
+			children = (
+				303E38862711EC69006DA803 /* BlockMemoryLayout.h */,
+				303E38872711EC69006DA803 /* BlockMemoryLayout.m */,
+			);
+			path = "找出block内存布局";
+			sourceTree = "<group>";
+		};
 		305D753023312B4B0073967E = {
 			isa = PBXGroup;
 			children = (
@@ -64,6 +76,7 @@
 		305D753B23312B4B0073967E /* BlockProject */ = {
 			isa = PBXGroup;
 			children = (
+				303E38852711EC3D006DA803 /* 找出block内存布局 */,
 				305D753C23312B4B0073967E /* AppDelegate.h */,
 				305D753D23312B4B0073967E /* AppDelegate.m */,
 				305D753F23312B4B0073967E /* ViewController.h */,
@@ -151,6 +164,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				303E38882711EC69006DA803 /* BlockMemoryLayout.m in Sources */,
 				30B22CDB267E56C200BE9558 /* Test.m in Sources */,
 				305D754123312B4B0073967E /* ViewController.m in Sources */,
 				305D754C23312B4C0073967E /* main.m in Sources */,
