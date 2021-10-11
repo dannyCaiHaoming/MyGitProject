@@ -10,13 +10,13 @@
 
 @implementation MyObject (Category2)
 
-+ (void)load {
-    NSLog(@"MyObject+Category2 load");
-}
-
-+ (void)initialize {
-    NSLog(@"MyObject+Category2 initialize");
-}
+//+ (void)load {
+//    NSLog(@"MyObject+Category2 load");
+//}
+//
+//+ (void)initialize {
+//    NSLog(@"MyObject+Category2 initialize");
+//}
 
 - (void)printTest {
     NSLog(@"MyObject+Category2");

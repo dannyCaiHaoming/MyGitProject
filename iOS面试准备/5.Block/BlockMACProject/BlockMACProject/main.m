@@ -9,16 +9,24 @@
 #import <UIKit/UIKit.h>
 #import "AppDelegate.h"
 
+
+//16
 struct __main_block_desc_0 {
     size_t reserved;
     size_t Block_size;
 };
+
+//24
 struct __block_impl {
     void *isa;
     int Flags;
     int Reserved;
     void *FuncPtr;
 };
+// 20 + 16 + 4
+
+
+
 // 模仿系统__main_block_impl_0结构体
 struct __main_block_impl_0 {
     struct __block_impl impl;
