@@ -84,8 +84,11 @@ typedef void(^Block)(void);
     
     
     //MARK: 第三步
-    int target = 2;
-    NSLog(@"start = %p",&target);
+    
+    
+    
+    __block int target = 2;
+    NSLog(@"target = %p",&target);
     //typedef void(^Block)(void);
     void (^myblock) (void) = ^{
         NSLog(@"Print my block %d",target);
@@ -95,18 +98,24 @@ typedef void(^Block)(void);
         NSLog(@"Print 2 my block %d",target);
     };
     
-    void (^myblock3) (void) = ^{
-        NSLog(@"Print 3 my block %d",target);
-    };
-    
     struct __main_block_impl_0 *impl = (__bridge struct __main_block_impl_0 *)myblock;
     // start : 0x7ffee269cabc
     // myblock: 0x7ffee269cab0
     NSLog(@"target = %p",&target);
     NSLog(@"myBlock = %p",&myblock);
     NSLog(@"myBlock2 = %p",&myblock2);
-    NSLog(@"myBlock3 = %p",&myblock3);
     NSLog(@"__main_block_impl_0 = %p",&impl);
+    
+    /*
+      BlockProject[31451:1229642] target = 0x7ffee4bafab8
+      BlockProject[31451:1229642] target = 0x6000035b90f8
+      BlockProject[31451:1229642] myBlock = 0x7ffee4bafa88
+      BlockProject[31451:1229642] myBlock2 = 0x7ffee4bafa58
+      BlockProject[31451:1229642] __main_block_impl_0 = 0x7ffee4bafa28
+     
+     // __block_by_ref结构的地址是 0x7ffee4bafaa0
+     // 会存储在target变量
+     */
      
      
     
