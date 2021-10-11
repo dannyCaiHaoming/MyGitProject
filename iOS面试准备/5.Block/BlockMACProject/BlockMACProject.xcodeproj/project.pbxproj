@@ -14,6 +14,7 @@
 		339DB1992332191B00E0E46A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 339DB1972332191B00E0E46A /* LaunchScreen.storyboard */; };
 		339DB19C2332191B00E0E46A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 339DB19B2332191B00E0E46A /* main.m */; };
 		339DB1A4233219D600E0E46A /* Person.m in Sources */ = {isa = PBXBuildFile; fileRef = 339DB1A3233219D600E0E46A /* Person.m */; };
+		848D68CE27141490003B59BE /* DeallocObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 848D68CD27141490003B59BE /* DeallocObject.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +30,8 @@
 		339DB19B2332191B00E0E46A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		339DB1A2233219D600E0E46A /* Person.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Person.h; sourceTree = "<group>"; };
 		339DB1A3233219D600E0E46A /* Person.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Person.m; sourceTree = "<group>"; };
+		848D68CC27141490003B59BE /* DeallocObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeallocObject.h; sourceTree = "<group>"; };
+		848D68CD27141490003B59BE /* DeallocObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DeallocObject.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +70,8 @@
 				339DB1902332191A00E0E46A /* ViewController.m */,
 				339DB1A2233219D600E0E46A /* Person.h */,
 				339DB1A3233219D600E0E46A /* Person.m */,
+				848D68CC27141490003B59BE /* DeallocObject.h */,
+				848D68CD27141490003B59BE /* DeallocObject.m */,
 				339DB1922332191A00E0E46A /* Main.storyboard */,
 				339DB1952332191B00E0E46A /* Assets.xcassets */,
 				339DB1972332191B00E0E46A /* LaunchScreen.storyboard */,
@@ -147,6 +152,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				339DB1912332191A00E0E46A /* ViewController.m in Sources */,
+				848D68CE27141490003B59BE /* DeallocObject.m in Sources */,
 				339DB19C2332191B00E0E46A /* main.m in Sources */,
 				339DB1A4233219D600E0E46A /* Person.m in Sources */,
 				339DB18E2332191A00E0E46A /* AppDelegate.m in Sources */,

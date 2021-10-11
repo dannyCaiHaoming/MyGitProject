@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "AppDelegate.h"
-
+#import "DeallocObject.h"
 
 //16
 struct __main_block_desc_0 {
@@ -25,32 +25,39 @@ struct __block_impl {
 };
 // 20 + 16 + 4
 
-
+struct __Block_byref_val_0 {
+    void *__isa;
+    struct __Block_byref_val_0 *__forwarding;
+    int __flags;
+    int __size;
+    int val;
+};
 
 // 模仿系统__main_block_impl_0结构体
 struct __main_block_impl_0 {
     struct __block_impl impl;
     struct __main_block_desc_0* Desc;
-    int age;
+//    int age;
+    struct __Block_byref_val_0* target;
 };
 
 
-void (^block)(void);
-
-void test(){
-    int age = 10;
-    
-    
-    
-//    block =
-    
-    
-    // 将底层的结构体强制转化为我们自己写的结构体，通过我们自定义的结构体探寻block底层结构体
-    
-    
-    struct __main_block_impl_0 *blockStruct = (__bridge struct __main_block_impl_0 *)^{
-        NSLog(@"test = %d",age);
-    };
+//void (^block)(void);
+//
+//void test(){
+//    int age = 10;
+//
+//
+//
+////    block =
+//
+//
+//    // 将底层的结构体强制转化为我们自己写的结构体，通过我们自定义的结构体探寻block底层结构体
+//
+//
+//    struct __main_block_impl_0 *blockStruct = (__bridge struct __main_block_impl_0 *)^{
+//        NSLog(@"test = %d",age);
+//    };
     
     /// 堆
 //    struct __main_block_impl_0 *blockStruct = (__bridge struct __main_block_impl_0 *)[^{
@@ -161,21 +168,37 @@ int main(int argc, char * argv[]) {
     @autoreleasepool {
         
         
-        NSObject *obj = [NSObject new];
+//        NSObject *obj = [NSObject new];
+//
+//        NSLog(@"obj = %p",obj);
+//
+//        NSLog(@"class = %p", [NSObject class]);
+//
+//        NSLog(@"alloc = %p", [[NSObject alloc] init]);
+//
+//
+//        int a = 10;
+//        Block myBlock = ^{
+//            NSLog(@"asdf%d",a);
+//        };
+//
+//        NSLog(@"%@block = %p",[myBlock class],myBlock);
         
-        NSLog(@"obj = %p",obj);
+        __block int target = 2;
         
-        NSLog(@"class = %p", [NSObject class]);
-        
-        NSLog(@"alloc = %p", [[NSObject alloc] init]);
-        
-        
-        int a = 10;
+        NSLog(@"target = %p",&target);
         Block myBlock = ^{
-            NSLog(@"asdf%d",a);
+            NSLog(@"myblock = %d",target);
         };
+        struct __main_block_impl_0 *impl = (__bridge struct __main_block_impl_0 *)myBlock;
+        NSLog(@"target = %p",&target);
+        NSLog(@"myblock = %p",&myBlock);
+        NSLog(@"__main_block_impl_0 = %p",&impl);
         
-        NSLog(@"%@block = %p",[myBlock class],myBlock);
+        
+        __block NSObject *obj = [NSObject]
+        
+        
         
     }
 }

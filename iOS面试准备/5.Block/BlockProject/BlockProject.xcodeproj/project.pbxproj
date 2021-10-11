@@ -35,6 +35,7 @@
 		305D75532331348A0073967E /* Person.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Person.m; sourceTree = "<group>"; };
 		30B22CD9267E56C200BE9558 /* Test.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Test.h; sourceTree = "<group>"; };
 		30B22CDA267E56C200BE9558 /* Test.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Test.m; sourceTree = "<group>"; };
+		848D68CA2713EDB0003B59BE /* BlockMemoryLayout.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = BlockMemoryLayout.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +54,7 @@
 			children = (
 				303E38862711EC69006DA803 /* BlockMemoryLayout.h */,
 				303E38872711EC69006DA803 /* BlockMemoryLayout.m */,
+				848D68CA2713EDB0003B59BE /* BlockMemoryLayout.cpp */,
 			);
 			path = "找出block内存布局";
 			sourceTree = "<group>";

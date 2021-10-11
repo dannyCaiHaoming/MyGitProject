@@ -23,7 +23,7 @@ static Block StaticBlock;
 
 int main(int argc, char * argv[]) {
     @autoreleasepool {
-//        return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
+        return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
         
 //        int intVarInStack = 1;
 //        printf("&intVarInStack:%p, intVarInStack:%d \n", &intVarInStack, intVarInStack);
@@ -48,13 +48,13 @@ int main(int argc, char * argv[]) {
 //        printf("&val:%p, val:%d \n", &val, val);
 //        ++val;
         
-        __block char charBlock = 'a';
-        
-        
-        __block int mallocInt2 = 2;
-        int mallocInt3 = 3;
-        
-        NSLog(@"mallocInt3 == %p\n",&mallocInt3);
+//        __block char charBlock = 'a';
+//        
+//        
+//        __block int mallocInt2 = 2;
+//        int mallocInt3 = 3;
+//        
+//        NSLog(@"mallocInt3 == %p\n",&mallocInt3);
 //        printf("char = %p\n",&charBlock);
 //
 //        printf("before mallocInt1 -- %p\n",&mallocInt1);
@@ -64,20 +64,20 @@ int main(int argc, char * argv[]) {
 //            printf("hello malloc block,int = %d",mallocInt1);
 //        } copy]);
         
-        __block int mallocInt1 = 1;
-        int start = 999;
-        
-        NSLog(@"target == %p\n",&start);
-        
-        Block mallocBlock1 = [^{
-//            printf("hello malloc block,int = %d",mallocInt1);
-        } copy];
-        printf("mallocBlock1 = %p\n",&mallocBlock1);
-        
-        int end = 1000;
-        NSLog(@"target end == %p\n",&end);
-        
-        printf("after mallocInt1 -- %p\n",&mallocInt1);
+//        __block int mallocInt1 = 1;
+//        int start = 999;
+//
+//        NSLog(@"target == %p\n",&start);
+//
+//        Block mallocBlock1 = [^{
+////            printf("hello malloc block,int = %d",mallocInt1);
+//        } copy];
+//        printf("mallocBlock1 = %p\n",&mallocBlock1);
+//
+//        int end = 1000;
+//        NSLog(@"target end == %p\n",&end);
+//
+//        printf("after mallocInt1 -- %p\n",&mallocInt1);
         
 
         /*
