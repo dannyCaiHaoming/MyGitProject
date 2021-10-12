@@ -24,11 +24,11 @@ struct __block_impl {
 };
 
 struct __Block_byref_val_0 {
-    void *__isa;
-    struct __Block_byref_val_0 *__forwarding;
-    int __flags;
-    int __size;
-    int val;
+    void *__isa; //8
+    struct __Block_byref_val_0 *__forwarding; //8
+    int __flags; // 4
+    int __size; // 4
+    int val; // 4
 };
 
 // 模仿系统__main_block_impl_0结构体
@@ -37,8 +37,9 @@ struct __main_block_impl_0 {
     struct __block_impl impl;
     // 8
     struct __main_block_desc_0* Desc;
-//    struct __Block_byref_val_0* target;
-    int target;
+    // 8
+    struct __Block_byref_val_0* target;
+//    int target;
 };
 
 typedef void(^Block)(void);
@@ -82,7 +83,7 @@ typedef void(^Block)(void);
 */
     
     
-    
+/*
     //MARK: 第三步
     
     
@@ -106,18 +107,19 @@ typedef void(^Block)(void);
     NSLog(@"myBlock2 = %p",&myblock2);
     NSLog(@"__main_block_impl_0 = %p",&impl);
     
-    /*
-      BlockProject[31451:1229642] target = 0x7ffee4bafab8
-      BlockProject[31451:1229642] target = 0x6000035b90f8
-      BlockProject[31451:1229642] myBlock = 0x7ffee4bafa88
-      BlockProject[31451:1229642] myBlock2 = 0x7ffee4bafa58
-      BlockProject[31451:1229642] __main_block_impl_0 = 0x7ffee4bafa28
+    
+      //BlockProject[31451:1229642] target = 0x7ffee4bafab8
+      //BlockProject[31451:1229642] target = 0x6000035b90f8
+      //BlockProject[31451:1229642] myBlock = 0x7ffee4bafa88
+      //BlockProject[31451:1229642] myBlock2 = 0x7ffee4bafa58
+      //BlockProject[31451:1229642] __main_block_impl_0 = 0x7ffee4bafa28
      
      // __block_by_ref结构的地址是 0x7ffee4bafaa0
      // 会存储在target变量
-     */
      
-     
+
+    */
+    
     
     //MARK: 第四步
     
@@ -133,6 +135,33 @@ typedef void(^Block)(void);
 //    }
     
     
+    //MARK: 第七步
+    
+    int val = 3;
+    
+    int test = 5;
+//    {
+        NSLog(@"val = %p",&val);
+        Block myblock = ^{
+            NSLog(@"%d",val);
+        };
+
+        NSLog(@"val = %p",&val);
+        NSLog(@"myblock = %p",&myblock);
+
+        
+        struct __main_block_impl_0 *impl = (__bridge struct __main_block_impl_0*)myblock;
+        myblock = nil;
+//    }
+    NSLog(@"val = %p",&val);
+    
+//    Block myblock2 = ^{
+//        NSLog(@"%d",val);
+//    };
+//    NSLog(@"val = %p",&val);
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        NSLog(@"asdfsd");
+    });
 }
 
 @end
