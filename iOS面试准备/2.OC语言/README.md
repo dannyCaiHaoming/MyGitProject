@@ -24,7 +24,7 @@
 
 - 这里需要先补`Runtime`的知识，了解`Class`的内部结构
 - 后来想，运行时怎么去查找这个类的分类信息？
-	- 其实这个类的一些分类信息，在编译期间已经添加到类的结构上，因此其实不用导入头，也可以使用`perform`直接指定方法去发送，只不过具体函数内容，就得运行时才能知道是哪个了
+	- 其实这个类的一些分类信息，在运行时会自动插入到类对象里面。，因此其实不用导入头，也可以使用`perform`直接指定方法去发送，只不过具体函数内容，就得运行时才能知道是哪个了
 - 在运行时，`类对象`会调用`attachCategories`函数去把类中的分类拼接上
 - `倒序遍历`，将每个分类中的`方法`,`属性`,`协议`各自生成一个二维数组
 	- `method_list_t **mlists`
@@ -202,22 +202,23 @@ Q: **NSMutable对象，经常使用strong关键字，为什么**
 
 
 #### 2.7.5 Copy和MutableCopy
-	 
+
     NSArray *arr1 = [NSArray arrayWithObject:@"arr1"];
-	NSMutableArray *mArr1 = [NSMutableArray arrayWithObject:@"mArr1"];
-	
-	NSLog(@"inArray copy---%@",[[arr1 copy] class]);
-	NSLog(@"inArray mutableCopy---%@",[[arr1 mutableCopy] class]);
-	
-	NSLog(@"mArray copy---%@",[[mArr1 copy] class]);
-	NSLog(@"mArray mutableCopy---%@",[[mArr1 mutableCopy] class]);
-	 
-	 
+    NSMutableArray *mArr1 = [NSMutableArray arrayWithObject:@"mArr1"];
+    
+    NSLog(@"inArray copy---%@",[[arr1 copy] class]);
+    NSLog(@"inArray mutableCopy---%@",[[arr1 mutableCopy] class]);
+    
+    NSLog(@"mArray copy---%@",[[mArr1 copy] class]);
+    NSLog(@"mArray mutableCopy---%@",[[mArr1 mutableCopy] class]);
+
+
+​	 
 	inArray copy---__NSSingleObjectArrayI
- 	inArray mutableCopy---__NSArrayM
+	inArray mutableCopy---__NSArrayM
 	mArray copy---__NSSingleObjectArrayI
 	mArray mutableCopy---__NSArrayM
-	
+
 **结论：**
 
 - `copy` 浅复制，都是得到不可变对象
