@@ -4828,6 +4828,12 @@ static method_t *findMethodInSortedMethodList(SEL key, const method_list_t *list
 * fixme
 * Locking: runtimeLock must be read- or write-locked by the caller
 **********************************************************************/
+/*
+ 注解：
+ 从类方法数组中查找方法，
+ （1）对于排序好的，就进行二分查找
+ （2）没有排序的，进行遍历查找
+ */
 static method_t *search_method_list(const method_list_t *mlist, SEL sel)
 {
     int methodListIsFixedUp = isMethodListFixedUp(mlist);
@@ -4969,7 +4975,7 @@ log_and_fill_cache(Class cls, Class implementer, IMP imp, SEL sel)
 * _class_lookupMethodAndLoadCache.
 * Method lookup for dispatchers ONLY. OTHER CODE SHOULD USE lookUpImp().
 * This lookup avoids optimistic cache scan because the dispatcher 
-* already tried that.
+* already tried tha t.
 **********************************************************************/
 IMP _class_lookupMethodAndLoadCache3(id obj, SEL sel, Class cls)
 {
@@ -4990,6 +4996,13 @@ IMP _class_lookupMethodAndLoadCache3(id obj, SEL sel, Class cls)
 *   must be converted to _objc_msgForward or _objc_msgForward_stret.
 *   If you don't want forwarding at all, use lookUpImpOrNil() instead.
 **********************************************************************/
+
+/*
+ 注解：
+ 从类中查询方法的步骤
+ 1.先查询cache_t
+ 2.然后从方法列表中查询，遍历父类重复第一步
+ */
 IMP lookUpImpOrForward(Class cls, SEL sel, id inst, 
                        bool initialize, bool cache, bool resolver)
 {
@@ -5080,6 +5093,7 @@ IMP lookUpImpOrForward(Class cls, SEL sel, id inst,
     // No implementation found. Try method resolver once.
 
     if (resolver  &&  !triedResolver) {
+        // 是否进行过尝试处理
         rwlock_unlock_read(&runtimeLock);
         _class_resolveMethod(cls, sel, inst);
         // Don't cache the result; we don't hold the lock so it may have 
