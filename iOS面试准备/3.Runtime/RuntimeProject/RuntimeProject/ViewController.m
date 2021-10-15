@@ -33,6 +33,6 @@
 
 
 - (void)stackHeap {
-    [[StackHeap new] test];
+//    [[StackHeap new] test];
 }
 @end

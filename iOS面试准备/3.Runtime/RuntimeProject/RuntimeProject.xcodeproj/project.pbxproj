@@ -18,6 +18,10 @@
 		335E01D82345B3C400A565D6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 335E01D72345B3C400A565D6 /* main.m */; };
 		335E01E02345C73A00A565D6 /* Person.m in Sources */ = {isa = PBXBuildFile; fileRef = 335E01DF2345C73A00A565D6 /* Person.m */; };
 		335E01E32345CA0200A565D6 /* Man.m in Sources */ = {isa = PBXBuildFile; fileRef = 335E01E22345CA0200A565D6 /* Man.m */; };
+		84999C0827191D860008B9A8 /* Objc-MsgSend.m in Sources */ = {isa = PBXBuildFile; fileRef = 84999C0727191D860008B9A8 /* Objc-MsgSend.m */; };
+		84999C0C271925410008B9A8 /* SuperKeyword.m in Sources */ = {isa = PBXBuildFile; fileRef = 84999C0B271925410008B9A8 /* SuperKeyword.m */; };
+		84999C1227192E750008B9A8 /* KindAndMember.m in Sources */ = {isa = PBXBuildFile; fileRef = 84999C1127192E750008B9A8 /* KindAndMember.m */; };
+		84999C17271967470008B9A8 /* RuntimeAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 84999C16271967470008B9A8 /* RuntimeAPI.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +45,14 @@
 		335E01DF2345C73A00A565D6 /* Person.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Person.m; sourceTree = "<group>"; };
 		335E01E12345CA0200A565D6 /* Man.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Man.h; sourceTree = "<group>"; };
 		335E01E22345CA0200A565D6 /* Man.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Man.m; sourceTree = "<group>"; };
+		84999C0627191D860008B9A8 /* Objc-MsgSend.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Objc-MsgSend.h"; sourceTree = "<group>"; };
+		84999C0727191D860008B9A8 /* Objc-MsgSend.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "Objc-MsgSend.m"; sourceTree = "<group>"; };
+		84999C0A271925410008B9A8 /* SuperKeyword.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SuperKeyword.h; sourceTree = "<group>"; };
+		84999C0B271925410008B9A8 /* SuperKeyword.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SuperKeyword.m; sourceTree = "<group>"; };
+		84999C1027192E750008B9A8 /* KindAndMember.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KindAndMember.h; sourceTree = "<group>"; };
+		84999C1127192E750008B9A8 /* KindAndMember.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KindAndMember.m; sourceTree = "<group>"; };
+		84999C15271967470008B9A8 /* RuntimeAPI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RuntimeAPI.h; sourceTree = "<group>"; };
+		84999C16271967470008B9A8 /* RuntimeAPI.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RuntimeAPI.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +94,10 @@
 		335E01C42345B3C300A565D6 /* RuntimeProject */ = {
 			isa = PBXGroup;
 			children = (
+				84999C14271967370008B9A8 /* Runtime的API使用 */,
+				84999C0F27192E750008B9A8 /* iskind和isMember */,
+				84999C092719251B0008B9A8 /* Super关键字 */,
+				84999C0527191D610008B9A8 /* 动态方法-消息转发 */,
 				30CA8AD3267F315C004D02BB /* 堆栈 */,
 				335E01C52345B3C300A565D6 /* AppDelegate.h */,
 				335E01C62345B3C300A565D6 /* AppDelegate.m */,
@@ -102,6 +118,43 @@
 				335E01D72345B3C400A565D6 /* main.m */,
 			);
 			path = RuntimeProject;
+			sourceTree = "<group>";
+		};
+		84999C0527191D610008B9A8 /* 动态方法-消息转发 */ = {
+			isa = PBXGroup;
+			children = (
+				84999C0627191D860008B9A8 /* Objc-MsgSend.h */,
+				84999C0727191D860008B9A8 /* Objc-MsgSend.m */,
+			);
+			path = "动态方法-消息转发";
+			sourceTree = "<group>";
+		};
+		84999C092719251B0008B9A8 /* Super关键字 */ = {
+			isa = PBXGroup;
+			children = (
+				84999C0A271925410008B9A8 /* SuperKeyword.h */,
+				84999C0B271925410008B9A8 /* SuperKeyword.m */,
+			);
+			path = "Super关键字";
+			sourceTree = "<group>";
+		};
+		84999C0F27192E750008B9A8 /* iskind和isMember */ = {
+			isa = PBXGroup;
+			children = (
+				84999C1027192E750008B9A8 /* KindAndMember.h */,
+				84999C1127192E750008B9A8 /* KindAndMember.m */,
+			);
+			name = "iskind和isMember";
+			path = "../../../2.OC语言/OCProject/OCProject/iskind和isMember";
+			sourceTree = "<group>";
+		};
+		84999C14271967370008B9A8 /* Runtime的API使用 */ = {
+			isa = PBXGroup;
+			children = (
+				84999C15271967470008B9A8 /* RuntimeAPI.h */,
+				84999C16271967470008B9A8 /* RuntimeAPI.m */,
+			);
+			path = "Runtime的API使用";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -177,9 +230,13 @@
 				335E01E32345CA0200A565D6 /* Man.m in Sources */,
 				335E01CD2345B3C300A565D6 /* ViewController.m in Sources */,
 				30CA8AD6267F3167004D02BB /* StackHeap.m in Sources */,
+				84999C0C271925410008B9A8 /* SuperKeyword.m in Sources */,
 				335E01C72345B3C300A565D6 /* AppDelegate.m in Sources */,
 				335E01E02345C73A00A565D6 /* Person.m in Sources */,
+				84999C0827191D860008B9A8 /* Objc-MsgSend.m in Sources */,
 				30B9C2862350A1DE008BDFB5 /* Student.m in Sources */,
+				84999C1227192E750008B9A8 /* KindAndMember.m in Sources */,
+				84999C17271967470008B9A8 /* RuntimeAPI.m in Sources */,
 				335E01D82345B3C400A565D6 /* main.m in Sources */,
 				335E01CA2345B3C300A565D6 /* SceneDelegate.m in Sources */,
 			);
