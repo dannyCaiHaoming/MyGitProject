@@ -33,7 +33,7 @@
 - 你也可以自行绘图，然后经过处理之后最终也会变成类似`图片`
 - `CALayer`无论使用的图片还是自定义绘制，最终展示就类似**纹理**，而**纹理**本质上就是一张图片
 
-**PS:**`CALayer`的`content`，本质上是一个`Bitmap`位图信息，可以直接传递到GPU进行渲染。如果我们传入一个`CGImage`，即一个已经解码完成的数据，也就是`Bitmap`，是可以传到CPU进行渲染然后显示的。因此`content`不叫`Backing Store`,拜托`Backing Store`的概念查一下好吧，后备存储，效率比内存低，这里`Backing Store`是否在磁盘之上，我查不到什么。但是，只有在你使用`draw:inContext:`或者`drawLayer:inContext:`进行获取上下文进行绘制，在这之前，系统会使用`Backing Store`存储了你原来这个`layer`上的`content`！注意是相当于临时存放，因为你需要在原来的`layer`内容之上进行修改的呀大哥。因此你获取到的上下文，是从`Backing Store`中取出来的。有些文章说会通过`push`和`pop`方法在全局取出上下文进行操作，那么可以认为这个`Backing Store`是全局的一个图形上下文栈。等你对操作完的上下文修改后，就会重新赋值回`layer`的`content`属性，然后作为新的`Bitmap`传递到GPU进行渲染！！！
+**PS:**`CALayer`的`content`，本质上是一个`Bitmap`位图信息，可以直接传递到GPU进行渲染。如果我们传入一个`CGImage`，即一个已经解码完成的数据，也就是`Bitmap`，是可以传到GPU进行渲染然后显示的。因此`content`不叫`Backing Store`,拜托`Backing Store`的概念查一下好吧，后备存储，效率比内存低，这里`Backing Store`是否在磁盘之上，我查不到什么。但是，只有在你使用`draw:inContext:`或者`drawLayer:inContext:`进行获取上下文进行绘制，在这之前，系统会使用`Backing Store`存储了你原来这个`layer`上的`content`！注意是相当于临时存放，因为你需要在原来的`layer`内容之上进行修改的呀大哥。因此你获取到的上下文，是从`Backing Store`中取出来的。有些文章说会通过`push`和`pop`方法在全局取出上下文进行操作，那么可以认为这个`Backing Store`是全局的一个图形上下文栈。等你对操作完的上下文修改后，就会重新赋值回`layer`的`content`属性，然后作为新的`Bitmap`传递到GPU进行渲染！！！
 `context`就是一堆翻译说的寄宿图。。。
 
 #### 1.2.2 绘制方法
@@ -48,7 +48,7 @@
 
 #### 1.2.3 `UIView`绘制原理
 
-![UI视图绘制原理](https://github.com/dannyCaiHaoming/MyGitProfject/blob/master/iOS%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/images/1/UI%E8%A7%86%E5%9B%BE%E7%BB%98%E5%88%B6%E5%8E%9F%E7%90%86.webp)
+![UI视图绘制原理](../images/1/UI视图绘制原理.webp)
 
 - 其实就是相当于`CALayer`进行了一次重新绘制
 - 流程就是先判断有没有实现`CALayerDelegate`的方法-----`异步绘制`
@@ -56,7 +56,11 @@
 
 ##### 1.2.3.1 系统绘制流程
 
-![系统绘制流程](https://github.com/dannyCaiHaoming/MyGitProfject/blob/master/iOS%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/images/1/%E7%B3%BB%E7%BB%9F%E7%BB%98%E5%88%B6%E6%B5%81%E7%A8%8B.webp)
+- 先调用layer的`display(:layer)`
+- 然后判断是否有layer的delegate实现了`display(layer: inCtx:)`，如果有则调用且结束
+- 如果上面两个都没有，则调用layer的`draw(inCtx:)`
+- 然后判断是否有layer的delegate实现了`draw(layer: inCtx:)`，如果有则调用且结束
+- 如果上面都没有，则会调用view的`draw(in:)`
 
 
 #### 1.2.4 异步绘制
@@ -81,20 +85,20 @@
 - 事件在队列取出后会传到`UIWindow`，开始倒序遍历每个子视图
 - 规则：调用`hitTest`(内部是`pointInside`)去查找子视图中，子视图是否包含点击区域，查找到最末尾的（最顶层的视图）之后，回传给`UIApplication`
 
-![事件传递流程图](https://github.com/dannyCaiHaoming/MyGitProfject/blob/master/iOS%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/images/1/%E4%BA%8B%E4%BB%B6%E4%BC%A0%E9%80%92%E6%B5%81%E7%A8%8B%E5%9B%BE.png)
+![事件传递流程图](../images/1/事件传递流程图.png)
 
 ##### 1.3.1.2 HitTest内部实现描述
 - 从`UIWindow`为入口，每次检测视图的`可触控`、`透明`、`Alpha`都满足响应条件且点击是否落在视图上
 - 倒序遍历视图的子视图，寻找最后一个（最上层一个）视图返回
 
-![HitTest流程图](https://github.com/dannyCaiHaoming/MyGitProfject/blob/master/iOS%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/images/1/HitTest%E6%B5%81%E7%A8%8B%E5%9B%BE.png)
+![HitTest流程图](../images/1/HitTest流程图.png)
 
 #### 1.3.2 视图响应链
 
 ##### 1.3.2.1 一般响应流程
 视图作为最顶层触控视图，会将触控事件从自身开始往下一级响应链，也就是父视图传递，如果一直没有找到`UIApplicationDelegate`也没有响应者，则这次触控会被忽略掉。
 
-![响应流程图](https://github.com/dannyCaiHaoming/MyGitProfject/blob/master/iOS%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/images/1/%E5%93%8D%E5%BA%94%E6%B5%81%E7%A8%8B%E5%9B%BE.png)
+![响应流程图](../images/1/响应流程图.png)
 
 ##### 1.3.2.2 手势识别(优先级比响应链高，提前终止)
 众所周知，会接收掉该次触控响应，终止响应链流程继续。
@@ -106,7 +110,7 @@
 
 整体历程：CPU->GPU->显示器
 
-![图像显示原理](https://github.com/dannyCaiHaoming/MyGitProfject/blob/master/iOS%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/images/1/%E5%9B%BE%E5%83%8F%E6%98%BE%E7%A4%BA%E5%8E%9F%E7%90%86.png)
+![图像显示原理](../images/1/图像显示原理.png)
 
 #### 1.4.1 CPU负责
 - `Layout` 视图构建，在这个阶段，程序设置 View/Layer 的层级信息，设置 layer 的属性，如 frame，background color 等等。
@@ -119,7 +123,7 @@
 #### 1.4.2 GPU负责
 应该是类似Matel渲染流程
 
-![GPU处理流程](https://github.com/dannyCaiHaoming/MyGitProfject/blob/master/iOS%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/images/1/GPU%E5%A4%84%E7%90%86%E6%B5%81%E7%A8%8B.png)
+![GPU处理流程](../images/1/GPU处理流程.png)
 
 - 顶点着色器：构建顶点信息
 - 图元装配：顶点连接起来，变成形状

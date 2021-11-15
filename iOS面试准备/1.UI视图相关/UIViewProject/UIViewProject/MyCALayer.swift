@@ -60,11 +60,12 @@ class MyView: UIView {
     
     /// 绘制第2步
     override func display(_ layer: CALayer) {
-//        super.display(layer)
+
     }
     
+    // 绘制第4步
     override func draw(_ layer: CALayer, in ctx: CGContext) {
-        
+
     }
     
     /// 绘制第4步

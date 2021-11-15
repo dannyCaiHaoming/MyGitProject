@@ -27,9 +27,9 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
         
         // 绘制流程
-//        let view = MyView(frame: self.view.bounds)
-//        self.view.addSubview(view)
-//        self.view.setNeedsDisplay()
+        let view = MyView(frame: self.view.bounds)
+        self.view.addSubview(view)
+        self.view.setNeedsDisplay()
         
         //
 //        frame_bounds()
@@ -42,9 +42,11 @@ class ViewController: UIViewController {
         
 //        self.view.addSubview(MyView())
         
-        offScreen()
+//        offScreen()
         
     }
+    
+    
 
 //    override func loadView() {
 ////        let v = UIView()

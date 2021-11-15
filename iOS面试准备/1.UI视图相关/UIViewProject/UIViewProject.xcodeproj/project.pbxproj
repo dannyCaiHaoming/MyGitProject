@@ -27,6 +27,12 @@
 		300780AD231811EB00A04AB4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		300780B32318120900A04AB4 /* MyCALayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCALayer.swift; sourceTree = "<group>"; };
 		8420A74C269832ED0075CA55 /* MyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyViewController.swift; sourceTree = "<group>"; };
+		846A554D271FBE93002127D2 /* YYAsyncLayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YYAsyncLayer.m; sourceTree = "<group>"; };
+		846A554E271FBE93002127D2 /* YYTransaction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YYTransaction.h; sourceTree = "<group>"; };
+		846A554F271FBE93002127D2 /* YYSentinel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YYSentinel.m; sourceTree = "<group>"; };
+		846A5550271FBE93002127D2 /* YYAsyncLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YYAsyncLayer.h; sourceTree = "<group>"; };
+		846A5551271FBE93002127D2 /* YYTransaction.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YYTransaction.m; sourceTree = "<group>"; };
+		846A5552271FBE93002127D2 /* YYSentinel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YYSentinel.h; sourceTree = "<group>"; };
 		847DC35026BA3D440094309F /* OffScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OffScreenView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -60,6 +66,7 @@
 		300780A0231811E900A04AB4 /* UIViewProject */ = {
 			isa = PBXGroup;
 			children = (
+				846A554C271FBE93002127D2 /* YYAsyncLayer */,
 				300780A1231811E900A04AB4 /* AppDelegate.swift */,
 				300780A3231811E900A04AB4 /* ViewController.swift */,
 				8420A74C269832ED0075CA55 /* MyViewController.swift */,
@@ -71,6 +78,20 @@
 				300780AD231811EB00A04AB4 /* Info.plist */,
 			);
 			path = UIViewProject;
+			sourceTree = "<group>";
+		};
+		846A554C271FBE93002127D2 /* YYAsyncLayer */ = {
+			isa = PBXGroup;
+			children = (
+				846A5550271FBE93002127D2 /* YYAsyncLayer.h */,
+				846A554D271FBE93002127D2 /* YYAsyncLayer.m */,
+				846A5552271FBE93002127D2 /* YYSentinel.h */,
+				846A554F271FBE93002127D2 /* YYSentinel.m */,
+				846A554E271FBE93002127D2 /* YYTransaction.h */,
+				846A5551271FBE93002127D2 /* YYTransaction.m */,
+			);
+			name = YYAsyncLayer;
+			path = "../../../../常用开源库源码学习/YYAsyncLayer-master/YYAsyncLayer";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
