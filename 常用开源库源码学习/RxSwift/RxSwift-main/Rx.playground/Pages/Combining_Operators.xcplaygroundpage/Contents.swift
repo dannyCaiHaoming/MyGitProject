@@ -103,12 +103,12 @@ example("combineLatest") {
     
     stringSubject.onNext("🅰️")
     
-    stringSubject.onNext("🅱️")
-    intSubject.onNext(1)
-    
-    intSubject.onNext(2)
-    
-    stringSubject.onNext("🆎")
+//    stringSubject.onNext("🅱️")
+//    intSubject.onNext(1)
+//    
+//    intSubject.onNext(2)
+//    
+//    stringSubject.onNext("🆎")
 }
 //: There is also a variant of `combineLatest` that takes an `Array` (or any other collection of `Observable` sequences):
 example("Array.combineLatest") {
