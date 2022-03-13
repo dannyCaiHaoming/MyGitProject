@@ -30,6 +30,8 @@ int hammingWeight(uint32_t n);
 double myPow(double x, int n);
 int* printNumbers(int n, int* returnSize);
 bool isNumber(char* s);
+int* exchange(int* nums, int numsSize, int* returnSize);
+int* spiralOrder(int** matrix, int matrixSize, int* matrixColSize, int* returnSize);
 
 struct ListNode
 {
@@ -57,16 +59,18 @@ int main()
 //    {3,6,9,16,22},
 //    {10,13,14,17,24},
 //    {18,21,23,26,30}
-//    int gridArr[1][1] =
+//    int gridArr[3][4] =
 //    {
-//        {-5},
+//        {1,2,3,4},
+//        {5,6,7,8},
+//        {9,10,11,12}
 //    };
 //    int i, j;
-//    int **grid = (int **) malloc(1 * sizeof(int *));  // 注意：是两个**
-//    for (i = 0; i < 1; i++) {
+//    int **grid = (int **) malloc(3 * sizeof(int *));  // 注意：是两个**
+//    for (i = 0; i < 3; i++) {
 //        //grid是6个（5个参数的一维数组）组成的数组
-//        grid[i] = (int *) malloc(1 * sizeof(int));  // 注意：是一个*
-//        for (j = 0; j < 1; j++) {
+//        grid[i] = (int *) malloc(4 * sizeof(int));  // 注意：是一个*
+//        for (j = 0; j < 4; j++) {
 //            // 方式一：下标引用
 //            grid[i][j] = gridArr[i][j];
 //
@@ -102,11 +106,22 @@ int main()
 //        printf("CH ---- a %d",p[i]);
 //    }
     
+//    int array[3] = {1,35};
+//    int size = 3;
+//    int a = exchange(array, 3, &size);
+    
+//    int size;
+//    int colSize = 4;
+//    int *p = spiralOrder(grid, 3, &colSize, &size);
 
-    bool a = isNumber("2e0");
+//    bool a = isNumber("2e0");
     
 //    printf("CH- -- %f",a);
-    printf("CH- -- %d",a);
+//    printf("CH- -- %d",a);
+    
+//    for (int i = 0; i < size; i++) {
+//        printf("CH ---- a %d",p[i]);
+//    }
     
     
     
@@ -746,6 +761,8 @@ struct ListNode* deleteNode(struct ListNode* head, int val){
 /* ########################       20. 表示数值的字符串        ########################*/
 /*
  模式匹配：
+ x. 需要将开头结尾的空格用循环先去掉
+ y. 遇到数字也用循环先去掉，这样就减少很多杂项
  1.  开头能是符号或者字母或者数字
     1.  如果是数字
         a. 可以继续是数字
@@ -831,3 +848,301 @@ bool isNumber(char* s) {
 }
 
 
+
+
+/* ########################       21. 调整数组顺序使奇数位于偶数前面        ########################*/
+int* exchange(int* nums, int numsSize, int* returnSize){
+    *returnSize = numsSize;
+    int i = 0,j = numsSize-1;
+    
+    
+    while (i < numsSize && j >= 0 && i < j) {
+        // 找出左边不是奇数
+        while (i < numsSize && nums[i] % 2 != 0) {
+            i += 1;
+        }
+        // 找出右边不是偶数
+        while (j >= 0 && nums[j] % 2 == 0) {
+            j -= 1;
+        }
+        if (i > j) {
+            break;;
+        }
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+        i += 1;
+        j -= 1;
+    }
+    
+    return nums;
+}
+
+
+
+/* ########################        22. 链表中倒数第k个节点        ########################*/
+/*
+ 应该是把k长度大于链表长度的时候，默认返回整个链表的长度了
+ */
+struct ListNode* getKthFromEnd(struct ListNode* head, int k){
+    if (head->next == NULL && k == 1) {
+        return head;
+    }
+    struct ListNode *first = (struct ListNode *)malloc(sizeof(struct ListNode));
+    struct ListNode *second = (struct ListNode *)malloc(sizeof(struct ListNode));
+    first = second = head;
+    for (int i = 0; i < k; i++) {
+        second = second->next;
+    }
+    if (second == NULL) {
+        return first;
+    }
+    while (second != NULL) {
+        second = second->next;
+        first = first->next;
+    }
+    return first;
+}
+
+
+/* ########################        24. 反转链表        ########################*/
+/*
+ a -> b - > c
+ 
+ l
+ temp = a->next
+ a->next = l
+ l = temp
+ 
+ 
+ C语言漏了空的特殊情况，会有一些内存异常的情况。
+            
+ */
+struct ListNode* reverseList(struct ListNode* head){
+    if (head == NULL  || head->next == NULL) {
+        return head;
+    }
+    struct ListNode*left = NULL;
+    struct ListNode*temp = NULL;
+    while (head->next != NULL) {
+        temp = head->next;
+        head->next = left;
+        left = head;
+        head = temp;
+    }
+    head->next = left;
+    return head;
+}
+
+
+
+
+/* ########################        26. 树的子结构       ########################*/
+/*
+想复杂了，子结构，应该就是比较root，left，right是否与B结构一样
+ 
+ 判断val相等的情况，递归判断左子树，和右子树的值是否一样。
+ 因此入口需要的是val==val || left==left || right==right
+ 递归的话，判断B是否为空，空就是判断完了
+ A如果为空，则说明B还没判断完。
+ */
+bool isSubStructureLoop(struct TreeNode* A, struct TreeNode* B) {
+    if (B == NULL) {
+        return true;
+    }
+    if (A == NULL || A->val != B->val) {
+        return false;
+    }
+    return isSubStructureLoop(A->left, B->left) && isSubStructureLoop(A->right, B->right);
+}
+
+
+bool isSubStructure(struct TreeNode* A, struct TreeNode* B){
+    if (A == NULL || B == NULL) {
+        return false;
+    }
+    return isSubStructureLoop(A, B) || isSubStructure(A->left, B) || isSubStructureLoop(A->right, B);
+}
+
+
+
+/* ########################        27. 二叉树的镜像       ########################*/
+/*
+ 递归搞搞？
+ 判断是否有左子树，有的话用左子树去调用，是否有右子树，有的话去调用
+ */
+struct TreeNode* mirrorTree(struct TreeNode* root){
+    if (root == NULL) {
+        return NULL;
+    }
+    struct TreeNode*left = root->left;
+    if (left != NULL) {
+        left = mirrorTree(left);
+    }
+    struct TreeNode*right = root->right;
+    if (right != NULL) {
+        right = mirrorTree(right);
+    }
+    root->left = right;
+    root->right = left;
+    return root;
+}
+
+
+
+
+/* ########################        28. 对称的二叉树       ########################*/
+/*
+ 简单想，就是先判断root是否相等，如果root相等就放到left，right，
+ 去递归判断left的left是否等于right的right，left的right是否等于right的left
+ */
+bool isSymetricDFS(struct TreeNode* left,struct TreeNode* right) {
+    if (left == NULL && right == NULL) {
+        return true;
+    }
+    if (left == NULL || right == NULL) {
+        return false;
+    }
+    return left->val == right->val && isSymetricDFS(left->left, right->right) && isSymetricDFS(left->right, right->left);
+}
+
+bool isSymmetric(struct TreeNode* root){
+    if (root == NULL) {
+        return true;
+    }
+    if (root->left == NULL && root->right == NULL) {
+        return true;
+    }
+    if (root->left != NULL && root->right != NULL) {
+        return isSymetricDFS(root->left, root->right);
+    }
+    return false;
+}
+
+
+
+
+/* ########################        29. 顺时针打印矩阵       ########################*/
+/*
+ 1,2,3
+ 4,5,6
+ 7,8,9
+ 
+ 1,2,3,4
+ 5,6,7,8
+ 9,10,11,12
+ */
+int* spiralOrder(int** matrix, int matrixSize, int* matrixColSize, int* returnSize){
+    if (matrixSize == 0 || matrixColSize[0] == 0) {
+        *returnSize = 0;
+        return NULL;
+    }
+    int minX = 0, minY = 0;
+    int maxX = *matrixColSize-1;
+    int maxY = matrixSize-1;
+    int x = 0,y = 0;
+    *returnSize = matrixSize * (*matrixColSize);
+    int *result = (int *)malloc(sizeof(int) * (*returnSize));
+    int i = 0;
+    while (minX <= maxX && minY <= maxY) {
+        if (i < *returnSize) {
+            while (x <= maxX) {
+                result[i] = matrix[y][x];
+                x++;
+                i++;
+            }
+            x = maxX;
+            minY++;
+            y++;
+        }
+        if (i < *returnSize) {
+            while (y <= maxY) {
+                result[i] = matrix[y][x];
+                y++;
+                i++;
+            }
+            y = maxY;
+            maxX--;
+            x--;
+        }
+        if (i < *returnSize) {
+            while (x >= minX) {
+                result[i] = matrix[y][x];
+                x--;
+                i++;
+            }
+            x = minX;
+            maxY--;
+            y--;
+        }
+        if (i < *returnSize) {
+            while (y >= minY) {
+                result[i] = matrix[y][x];
+                y--;
+                i++;
+            }
+            y = minY;
+            minX++;
+            x++;
+        }
+
+    }
+    return result;
+    
+}
+
+
+
+/* ########################        30. 包含min函数的栈       ########################*/
+#define max_size 10000
+typedef struct {
+    int *x_stack;
+    int *min_stack;
+    int x_top;
+    int min_top;
+    int min_value;
+} MinStack;
+
+/** initialize your data structure here. */
+
+MinStack* minStackCreate() {
+    MinStack *obj = (MinStack*)malloc(sizeof(MinStack));
+    obj->x_stack = (int*)malloc(sizeof(int) * max_size);
+    obj->min_stack = (int*)malloc(sizeof(int) * max_size);
+    obj->min_top = obj->x_top = -1;
+    obj->min_value = 0;
+    return obj;
+}
+
+void minStackPush(MinStack* obj, int x) {
+    if(obj->x_top < max_size)
+    {
+        if(obj->x_top == -1)
+            obj->min_value = x;
+        obj->x_stack[++(obj->x_top)] = x;
+        if(x < obj->min_value)
+            obj->min_value = x;     //当前元素比min_value小时改变min_value
+        obj->min_stack[++(obj->min_top)] = obj->min_value;
+    }
+}
+
+void minStackPop(MinStack* obj) {
+    --(obj->x_top);
+    --(obj->min_top);
+    if(obj->min_top != -1)
+        obj->min_value = obj->min_stack[obj->min_top];//出栈后将min_value变成min_stack的栈顶元素
+}
+
+int minStackTop(MinStack* obj) {
+    return obj->x_stack[obj->x_top];
+}
+
+int minStackMin(MinStack* obj) {
+    return obj->min_stack[obj->min_top];
+}
+
+void minStackFree(MinStack* obj) {
+    free(obj->x_stack);
+    free(obj->min_stack);
+    free(obj);
+}
