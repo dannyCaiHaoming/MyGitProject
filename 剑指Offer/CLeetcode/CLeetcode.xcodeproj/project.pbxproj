@@ -25,6 +25,7 @@
 /* Begin PBXFileReference section */
 		849D7FAA27D8E7F7009BAFFE /* CLeetcode */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CLeetcode; sourceTree = BUILT_PRODUCTS_DIR; };
 		849D7FAD27D8E7F7009BAFFE /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		84B83C8827E076FD001A55C1 /* mark.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = mark.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +59,7 @@
 			isa = PBXGroup;
 			children = (
 				849D7FAD27D8E7F7009BAFFE /* main.c */,
+				84B83C8827E076FD001A55C1 /* mark.md */,
 			);
 			path = CLeetcode;
 			sourceTree = "<group>";

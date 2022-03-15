@@ -32,6 +32,12 @@ int* printNumbers(int n, int* returnSize);
 bool isNumber(char* s);
 int* exchange(int* nums, int numsSize, int* returnSize);
 int* spiralOrder(int** matrix, int matrixSize, int* matrixColSize, int* returnSize);
+bool validateStackSequences(int* pushed, int pushedSize, int* popped, int poppedSize);
+bool verifyPostorder(int* postorder, int postorderSize);
+char** permutation(char* s, int* returnSize);
+int majorityElement(int* nums, int numsSize);
+int maxSubArray(int* nums, int numsSize);
+int maxSubArray2(int* nums, int numsSize);
 
 struct ListNode
 {
@@ -124,6 +130,30 @@ int main()
 //    }
     
     
+//    int p1[5] = {1,2,3,4,5};
+//    int p2[5] = {4,5,3,2,1};
+//   int a = validateStackSequences(p1, 5, p2, 5);
+//    int p[8] = {1,2,5,10,6,9,4,3};
+//    int a = verifyPostorder(p, 8);
+//
+//    printf("CH- -- %d",a);
+    
+//    char s[3] = "abc";
+//    int returnSize;
+//    permutation(s, &returnSize);
+//
+//    printf("%s",s);
+//    printf("%d",returnSize);
+    
+    
+    
+//    int nums[9] = {1,2,3,2,2,2,5,4,2};
+//    int a = majorityElement(nums, 9);
+    
+    int nums[9] = {-2,1,-3,4,-1,2,1,-5,4};
+    int a = maxSubArray2(nums, 9);
+    
+    printf("CH- -- %d",a);
     
     printf("end --- ");
     
@@ -1145,4 +1175,485 @@ void minStackFree(MinStack* obj) {
     free(obj->x_stack);
     free(obj->min_stack);
     free(obj);
+}
+
+
+/* ########################        31. 栈的压入、弹出序列       ########################*/
+/*
+使用辅助栈，将push栈的元素，重新模拟一遍入栈,然后同时看pop栈，如果pop栈栈顶有元素，则同时两边一起pop
+ 1,2,3,4,5
+ 4,5,3,2,1
+注意C语言用的是数组进行栈操作，因此pop的时候是用下标回退一个来表示
+ */
+
+bool validateStackSequences(int* pushed, int pushedSize, int* popped, int poppedSize){
+    int *stack = (int *)malloc(sizeof(int) * pushedSize);
+    int top = -1;
+    int popIndex = 0;
+    for (int i = 0 ; i < pushedSize; i++) {
+        stack[top++] = pushed[i];
+        while (top != -1 && top < pushedSize && popIndex < poppedSize && stack[top] == popped[popIndex]) {
+            popIndex++;
+            top--;
+        }
+    }
+    return top == -1;
+}
+
+
+
+/* ########################        32 - II. 从上到下打印二叉树 II       ########################*/
+/*
+    3
+   / \
+  9  20
+    /  \
+   15   7
+
+[
+  [3],
+  [9,20],
+  [15,7]
+]
+
+队列吧，  当队列不为空  则使用出队列往临时数组追加当前内容，且记录下下一级树的内容。
+*returnSize: 返回数组个数
+**returnColumnSize 指向二维数组，大小是数组个数，内容是每行的数量
+
+C语言队列用数组处理的话，也是head+1作为出队列的操作，入队列就是tail+1进行处理
+*/
+#define MAXSIZE 10000
+int** levelOrder(struct TreeNode* root, int* returnSize, int** returnColumnSizes){
+    if (root == NULL)
+    {
+        *returnSize = 0;
+        return NULL;
+    }
+    struct TreeNode*queue[MAXSIZE] = {0};
+    int head,tail = 0;
+    int **res = (int **)malloc(sizeof(int *)*MAXSIZE);
+    *returnColumnSizes = (int *)malloc(sizeof(int *)*MAXSIZE);
+    queue[tail++] = root;
+    *returnSize = 0;
+    while (tail > head)
+    {
+        int size = (tail-head+MAXSIZE)%MAXSIZE;
+        (*returnColumnSizes)[*returnSize] = size;
+        res[*returnSize] = (int *)malloc(sizeof(int *)*size);
+        for (int i = 0; i < size; i++)
+        {
+            struct TreeNode *temp = queue[head++];
+            res[*returnSize][i] = temp->val;
+            if (temp->left)
+            {
+                queue[tail++] = temp->left;
+            }
+            if (temp->right)
+            {
+                queue[tail++] = temp->right;
+            }
+        }
+        (*returnSize)++;
+    }
+    return res;
+}
+
+
+
+/* ########################         32 - III. 从上到下打印二叉树 III       ########################*/
+/*
+ 对比上一道题，这道题应该需要用双向队列。
+ 即从左到右，就是普通队列，先进先出
+ 从右到左的时候，就是先进后出
+ 这里直接用简单方向来处理下一行内容增加的方向
+ */
+int** levelOrder3(struct TreeNode* root, int* returnSize, int** returnColumnSizes){
+    if (root == NULL)
+    {
+        *returnSize = 0;
+        return NULL;
+    }
+    struct TreeNode*queue[MAXSIZE] = {0};
+    bool direction = false;
+    int head,tail = 0;
+    int **res = (int **)malloc(sizeof(int *)*MAXSIZE);
+    *returnColumnSizes = (int *)malloc(sizeof(int *)*MAXSIZE);
+    queue[tail++] = root;
+    *returnSize = 0;
+    while (tail > head)
+    {
+        int size = (tail-head+MAXSIZE)%MAXSIZE;
+        (*returnColumnSizes)[*returnSize] = size;
+        res[*returnSize] = (int *)malloc(sizeof(int *)*size);
+        if (!direction) {
+            for (int i = 0; i < size; i++)
+            {
+                struct TreeNode *temp = queue[head++];
+                res[*returnSize][i] = temp->val;
+                if (temp->left)
+                {
+                    queue[tail++] = temp->left;
+                }
+                if (temp->right)
+                {
+                    queue[tail++] = temp->right;
+                }
+            }
+        }else {
+            for (int i = size - 1; i >= 0; i--)
+            {
+                struct TreeNode *temp = queue[head++];
+                res[*returnSize][i] = temp->val;
+                if (temp->left)
+                {
+                    queue[tail++] = temp->left;
+                }
+                if (temp->right)
+                {
+                    queue[tail++] = temp->right;
+                }
+            }
+        }
+        direction = !direction;
+
+        (*returnSize)++;
+    }
+    return res;
+}
+
+
+
+/* ########################         33. 二叉搜索树的后序遍历序列       ########################*/
+/*
+ 二叉查找树（Binary Search Tree），（又：二叉搜索树，二叉排序树）它或者是一棵空树，或者是具有下列性质的二叉树： 若它的左子树不空，则左子树上所有结点的值均小于它的根结点的值； 若它的右子树不空，则右子树上所有结点的值均大于它的根结点的值；
+ 
+ 根据二叉查找树特性，左子树均比根节点小，右子树均比根节点大
+ 因此每次可以获取最后一个数，为根节点
+ 右子树，从第一个比根节点大的数开始（M），直到根节点前一个
+ 左子树，从第一个数，到M前一个为止
+ 貌似要对左子树的内容判断是否比跟小？ 对右子树的内容判断是否比跟大？
+ 
+ !!!如果只是遍历找到第一个比根节点大的值，后面的值没有判断是否合理
+ */
+bool verifyPostorder(int* postorder, int postorderSize){
+
+    if (postorder == NULL || postorderSize == 0) {
+        return true;
+    }
+    if (postorderSize == 1) {
+        return true;
+    }
+    
+    int c = *(postorder + postorderSize- 1);
+    int m;
+    for (m = 0; m < postorderSize; m++) {
+        if (*(postorder + m) > c) {
+            break;;
+        }
+    }
+    for (int i = m; i < postorderSize; i++) {
+        if (*(postorder + i) < c) {
+            return false;
+        }
+    }
+    if (m == postorderSize) {
+        return verifyPostorder(postorder, postorderSize-1);
+    }
+    if (m == 0) {
+        return verifyPostorder(postorder+m, postorderSize-m-1);
+    }
+    return verifyPostorder(postorder, m) && verifyPostorder(postorder+m, postorderSize-m-1);
+}
+
+
+
+
+/* ########################         34. 二叉树中和为某一值的路径       ########################*/
+/*
+ 从根节点到叶子节点，因此只需要遍历所有深度，貌似就能做出来？
+ *returnSize为有多少个路径 **returnColumnSizes是各个路径分别长度为多少.
+ 
+ 头 孩子 叶子  ，孩子 叶子  ，  头，
+ 从每个节点，执行深度遍历，找出值符合target的值，或者找出target-val的值
+ 
+ 因为是记录跟节点到叶子节点的各个val，因此全局维护一个数组记录每个步骤，在进行子节点递归遍历之后，需要把每次的下标计数减回去
+ */
+int **path;
+int *subPath;
+int* pathColSize;
+int pathCount = 0;
+int subCount = 0;
+
+void pathSumDFS(struct TreeNode *root,int target) {
+    if (root == NULL) {
+        return;
+    }
+    subPath[subCount++] = root->val;
+    
+    if (root->val == target && root->left == NULL && root->right == NULL) {
+        
+        int *temp = (int *)malloc(sizeof(int) * subCount);
+        for (int i = 0; i < subCount; i++) {
+            temp[i] = subPath[i];
+        }
+        path[pathCount] = temp;
+        pathColSize[pathCount] = subCount;
+        pathCount++;
+    }
+    pathSumDFS(root->left, target-root->val);
+    pathSumDFS(root->right, target-root->val);
+    
+    // 为了将这次运算的影响恢复回去。应该也是回溯里面很重要的一步。
+    subCount--;
+}
+
+int** pathSum(struct TreeNode* root, int target, int* returnSize, int** returnColumnSizes){
+    
+    path = malloc(sizeof(int*) * 2001);
+    subPath = malloc(sizeof(int) * 2001);
+    pathColSize = malloc(sizeof(int) * 2001);
+    pathCount = subCount = 0;
+    
+    pathSumDFS(root, target);
+    
+    *returnSize = pathCount;
+    *returnColumnSizes = pathColSize;
+//    for (int i = 0; i < pathCount; i++) {
+//        *returnColumnSizes[i] = pathColSize[i];
+//    }
+    
+    return path;
+}
+
+
+
+
+/* ########################         35. 复杂链表的复制       ########################*/
+/*
+ 链表的复制，简答的就是两个双指针方法，一个指向复制的开头，一个指向链表开头。
+ 但是题目多了一个任意指向的指针，因为可能存在指向的指针，还没有复制出来，因此可以使用map，对所有节点先进行一次存储。
+ 这样子在使用的时候，就可以通过当前的随机指向，找到指向的指针，
+ */
+//class Solution {
+//    public Node copyRandomList(Node head) {
+//        if(head == null) return null;
+//        Node cur = head;
+//        Map<Node, Node> map = new HashMap<>();
+//        // 3. 复制各节点，并建立 “原节点 -> 新节点” 的 Map 映射
+//        while(cur != null) {
+//            map.put(cur, new Node(cur.val));
+//            cur = cur.next;
+//        }
+//        cur = head;
+//        // 4. 构建新链表的 next 和 random 指向
+//        while(cur != null) {
+//            map.get(cur).next = map.get(cur.next);
+//            map.get(cur).random = map.get(cur.random);
+//            cur = cur.next;
+//        }
+//        // 5. 返回新链表的头节点
+//        return map.get(head);
+//    }
+//}
+
+
+/* ########################         36. 二叉搜索树与双向链表       ########################*/
+/*
+ 二叉搜索树的中序遍历是递增数列。
+ 在中序遍历的基础之上，对前缀，和后续进行一个记录。
+ 中序遍历的话，总能获取到当前节点的左子树，
+ 因此只需要获取到左子树的时候，判断当前记录的前缀是否为空，如果为空则说明是头结点，并且记录这个头结点
+ 如果前缀不为空，则当前的left是这个前缀，然后pre->right是当前，然后把pre指向当前
+ 右子树怎么处理，因为如果右子树为普通树的右子树，且如果它没有叶子节点，那么我们记录的pre，就是他的父节点。
+ 跑当前的right就能指向这个根节点，然后当前的left就能指向父节点
+ */
+//class Solution {
+//    Node pre, head;
+//    public Node treeToDoublyList(Node root) {
+//        if(root == null) return null;
+//        dfs(root);
+//        head.left = pre;
+//        pre.right = head;
+//        return head;
+//    }
+//    void dfs(Node cur) {
+//        if(cur == null) return;
+//        dfs(cur.left);  // 左
+//        if(pre != null) pre.right = cur;
+//        else head = cur;     /* 根  */
+//        cur.left = pre;
+//        pre = cur;
+//        dfs(cur.right); // 右
+//    }
+//}
+
+
+/* ########################         38. 字符串的排列       ########################*/
+/*
+ a,b,c
+ 固定a，尝试交换自己，固定b，尝试交换自己，到c是最后一个不用交换，输出
+ 回到固定b，交换b，c， 到b是最后一个不用交换输出
+ a，b交换，固定b，到a，尝试交换自己，到c尝试交换自己，输出
+ 固定b，交换a，c输出
+ a，c交换，固定c，到b，到a，输出
+ b和a交换，输出。
+ 
+ 排列类型的题目，可以从最简单的情况入手，这道题可以用三个数字，a，b，c开始
+ 所以就得到从第一位开始循环将每一位与第一位进行交换，这样子能解决掉不同开头的情况，
+ 但是交换了之后，就又进入到同一个问题，就是也是需要将第一位和后面每一位尝试交换。---一直到当前位是最后一位，就可以输出结果。
+
+ 
+ */
+char **permutationSize;
+int permutationCount = 0;
+
+void swapChar(char *s,int i,int j) {
+    char temp = s[i];
+    s[i] = s[j];
+    s[j] = temp;
+}
+
+bool judgeRepeat(char *s, int start, int end) {
+    // 剪枝，意味着就是已经去过上边位置的不需要再去一次了
+    for (int i = start; i < end; i++){
+        if (s[i] == s[end])
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+
+void permutationDFS(char *s,int index,int length) {
+    if (index == length-1) {
+        char *temp = (char *)malloc(sizeof(char) * (length + 1));
+        strcpy(temp, s);
+        permutationSize[permutationCount++] = temp;
+        return;
+    }
+    for (int i = index; i < length; i++) {
+        if (judgeRepeat(s, index, i)) {
+            continue;
+        }
+        swapChar(s, index, i);
+        permutationDFS(s, index+1, length);
+        swapChar(s, index, i);
+    }
+}
+
+
+
+char** permutation(char* s, int* returnSize){
+    if (s == NULL)
+    {
+        *returnSize = 0;
+        return NULL;
+    }
+    int size = (int)strlen(s);
+    permutationSize = (char **)malloc(sizeof(char *)* 100);
+    permutationDFS(s, 0, size);
+    *returnSize = permutationCount;
+    return permutationSize;
+}
+
+
+
+
+
+/* ########################        39. 数组中出现次数超过一半的数字       ########################*/
+/*
+ 先排序，然后取中间？
+ */
+//int majorityElement(int* nums, int numsSize){
+//    for (int i = numsSize-1 ; i > 0; i--) {
+//        int max = i;
+//        for (int j = 0; j < i; j++) {
+//            if (nums[j] > nums[max]) {
+//                max = j;
+//            }
+//        }
+//        if (max != numsSize-1) {
+//            int temp = nums[max];
+//            nums[max] = nums[i];
+//            nums[i] = temp;
+//        }
+//        if (i <= numsSize/2) {
+//            return nums[i];
+//        }
+//    }
+//    return nums[numsSize/2];
+//
+//}
+int cmp(const void* a, const void* b){
+    return *(int*)a - *(int*)b;
+}
+int majorityElement(int* nums, int numsSize){
+    qsort(nums, numsSize, 4, cmp);
+    return nums[numsSize/2];
+}
+
+/* ########################         40. 最小的k个数       ########################*/
+/*
+ 肯定也是能先排序，然后输出前k个数
+ 
+ */
+int change(void*num1,void*num2)
+{
+    return *(int*)num1-*(int*)num2;
+}
+int* getLeastNumbers(int* arr, int arrSize, int k, int* returnSize){
+   qsort(arr,arrSize,sizeof(int),change);
+   *returnSize=k;
+   return arr;
+}
+
+
+
+/* ########################         42. 连续子数组的最大和       ########################*/
+/*
+ 1.子数组，那就可以暴力，从第一个数开始，每次都遍历到结尾，看看每一个数字到结尾的各个最大值是多少。
+ 2.简单以两个数为例子， -，-  -，+， +，+  ，+，-
+ */
+int maxSubArray(int* nums, int numsSize){
+    int ans = nums[0];
+    int curSum = nums[0];
+    for (int i = 1; i<numsSize; i++) {
+        if (curSum + nums[i] < nums[i]) {
+            curSum = nums[i];
+        }else {
+            curSum += nums[i];
+        }
+        if (ans < curSum) {
+            ans = curSum;
+        }
+    }
+    return ans;
+}
+
+
+
+int maxSubArray2(int* nums, int numsSize){
+    int dp[numsSize];
+    dp[0] = nums[0];
+    int max = dp[0];
+    for (int i = 1; i < numsSize; i++) {
+        if (dp[i-1] < 0) {
+            dp[i] = nums[i];
+        }else {
+            dp[i] = nums[i] + dp[i-1];
+        }
+        if (dp[i] > max) {
+            max = dp[i];
+        }
+    }
+    return max;
+}
+
+
+
+
+/* ########################         44. 数字序列中某一位的数字       ########################*/
+int findNthDigit(int n){
+
 }
