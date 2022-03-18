@@ -36,6 +36,68 @@ class 链表: Do {
     }
     
     
+    //MARK: 2. 两数相加
+    /*
+     两个指针，分别指向两个链表的开头，同时进行遍历。知道有一方为空。
+     增加进一计算的临时变量。当p1，p2的和大于10，就把进一标志位+1，同时将p1，p2的和减10，存储到新的链表结构中。用完把标志位-1；
+     当结束遍历的时候，将继续遍历不为空的一个链表和判断是否增加一个标志位的一个链表。，
+     */
+    
+
+    /*
+     给你两个 非空 的链表，表示两个非负的整数。它们每位数字都是按照 逆序 的方式存储的，并且每个节点只能存储 一位 数字。
+
+     请你将两个数相加，并以相同形式返回一个表示和的链表。
+
+     你可以假设除了数字 0 之外，这两个数都不会以 0 开头。
+
+     输入：l1 = [2,4,3], l2 = [5,6,4]
+     输出：[7,0,8]
+     解释：342 + 465 = 807.
+     */
+
+    /*
+     1. 没想好就下手，很多情况没想到
+     2. 链表的循环条件，  可以为next不为空，也可以是当下不为空
+     */
+    func addTwoNumbers(_ l1: ListNode?, _ l2: ListNode?) -> ListNode? {
+        
+        // 这个方法还是要构建一个链表。。我自己也知道可以，但是我想用原来的链表直接拼接起来。当下刷题还是快为主吧，不然一小时只有一题
+        var r1 = l1
+        var r2 = l2
+        var head :ListNode?
+        var result :ListNode?
+        var carry = 0
+        while r1 != nil || r2 != nil {
+            
+            let t1 = r1?.val ?? 0
+            let t2 = r2?.val ?? 0
+            let t = t1 + t2 + carry
+            if result == nil {
+                result = .init(0)
+                head = result
+            }else {
+                result?.next = .init(0)
+                result = result?.next
+            }
+            result?.val = t >= 10 ? t-10 : t
+            carry = t/10
+            
+            if r1 != nil {
+                r1 = r1?.next
+            }
+            if r2 != nil {
+                r2 = r2?.next
+            }
+        }
+        if carry > 0 {
+            result?.next = .init(carry)
+        }
+        return head
+
+    }
+    
+    
     //MARK: 146. LRU 缓存机制
     /*
      运用你所掌握的数据结构，设计和实现一个  LRU (最近最少使用) 缓存机制 。

@@ -38,6 +38,7 @@ char** permutation(char* s, int* returnSize);
 int majorityElement(int* nums, int numsSize);
 int maxSubArray(int* nums, int numsSize);
 int maxSubArray2(int* nums, int numsSize);
+int lengthOfLongestSubstring(char * s);
 
 struct ListNode
 {
@@ -150,8 +151,10 @@ int main()
 //    int nums[9] = {1,2,3,2,2,2,5,4,2};
 //    int a = majorityElement(nums, 9);
     
-    int nums[9] = {-2,1,-3,4,-1,2,1,-5,4};
-    int a = maxSubArray2(nums, 9);
+//    int nums[9] = {-2,1,-3,4,-1,2,1,-5,4};
+//    int a = maxSubArray2(nums, 9);
+    
+    int a = lengthOfLongestSubstring("abcabcbb");
     
     printf("CH- -- %d",a);
     
@@ -1655,5 +1658,71 @@ int maxSubArray2(int* nums, int numsSize){
 
 /* ########################         44. 数字序列中某一位的数字       ########################*/
 int findNthDigit(int n){
+    return 0;
+}
 
+
+
+
+
+
+
+/*
+ 1. 两数之和
+ */
+int* twoSum(int* nums, int numsSize, int target, int* returnSize){
+    int size = 0;
+    int *r = (int *)malloc(sizeof(int) * 2) ;
+    for (int i = 0; i < numsSize; i++) {
+        if (i == numsSize-1) {break;}
+        for (int j = i+1;j < numsSize; j++) {
+            if (nums[i] + nums[j] == target) {
+                r[0] = i;
+                r[1] = j;
+                size = 2;
+                break;
+            }
+        }
+    }
+    *returnSize = size;
+    return r;
+}
+
+
+
+/*
+ 3. 无重复字符的最长子串
+ */
+int lengthOfLongestSubstring(char * s){
+    int length = strlen(s);
+    int *p = (int *)malloc(sizeof(int) * length);
+    int max = 0;
+    if (length > 0) {
+        p[0] = 1;
+        max = 1;
+    }
+    for (int i = 1; i < length; i++) {
+        if (s[i] != s[i-1]) {
+            bool hasSame = false;
+            int sameCount = 0;
+            for (int j = i-1; j >= (i-p[i-1]);j--) {
+                if (s[j] == s[i]) {
+                    hasSame = true;
+                    sameCount = i-j;
+                    break;
+                }
+            }
+            if (hasSame) {
+                p[i] = sameCount;
+            }else {
+                p[i] = p[i-1] + 1;
+            }
+            if (p[i] > max) {
+                max = p[i];
+            }
+        }else {
+            p[i] = 1;
+        }
+    }
+    return max;
 }
