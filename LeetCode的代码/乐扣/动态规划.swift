@@ -57,6 +57,207 @@ class 动态规划: Do {
     }
     
     
+    //MARK: 5.最大回文子串
+    /*
+     给你一个字符串 s，找到 s 中最长的回文子串。
+     输入：s = "babad"
+     输出："bab"
+     解释："aba" 同样是符合题意的答案。
+     */
+    
+    /*
+     动态规划：
+      规则是，一个i<->j为回文串，那么i+1 <-> j-1
+      此外有一个要注意的点事，可以从0开始每次找2个数字找2长度的回文，一直到整个输入字符串长度进行寻找
+     
+     分析：
+     1.回文串，即由最小的两个回文，在左右加相等的字符
+     2.所以用单向滑动窗口，[i,j]为边界递增来计算
+     3.单个[i,j]如果相等，那么[i,j]是否是回文是由[i+1,j-1]来得出结果
+     4.当j-i之间只有两个或者一个字符的时候，且相等的时候，必为回文
+     
+     */
+    func longestPalindrome_2(_ s: String) -> String {
+        if s.count < 2 {
+            return s
+        }
+    //    if s.count == 2 {
+    //        if s[s.index(s.startIndex, offsetBy: 0)] == s[s.index(s.startIndex, offsetBy: 1)] {
+    //            return s
+    //        }else {
+    //            return String(s[s.index(s.startIndex, offsetBy: 0)])
+    //        }
+    //    }
+        let length = s.count
+        var dp:[[Bool]] = .init(repeating: .init(repeating: false, count: length), count: length)
+        var maxLen = 0
+        var begin = 0
+        for i in 0..<length {
+            dp[i][i] = true
+        }
+        for L in 2...length {
+            for i in 0..<length {
+                let j = L + i - 1
+                if j >= length {
+                    break
+                }
+                
+                if s[s.index(s.startIndex, offsetBy: i)] != s[s.index(s.startIndex, offsetBy: j)] {
+                    dp[i][j] = false
+                }else {
+                    if j-i < 3 {
+                        dp[i][j] = true
+                    }else {
+                        // 由于遍历的内容宽度是由小到大的，所以右边内容少于左边的，肯定值是提前存在的。
+                        dp[i][j] = dp[i+1][j-1]
+                    }
+                }
+                
+                if dp[i][j] && j-i+1 > maxLen {
+                    maxLen = j-i+1
+                    begin = i
+                }
+            }
+        }
+        if maxLen > 0 {
+            maxLen -= 1
+        }
+        let beginIndex = s.index(s.startIndex, offsetBy: begin)
+        let endIndex = s.index(beginIndex, offsetBy: maxLen)
+        return String(s[beginIndex...endIndex])
+        
+    }
+
+    func longestPalindrome(_ s: String) -> String {
+        
+        var sChar:[Character] = []
+        
+        for char in s {
+            sChar.append(char)
+        }
+        
+        if s.count <= 1 {
+            return s
+        }
+        
+        
+        var longestCount = 1
+        var sIndex = 0
+        var maxIndex = 0
+        
+        var dp:[[Bool]] = []
+        
+        for i in 0..<s.count {
+            dp.append([])
+            for _ in 0...i {
+                (dp[i]).append(false)
+            }
+        }
+        
+        for i in 1..<s.count {
+            (dp[i])[i] = true
+            for j in 0..<i {
+                
+                
+                if (sChar[j] == sChar[i]) && (i-j <= 2 || (dp[i-1])[j+1] == true) {
+                    (dp[i])[j] = true
+                    
+                    if i-j+1 > longestCount {
+                        longestCount = i-j+1
+                        sIndex = j
+                        maxIndex = i
+                    }
+                }
+            }
+        }
+        
+        let start = s.index(s.startIndex, offsetBy: sIndex)
+        let end = s.index(s.startIndex, offsetBy: maxIndex)
+        
+        return String(s[start...end])
+        
+    }
+    
+    
+    
+    //MARK: 22. 括号生成
+    
+    /*
+     数字 n 代表生成括号的对数，请你设计一个函数，用于能够生成所有可能的并且 有效的 括号组合
+     
+     '''
+     动态规划：
+     dp[i]表示i组括号的所有有效组合
+     dp[i] = "(dp[p]的所有有效组合)+【dp[q]的组合】"，其中 1 + p + q = i , p从0遍历到i-1, q则相应从i-1到0
+
+     从两个括号的内容开始：
+     () + ""  在 ( str[i]  ) + str[j]的前提下进行两轮遍历，即
+     
+     将括号分配的问题转化为，两组数量的括号，拆成3组，dp[p] + dp[q] + 1，进行排列组合
+     如果两个的话：即dp[p] = 1,dp[q] = 0, + 1
+     
+     
+     for (int i = 2; i <= n; i++) {
+         for (int j = 0; j < i; j++) {
+             List<String> str1 = result.get(j);
+             List<String> str2 = result.get(i - 1 - j);
+        }
+     }
+     这两层遍历，能实现str1,str2，是交替遍历前到后，和后到前,所以然后依次将这两个内容插入到需要的两个位置。
+     */
+    func generateParenthesis(_ n: Int) -> [String] {
+        return []
+    }
+    
+    
+    
+    //MARK: 53. 最大子数组和
+    /*
+     给你一个整数数组 nums ，请你找出一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。
+
+     子数组 是数组中的一个连续部分。
+
+     p[i],0<->i数字的最大数字和，拆解为0<->i-1 + i;
+     如果p[i-1] < 0，p[i] = i
+     否则p[i] = p[i-1] + i
+     */
+
+    
+    
+    //MARK: 70. 爬楼梯
+    /*
+     总是可以把i的问题，拆解
+     p[i] = (p[i-1] + 1) + (P[i-2] + 2)
+     */
+    
+    
+    //MARK: 121. 买卖股票的最佳时机
+    /*
+     
+     dp[i][0] 下标为 i 这天结束的时候，不持股，手上拥有的现金数
+     dp[i][1] 下标为 i 这天结束的时候，持股，手上拥有的现金数
+     
+     初始化：不持股显然为 0，持股就需要减去第 1 天（下标为 0）的股价
+     dp[0][0] = 0;
+     dp[0][1] = -prices[0];
+     
+     从第 2 天开始遍历
+     for (int i = 1; i < len; i++) {
+     dp[i][0] = Math.max(dp[i - 1][0], dp[i - 1][1] + prices[i]);
+     dp[i][1] = Math.max(dp[i - 1][1], -prices[i]);
+     }
+     
+     */
+    
+    
+    
+    //MARK: 338. 比特位计数
+    /*
+     给你一个整数 n ，对于 0 <= i <= n 中的每个 i ，计算其二进制表示中 1 的个数 ，返回一个长度为 n + 1 的数组 ans 作为答案。
+     
+     
+     */
+    
     //MARK: 数字三角形
     
     /*
