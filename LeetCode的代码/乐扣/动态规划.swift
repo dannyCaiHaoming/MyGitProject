@@ -38,7 +38,16 @@ class 动态规划: Do {
      
      解题步骤：
      1.确定状态
-     2.根据状态列转移方程，确定该状态上可以执行的操作，然后是该状态和前一个状态或者前多个状态的关联，通常该状态下可执行的操作必定关联我们之前的几个状态
+     2.根据状态列转移方程，确定该状态上可以执行的操作，然后是该状态和前一个状态或者前多个状态的关联，
+     通常该状态下可执行的操作必定关联我们之前的几个状态
+     
+     
+     
+     <1> 什么时候，dp数组需要+1：
+    - 题目：1143
+     1. 可能是[0][0]行列可以初始化，就不需要额外一行一列。或者考虑第1行，第2列的内容需要怎么扩展
+     
+     
      */
     
     static func doSomething() {
@@ -231,6 +240,8 @@ class 动态规划: Do {
      */
     
     
+    
+    
     //MARK: 121. 买卖股票的最佳时机
     /*
      
@@ -251,12 +262,185 @@ class 动态规划: Do {
     
     
     
+    
+    
+    //MARK: 198. 打家劫舍
+    /*
+     你是一个专业的小偷，计划偷窃沿街的房屋。每间房内都藏有一定的现金，影响你偷窃的唯一制约因素就是相邻的房屋装有相互连通的防盗系统，如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。
+
+     输入：[1,2,3,1]
+     输出：4
+     解释：偷窃 1 号房屋 (金额 = 1) ，然后偷窃 3 号房屋 (金额 = 3)。
+          偷窃到的最高金额 = 1 + 3 = 4 。
+    
+     定义一维数组dp[count+1]，dp[0]=0
+     状态转移方程dp[i] = max(dp[i-1],num[i]+num[i-2])
+     */
+//    int rob(int* nums, int numsSize){
+//        if (numsSize == 1) {
+//            return nums[0];
+//        }
+//        if (numsSize == 2) {
+//            return int_max(nums[0], nums[1]);
+//        }
+//        int dp[numsSize+1];
+//        dp[0] = 0;
+//        dp[1] = nums[0];
+//        dp[2] = int_max(nums[0], nums[1]);
+//        for (int i = 3; i <= numsSize; i++) {
+//            /// 用的是连续间隔的和，因此是dp[i-2]+nums[i]
+//            dp[i] = int_max(dp[i-1], dp[i-2]+nums[i-1]);
+//        }
+//        return dp[numsSize];
+//    }
+    
+    
+    
+    //MARK: 213. 打家劫舍 II
+    /*
+     你是一个专业的小偷，计划偷窃沿街的房屋，每间房内都藏有一定的现金。这个地方所有的房屋都 围成一圈 ，这意味着第一个房屋和最后一个房屋是紧挨着的。同时，相邻的房屋装有相互连通的防盗系统，如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警 。
+
+     输入：nums = [2,3,2]
+     输出：3
+     解释：你不能先偷窃 1 号房屋（金额 = 2），然后偷窃 3 号房屋（金额 = 2）, 因为他们是相邻的。
+     
+     和普通打家劫舍一样，只不过最后判断和是否由奇数项得到，是的话用dp[numSize-1]的结果
+     
+     答案：
+     注意到当房屋数量不超过两间时，最多只能偷窃一间房屋，因此不需要考虑首尾相连的问题。如果房屋数量大于两间，就必须考虑首尾相连的问题，第一间房屋和最后一间房屋不能同时偷窃。
+
+     如何才能保证第一间房屋和最后一间房屋不同时偷窃呢？如果偷窃了第一间房屋，则不能偷窃最后一间房屋，因此偷窃房屋的范围是第一间房屋到最后第二间房屋；如果偷窃了最后一间房屋，则不能偷窃第一间房屋，因此偷窃房屋的范围是第二间房屋到最后一间房屋。
+
+     */
+    
+    
+//    int robRange(int* nums, int start, int end) {
+//        int first = nums[start], second = fmax(nums[start], nums[start + 1]);
+//        for (int i = start + 2; i <= end; i++) {
+//            int temp = second;
+//            second = fmax(first + nums[i], second);
+//            first = temp;
+//        }
+//        return second;
+//    }
+//
+//    int rob(int* nums, int numsSize) {
+//        if (numsSize == 1) {
+//            return nums[0];
+//        } else if (numsSize == 2) {
+//            return fmax(nums[0], nums[1]);
+//        }
+//        return fmax(robRange(nums, 0, numsSize - 2), robRange(nums, 1, numsSize - 1));
+//    }
+
+    
+    
+    
+    
+    //MARK: 300. 最长递增子序列
+    /*
+     给你一个整数数组 nums ，找到其中最长严格递增子序列的长度。
+
+     子序列 是由数组派生而来的序列，删除（或不删除）数组中的元素而不改变其余元素的顺序。例如，[3,6,2,7] 是数组 [0,3,1,6,2,2,7] 的子序列。
+
+     
+     发现答案的状态dp，只是一个一维数组。
+     思考：什么时候是一维数组，什么时候是多维数组。
+     有一个很重要的思考过程，就是以dp[i]最后一个开始思考，最后一个是唯一直接依赖dp[i-1]，
+     这道题dp[i] = dp[i-1]+1(nums[i] > nums[i-1]),这时候，就能用一维数组
+     
+     
+     思路：
+     二维状态数组dp[i][j],表示从i到j的最长递增子序列.
+     状态转移.只需要左下半内容即可，因为要i<j
+     
+     for i in 0..count
+     int currentmin =  nums[0]
+     for j in 1..i
+        if nums[j] > currentmin {
+        dp[i][j] = dp[i][j-1] + 1
+        currentmin = nums[j]
+     } else {
+        dp[i][j] = dp[i][j-1]
+     }
+     
+     */
+    
+//    int lengthOfLIS(int* nums, int numsSize){
+//        if (nums == NULL || numsSize == 0) {
+//            return 0;
+//        }
+//        int dp[numsSize];
+//        dp[0] = 1;
+//        int max = 1;
+//        for (int i = 1; i < numsSize; i++) {
+//            dp[i] = 1;
+//            for (int j = 0; j < i; j++) {
+//                if (nums[i] > nums[j]) {
+//                    // 因为前面dp[j]以及计算了j之前的升序
+//                    dp[i] = int_max(dp[i],dp[j] + 1);
+//                }
+//            }
+//            max = int_max(max,dp[i]);
+//        }
+//        return max;
+//    }
+
+    
+    
+    
+    //MARK: 322. 零钱兑换
+    /*
+     给你一个整数数组 coins ，表示不同面额的硬币；以及一个整数 amount ，表示总金额。
+
+     计算并返回可以凑成总金额所需的 最少的硬币个数 。如果没有任何一种硬币组合能组成总金额，返回 -1 。
+
+     你可以认为每种硬币的数量是无限的。
+
+     
+     假设：coins = [1, 2, 3], amount = 6
+     
+     分解为最优解的时候，即是求解F(6)=min(F(6−1),F(6−2),F(6−3))+1=3
+     
+     因此可以将amount分解为由0开始，每次需要最小步数是多少，例如1~6
+     amount = 1可以遍历coins得出是1
+     amount = 2可以遍历coins计算dp[2-1]+1 还是dp[2-2]+1小
+    
+     这套题就类似于爬楼梯，楼梯的步数是amount,每次可以选择的步数是coins数组。
+     
+     */
+    
+//    int coinChange(int* coins, int coinsSize, int amount){
+//        int dp[amount+1];
+//        dp[0] = 0;
+//        for (int i = 1; i <= amount; i++) {
+//            // 因为赋值了一个比要计算的值大一，因此下面计算最小值的时候，可能还是得到比amount要大的
+//            dp[i] = amount + 1;
+//        }
+//
+//        for (int j = 1; j <= amount; j++) {
+//            for (int i = 0; i < coinsSize; i++) {
+//                if (coins[i] <= j ) {
+//                    //
+//                    dp[j] = int_min(dp[j], dp[j - coins[i]] + 1);
+//                }
+//            }
+//        }
+//        return dp[amount] > amount ? -1 : dp[amount];
+//    }
+    
+    
+    
+    
     //MARK: 338. 比特位计数
     /*
      给你一个整数 n ，对于 0 <= i <= n 中的每个 i ，计算其二进制表示中 1 的个数 ，返回一个长度为 n + 1 的数组 ans 作为答案。
      
      
      */
+    
+    
+    
     
     //MARK: 数字三角形
     
@@ -590,4 +774,43 @@ class 动态规划: Do {
 
         return 0
     }
+    
+    
+    
+    //MARK: 1143. 最长公共子序列
+    /*
+     
+     */
+    
+//    int longestCommonSubsequence(char * text1, char * text2){
+//        if (text1 == NULL || text2 == NULL) {
+//            return 0;
+//        }
+//        int rows = (int)strlen(text1) + 1;
+//        int cols = (int)strlen(text2) + 1;
+//
+//        int **nums = (int **)malloc(sizeof(int *) *rows);
+//        for (int r = 0 ;r < rows; r++) {
+//            nums[r] = (int *)malloc(sizeof(int) * cols);
+//        }
+//        for (int r = 0; r < rows; r++) {
+//            nums[r][0] = 0;
+//        }
+//        for (int c = 0; c < cols; c++) {
+//            nums[0][c] = 0;
+//        }
+//
+//        for (int i = 1; i < rows; i++) {
+//            char c1 = text1[i-1];
+//            for (int j = 1; j < cols; j++) {
+//                char c2 = text2[j-1];
+//                if ( c1 == c2) {
+//                    nums[i][j] = 1 + nums[i-1][j-1];
+//                }else {
+//                    nums[i][j] =  max_Int(nums[i][j-1], nums[i-1][j]);
+//                }
+//            }
+//        }
+//        return nums[rows-1][cols-1];
+//    }
 }

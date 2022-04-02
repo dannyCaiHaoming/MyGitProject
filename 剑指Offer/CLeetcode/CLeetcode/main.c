@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include <math.h>
 
 #define INT_MAX  0X7fffffff
 #define INT_MIN  0X80000000
@@ -39,6 +40,9 @@ int majorityElement(int* nums, int numsSize);
 int maxSubArray(int* nums, int numsSize);
 int maxSubArray2(int* nums, int numsSize);
 int lengthOfLongestSubstring(char * s);
+int longestCommonSubsequence(char * text1, char * text2);
+void sortColors(int* nums, int numsSize);
+int* sortedSquares(int* nums, int numsSize, int* returnSize);
 
 struct ListNode
 {
@@ -53,6 +57,43 @@ struct TreeNode
     struct TreeNode *left;
     struct TreeNode *right;
 };
+
+
+struct Stack
+{
+    int *Data;
+    int topIdx;
+};
+
+int push(struct Stack *L,int e) {
+    if (L->topIdx == 100 -1) {
+        return 0;
+    }
+    L->Data[L->topIdx++] = e;
+    return e;
+}
+
+int pop(struct Stack *L) {
+    if (L->topIdx == 0) {
+        return 0;
+    }
+    int val = L->Data[L->topIdx--];
+    return val;
+}
+
+int isEmpty(struct Stack *L) {
+    if (L->topIdx != 0) {
+        return 0;
+    }
+    return 1;
+}
+
+int peek(struct Stack *L) {
+    if (isEmpty(L)) {
+        return 0;
+    }
+    return L->Data[L->topIdx];
+}
 
 
 int main()
@@ -154,9 +195,19 @@ int main()
 //    int nums[9] = {-2,1,-3,4,-1,2,1,-5,4};
 //    int a = maxSubArray2(nums, 9);
     
-    int a = lengthOfLongestSubstring("abcabcbb");
+//    int a = lengthOfLongestSubstring("abcabcbb");
+//    int a = longestCommonSubsequence("bl", "yby");
     
-    printf("CH- -- %d",a);
+    int a[5] = {-4,-1,0,3,10};
+//    sortColors(a, 6);
+    
+    int returnSize;
+    int *p = sortedSquares(a, 5, &returnSize);
+    
+//    printf("CH- -- %d --\n",a);
+    for (int i = 0; i < 5; i++) {
+        printf("CH ---- a %d",p[i]);
+    }
     
     printf("end --- ");
     
@@ -1725,4 +1776,483 @@ int lengthOfLongestSubstring(char * s){
         }
     }
     return max;
+}
+
+
+int longestCommonSubsequence(char * text1, char * text2){
+    if (text1 == NULL || text2 == NULL) {
+        return 0;
+    }
+    int rows = (int)strlen(text1) + 1;
+    int cols = (int)strlen(text2) + 1;
+
+    int **nums = (int **)malloc(sizeof(int *) *rows);
+    for (int r = 0 ;r < rows; r++) {
+        nums[r] = (int *)malloc(sizeof(int) * cols);
+    }
+    for (int r = 0; r < rows; r++) {
+        nums[r][0] = 0;
+    }
+    for (int c = 0; c < cols; c++) {
+        nums[0][c] = 0;
+    }
+    
+    for (int i = 1; i < rows; i++) {
+        char c1 = text1[i-1];
+        for (int j = 1; j < cols; j++) {
+            char c2 = text2[j-1];
+            if ( c1 == c2) {
+                nums[i][j] = 1 + nums[i-1][j-1];
+            }else {
+                nums[i][j] =  max_Int(nums[i][j-1], nums[i-1][j]);
+            }
+        }
+    }
+    return nums[rows-1][cols-1];
+}
+
+
+int int_min(int a,int b) {
+    return a < b ? a : b;
+}
+
+
+int coinChange(int* coins, int coinsSize, int amount){
+    int dp[amount+1];
+    dp[0] = 0;
+    for (int i = 1; i <= amount; i++) {
+        // 因为赋值了一个比要计算的值大一，因此下面计算最小值的时候，可能还是得到比amount要大的
+        dp[i] = amount + 1;
+    }
+    
+    for (int j = 1; j <= amount; j++) {
+        for (int i = 0; i < coinsSize; i++) {
+            if (coins[i] <= j ) {
+                //
+                dp[j] = int_min(dp[j], dp[j - coins[i]] + 1);
+            }
+        }
+    }
+    return dp[amount] > amount ? -1 : dp[amount];
+}
+
+
+int int_max(int a,int b) {
+    return a > b ? a : b;
+}
+
+int lengthOfLIS(int* nums, int numsSize){
+    if (nums == NULL || numsSize == 0) {
+        return 0;
+    }
+    int dp[numsSize];
+    dp[0] = 1;
+    int max = 1;
+    for (int i = 1; i < numsSize; i++) {
+        dp[i] = 1;
+        for (int j = 0; j < i; j++) {
+            if (nums[i] > nums[j]) {
+                // 因为前面dp[j]以及计算了j之前的升序
+                dp[i] = int_max(dp[i],dp[j] + 1);
+            }
+        }
+        max = int_max(max,dp[i]);
+    }
+    return max;
+}
+
+
+
+
+int rob(int* nums, int numsSize){
+    if (numsSize == 1) {
+        return nums[0];
+    }
+    if (numsSize == 2) {
+        return int_max(nums[0], nums[1]);
+    }
+    int dp[numsSize+1];
+    dp[0] = 0;
+    dp[1] = nums[0];
+    dp[2] = int_max(nums[0], nums[1]);
+    for (int i = 3; i <= numsSize; i++) {
+        /// 用的是连续间隔的和，因此是dp[i-2]+nums[i]
+        dp[i] = int_max(dp[i-1], dp[i-2]+nums[i-1]);
+    }
+    return dp[numsSize];
+}
+
+
+
+int robRange(int* nums, int start, int end) {
+    int first = nums[start], second = fmax(nums[start], nums[start + 1]);
+    for (int i = start + 2; i <= end; i++) {
+        int temp = second;
+        second = fmax(first + nums[i], second);
+        first = temp;
+    }
+    return second;
+}
+
+int rob2(int* nums, int numsSize) {
+    if (numsSize == 1) {
+        return nums[0];
+    } else if (numsSize == 2) {
+        return fmax(nums[0], nums[1]);
+    }
+    return fmax(robRange(nums, 0, numsSize - 2), robRange(nums, 1, numsSize - 1));
+}
+
+
+void array_swap(int *nums,int i,int j) {
+    int tmp = nums[i];
+    nums[i] = nums[j];
+    nums[j] = tmp;
+}
+
+/*
+ 三指针：
+ 只能遍历一次数组。达到O(n)的时间复杂度。
+ 需要对每次遍历的值，进行判断是0，1，2进行换位。
+ 如果是2，需要对当前数据和后面数起来的非2进行交换，并且需要对当前左边的数据进行判断。因为换过来，可能是1，可能是0
+ 如果是1，则j到下一位。
+ 如果是0，则需要和前面的指针值进行交换。
+ */
+// [2,0,2,1,1,0]
+void sortColors(int* nums, int numsSize){
+    int left = 0,idx = 0,right = numsSize-1;
+    while (idx <= right) {
+        int value = nums[idx];
+        if (value == 2) {
+            array_swap(nums, idx, right);
+            right--;
+        }else if (value == 0) {
+            array_swap(nums, idx, left);
+            left++;
+            idx++;
+        }else {
+            idx++;
+        }
+    }
+}
+
+
+/*
+ 1,6,7,2,3,4,5
+ 
+ 
+ 从左到右找，只要是比当前顺序最大值要小的值，都算是顺序错乱了
+ 从右到左找，只要是比当前顺序最小值要大的值，都算是顺序错乱
+ */
+
+
+int* subSort(int* array, int arraySize, int* returnSize){
+    *returnSize = 2;
+    int *res = malloc(sizeof(int) * 2);
+    res[0] = -1;
+    res[1] = -1;
+    if (array == NULL || arraySize == 0) {
+        return res;
+    }
+    if (arraySize == 1) {
+        return res;
+    }
+    int m = 0;
+    int n = arraySize-1;
+    int max = array[m];
+    for (int i = 0; i < arraySize; i++) {
+        if (array[i] >= max) {
+            max = array[i];
+        }else {
+            m = i;
+        }
+    }
+    int min = array[arraySize-1];
+    for (int i = arraySize-1; i >= 0; i--) {
+        if (array[i] <= min) {
+            min = array[i];
+        }else {
+            n = i;
+        }
+    }
+
+    if (n <= m  ) {
+        res[0] = n;
+        res[1] = m;
+    }
+    return res;
+}
+
+
+
+//[-7,-3,2,3,11]
+//
+//先逐个计算
+//49  9 4 ,9 ,121
+//
+//遍历找到 找到比当前要大的 打断顺序的 这里是3
+//l = r-1  r=3
+//
+//从头开始
+//if l < r && l >= 0 {
+//    swap(idx,l)
+//    l--
+//}else if r < size{
+//    swap(idx,r)
+//    r++
+//}
+//
+//d < l    swap(d,l)
+
+
+//[-4,-1,0,3,10]
+//
+//16 1 0 9 100
+//
+//right = 3
+//left = 2
+
+//0  1  9 16
+
+int* sortedSquares(int* nums, int numsSize, int* returnSize){
+    int res[numsSize];
+    for (int i = 0; i < numsSize; i++) {
+        int tmp = nums[i] * nums[i];
+        nums[i] = tmp;
+    }
+    int min = nums[0];
+    int right = -1;
+    for (int i = 0; i < numsSize; i++) {
+        if (nums[i] <= min) {
+            min = nums[i];
+        }else {
+            right = i;
+            break;
+        }
+    }
+    if (right == -1) {
+        return res;
+    }
+    int left = right-1;
+    for (int i = 0; i < numsSize; i++) {
+        if (nums[left] < nums[right] && left >= 0) {
+            res[i] = nums[left--];
+        }else if (nums[right] < nums[left] && right < numsSize) {
+            res[i] = nums[right++];
+        }else if (left < 0 && right < numsSize) {
+            res[i] = nums[right++];
+        }else if (right >= numsSize && left >= 0) {
+            res[i] = nums[left--];
+        }
+    }
+    return res;
+}
+
+
+/*
+ 快慢，快的指向判断的值，慢的是指向当前判断的值。所以可以初始化一个头，头指向给定的head。
+ 1.当head不为空，且head的值等于val，慢指针不着急指向，将head指向下一个，直到找出非val值的指针
+ 2.找到非val值的指针，将慢指针的next指向这里，并且将慢指针指向这个新的下标，同时head继续遍历下一个指针开始。
+ 当head为空的时候跳出，同时需要将最后的指向nil补齐，所以慢指针最后一个需要指向回nil指针。
+ 
+ 
+ head = [1,2,6,3,4,5,6], val = 6
+ */
+struct ListNode* removeElements(struct ListNode* head, int val){
+    struct ListNode*start = (struct ListNode *)malloc(sizeof(struct ListNode));
+    start->next = head;
+    struct ListNode*tmp = start;
+    while (head != NULL) {
+        if (head->val == val) {
+            head = head->next;
+        }else {
+            tmp->next = head;
+            tmp = tmp->next;
+            head = head->next;
+        }
+    }
+    tmp->next = head;
+    return start->next;
+}
+
+
+struct ListNode* addTwoNumbers(struct ListNode* l1, struct ListNode* l2) {
+    struct ListNode *head = NULL, *tail = NULL;
+    int carry = 0;
+    while (l1 || l2) {
+        int n1 = l1 ? l1->val : 0;
+        int n2 = l2 ? l2->val : 0;
+        int sum = n1 + n2 + carry;
+        if (!head) {
+            head = tail = malloc(sizeof(struct ListNode));
+            tail->val = sum % 10;
+            tail->next = NULL;
+        } else {
+            tail->next = malloc(sizeof(struct ListNode));
+            tail->next->val = sum % 10;
+            tail = tail->next;
+            tail->next = NULL;
+        }
+        carry = sum / 10;
+        if (l1) {
+            l1 = l1->next;
+        }
+        if (l2) {
+            l2 = l2->next;
+        }
+    }
+    if (carry > 0) {
+        tail->next = malloc(sizeof(struct ListNode));
+        tail->next->val = carry;
+        tail->next->next = NULL;
+    }
+    return head;
+}
+
+
+/*
+ 快慢指针，算出长的链表，要先走几步，然后从先走两步后，同时开始看下一个直到结束是否一直。
+ */
+struct ListNode *getIntersectionNode(struct ListNode *headA, struct ListNode *headB) {
+    struct ListNode*curA = headA;
+    struct ListNode*curB = headB;
+    while (curA != curB) {
+        curA = curA == NULL ? headB : curA->next;
+        curB = curB == NULL ? headA : curB->next;
+    }
+    return curA;
+}
+
+
+
+struct ListNode* partition(struct ListNode* head, int x){
+    struct ListNode*lHead = (struct ListNode *)malloc(sizeof(struct ListNode));
+    struct ListNode*lTrai = lHead;
+    struct ListNode*rHead = (struct ListNode *)malloc(sizeof(struct ListNode));
+    struct ListNode*rTrai = rHead;
+    
+    while (head != NULL) {
+        if (head->val <= x) {
+            lTrai->next = head;
+            lTrai = head;
+        }else {
+            rTrai->next = head;
+            rTrai = head;
+        }
+        head = head->next;
+    }
+    rTrai->next = NULL;
+    lTrai->next = rHead->next;
+    return lHead->next;
+}
+
+
+
+struct ListNode *reverseList1(struct ListNode *head) {
+    struct ListNode *pre = NULL;
+    struct ListNode *cur = head;
+    while (cur != NULL) {
+        struct ListNode *tmp = cur->next;
+        cur->next = pre;
+        pre = cur;
+        cur = tmp;
+    }
+    return pre;
+}
+
+
+// 找出前半链表的结束
+struct ListNode *endOfFirstHalf(struct ListNode *head) {
+    struct ListNode *slow = head;
+    struct ListNode *fast = head;
+    while (fast -> next != NULL && fast->next->next != NULL) {
+        // 处理奇数，偶数长度情况
+        fast = fast->next->next;
+        slow = slow->next;
+    }
+    return slow;
+}
+
+bool isPalindrome(struct ListNode* head) {
+    if (head == NULL) {
+        return false;
+    }
+    
+    struct ListNode *firstHalfEnd = endOfFirstHalf(head);
+    struct ListNode *secondHalfStart = reverseList1(firstHalfEnd);
+    
+    struct ListNode *p1 = head;
+    struct ListNode *p2 = secondHalfStart;
+    bool result = true;
+    while (p1 != NULL && p2 != NULL) {
+        if (p1->val != p2->val) {
+            result = false;
+        }
+        p1 = p1->next;
+        p2 = p2->next;
+    }
+    return result;
+}
+
+
+
+struct TreeNode *findRoot(int *nums,int l,int r) {
+    if (l == r) {
+        return NULL;
+    }
+    int max = l;
+    for (int i = l; i < r; i++) {
+        if (nums[max] < nums[i]) {
+            max = i;
+        }
+    }
+    struct TreeNode *root = (struct TreeNode *)malloc(sizeof(struct TreeNode));
+    root->val = nums[max];
+    root->left = findRoot(nums, l, max);
+    root->right = findRoot(nums, max + 1, r);
+    return root;
+}
+
+
+struct TreeNode* constructMaximumBinaryTree(int* nums, int numsSize){
+    return findRoot(nums, 0, numsSize);
+}
+
+
+
+
+int *parentIndexes(int *nums,int size) {
+    int *lis = (int *)malloc(sizeof(int) * size);
+    int *ris = (int *)malloc(sizeof(int) * size);
+    
+    struct Stack *stack = (struct Stack *)malloc(sizeof(struct Stack));
+    for (int i = 0 ; i < size; i++) {
+        while (!isEmpty(stack) && nums[i] > peek(stack)) {
+            ris[pop(stack)] = i;
+        }
+        lis[i] = isEmpty(stack) ? -1 : nums[peek(stack)];
+        push(stack, nums[i]);
+    }
+    return NULL;
+}
+
+
+
+int* dailyTemperatures(int* temperatures, int temperaturesSize, int* returnSize){
+    if (temperatures == NULL || temperaturesSize == 0) {
+        *returnSize = 0;
+        return NULL;
+    }
+    int *result = (int *)malloc(sizeof(int) * temperaturesSize);
+    struct Stack *stack = (struct Stack *)malloc(sizeof(struct Stack));
+    stack->Data = (int *)malloc(sizeof(int) * 100);
+    stack->topIdx = 0;
+    for (int i = 0; i < temperaturesSize; i++) {
+        while (!isEmpty(stack) && temperatures[peek(stack) < temperatures[i]]) {
+            result[peek(stack)] = i - peek(stack);
+            pop(stack);
+        }
+        push(stack, i);
+    }
+    return result;
 }

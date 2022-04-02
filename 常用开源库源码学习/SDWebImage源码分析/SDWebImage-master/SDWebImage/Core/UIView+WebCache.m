@@ -61,7 +61,9 @@ const int64_t SDWebImageProgressUnitCountUnknown = 1LL;
     }
     /*
      备注：
-     目测操作使用这个validOperationKey作为每次请求的唯一标识符。用于取消操作
+     目测操作使用这个validOperationKey作为每次请求的唯一标识符。用于取消操作.
+     问题一的答案。
+     每次请求的表示，是记录在class上的关联对象上
      */
     NSString *validOperationKey = context[SDWebImageContextSetImageOperationKey];
     if (!validOperationKey) {

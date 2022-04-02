@@ -97,6 +97,105 @@ class 链表: Do {
 
     }
     
+    //MARK: 86. 分隔链表
+    /*
+     给你一个链表的头节点 head 和一个特定值 x ，请你对链表进行分隔，使得所有 小于 x 的节点都出现在 大于或等于 x 的节点之前。
+     你应当 保留 两个分区中每个节点的初始相对位置。
+     
+     
+     思路：
+     将需要分的部分数，分别算出来，然后连在一起。
+     */
+//    struct ListNode* partition(struct ListNode* head, int x){
+//        struct ListNode*lHead = (struct ListNode *)malloc(sizeof(struct ListNode));
+//        struct ListNode*lTrai = lHead;
+//        struct ListNode*rHead = (struct ListNode *)malloc(sizeof(struct ListNode));
+//        struct ListNode*rTrai = rHead;
+//
+//        while (head != NULL) {
+//            if (head->val <= x) {
+//                lTrai->next = head;
+//                lTrai = head;
+//            }else {
+//                rTrai->next = head;
+//                rTrai = head;
+//            }
+//            head = head->next;
+//        }
+//        rTrai->next = NULL;
+//        lTrai->next = rHead->next;
+//        return lHead->next;
+//    }
+    
+    
+    //MAKR: 142. 环形链表 II
+    /*
+     给定一个链表，返回链表开始入环的第一个节点。 如果链表无环，则返回 null。
+     为了表示给定链表中的环，我们使用整数 pos 来表示链表尾连接到链表中的位置（索引从 0 开始）。 如果 pos 是 -1，则在该链表中没有环。注意，pos 仅仅是用于标识环的情况，并不会作为参数传递到函数中。
+     说明：不允许修改给定的链表。
+     */
+    /*
+     遇事不解，即哈希
+     */
+    
+    func detectCycle(_ head: ListNode?) -> ListNode? {
+        var dict:[ListNode:Bool] = [:]
+        var temp = head
+        while temp != nil {
+            if dict[temp!] == true {
+                return temp
+            }else {
+                dict[temp!] = true
+            }
+            temp = temp?.next
+        }
+        return temp
+    }
+    
+    //MARK: 143. 重排链表
+    /*
+     给定一个单链表 L 的头节点 head ，单链表 L 表示为：
+      L0 → L1 → … → Ln-1 → Ln
+     请将其重新排列后变为：
+     L0 → Ln → L1 → Ln-1 → L2 → Ln-2 → …
+     不能只是单纯的改变节点内部的值，而是需要实际的进行节点交换。
+     */
+    /*
+     思路：
+     先找到末尾指针，同时从开头和末尾开始，用两个临时指针获取头尾的下一个，然后依次将
+     头的下一个指向末尾，末尾的下一个指向头指针下一个临时，头指针下一个临时指向末尾下一个临时。
+     */
+    /*
+     傻逼了，尾指针的下一个需要重复遍历的。
+     */
+    /*
+     答案：  链表也能使用数组存储，然后用数组下标快速寻找
+     */
+    
+    func reorderList(_ head: ListNode?) {
+        guard let h = head else {
+            return
+        }
+        var temp:ListNode? = h
+        var arr:[ListNode] = []
+        while temp != nil {
+            arr.append(temp!)
+            temp = temp!.next
+        }
+        var i = 0
+        var j = arr.count - 1
+        while i < j {
+            arr[i].next = arr[j]
+            i += 1
+            if i == j {
+                break
+            }
+            arr[j].next = arr[i]
+            j -= 1
+        }
+        arr[i].next = nil
+    }
+    
     
     //MARK: 146. LRU 缓存机制
     /*
@@ -187,6 +286,75 @@ class 链表: Do {
         }
     }
     
+    
+    //MARK:  160. 相交链表
+    /*
+     给你两个单链表的头节点 headA 和 headB ，请你找出并返回两个单链表相交的起始节点。如果两个链表不存在相交节点，返回 null 。
+     
+     1 2
+               3， 4  5
+     
+     a , b ,c
+     
+     如果相交，则说明有一段是一样的，那就是说两段之间有一个落差。
+     如果没有落差，则说明，可以同时去循环判断是否邮箱等的节点.
+     
+     
+     答案：
+     将A+B
+     和B+A  拼接起来。  如果存在相等的情况则说明存在相交
+     */
+//    struct ListNode *getIntersectionNode(struct ListNode *headA, struct ListNode *headB) {
+//        struct ListNode*curA = headA;
+//        struct ListNode*curB = headB;
+//        while (curA != curB) {
+            // 当A遍历到最后，就会判断结尾最后是否等于B结尾最后，如果都为NULL，则直接退出返回NULL
+            // 否则，curA会变成B的开头，等待curB变成A，将长度变成两个一样长，然后判断最后一个是否一样。
+//            curA = curA == NULL ? headB : curA->next;
+//            curB = curB == NULL ? headA : curB->next;
+//        }
+//        return curA;
+//    }
+    
+    
+    
+    //MARK: 203. 移除链表元素
+    /*
+     给你一个链表的头节点 head 和一个整数 val ，请你删除链表中所有满足 Node.val == val 的节点，并返回 新的头节点 。
+
+     /*
+      快慢，快的指向判断的值，慢的是指向当前判断的值。所以可以初始化一个头，头指向给定的head。
+      1.当head不为空，且head的值等于val，慢指针不着急指向，将head指向下一个，直到找出非val值的指针
+      2.找到非val值的指针，将慢指针的next指向这里，并且将慢指针指向这个新的下标，同时head继续遍历下一个指针开始。
+      当head为空的时候跳出，同时需要将最后的指向nil补齐，所以慢指针最后一个需要指向回nil指针。
+      
+      
+      head = [1,2,6,3,4,5,6], val = 6
+      */
+     
+    
+     */
+
+//    struct ListNode* removeElements(struct ListNode* head, int val){
+//        struct ListNode*start = (struct ListNode *)malloc(sizeof(struct ListNode));
+//        start->next = head;
+//        struct ListNode*tmp = start;
+//        while (head != NULL) {
+//            if (head->val == val) {
+//                head = head->next;
+//            }else {
+//                tmp->next = head;
+//                tmp = tmp->next;
+//                head = head->next;
+//            }
+//        }
+//        tmp->next = head;
+//        return start->next;
+//    }
+
+    
+    
+    
     // MARK: 206. 反转链表
     /*
      思路：
@@ -209,73 +377,67 @@ class 链表: Do {
         return right
     }
     
-    //MARK: 143. 重排链表
-    /*
-     给定一个单链表 L 的头节点 head ，单链表 L 表示为：
-      L0 → L1 → … → Ln-1 → Ln
-     请将其重新排列后变为：
-     L0 → Ln → L1 → Ln-1 → L2 → Ln-2 → …
-     不能只是单纯的改变节点内部的值，而是需要实际的进行节点交换。
-     */
-    /*
-     思路：
-     先找到末尾指针，同时从开头和末尾开始，用两个临时指针获取头尾的下一个，然后依次将
-     头的下一个指向末尾，末尾的下一个指向头指针下一个临时，头指针下一个临时指向末尾下一个临时。
-     */
-    /*
-     傻逼了，尾指针的下一个需要重复遍历的。
-     */
-    /*
-     答案：  链表也能使用数组存储，然后用数组下标快速寻找
-     */
     
-    func reorderList(_ head: ListNode?) {
-        guard let h = head else {
-            return
-        }
-        var temp:ListNode? = h
-        var arr:[ListNode] = []
-        while temp != nil {
-            arr.append(temp!)
-            temp = temp!.next
-        }
-        var i = 0
-        var j = arr.count - 1
-        while i < j {
-            arr[i].next = arr[j]
-            i += 1
-            if i == j {
-                break
-            }
-            arr[j].next = arr[i]
-            j -= 1
-        }
-        arr[i].next = nil
-    }
-    
-    //MAKR: 142. 环形链表 II
+    //MARK: 234. 回文链表
     /*
-     给定一个链表，返回链表开始入环的第一个节点。 如果链表无环，则返回 null。
-     为了表示给定链表中的环，我们使用整数 pos 来表示链表尾连接到链表中的位置（索引从 0 开始）。 如果 pos 是 -1，则在该链表中没有环。注意，pos 仅仅是用于标识环的情况，并不会作为参数传递到函数中。
-     说明：不允许修改给定的链表。
+     给你一个单链表的头节点 head ，请你判断该链表是否为回文链表。如果是，返回 true ；否则，返回 false 。
+     
+     1.遍历，用栈存储
+     2.反转后半部分链表，从两段开始判断是否一样，直到后面反转的链表为空。
+        a.先用快慢指针，找到前半链表的最后一个，
+        b.用前半链表的next，找到后半链表的原始开始
+        c.反转后半链表，且返回后半链表的开头
+        d.拿到前半开头，后半反转的开头，每个开始遍历数值是否一样。
+     
      */
-    /*
-     遇事不解，即哈希
-     */
+//    struct ListNode *reverseList1(struct ListNode *head) {
+//        struct ListNode *pre = NULL;
+//        struct ListNode *cur = head;
+//        while (cur != NULL) {
+//            struct ListNode *tmp = cur->next;
+//            cur->next = pre;
+//            pre = cur;
+//            cur = tmp;
+//        }
+//        return pre;
+//    }
+//
+//
+//    // 找出前半链表的结束
+//    struct ListNode *endOfFirstHalf(struct ListNode *head) {
+//        struct ListNode *slow = head;
+//        struct ListNode *fast = head;
+//        while (fast -> next != NULL && fast->next->next != NULL) {
+//            // 处理奇数，偶数长度情况
+//            fast = fast->next->next;
+//            slow = slow->next;
+//        }
+//        return slow;
+//    }
+//
+//    bool isPalindrome(struct ListNode* head) {
+//        if (head == NULL) {
+//            return false;
+//        }
+//
+//        struct ListNode *firstHalfEnd = endOfFirstHalf(head);
+//        struct ListNode *secondHalfStart = reverseList1(firstHalfEnd);
+//
+//        struct ListNode *p1 = head;
+//        struct ListNode *p2 = secondHalfStart;
+//        bool result = true;
+//        while (p1 != NULL && p2 != NULL) {
+//            if (p1->val != p2->val) {
+//                result = false;
+//            }
+//            p1 = p1->next;
+//            p2 = p2->next;
+//        }
+//        return result;
+//    }
+
     
-    func detectCycle(_ head: ListNode?) -> ListNode? {
-        var dict:[ListNode:Bool] = [:]
-        var temp = head
-        while temp != nil {
-            if dict[temp!] == true {
-                return temp
-            }else {
-                dict[temp!] = true
-            }
-            temp = temp?.next
-        }
-        return temp
-    }
+
 
     
     //MAKR: 剑指 Offer 52. 两个链表的第一个公共节点

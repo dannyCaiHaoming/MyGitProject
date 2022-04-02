@@ -231,6 +231,17 @@ class 字符串: Do {
     
     
     
+    //MARK: 面试题 01.09. 字符串轮转
+    func isFlipedString(_ s1: String, _ s2: String) -> Bool {
+        if s1.isEmpty && s2.isEmpty {
+            return true
+        }
+        if s1.count != s2.count {
+            return false
+        }
+        let tmp = s1 + s1
+        return tmp.contains(s2)
+    }
     
     
     
