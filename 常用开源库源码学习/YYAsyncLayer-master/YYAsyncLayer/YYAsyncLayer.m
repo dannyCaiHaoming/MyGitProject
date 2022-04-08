@@ -94,6 +94,9 @@ static dispatch_queue_t YYAsyncLayerGetReleaseQueue() {
     [_sentinel increase];
 }
 
+/*
+ 提前结束无效绘制。
+ */
 - (void)setNeedsDisplay {
     [self _cancelAsyncDisplay];
     [super setNeedsDisplay];
