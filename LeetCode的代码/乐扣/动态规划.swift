@@ -259,6 +259,26 @@ class 动态规划: Do {
      }
      
      */
+    func maxProfit(_ prices: [Int]) -> Int {
+        guard !prices.isEmpty else {
+            return 0
+        }
+        var maxI: Int = 0
+        var dp:[[Int]] = []
+        dp.append([0,-prices[0]])
+        for i in 1..<prices.count {
+            dp.append(
+                
+                [max(dp[i-1][0], dp[i-1][1] + prices[i]),
+                 max(dp[i-1][1], -prices[i])]
+            )
+            
+            maxI = max(maxI,max(dp[i-1][0], dp[i-1][1] + prices[i]));
+            
+        }
+        return maxI
+    }
+    
     
     
     

@@ -218,6 +218,16 @@ class 数组: Do {
         return result
     }
     
+    //MARK: 36. 有效的数独
+    /*
+     请你判断一个 9 x 9 的数独是否有效。只需要 根据以下规则 ，验证已经填入的数字是否有效即可。
+
+     数字 1-9 在每一行只能出现一次。
+     数字 1-9 在每一列只能出现一次。
+     数字 1-9 在每一个以粗实线分隔的 3x3 宫内只能出现一次。（请参考示例图）
+
+     */
+    
     
     //MARK: 53. 最大子数组和
     func maxSubArray(_ nums: [Int]) -> Int {
@@ -310,6 +320,24 @@ class 数组: Do {
     }
     
     
+    //MARK: 118. 杨辉三角
+    func generate(_ numRows: Int) -> [[Int]] {
+        var result: [[Int]] = []
+        for r in 0..<numRows {
+            var row :[Int] = []
+            for c in 0...r {
+                if c == 0 {
+                    row.append(1)
+                }else if r != 0 && c == r {
+                    row.append(1)
+                }else {
+                    row.append(result[r-1][c-1] + result[r-1][c])
+                }
+            }
+            result.append(row)
+        }
+        return result
+    }
 
 
     
@@ -376,8 +404,74 @@ class 数组: Do {
             }
         }
         return false
+    //MARK:  两个数组的交集 II
+    /*
+     给你两个整数数组 nums1 和 nums2 ，请你以数组形式返回两数组的交集。返回结果中每个元素出现的次数，应与元素在两个数组中都出现的次数一致（如果出现次数不一致，则考虑取较小值）。可以不考虑输出结果的顺序。
+     
+     示例 1：
+     输入：nums1 = [1,2,2,1], nums2 = [2,2]
+     输出：[2,2]
+     */
+    func intersect(_ nums1: [Int], _ nums2: [Int]) -> [Int] {
+        guard !nums1.isEmpty,
+              !nums2.isEmpty
+              else {
+            return []
+        }
+        var dit:[Int:Int] = [:]
+        for num in nums1 {
+            if let value = dit[num] {
+                let tmp = 1 + value
+                dit[num] = tmp
+            }else {
+                dit[num] = 1
+            }
+        }
+        var result:[Int] = []
+        for num in nums2 {
+            if let value = dit[num],
+               value >= 1 {
+                let tmp = value - 1
+                dit[num] = tmp
+                result.append(num)
+            }
+        }
+        return result
     }
 
+    
+    //MARK: 566. 重塑矩阵
+    /*
+     [[1,2],
+     [3,4]]
+     2
+     4
+     
+     特殊情况，就是需要按照原来行顺序输出，因此，如果如果面积不等原来矩阵，则可以直接返回原来矩阵
+     */
+    func matrixReshape(_ mat: [[Int]], _ r: Int, _ c: Int) -> [[Int]] {
+        if r * c != mat[0].count * mat.count {
+            return mat
+        }
+        var tmp:[Int] = []
+        for r in mat {
+            for c in r {
+                tmp.append(c)
+            }
+        }
+        var result:[[Int]] = []
+        for r_ in 0..<r {
+            var cArr:[Int] = []
+            for c_ in 0..<c {
+                if r_*c+c_ >= tmp.count {
+                    return result
+                }
+                cArr.append(tmp[r_*c+c_])
+            }
+            result.append(cArr)
+        }
+        return result
+    }
     
     
     
