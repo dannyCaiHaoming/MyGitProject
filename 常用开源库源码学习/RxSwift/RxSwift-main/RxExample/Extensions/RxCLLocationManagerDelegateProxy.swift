@@ -45,3 +45,33 @@ public class RxCLLocationManagerDelegateProxy
         self.didFailWithErrorSubject.on(.completed)
     }
 }
+
+
+public class RxCLLocationManagerDelegateProxy1 : DelegateProxy<CLLocationManager, CLLocationManagerDelegate>,
+                                                 DelegateProxyType,
+                                                 CLLocationManagerDelegate {
+    
+//    public init<Proxy: DelegateProxyType>(parentObject: ParentObject, delegateProxy: Proxy.Type)
+//        where Proxy: DelegateProxy<ParentObject, Delegate>, Proxy.ParentObject == ParentObject, Proxy.Delegate == Delegate {
+//        self._parentObject = parentObject
+//        self._currentDelegateFor = delegateProxy._currentDelegate
+//        self._setCurrentDelegateTo = delegateProxy._setCurrentDelegate
+//
+//        MainScheduler.ensureRunningOnMainThread()
+//        #if TRACE_RESOURCES
+//            _ = Resources.incrementTotal()
+//        #endif
+//        super.init()
+//    }
+    
+    
+    public init(locationManage: CLLocationManager) {
+        super.init(parentObject: locationManage, delegateProxy: RxCLLocationManagerDelegateProxy1.self)
+    }
+    
+    public static func registerKnownImplementations() {
+        self.register(make: { RxCLLocationManagerDelegateProxy1(locationManage: $0) })
+    }
+    
+    
+}

@@ -26,32 +26,42 @@ class GeolocationViewController: ViewController {
     @IBOutlet weak private var button2: UIButton!
     @IBOutlet weak var label: UILabel!
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    func setup() {
         
         view.addSubview(noGeolocationView)
         
         let geolocationService = GeolocationService.instance
         
         geolocationService.authorized
-            .drive(noGeolocationView.rx.isHidden)
-            .disposed(by: disposeBag)
         
-        geolocationService.location
-            .drive(label.rx.coordinates)
-            .disposed(by: disposeBag)
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
         
-        button.rx.tap
-            .bind { [weak self] _ -> Void in
-                self?.openAppPreferences()
-            }
-            .disposed(by: disposeBag)
-        
-        button2.rx.tap
-            .bind { [weak self] _ -> Void in
-                self?.openAppPreferences()
-            }
-            .disposed(by: disposeBag)
+//        view.addSubview(noGeolocationView)
+//
+//        let geolocationService = GeolocationService.instance
+//
+//        geolocationService.authorized
+//            .drive(noGeolocationView.rx.isHidden)
+//            .disposed(by: disposeBag)
+//
+//        geolocationService.location
+//            .drive(label.rx.coordinates)
+//            .disposed(by: disposeBag)
+//
+//        button.rx.tap
+//            .bind { [weak self] _ -> Void in
+//                self?.openAppPreferences()
+//            }
+//            .disposed(by: disposeBag)
+//
+//        button2.rx.tap
+//            .bind { [weak self] _ -> Void in
+//                self?.openAppPreferences()
+//            }
+//            .disposed(by: disposeBag)
     }
     
     private func openAppPreferences() {

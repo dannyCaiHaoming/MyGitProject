@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES" initialViewController="ew7-Ty-fzC">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES" initialViewController="ew7-Ty-fzC">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -18,14 +16,14 @@
                         <viewControllerLayoutGuide type="bottom" id="Zb9-9p-7u0"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="oOI-v8-i8g">
-                        <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="623"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JL2-pm-xcV">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="623"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="It seems that geolocation is enabled" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wda-wQ-NCF">
-                                        <rect key="frame" x="87.5" y="126.5" width="200" height="42.5"/>
+                                        <rect key="frame" x="87.5" y="143" width="200" height="36"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="200" id="2w3-q1-XE3"/>
                                         </constraints>
@@ -34,7 +32,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You can disable Geolocation on app's preferences and come back to the app to see what happens" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C85-sc-HI1">
-                                        <rect key="frame" x="87.5" y="248" width="200" height="46.5"/>
+                                        <rect key="frame" x="87.5" y="258" width="200" height="39.5"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="200" id="tX2-4K-Rw9"/>
                                         </constraints>
@@ -43,7 +41,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3q9-a2-ojh">
-                                        <rect key="frame" x="87.5" y="311.5" width="200" height="28"/>
+                                        <rect key="frame" x="87.5" y="314.5" width="200" height="28"/>
                                         <color key="backgroundColor" red="0.17483745810000001" green="0.60840499159999994" blue="0.84705882349999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="200" id="a8X-5n-L9e"/>
@@ -57,13 +55,13 @@
                                         </userDefinedRuntimeAttributes>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Edb-tp-cly">
-                                        <rect key="frame" x="87.5" y="183" width="200" height="50"/>
+                                        <rect key="frame" x="87.5" y="193" width="200" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="200" id="UaR-hN-fnn"/>
                                             <constraint firstAttribute="height" constant="50" id="uiX-E1-S5d"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <color key="textColor" systemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
@@ -103,7 +101,7 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Geolocation is not enabled for this app" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QDz-hL-6ve">
-                            <rect key="frame" x="48" y="168.5" width="280" height="67.5"/>
+                            <rect key="frame" x="47.5" y="171" width="280" height="61"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="280" id="OAO-CK-RYp"/>
                             </constraints>
@@ -112,13 +110,13 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please enable it in the app preferences" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cbw-8G-pl6">
-                            <rect key="frame" x="48" y="244" width="280" height="43"/>
+                            <rect key="frame" x="47.5" y="240" width="280" height="17"/>
                             <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="q8m-1B-H0o">
-                            <rect key="frame" x="88" y="317" width="200" height="28"/>
+                            <rect key="frame" x="87.5" y="287" width="200" height="28"/>
                             <color key="backgroundColor" red="0.17483745805369111" green="0.60840499161073824" blue="0.84705882349999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="200" id="qDe-NM-H36"/>
@@ -144,12 +142,12 @@
                     </constraints>
                 </view>
             </objects>
-            <point key="canvasLocation" x="805" y="341"/>
+            <point key="canvasLocation" x="1166.6666666666667" y="228.34821428571428"/>
         </scene>
     </scenes>
-    <simulatedMetricsContainer key="defaultSimulatedMetrics">
-        <simulatedStatusBarMetrics key="statusBar"/>
-        <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4_7.fullscreen"/>
-    </simulatedMetricsContainer>
+    <resources>
+        <systemColor name="darkTextColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
 </document>

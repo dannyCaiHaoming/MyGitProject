@@ -219,6 +219,25 @@ class 数组: Do {
     }
     
     
+    //MARK: 53. 最大子数组和
+    func maxSubArray(_ nums: [Int]) -> Int {
+        var pl:[Int] = []
+        pl.append(Int.min)
+        var max = 0
+        for i in 0..<nums.count {
+            let v = nums[i]
+            if v + pl[i] >= 0 {
+                pl.append(v + pl[i])
+            }else {
+                pl.append(v)
+            }
+            if pl[i+1] > max {
+                max = pl[i+1]
+            }
+        }
+        return max
+    }
+    
     
     //MARK: 75. 颜色分类
     /*
@@ -345,6 +364,19 @@ class 数组: Do {
         return -1
     }
     
+    
+    //MARK: 217. 存在重复元素
+    func containsDuplicate(_ nums: [Int]) -> Bool {
+        var dict:[Int:Int] = [:]
+        for n in nums {
+            if dict[n] != nil {
+                return true
+            }else {
+                dict[n] = 1;
+            }
+        }
+        return false
+    }
 
     
     
