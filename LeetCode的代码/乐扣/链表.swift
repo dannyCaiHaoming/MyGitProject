@@ -97,6 +97,65 @@ class 链表: Do {
 
     }
     
+    //MARK: 21. 合并两个有序链表
+    /*
+     将两个升序链表合并为一个新的 升序 链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。
+     */
+    func mergeTwoLists1(_ list1: ListNode?, _ list2: ListNode?) -> ListNode? {
+        var tmp1 = list1
+        var tmp2 = list2
+        var start:ListNode? = ListNode.init(-1)
+        let res = start
+        while tmp1 != nil && tmp2 != nil {
+            if tmp1?.val ?? 0 < tmp2?.val ?? 0 {
+                start?.next = list1
+//                start?.next = ListNode.init(tmp1!.val)
+                tmp1 = tmp1?.next
+            }else {
+                start?.next = tmp2
+//                start?.next = ListNode.init(tmp2!.val)
+                tmp2 = tmp2?.next
+            }
+            start = start?.next
+        }
+        var tmp: ListNode?
+        if tmp1 != nil {
+            tmp = tmp1
+        }else if tmp2 != nil {
+            tmp = tmp2
+        }
+        while tmp != nil {
+            start?.next = tmp
+            tmp = tmp?.next
+            start = start?.next
+        }
+        return res?.next
+        
+    }
+    
+    //MARK: 83. 删除排序链表中的重复元素
+    /*
+     给定一个已排序的链表的头 head ， 删除所有重复的元素，使每个元素只出现一次 。返回 已排序的链表 。
+     */
+    func deleteDuplicates(_ head: ListNode?) -> ListNode? {
+        var tmpH = head
+        var dict:[Int:Int] = [:]
+        var start:ListNode? = ListNode.init(-1)
+        var tmp = start
+        while tmpH != nil {
+            if dict[tmpH?.val ?? -1] == nil {
+                dict[tmpH?.val ?? -1] = 1
+                tmp?.next = tmpH
+                tmpH = tmpH?.next
+                tmp = tmp?.next
+            }else {
+                tmpH = tmpH?.next
+            }
+        }
+        tmp?.next = nil
+        return start?.next
+    }
+    
     //MARK: 86. 分隔链表
     /*
      给你一个链表的头节点 head 和一个特定值 x ，请你对链表进行分隔，使得所有 小于 x 的节点都出现在 大于或等于 x 的节点之前。
@@ -126,6 +185,31 @@ class 链表: Do {
 //        lTrai->next = rHead->next;
 //        return lHead->next;
 //    }
+    
+    //MARK: 141. 环形链表
+    /*
+     给你一个链表的头节点 head ，判断链表中是否有环。
+     如果链表中有某个节点，可以通过连续跟踪 next 指针再次到达，则链表中存在环。 为了表示给定链表中的环，评测系统内部使用整数 pos 来表示链表尾连接到链表中的位置（索引从 0 开始）。注意：pos 不作为参数进行传递 。仅仅是为了标识链表的实际情况。
+     如果链表中存在环 ，则返回 true 。 否则，返回 false 。
+     
+     哈希表
+     快慢指针，快的会在未来套圈慢的
+     */
+    func hasCycle(_ head: ListNode?) -> Bool {
+        guard var head:ListNode? = head else {
+            return false
+        }
+        var dict:[ListNode:Int] = [:]
+        while head != nil {
+            if dict[head!] == nil {
+                dict[head!] = 1
+            } else {
+                return true
+            }
+            head = head?.next
+        }
+        return false
+    }
     
     
     //MAKR: 142. 环形链表 II
@@ -351,6 +435,22 @@ class 链表: Do {
 //        tmp->next = head;
 //        return start->next;
 //    }
+    func removeElements(_ head: ListNode?, _ val: Int) -> ListNode? {
+        var left:ListNode? = ListNode.init(-1)
+        let start = left
+        var right = head
+        while right != nil {
+            if right?.val == val {
+                right = right?.next
+            }else {
+                left?.next = right
+                left = left?.next
+                right = right?.next
+            }
+        }
+        left?.next = nil
+        return start?.next
+    }
 
     
     
@@ -375,6 +475,20 @@ class 链表: Do {
             right?.next = pNext
         }
         return right
+    }
+    
+    
+    /*
+     递归方法，每次返回的还是翻转的链表头，因此，只能用原来的head来进行操作。
+     */
+    func reverseList1(_ head: ListNode?) -> ListNode? {
+        if head == nil || head?.next == nil {
+            return head
+        }
+        let newHead = reverseList1(head?.next)
+        head?.next?.next = head
+        head?.next = nil
+        return newHead
     }
     
     

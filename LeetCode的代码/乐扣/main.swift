@@ -2463,3 +2463,7 @@ var classes: [Do.Type] = [数组.self,字符串.self,链表.self,动态规划.se
 for c in classes {
     c.doSomething()
 }
+
+
+print(UnicodeScalar("r").value)
+print(UnicodeScalar("t").value)

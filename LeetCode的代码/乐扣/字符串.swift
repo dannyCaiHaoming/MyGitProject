@@ -186,8 +186,82 @@ class 字符串: Do {
         return String(s[s.index(s.startIndex, offsetBy: start)...s.index(s.startIndex, offsetBy: end)])
         
     }
-
     
+    
+    //MARK: 242. 有效的字母异位词
+    /*
+     给定两个字符串 s 和 t ，编写一个函数来判断 t 是否是 s 的字母异位词。
+     注意：若 s 和 t 中每个字符出现的次数都相同，则称 s 和 t 互为字母异位词。
+
+     思路完全可以和383一样
+     */
+//    "rat"
+//    "car"
+    func isAnagram(_ s: String, _ t: String) -> Bool {
+        if s.count != t.count {
+            return false
+        }
+        var table:[Int] = .init(repeating: 0, count: 26)
+        for i in 0..<s.count {
+            let str = (s as NSString).substring(with: .init(location: i, length: 1))
+            table[Int(UnicodeScalar(str)?.value ?? 0) - (Int(UnicodeScalar("a").value) )] += 1
+        }
+        for i in 0..<t.count {
+            let str = (t as NSString).substring(with: .init(location: i, length: 1))
+            table[Int(UnicodeScalar(str)?.value ?? 0) - (Int(UnicodeScalar("a").value) )] -= 1
+            if table[Int(UnicodeScalar(str)?.value ?? 0) - (Int(UnicodeScalar("a").value) )] < 0 {
+                return false
+            }
+        }
+        return true
+    }
+    
+    //MARK: 383. 赎金信
+    /*
+     给你两个字符串：ransomNote 和 magazine ，判断 ransomNote 能不能由 magazine 里面的字符构成。
+     如果可以，返回 true ；否则返回 false 。
+     magazine 中的每个字符只能在 ransomNote 中使用一次。
+
+     最快的方式，因为都是字母，因此可以用一个能容纳所有字母长度的数组，然后遍历magazine的内容，遇到就在数组对应的字母增加1，表示能用的次数。
+     然后在ransomNote里面遍历，遇到能使用数组的内容为0，则表示不能遍历出来。
+     */
+    func canConstruct(_ ransomNote: String, _ magazine: String) -> Bool {
+        var arr: [String] = []
+        for c in magazine {
+            arr.append(String(c))
+        }
+        for c in ransomNote {
+            if let index = arr.firstIndex(where: { $0 == String(c) }){
+                arr.remove(at: index)
+            }else {
+                return false
+            }
+        }
+        return true
+    }
+    
+    //MARK: 387. 字符串中的第一个唯一字符
+    /*
+     给定一个字符串 s ，找到 它的第一个不重复的字符，并返回它的索引 。如果不存在，则返回 -1 。
+     */
+    func firstUniqChar(_ s: String) -> Int {
+        var dict:[String: Int] = [:]
+        for c in s {
+            let str = String(c)
+            if let count = dict[str] {
+                dict[str] = count + 1
+            }else {
+                dict[str] = 1
+            }
+        }
+        for i in 0..<s.count{
+            let str = (s as NSString).substring(with: .init(location: i, length: 1))
+            if dict[str] == 1 {
+                return i
+            }
+        }
+        return -1
+    }
     
     
     //MARK: 1190. 反转每对括号间的子串

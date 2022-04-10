@@ -226,7 +226,32 @@ class 数组: Do {
      数字 1-9 在每一列只能出现一次。
      数字 1-9 在每一个以粗实线分隔的 3x3 宫内只能出现一次。（请参考示例图）
 
+     分别用数组记录，行列以及小宫格内，数字出现的次数。
+     二维数组，可以记录第i行、j列某个数字出现的次数。
+     三维数组，i/3,j/3,表示的是该单元格所在的小九宫格
      */
+    func isValidSudoku(_ board: [[Character]]) -> Bool {
+        var rows: [[Int]] = Array.init(repeating: Array.init(repeating: 0, count: 9), count: 9)
+        var columns: [[Int]] = Array.init(repeating: Array.init(repeating: 0, count: 9), count: 9)
+        var subboxes: [[[Int]]] = Array.init(repeating: Array.init(repeating: Array.init(repeating: 0, count: 9), count: 9), count: 9)
+        for i in 0..<9 {
+            for j in 0..<9 {
+                let c = board[i][j]
+                let str = String(c)
+                if c != ".",
+                   let intc = Int(str) {
+                    let index = intc - 1
+                    rows[i][index] += 1;
+                    columns[j][index] += 1;
+                    subboxes[i/3][j/3][index] += 1;
+                    if rows[i][index] > 1 || columns[j][index] > 1 || subboxes[i/3][j/3][index] > 1 {
+                        return false
+                    }
+                }
+            }
+        }
+        return true
+    }
     
     
     //MARK: 53. 最大子数组和
@@ -248,6 +273,37 @@ class 数组: Do {
         return max
     }
     
+    
+    //MARK: 73. 矩阵置零
+    /*
+     给定一个 m x n 的矩阵，如果一个元素为 0 ，则将其所在行和列的所有元素都设为 0 。请使用 原地 算法。
+     */
+    func setZeroes(_ matrix: inout [[Int]]) {
+        var arr:[(Int,Int)] = []
+        for i in 0..<matrix.count {
+            for j in 0..<matrix[i].count {
+                if matrix[i][j] == 0 {
+                    arr.append((i,j))
+                }
+            }
+        }
+        var row:Set<Int> = []
+        var col:Set<Int> = []
+        for tmp in arr {
+            row.insert(tmp.0)
+            col.insert(tmp.1)
+        }
+        for i in 0..<matrix.count {
+            for j in 0..<matrix[i].count {
+                if row.contains(i) {
+                    matrix[i][j] = 0
+                }
+                if col.contains(j) {
+                    matrix[i][j] = 0
+                }
+            }
+        }    
+    }
     
     //MARK: 75. 颜色分类
     /*
@@ -404,6 +460,7 @@ class 数组: Do {
             }
         }
         return false
+    }
     //MARK:  两个数组的交集 II
     /*
      给你两个整数数组 nums1 和 nums2 ，请你以数组形式返回两数组的交集。返回结果中每个元素出现的次数，应与元素在两个数组中都出现的次数一致（如果出现次数不一致，则考虑取较小值）。可以不考虑输出结果的顺序。
