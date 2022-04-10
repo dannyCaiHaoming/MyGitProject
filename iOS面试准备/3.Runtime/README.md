@@ -50,7 +50,7 @@ OC中用`Class`来表示类对象，而`Class`实际上是`objc_class`,继承于
 - 是可增量扩展的哈希表结构
 - 是`局部性原理`的最佳应用（类比CPU中也是有缓存，将常用的内容缓存起来）
 
-![cache_t结构图](\../images/3/cache_t结构图.png)
+![cache_t结构图](../images/3/cache_t结构图.png)
 `cache_t`的哈希表构造如何处理冲突：**开放地址法**
 
 
@@ -109,7 +109,7 @@ ps:`properties`,`protocols`,`methodList`是一维数组，在编译期间确认�
 
 #### 3.1.9 整体数据结构
 
-![Runtime整体数据结构](\../images/3/Rumtime整体数据结构图.png)
+![Runtime整体数据结构](../images/3/Rumtime整体数据结构图.png)
 
 
 
@@ -118,14 +118,14 @@ ps:`properties`,`protocols`,`methodList`是一维数组，在编译期间确认�
 - `类对象`存储实例方法列表等信息
 - `元类对象`存储类方法列表等信息
 
-![对象类元类之间关系](\../images/3/对象类元类之间关系.png)
+![对象类元类之间关系](../images/3/对象类元类之间关系.png)
 
 
- 
+
 ### 3.3 消息传递
 
 
-![消息传递流程](\../images/3/消息传递流程.png)
+![消息传递流程](../images/3/消息传递流程.png)
 
 ##### 3.3.1.1 `objc_msgSend `
 OC中的函数调用叫做`消息传递`，原因是
@@ -133,16 +133,17 @@ OC中的函数调用叫做`消息传递`，原因是
     [self class];
     //等同于
     objc_msgSend(self,@selector(class));
-    
-    
+
+
+​    
 ##### 3.3.1.2 `objc_msgSendSuper`
 
 	[super class];
 	//等同于
 	objc_msgSendSuper(objc_super->receiver,@selector(class));
-	
+
 ##### 3.3.1.3`objc_super`结构体，实际上消息接收者还是调用者本身
-	
+
 	stuct objc_super {
 	__unsafe_unretained id receiver;//指向调用者本身
 	}
@@ -153,7 +154,7 @@ OC中的函数调用叫做`消息传递`，原因是
  - 使用`SEL`方法选择器，使用哈希算法，得出一个哈希值的`key`
  - `key`的值，其实是该方法在`bucket_t`数组中的索引位置
 
- 
+
 #### 3.3.3 当前类中查找
 
 - 对于`已排序好`的列表，采用`二分查找`算法查找方法对应执行函数
@@ -163,13 +164,13 @@ OC中的函数调用叫做`消息传递`，原因是
 #### 3.3.4 当前类的`SuperClass`逐级进行`查找缓存`和`类中查找`
 
  
- 
+
 ### 3.5 消息转发
 [参考：iOS开发·runtime原理与实践](https://juejin.im/post/5ae96e8c6fb9a07ac85a3860#heading-16)
 
 [参考：深入浅出理解消息的传递和转发机制](https://www.cnblogs.com/zhanggui/p/7731394.html)
 
-![消息转发流程](\../images/3/消息转发流程.pngg)
+![消息转发流程](../images/3/消息转发流程.png)
 
 #### 3.5.1 动态方法解析：Method Resolution
 OC运行时调用`+ (BOOL)resolveInstanceMethod:`或者 `+ (BOOL)resolveClassMethod:`，让你有机会提供一个函数实现
@@ -193,7 +194,7 @@ OC运行时通过调用`- (id)forwardingTargetForSelector:(SEL)aSelector`,允许
 ### 3.6 Method-Swizzling（方法混淆）
 实际上是修改选择器(`SEL`)对应的方法实现(`IMP`)
 
-![方法混淆](h\../images/3/方法混淆.png)
+![方法混淆](../images/3/方法混淆.png)
 
 
 ### 3.7 动态添加方法
@@ -219,7 +220,7 @@ OC运行时通过调用`- (id)forwardingTargetForSelector:(SEL)aSelector`,允许
 
 +load():
  会在程序第一次加载到内存的时候，main函数执行前调用，且只会执行一次。与这个类是否使用到无关。
- 
+
  1.load方法执行的顺序是`根类-父类-子类-分类`,且根据编译顺序
  2.该方法不会继承
  3.不需要调用[super load]

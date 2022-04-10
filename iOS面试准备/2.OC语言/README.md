@@ -32,7 +32,7 @@
 	- `protocol_list_t **protolist`
 - `attachLists`实现类的内容及所有分类内容的拼接（新数组大小=原来类的内容+所有分类内容），将原数组复制到新内容数组的最后一位，然后将倒序排序的分类数组内容按顺序在新数组的首位开始放置
 
-![类拼接分类方法示例](\../images/2/分类扩展新旧数组拼接原理.png)
+![类拼接分类方法示例](../images/2/分类扩展新旧数组拼接原理.png)
 
 #### 2.1.4 使用关联对象为分类添加属性
 主要使用到两个方法：
@@ -78,7 +78,7 @@
 
 #### 2.4.2 通知的实现原理
 
-![通知实现原理](\../images/2/通知实现原理.png)
+![通知实现原理](../images/2/通知实现原理.png)
 
 ##### 从怎么发送一个`NSNotification`说起。
 1. 如果我们使用`addObserver:selector:name:object:`方法注册
@@ -214,10 +214,10 @@ Q: **NSMutable对象，经常使用strong关键字，为什么**
 
 
 ​	 
-	inArray copy---__NSSingleObjectArrayI
-	inArray mutableCopy---__NSArrayM
-	mArray copy---__NSSingleObjectArrayI
-	mArray mutableCopy---__NSArrayM
+​	inArray copy---__NSSingleObjectArrayI
+​	inArray mutableCopy---__NSArrayM
+​	mArray copy---__NSSingleObjectArrayI
+​	mArray mutableCopy---__NSArrayM
 
 **结论：**
 
