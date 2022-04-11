@@ -29,6 +29,46 @@ class 栈和队列: Do {
     }
     
     
+    //MARK: 20. 有效的括号
+    /*
+     给定一个只包括 '('，')'，'{'，'}'，'['，']' 的字符串 s ，判断字符串是否有效。
+     有效字符串需满足：
+     左括号必须用相同类型的右括号闭合。
+     左括号必须以正确的顺序闭合。
+     
+     "({{{{}}}))"
+     
+     
+     ( {
+     
+     */
+    func isValid(_ s: String) -> Bool {
+        var stackArr:[String] = []
+        for c in s {
+            stackArr.append(String(c))
+        }
+        var tmp:[String] = []
+        while !stackArr.isEmpty {
+            let last = stackArr.popLast()!
+            if let tmpL = tmp.last {
+                if tmpL == "}" && last == "{" {
+                    tmp.popLast()
+                }else if tmpL == "]" && last == "[" {
+                    tmp.popLast()
+                }else if tmpL == ")" && last == "(" {
+                    tmp.popLast()
+                }else {
+                    tmp.append(last)
+                }
+            }else {
+                tmp.append(last)
+                continue
+            }
+        }
+        return tmp.isEmpty && stackArr.isEmpty
+    }
+    
+    
     //MARK: 155. 最小栈
     /*设计一个支持 push ，pop ，top 操作，并能在常数时间内检索到最小元素的栈。
      实现 MinStack 类:
@@ -43,6 +83,53 @@ class 栈和队列: Do {
      两个栈，一个栈正常存储数据，另一个栈存储每次的最小值。
      */
     
+    
+    //MAR: 232. 用栈实现队列
+    /*
+     请你仅使用两个栈实现先入先出队列。队列应当支持一般队列支持的所有操作（push、pop、peek、empty）：
+
+     实现 MyQueue 类：
+
+     void push(int x) 将元素 x 推到队列的末尾
+     int pop() 从队列的开头移除并返回元素
+     int peek() 返回队列开头的元素
+     boolean empty() 如果队列为空，返回 true ；否则，返回 false
+     */
+    class MyQueue {
+        //队列 先进先出
+        var left:[Int] = []
+        var right:[Int] = []
+
+        init() {
+
+        }
+        
+        func push(_ x: Int) {
+            self.right.append(x)
+        }
+        
+        func pop() -> Int {
+            if self.left.isEmpty {
+                while !self.right.isEmpty {
+                    self.left.append(self.right.popLast()!)
+                }
+            }
+            return self.left.popLast()!
+        }
+        
+        func peek() -> Int {
+            if self.left.isEmpty {
+                while !self.right.isEmpty {
+                    self.left.append(self.right.popLast()!)
+                }
+            }
+            return self.left.last!
+        }
+        
+        func empty() -> Bool {
+            return self.left.isEmpty && self.right.isEmpty
+        }
+    }
     
     
     //MARK:  239. 滑动窗口最大值
