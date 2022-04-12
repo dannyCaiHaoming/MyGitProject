@@ -8,6 +8,17 @@
 
 import Foundation
 
+public class TreeNode {
+    public var val: Int
+    public var left: TreeNode?
+    public var right: TreeNode?
+    public init(_ val: Int) {
+        self.val = val
+        self.left = nil
+        self.right = nil
+    }
+}
+
 
 class 树: Do {
     /*
@@ -19,6 +30,49 @@ class 树: Do {
         
         
         
+    }
+    
+    //MARK: 94. 二叉树的中序遍历
+    /*
+     给定一个二叉树的根节点 root ，返回 它的 中序 遍历 。
+     */
+    func inorderTraversal(_ root: TreeNode?) -> [Int] {
+        guard let root = root else {
+            return []
+        }
+        var res:[Int] = []
+        res.append(contentsOf: inorderTraversal(root.left))
+        res.append(root.val)
+        res.append(contentsOf: inorderTraversal(root.right))
+        return res
+    }
+    
+    //MARK: 144. 二叉树的前序遍历
+    /*
+     给你二叉树的根节点 root ，返回它节点值的 前序 遍历。
+     前序遍历，先遍历所有根节点，然后返回左右子树节点
+     */
+    func preorderTraversal(_ root: TreeNode?) -> [Int] {
+        guard let root = root else {
+            return []
+        }
+        var res:[Int] = []
+        res.append(root.val)
+        res.append(contentsOf: preorderTraversal(root.left))
+        res.append(contentsOf: preorderTraversal(root.right))
+        return res
+    }
+    
+    //MARK: 145. 二叉树的后序遍历
+    func postorderTraversal(_ root: TreeNode?) -> [Int] {
+        guard let root = root else {
+            return []
+        }
+        var res:[Int] = []
+        res.append(contentsOf: postorderTraversal(root.left))
+        res.append(contentsOf: postorderTraversal(root.right))
+        res.append(root.val)
+        return res
     }
 
     
