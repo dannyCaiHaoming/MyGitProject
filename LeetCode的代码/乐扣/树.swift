@@ -61,6 +61,36 @@ class 树: Do {
         return res
     }
     
+    //MARK: 98. 验证二叉搜索树
+    /*
+     给你一个二叉树的根节点 root ，判断其是否是一个有效的二叉搜索树。
+     有效 二叉搜索树定义如下：
+     节点的左子树只包含 小于 当前节点的数。
+     节点的右子树只包含 大于 当前节点的数。
+     所有左子树和右子树自身必须也是二叉搜索树。
+     
+     依据二叉搜索树特性，设置一个上下界限，
+     左子树的时候，需要用到上界。
+     右子树的时候，需要用到下界
+     */
+    func isValidBST(_ root: TreeNode?) -> Bool {
+        return isValidBSTLoop(root, lower: Int.min, upper: Int.max)
+    }
+    
+    func isValidBSTLoop(_ root: TreeNode?,
+                        lower: Int,
+                        upper: Int) -> Bool {
+        guard let root = root else {
+            return true
+        }
+        if root.val <= lower || root.val >= upper {
+            return false
+        }
+    
+        return isValidBSTLoop(root.left, lower: lower, upper: root.val) &&
+        isValidBSTLoop(root.right, lower: root.val, upper: upper)
+    }
+    
     //MARK: 101. 对称二叉树
     /*
      给你一个二叉树的根节点 root ， 检查它是否轴对称。\
@@ -208,6 +238,23 @@ class 树: Do {
         }
         return count
     }
+    
+    
+    //MAKR:  112. 路径总和
+    /*
+     给你二叉树的根节点 root 和一个表示目标和的整数 targetSum 。判断该树中是否存在 根节点到叶子节点 的路径，这条路径上所有节点值相加等于目标和 targetSum 。如果存在，返回 true ；否则，返回 false 。
+     */
+    func hasPathSum(_ root: TreeNode?, _ targetSum: Int) -> Bool {
+        guard let root = root else {
+            return false
+        }
+        if root.val == targetSum && root.left == nil && root.right == nil {
+            return true
+        }
+        return hasPathSum(root.left, targetSum - root.val) ||
+        hasPathSum(root.right, targetSum - root.val)
+
+    }
 
     
     //MARK: 144. 二叉树的前序遍历
@@ -238,6 +285,55 @@ class 树: Do {
         return res
     }
 
+    
+    //MARK: 226. 翻转二叉树
+    /*
+     给你一棵二叉树的根节点 root ，翻转这棵二叉树，并返回其根节点。
+     */
+    func invertTree(_ root: TreeNode?) -> TreeNode? {
+        guard let root = root else {
+            return nil
+        }
+        let left = invertTree(root.left)
+        let right = invertTree(root.right)
+        root.left = right
+        root.right = left
+        return root
+
+    }
+    
+    
+    //MARK: 235. 二叉搜索树的最近公共祖先
+    /*
+     给定一个二叉搜索树, 找到该树中两个指定节点的最近公共祖先。
+
+     百度百科中最近公共祖先的定义为：“对于有根树 T 的两个结点 p、q，最近公共祖先表示为一个结点 x，满足 x 是 p、q 的祖先且 x 的深度尽可能大（一个节点也可以是它自己的祖先）。”
+
+     例如，给定如下二叉搜索树:  root = [6,2,8,0,4,7,9,null,null,3,5]
+     */
+    func lowestCommonAncestor(_ root: TreeNode?, _ p: TreeNode?, _ q: TreeNode?) -> TreeNode? {
+        
+    }
+    
+    //MARK: 653. 两数之和 IV - 输入 BST
+    /*
+     给定一个二叉搜索树 root 和一个目标结果 k，如果 BST 中存在两个元素且它们的和等于给定的目标结果，则返回 true。
+     
+     层次遍历，然后遍历每个数字，看看是否存在剩余的数字
+     */
+    var findTargetArray:[Int] = []
+    func findTarget(_ root: TreeNode?, _ k: Int) -> Bool {
+        guard let root = root else {
+            return false
+        }
+        if findTargetArray.contains(k - root.val) {
+            return true
+        }
+        findTargetArray.append(root.val)
+        return findTarget(root.left, k) ||
+        findTarget(root.right, k)
+    }
+    
     
     //MARK: 654. 最大二叉树
     /*
@@ -296,4 +392,58 @@ class 树: Do {
 //        }
 //        return NULL;
 //    }
+    
+    
+    //MARK: 700. 二叉搜索树中的搜索
+    /*
+     给定二叉搜索树（BST）的根节点 root 和一个整数值 val。
+     你需要在 BST 中找到节点值等于 val 的节点。 返回以该节点为根的子树。 如果节点不存在，则返回 null 。
+     */
+    func searchBST(_ root: TreeNode?, _ val: Int) -> TreeNode? {
+        guard let root = root else {
+            return nil
+        }
+        if val == root.val {
+            return root
+        }
+        else if val > root.val {
+            return searchBST(root.right, val)
+        }else {
+            return searchBST(root.left, val)
+        }
+    }
+    
+    
+    //MARK: 701. 二叉搜索树中的插入操作
+    /*
+     给定二叉搜索树（BST）的根节点 root 和要插入树中的值 value ，将值插入二叉搜索树。 返回插入后二叉搜索树的根节点。 输入数据 保证 ，新值和原始二叉搜索树中的任意节点值都不同。
+     注意，可能存在多种有效的插入方式，只要树在插入后仍保持为二叉搜索树即可。 你可以返回 任意有效的结果 。
+     
+     依据二叉搜索树特性，比root值小的在左边，比root大的在右边，但是注意的是，如果子树为空，则需要构造一个节点。
+     */
+    func insertIntoBST(_ root: TreeNode?, _ val: Int) -> TreeNode? {
+        guard let root = root else {
+            return .init(val)
+        }
+        var pos: TreeNode? = root
+
+        while pos != nil {
+            if val < (pos?.val ?? 0) {
+                if pos?.left == nil {
+                    pos?.left = .init(val)
+                    break
+                }else {
+                    pos = pos?.left
+                }
+            }else {
+                if pos?.right == nil {
+                    pos?.right = .init(val)
+                    break
+                }else {
+                    pos = pos?.right
+                }
+            }
+        }
+        return root
+    }
 }
