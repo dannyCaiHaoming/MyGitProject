@@ -191,44 +191,7 @@
 
 
 
-#### 2.7.4 `浅拷贝`是指针复制，`深拷贝`是内容复制
-Q：**用@property声明的NSString（或NSArray，NSDictionary）经常使用copy关键字，为什么？如果改用strong关键字，可能造成什么问题？**
-
-- 使用`strong`进行指针赋值操作的时候，会简单的进行指针赋值，如果这个时候，本来希望这个`NSArray`是不可变的话，但是赋值一方传入了`NSMutableArray`对象，(NSArray有可变子类NSMutableArray)并且在其他地方进行了修改，那么`self.array`就可能被修改了
-
-Q: **NSMutable对象，经常使用strong关键字，为什么**
-
-- 原因是如果使用copy对象，那么无论使用何种方式进行赋值，那么这个`self.mArray`都是得到一个不可变对象，如果在后续代码相对此可变数组进行操作，那么就会出现不可变数组找不到可变数组的方法。
-
-
-#### 2.7.5 Copy和MutableCopy
-
-    NSArray *arr1 = [NSArray arrayWithObject:@"arr1"];
-    NSMutableArray *mArr1 = [NSMutableArray arrayWithObject:@"mArr1"];
-    
-    NSLog(@"inArray copy---%@",[[arr1 copy] class]);
-    NSLog(@"inArray mutableCopy---%@",[[arr1 mutableCopy] class]);
-    
-    NSLog(@"mArray copy---%@",[[mArr1 copy] class]);
-    NSLog(@"mArray mutableCopy---%@",[[mArr1 mutableCopy] class]);
-
-
-​	 
-​	inArray copy---__NSSingleObjectArrayI
-​	inArray mutableCopy---__NSArrayM
-​	mArray copy---__NSSingleObjectArrayI
-​	mArray mutableCopy---__NSArrayM
-
-**结论：**
-
-- `copy` 浅复制，都是得到不可变对象
-  - 并且数组的内容也是指针引用
-- `mutableCopy`深复制，都是可变对象
-  - 数组内容的地址还是原来的，可以遍历每个元素进行copy，或者调用创建方法有个copyitem的。
-
-连着一起记忆：
-- `copy`，作为修饰词，或者方法调用，得到的都是不可变对象
-- `mutableCopy`或者`strong`修饰的得到的都是可变对象
+- 
 
 
 # 4 类初始化相关
