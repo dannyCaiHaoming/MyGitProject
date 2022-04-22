@@ -6,7 +6,7 @@
 
 - 声明私有方法
 - 分解体积庞大的类(将不同的功能组织到不同的分类中)
-- Framework的私有方法公开
+- Framework的私有方法公开，知道私有方法的声明，用分类增加一下公开。
 - 模拟`多继承`
 
 #### 2.1.2 分类的特性
@@ -84,12 +84,12 @@
 1. 如果我们使用`addObserver:selector:name:object:`方法注册
 2. 会根据`name`,生成一个哈希表，`key`是这个`name`,`value`是一个哈希表
    1. 这个哈希表`key`是这个`object`,而`value`是一个链表结构相连的`notification`对象
-   2. `notification`对象存有`info`,`selector`,`observer` (这里info只是pos的是哦户传输过去的。)
+   2. `notification`对象存有`info`,`selector`,`observer` (这里info只是post的时候传输过去的。)
 3. 如果没有传入`name`，那么就会在一个`nameless`的哈希表中查找`object`对应的`notification`，其实就是少了第一级根据`name`查找哈希表的过程
 4. 如果`name`,`object`都为空，那么就会在一个`wildcard`(通配符的意思)的链表中查找`notification`
 
 ##### `NSNotification与多线程`
-1. 线程安全的，接受消息和发送消息是同一个线程。但是可能会出现消息返回的时候，`observer`对象已经销毁的情况。`[weak self]`能解决。
+1. 线程安全的，接受消息和发送消息是同一个线程。但是可能会出现消息返回的时候，`observer`对象已经销毁的情况。`[weak self]`能解决。主线程注册observer，异步线程post消息，并且在消息处理完之前，主线程销毁了observer，但是异步线程这个时候再去访问observer。
    1. 就是主线程注册通知和销毁observer，然后用后台线程进行post，消息回来延时处理且使用了observer的内容，可能会造成悬垂指针访问。
 2. 通知的执行是`同步`的，即通知`post`方法需要等到`observer`处理完才能继续下文
 3. 线程`重定向`的思维扩展
