@@ -159,4 +159,111 @@
 
 }
 
+
+- (void)test5 {
+
+    dispatch_queue_t queue = dispatch_queue_create("a", DISPATCH_QUEUE_SERIAL);
+    dispatch_queue_t queue2 = dispatch_queue_create("b", DISPATCH_QUEUE_SERIAL);
+    dispatch_queue_t global = dispatch_get_global_queue(0, 0);
+    
+    /*
+     async在并发队列上会开启新的线程执行任务。
+     1-3里面由于使用串行队列同步，3任务需要等待2结束，2执行的时候使用新的线程去执行，而且也不会卡住全局的并发队列。
+     */
+//    dispatch_async(global, ^{
+//
+//        NSLog(@"1- current = %@",[NSThread currentThread]);
+//
+//        dispatch_sync(queue, ^{
+//            NSLog(@"2- current = %@",[NSThread currentThread]);
+//        });
+//
+//        NSLog(@"3- current = %@",[NSThread currentThread]);
+//    });
+    
+    /*
+     sync 需要等block执行完才能执行后面。因此4最后。
+     1-3，由于使用的是其它队列sync，因此不会循环等待。
+     2任务是在queue中分发到queue2，且queue要同步等待完成，才能进行后面。
+     且由于queue，queue都是sync，因此都会在主线程上执行。
+     */
+//    dispatch_sync(queue, ^{
+//        NSLog(@"1- current = %@",[NSThread currentThread]);
+//        dispatch_sync(queue2, ^{
+//            NSLog(@"2- current = %@",[NSThread currentThread]);
+//        });
+//        NSLog(@"3- current = %@",[NSThread currentThread]);
+//    });
+    
+    /*
+     
+     */
+//    dispatch_async(global, ^{
+//        NSLog(@"1- current = %@",[NSThread currentThread]);
+//        dispatch_sync(global, ^{
+//            NSLog(@"2- current = %@",[NSThread currentThread]);
+//        });
+//        NSLog(@"3- current = %@",[NSThread currentThread]);
+//    });
+//
+//    NSLog(@"4- current = %@",[NSThread currentThread]);
+    
+    
+    
+    /*
+     只要在并发队列用一次async，就会开辟一个线程去处理。
+     */
+    dispatch_async(global, ^{
+        NSLog(@"1- current = %@",[NSThread currentThread]);
+    });
+    
+    dispatch_async(global, ^{
+        NSLog(@"2- current = %@",[NSThread currentThread]);
+    });
+}
+
+
+- (void)test6 {
+    
+    dispatch_queue_t global = dispatch_get_global_queue(0, 0);
+    
+    dispatch_async(global, ^{
+       
+        NSLog(@"1- current = %@",[NSThread currentThread]);
+        
+        [self performSelector:@selector(printTest6) withObject:nil afterDelay:2];
+        
+        NSLog(@"3- current = %@",[NSThread currentThread]);
+    });
+}
+
+- (void)printTest6 {
+    NSLog(@"2- current = %@",[NSThread currentThread]);
+}
+
+
+- (void)test7 {
+    
+    dispatch_group_t group = dispatch_group_create();
+    
+    dispatch_group_async(group, dispatch_get_main_queue(), ^{
+        
+    });
+    
+    dispatch_group_async(group, dispatch_get_main_queue(), ^{
+        
+    });
+    
+    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+        
+    });
+    
+    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+        
+    });
+    /*
+     可以多次使用notify得到线程同步结束后。
+     */
+}
+
 @end
