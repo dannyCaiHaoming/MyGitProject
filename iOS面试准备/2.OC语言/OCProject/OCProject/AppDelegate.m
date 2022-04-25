@@ -8,6 +8,23 @@
 
 #import "AppDelegate.h"
 
+@interface MyString : NSString
+
+@end
+
+@implementation MyString
+
+- (void)dealloc {
+    NSLog(@"%lu dealloc",(unsigned long)self.length);
+}
+
++ (instancetype)stringWithString:(NSString *)string {
+    return [MyString stringWithString:string];
+//    return [super stringWithString:string];
+}
+
+@end
+
 @interface AppDelegate ()
 
 @end
@@ -17,6 +34,19 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 	// Override point for customization after application launch.
+    
+    
+    [MyString new];
+    MyString *s1 = [MyString new];
+    s1 = @"1";
+    do {
+        MyString *s2 = [MyString new];
+        s2 = @"22";
+    } while (nil);
+    
+    __weak MyString *s3 = [MyString new];
+    s3 = @"333";
+
 	return YES;
 }
 
