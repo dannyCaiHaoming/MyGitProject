@@ -312,7 +312,7 @@ class 树: Do {
      例如，给定如下二叉搜索树:  root = [6,2,8,0,4,7,9,null,null,3,5]
      */
     func lowestCommonAncestor(_ root: TreeNode?, _ p: TreeNode?, _ q: TreeNode?) -> TreeNode? {
-        
+        return nil
     }
     
     //MARK: 653. 两数之和 IV - 输入 BST
