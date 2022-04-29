@@ -101,7 +101,7 @@
 	
     
     GCD *gcd = [GCD new];
-    [gcd test4];
+    [gcd test5];
 }
 
 
