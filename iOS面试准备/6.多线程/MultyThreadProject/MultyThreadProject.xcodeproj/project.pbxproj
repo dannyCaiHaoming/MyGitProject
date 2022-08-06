@@ -17,6 +17,7 @@
 		33B18DFC233355EB0030C6C9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 33B18DFB233355EB0030C6C9 /* Assets.xcassets */; };
 		33B18DFF233355EB0030C6C9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 33B18DFD233355EB0030C6C9 /* LaunchScreen.storyboard */; };
 		33B18E02233355EB0030C6C9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 33B18E01233355EB0030C6C9 /* main.m */; };
+		33BF99E02820F6CC00E240BC /* Lock.m in Sources */ = {isa = PBXBuildFile; fileRef = 33BF99DF2820F6CC00E240BC /* Lock.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,8 @@
 		33B18DFE233355EB0030C6C9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		33B18E00233355EB0030C6C9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		33B18E01233355EB0030C6C9 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		33BF99DE2820F6CC00E240BC /* Lock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Lock.h; sourceTree = "<group>"; };
+		33BF99DF2820F6CC00E240BC /* Lock.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Lock.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +85,8 @@
 				3357A2AD233A139A00EBE19E /* GroupObject.m */,
 				3357A2AF233A16AD00EBE19E /* GCD.h */,
 				3357A2B0233A16AD00EBE19E /* GCD.m */,
+				33BF99DE2820F6CC00E240BC /* Lock.h */,
+				33BF99DF2820F6CC00E240BC /* Lock.m */,
 				33B18DF8233355EA0030C6C9 /* Main.storyboard */,
 				33B18DFB233355EB0030C6C9 /* Assets.xcassets */,
 				33B18DFD233355EB0030C6C9 /* LaunchScreen.storyboard */,
@@ -163,6 +168,7 @@
 			files = (
 				3357A2B4233A230200EBE19E /* ViewController2.m in Sources */,
 				3357A2B1233A16AD00EBE19E /* GCD.m in Sources */,
+				33BF99E02820F6CC00E240BC /* Lock.m in Sources */,
 				33B18DF7233355EA0030C6C9 /* ViewController.m in Sources */,
 				33B18E02233355EB0030C6C9 /* main.m in Sources */,
 				33B18DF4233355EA0030C6C9 /* AppDelegate.m in Sources */,

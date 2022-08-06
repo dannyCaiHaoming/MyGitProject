@@ -4,11 +4,14 @@ import AVFoundation
 
 let blendImageName = "Lambeau.jpg"
 
-class FilterShowcaseWindowController: NSWindowController {
+class FilterShowcaseWindowController: NSWindowController,NSTableViewDataSource,NSTableViewDelegate  {
 
     @IBOutlet var filterView: RenderView!
 
     @IBOutlet weak var filterSlider: NSSlider!
+    
+    @IBOutlet weak var tableView: NSTableView!
+    
     
     @objc dynamic var currentSliderValue:Float = 0.5 {
         willSet(newSliderValue) {
@@ -37,7 +40,13 @@ class FilterShowcaseWindowController: NSWindowController {
             fatalError("Couldn't initialize camera with error: \(error)")
         }
         self.changeSelectedRow(0)
+        
+        
+        tableView.reloadData()
     }
+    
+    
+    
     
     func changeSelectedRow(_ row:Int) {
         guard (currentlySelectedRow != row) else { return }
@@ -81,19 +90,23 @@ class FilterShowcaseWindowController: NSWindowController {
 // MARK: -
 // MARK: Table view delegate and datasource methods
     
-    func numberOfRowsInTableView(_ aTableView:NSTableView!) -> Int {
+    func numberOfRows(in aTableView:NSTableView) -> Int {
         return filterOperations.count
     }
     
-    func tableView(_ aTableView:NSTableView!, objectValueForTableColumn aTableColumn:NSTableColumn!, row rowIndex:Int) -> AnyObject! {
-        let filterInList:FilterOperationInterface = filterOperations[rowIndex]
+    
+    func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
+        let filterInList:FilterOperationInterface = filterOperations[row]
         return filterInList.listName as NSString
     }
     
-    func tableViewSelectionDidChange(_ aNotification: Notification!) {
+
+    
+    func tableViewSelectionDidChange(_ aNotification: Notification) {
         if let currentTableView = aNotification.object as? NSTableView {
             let rowIndex = currentTableView.selectedRow
             self.changeSelectedRow(rowIndex)
         }
     }
 }
+

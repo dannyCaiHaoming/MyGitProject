@@ -62,9 +62,12 @@ public extension ImageSource {
                 framebuffer.lock()
             }
         }
-        for (target, index) in targets {
-            target.newFramebufferAvailable(framebuffer, fromSourceIndex:index)
+        DispatchQueue.main.async {
+            for (target, index) in targets {
+                target.newFramebufferAvailable(framebuffer, fromSourceIndex:index)
+            }
         }
+
     }
 }
 

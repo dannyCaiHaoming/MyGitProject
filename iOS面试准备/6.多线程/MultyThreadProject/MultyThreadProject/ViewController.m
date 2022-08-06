@@ -10,6 +10,7 @@
 #import "UserCenter.h"
 #import "GroupObject.h"
 #import "GCD.h"
+#import "Lock.h"
 
 @interface ViewController ()
 
@@ -100,8 +101,19 @@
 //    });
 	
     
-    GCD *gcd = [GCD new];
-    [gcd test5];
+//    GCD *gcd = [GCD new];
+//    [gcd test5];
+    
+    Lock *l = [Lock new];
+    
+    
+    [[[NSThread alloc] initWithBlock:^{
+        [l remove];
+    }] start];
+    [[[NSThread alloc] initWithBlock:^{
+        [l add];
+    }] start];
+
 }
 
 

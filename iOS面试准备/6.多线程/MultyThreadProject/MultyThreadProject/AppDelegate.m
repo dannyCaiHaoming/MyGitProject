@@ -10,6 +10,8 @@
 
 @interface AppDelegate ()
 
+@property (nonatomic, strong) NSMutableArray *array;
+
 @end
 
 @implementation AppDelegate
@@ -18,7 +20,26 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 	// Override point for customization after application launch.
     
+    self.array = [NSMutableArray array];
 
+    dispatch_queue_t queue = dispatch_queue_create("com", DISPATCH_QUEUE_CONCURRENT);
+//    dispatch_queue_t queue = dispatch_get_global_queue(0, 0);
+    
+    for (int i = 0; i < 100; i++) {
+        dispatch_async(queue, ^{
+            NSLog(@"-- %d",i);
+            
+            [self.array addObject:@"1"];
+            
+            
+            // mrc会造成obj可能会被连续release，因为会判断是否等于当前，不等于当前则会释放当前。
+//            self.obj = [NSObject new];
+        });
+    }
+    
+    dispatch_async(queue, ^{
+        NSLog(@"--- 103");
+    });
     
 	return YES;
 }

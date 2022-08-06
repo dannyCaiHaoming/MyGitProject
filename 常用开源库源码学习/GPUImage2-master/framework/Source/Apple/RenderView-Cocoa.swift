@@ -11,17 +11,24 @@ public class RenderView:NSOpenGLView, ImageConsumer {
     public let maximumInputs:UInt = 1
     private lazy var displayShader:ShaderProgram = {
         sharedImageProcessingContext.makeCurrentContext()
-        self.openGLContext = sharedImageProcessingContext.context
+        DispatchQueue.main.async {
+            self.openGLContext = sharedImageProcessingContext.context
+        }
         return sharedImageProcessingContext.passthroughShader
     }()
 
     // TODO: Need to set viewport to appropriate size, resize viewport on view reshape
     
     public func newFramebufferAvailable(_ framebuffer:Framebuffer, fromSourceIndex:UInt) {
+        
+
+        self.layoutSubtreeIfNeeded()
+    
         glBindFramebuffer(GLenum(GL_FRAMEBUFFER), 0)
         glBindRenderbuffer(GLenum(GL_RENDERBUFFER), 0)
 
-        let viewSize = GLSize(width:GLint(round(self.bounds.size.width)), height:GLint(round(self.bounds.size.height)))
+        let scale = NSScreen.main?.backingScaleFactor ?? 1
+        let viewSize = GLSize(width:GLint(round(self.bounds.size.width * scale)), height:GLint(round(self.bounds.size.height * scale)))
         glViewport(0, 0, viewSize.width, viewSize.height)
 
         clearFramebufferWithColor(backgroundColor)
