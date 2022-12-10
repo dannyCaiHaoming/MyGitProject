@@ -1,6 +1,6 @@
 ### Sqli-labs
 
-
+#### 1. 基础难度
 
 ##### 1. less-1,single quotes - String
 
@@ -558,7 +558,7 @@ Cookie: 'uname=' and updatexml(1,concat(0x7e,substr( (select group_concat(passwo
 
 
 
-##### 21. Cookie injections - Uagent field - error based
+##### 21. Dump into outfile
 
 ```php
 if(!isset($_COOKIE['uname'])){
@@ -587,4 +587,25 @@ if(!isset($_COOKIE['uname'])){
 看源码，会对查询到的数据库信息进行`base64_encode`，然后再插入cookie字段中。而取出来的cookie，也是需要先经过`base_decode`，因此注入到cookie的代码，需要先进过`base64_encode`。
 
 噢！还要**注意闭合**！！
+
+
+
+##### 22. Future Editions
+
+看源码，只是闭合方式改成了`""`
+
+```php
+$cookee = base64_decode($cookee);
+$cookee1 = '"'. $cookee. '"';
+$sql="SELECT * FROM users WHERE username=$cookee1 LIMIT 0,1";
+$result=mysql_query($sql);
+if (!$result)
+	{
+			die('Issue with your mysql: ' . mysql_error());
+	}
+$row = mysql_fetch_array($result);
+if($row){} else {}
+```
+
+
 
