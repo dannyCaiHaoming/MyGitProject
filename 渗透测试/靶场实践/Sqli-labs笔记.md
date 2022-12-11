@@ -1,5 +1,3 @@
-### Sqli-labs
-
 #### 1. 基础难度
 
 ##### 1. less-1,single quotes - String
@@ -558,7 +556,11 @@ Cookie: 'uname=' and updatexml(1,concat(0x7e,substr( (select group_concat(passwo
 
 
 
-##### 21. Dump into outfile
+#### 2. 进阶注入
+
+
+
+##### 21. Cookie injection - base64 encoded - single quotes and parenthesis
 
 ```php
 if(!isset($_COOKIE['uname'])){
@@ -590,7 +592,7 @@ if(!isset($_COOKIE['uname'])){
 
 
 
-##### 22. Future Editions
+##### 22. Cookie injection - base64 encoded - double quotes
 
 看源码，只是闭合方式改成了`""`
 
@@ -606,6 +608,26 @@ if (!$result)
 $row = mysql_fetch_array($result);
 if($row){} else {}
 ```
+
+
+
+##### 23. Error based - strip comments
+
+是对注释符号进行过滤。
+
+```php
+$reg = "/#/";
+$reg1 = "/--/";
+$replace = "";
+$id = preg_replace($reg, $replace, $id);
+$id = preg_replace($reg1, $replace, $id);
+$sql="SELECT * FROM users WHERE id='$id' LIMIT 0,1";
+$result=mysql_query($sql);
+$row = mysql_fetch_array($result);
+if($row) {} else {}
+```
+
+
 
 
 
