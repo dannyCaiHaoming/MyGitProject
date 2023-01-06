@@ -89,7 +89,7 @@ NSMutableString *c = [NSMutableString stringWithString:@"123"];
 - 在全局SideTable中获取RefcountMap另一个散列表。
 - 然后从RefcountMap中根据对象的地址，获取size_t引用计数
 
-
+![引用计数表数据结构](../images/4/弱引用计数表数据结构.png)
 
 
 #### 4.2.3.3 ==弱引用表==
@@ -98,7 +98,7 @@ NSMutableString *c = [NSMutableString stringWithString:@"123"];
 
 - `weak_entry_t`实际是一个数组，存储着指向该对象的`弱引用指针`
 
-![引用计数表数据结构](\../images/4/弱引用计数表数据结构.png)
+
 
 ### 4.3 MRC & ARC
 

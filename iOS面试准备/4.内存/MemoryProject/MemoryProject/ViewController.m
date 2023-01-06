@@ -21,7 +21,13 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-//    NSMutableArray *a = [NSMutableArray arrayWithObject:@"123"];
+
+    
+    NSMutableArray *a = [NSMutableArray arrayWithObject:@"123"];
+    
+    self.array = a;
+    
+    NSLog(@"a = %p,array = %p",a,self.array);
 //
 //    self.array = [a mutableCopy];
 //
