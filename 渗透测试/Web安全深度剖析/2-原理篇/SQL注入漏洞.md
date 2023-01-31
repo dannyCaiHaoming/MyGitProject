@@ -312,3 +312,93 @@ and (extractvalue(1,concat(0x7e,(select user()),0x7e)));
 
 ###### （3）floor函数
 
+```mysql
+select * from message where id = 1 union select * from (select count(*),concat(floor(rand(0)*2),(select user()))a from information_schema.tables group by a)b
+```
+
+`Duplicate entry '1root@localhost' for key 'group_key'`
+
+但是错误抛出的的貌似是主键重复的错误。这种应该错误信息应该是能分类。
+
+##### 6. 宽字节注入
+
+宽字节注入是由编码不统一造成的，这种注入一般出现在`PHP+MySQL`。
+
+原本的字符串被经过转义，或者拼接后，并且从一种编码格式变成另外的编码格式，最终得到的字符展示转变了。
+
+例如：`%d5'` 在经过转义后变成`%d5\'`，在GBK中，成了`誠'`
+
+##### 7. MySQL长字符截断
+
+`sql_mode`配置为`default`，没有开启`STRICT_ALL_TABLES`，MySQL插入超长的字符，不会报错，只会wanrning。
+
+在插入:
+
+'admin', 'admin    ','admin      '，不同长度字符后，表中展示
+
+输出的内容都是'admin',但是如果输出长度的时候，又是有区别。
+
+当进行表内容查询的时候，长度不同的内容也是能被查询出来。
+
+因此，攻击者只需要创建一个名字长一些的用户名，用自己创建的账号密码，就能登录到其他用户的账户上。
+
+##### 8. 延时注入
+
+当页面无差异，无变化的注入，即是盲注。
+
+延时注入属于盲注的一种，是一种基于时间差异的注入技术。
+
+基本思路是用判断语句，将想要判断的条件为true时，执行延时操作。
+
+
+
+#### 3. Oracle
+
+oracle的内容先跳过。数据库间的差异，真的接触到了再搞。
+
+
+
+
+
+### 4. 注入工具
+
+#### 1. SQLMap
+
+##### 1. 基本用法
+
+
+
+##### 2. SQLMap参数
+
+
+
+
+
+#### 2. Pangolin
+
+是window上的工具，目前可以先跳过。
+
+
+
+#### 3. Havij
+
+跟Pangolin类似，边幅也很少，那也跳过。
+
+
+
+### 5. 防止SQL注入
+
+SQL注入攻击的问题，最终归于`用户可以控制输入`，SQL注入、XSS、文件包含、命令执行都可归于此。
+
+根据SQL注入的分类，防御主要分为：
+
+- 数据类型判断
+- 特殊字符转义
+
+
+
+####  1. 严格的数据类型
+
+
+
+##### 
