@@ -4,10 +4,12 @@
         <meta charset="UTF-8">
         <link href="../../../Public/Css/css.css" rel="stylesheet" type="txt/css">
         <title>Title</title>
-        <?php include("AddMessage.php")?>
+        <!-- <?php 
+        include(__DIR__."/../controller/AddMessage.php")
+        ?> -->
     </head>
     <body>
-        <form action="AddMessage.php" method="post">
+        <form action="../controller/AddMessage.php" method="post">
             用户：<input type="text" size="10" name="user"/><br>
             标题：<input type="text" name="title"/><br>
             内容：<textarea name="content"></textarea><br>

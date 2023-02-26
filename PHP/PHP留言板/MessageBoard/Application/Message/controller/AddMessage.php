@@ -2,7 +2,8 @@
 header('Content-Type:text/html; charset=utf-8');
 
 
-require_once('../../Common/dbConnection.php');
+
+require_once(__DIR__.'/../../Common/dbConnect.php');
 
 $username = $_POST['user'];
 $content = $_POST['content'];
@@ -17,7 +18,7 @@ if (strlen($content < 1)) {
     exit;
 }
 
-$sql = "insert into message (username,content,time) values ('$username','$content',now())";
+$sql = "insert into message (message_user,message_content,message_time) values ('$username','$content',now())";
 
 $result = mysqli_query($connection,$sql);
 
