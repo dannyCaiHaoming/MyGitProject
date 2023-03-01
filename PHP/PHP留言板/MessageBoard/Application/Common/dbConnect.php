@@ -1,8 +1,8 @@
 <?php
 
-require("../Config/dbConfig.php");
+require(__DIR__."/../Config/dbConfig.php");
 
-$sql = file_get_contents('../../SQL/message_db.sql');
+$sql = file_get_contents(__DIR__.'/../../SQL/message_db.sql');
 $sql_arr = explode(';',$sql);
 
 $connection = mysqli_connect($servername,$db_username,$db_password);
@@ -12,8 +12,13 @@ if (!$connection) {
 }
 echo "连接成功";
 
-foreach ($sql_arr as $value) {
-    $connection->query($value.';');
+foreach ($sql_arr as $_value) {
+    if ($_value != null  && $_value != "") {
+        echo $_value;
+        echo "<br>";
+        $connection->query($_value.";");
+    }
+
 }
 echo "执行sql初始化语句";
 
