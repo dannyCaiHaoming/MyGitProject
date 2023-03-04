@@ -1,10 +1,8 @@
-## SQL注入漏洞
+### 5. SQL注入漏洞
 
 
 
-
-
-### 1. 注入原理
+#### 1. 注入原理
 
 白话解释，就是注入语句带进了SQL查询语句处理。
 
@@ -12,11 +10,11 @@
 
 
 
-### 2. 注入漏洞分类
+#### 2. 注入漏洞分类
 
 
 
-#### 2.1 数字型注入
+##### 2.1 数字型注入
 
 当输入的参数为**整型**，如：ID，年龄，页码等，且存在注入漏洞，则认为是存在数字型注入。
 
@@ -32,7 +30,7 @@
 
 
 
-#### 2.2 字符型注入
+##### 2.2 字符型注入
 
 输入参数为字符串时，称为字符型。
 
@@ -42,7 +40,7 @@
 
 
 
-#### 2.3 SQL注入分类
+##### 2.3 SQL注入分类
 
 按照对输入数据的分类，那么SQL注入只分为`字符型`和`数字型`，而其他的类似POST注入，盲注，演示注入，也是基于上面两种的不同展现形式和不同位置的展现。
 
@@ -52,7 +50,7 @@
 
 
 
-### 3. 常见数据库注入
+#### 3. 常见数据库注入
 
 对于大多数数据库而言，SQL注入的原理基本相似，因为每个数据库都遵循一个SQL语法标准。但是个中也有很多细微差别，包括函数、语法等。因此对于不同的数据库的注入，也不尽相同。
 
@@ -64,17 +62,17 @@ SQL注入利用方式分类：
 
 
 
-#### 3.1 SQL Server
+##### 3.1 SQL Server
 
-##### 1. 利用错误信息提取信息
+###### 1. 利用错误信息提取信息
 
 SQL Server会准备的抛出错误信息。
 
-###### （1）枚举当前表和列
+（1）枚举当前表和列
 
 使用`having`字句进行查询。
 
-###### （2）利用数据类型错误提取数据
+（2）利用数据类型错误提取数据
 
 利用字符串与非字符串比较，或者将字符串转换成另一个不兼容类型时，SQL会抛出异常。
 
@@ -84,7 +82,7 @@ select*from users where username='root' and password ='root' and 1> (select top 
 
 
 
-##### 2. 获取元数据
+###### 2. 获取元数据
 
 SQL Server提供了大量视图，便于取得元数据。使用`information_schema.tables`,`informatioin_columns`，表名，列名等。
 
@@ -101,7 +99,7 @@ SQL Server提供了大量视图，便于取得元数据。使用`information_sch
 
 
 
-##### 3. Order by字句
+###### 3. Order by字句
 
 `order by` 字句：为SELECT查询的列排序，如果同时指定了`TOP`关键字，则`order by`在视图、内联函数、派生表和子查询中无效。
 
@@ -121,11 +119,11 @@ select id,username,password from users where id = 1 order by 3
 
 
 
-##### 4. Union查询
+###### 4. Union查询
 
 `Union`关键字将两个或更多个查询结果组合为单个结果集。
 
-###### （1）联合查询探测字段数
+（1）联合查询探测字段数
 
 ```sql
 select id,username,password from users where id = 1 union null
@@ -135,7 +133,7 @@ union null,null,null
 
 也可以使用`union 1,2,3`但是这种**可能存在类型兼容问题**。
 
-###### （2）联合查询敏感信息
+（2）联合查询敏感信息
 
 ```sql
 // 如果知道列数为3
@@ -150,7 +148,7 @@ id = 5 union select null,null,'x' from sysobject where xtype="U"
 
 
 
-##### 5. 无辜的函数
+###### 5. 无辜的函数
 
 SQL Server提供了非常多的系统函数，利用这些系统函数可以反问SQL Server系统中的信息，而不需要使用SQL语句查询。
 
@@ -180,13 +178,13 @@ SQL Server常用函数表：
 
 
 
-##### 6. 危险的存储过程
+###### 6. 危险的存储过程
 
 存储过程(Stored Procedure)是在大型数据库系统中为了完成特定功能的一组SQL“函数”，如执行系统命令，查看注册表，读取磁盘目录等。
 
 
 
-##### 7. 动态执行
+###### 7. 动态执行
 
 SQL Server支持动态执行语句，用户可以提交一个字符串来执行SQL语句。例如：
 
@@ -199,11 +197,11 @@ exec('select' + 't username,password fro' + 'm users')
 
 
 
-#### 2. MySQL
+##### 2. MySQL
 
 
 
-##### 1. MySQL中的注释
+###### 1. MySQL中的注释
 
 有3种注释风格：
 
@@ -219,7 +217,7 @@ select id /*!55555, username*/ from users
 
 注释没有生效，语句被正常执行。这里的`/*!*/`的感叹号是有特殊意义，若MySQL版本号高于或者等于5.55.55语句会被执行。如果感叹号后不加版本号，则直接执行。
 
-##### 2. 获取元数据
+###### 2. 获取元数据
 
 MySQL 5.0及其以上版本提供了`information_schema`,`information_schema`是信息数据库。
 
@@ -232,15 +230,15 @@ select table_name from information_schema.tables where table_schema=database() l
 select column_name from information_schema.columns where table_name='' limit 0,1
 ```
 
-##### 3. Union查询
+###### 3. Union查询
 
 官方解释Union查询用于把来自许多SELECT语句的结果组合到一个结果集合中，且每列的数据类型必须相同
 
 MySQL中，列类型不确定的时候，也能执行正确？
 
-##### 4. MySQL函数利用
+###### 4. MySQL函数利用
 
-###### （1）load_file()函数读写操作
+（1）load_file()函数读写操作
 
 `load_file`函数能快速读取文件，但是文件位置必须在服务器上，要以绝对路径获取，而且用户要有`FILE`权限，文件容量也必须小于`max_allowed_packet`字节（默认16MB，最大1GB）
 
@@ -252,7 +250,7 @@ union select 1,load_file(0x2F6563742F706173737764),3 #
 union select 1,load_file(char(47,101,99,116,47,112,97,115,115,119,100)),3 #
 ```
 
-###### (2)into outfile 写文件操作
+(2)into outfile 写文件操作
 
 与load_file()一样，需要FILE权限，且必须为绝对路径。
 
@@ -260,7 +258,7 @@ union select 1,load_file(char(47,101,99,116,47,112,97,115,115,119,100)),3 #
 select '<?php phpinfo();?>' into outfile 'c:\\wwwroot\1.php'
 ```
 
-###### (3)连接字符串
+(3)连接字符串
 
 MySQL查询中，如果需要一次查询多个数据，可以使用`concat()`,`concat_ws()`，我一般是将多列输出拼接成一列输出。
 
@@ -290,11 +288,11 @@ concat(user(),0x2c,database(),0x2c,version())
 |       database       | 数据库名                                             |
 |       version        | 数据库版本                                           |
 
-##### 5. MySQL显错式注入
+###### 5. MySQL显错式注入
 
 **MySQL不能直接使用数据类型转换显错的方式来进行提取敏感信息。**但是又另外的方式。
 
-###### （1）通过updatexml函数
+（1）通过updatexml函数
 
 ```mysql
 and (updatexml(1,concat(0x7e,(select user()),0x7e),1));
@@ -302,7 +300,7 @@ and (updatexml(1,concat(0x7e,(select user()),0x7e),1));
 
 因为函数插入参数的时候，使用了`~`,`^`的ASCII编码，分别为`0x7e`,`0x5e`，这类特殊字符在使用这些函数的时候都是非法的，因此会产生报错信息。而在报错的时候，SQL的解析器会自动解析SQL语句，然后造成SQL语句的执行。
 
-###### (2)通过extractvalue函数
+(2)通过extractvalue函数
 
 ```mysql
 and (extractvalue(1,concat(0x7e,(select user()),0x7e)));	
@@ -310,7 +308,7 @@ and (extractvalue(1,concat(0x7e,(select user()),0x7e)));
 
 第二个参数 xml中的位置是可操作的地方，xml文档中查找字符位置是用 /xxx/xxx/xxx/…这种格式。如果我们写入其他格式，就会报错。并且会返回我们写入的非法格式内容，而这个非法的内容就是我们想要查询的内容。正常查询 第二个参数的位置格式 为 /xxx/xx/xx/xx ,即使查询不到也不会报错。原理和`updatexml`一样。
 
-###### （3）floor函数
+（3）floor函数
 
 ```mysql
 select * from message where id = 1 union select * from (select count(*),concat(floor(rand(0)*2),(select user()))a from information_schema.tables group by a)b
@@ -320,7 +318,7 @@ select * from message where id = 1 union select * from (select count(*),concat(f
 
 但是错误抛出的的貌似是主键重复的错误。这种应该错误信息应该是能分类。
 
-##### 6. 宽字节注入
+###### 6. 宽字节注入
 
 宽字节注入是由编码不统一造成的，这种注入一般出现在`PHP+MySQL`。
 
@@ -328,7 +326,7 @@ select * from message where id = 1 union select * from (select count(*),concat(f
 
 例如：`%d5'` 在经过转义后变成`%d5\'`，在GBK中，成了`誠'`
 
-##### 7. MySQL长字符截断
+###### 7. MySQL长字符截断
 
 `sql_mode`配置为`default`，没有开启`STRICT_ALL_TABLES`，MySQL插入超长的字符，不会报错，只会wanrning。
 
@@ -342,7 +340,7 @@ select * from message where id = 1 union select * from (select count(*),concat(f
 
 因此，攻击者只需要创建一个名字长一些的用户名，用自己创建的账号密码，就能登录到其他用户的账户上。
 
-##### 8. 延时注入
+###### 8. 延时注入
 
 当页面无差异，无变化的注入，即是盲注。
 
@@ -352,7 +350,7 @@ select * from message where id = 1 union select * from (select count(*),concat(f
 
 
 
-#### 3. Oracle
+##### 3. Oracle
 
 oracle的内容先跳过。数据库间的差异，真的接触到了再搞。
 
@@ -360,33 +358,33 @@ oracle的内容先跳过。数据库间的差异，真的接触到了再搞。
 
 
 
-### 4. 注入工具
+#### 4. 注入工具
 
-#### 1. SQLMap
+##### 1. SQLMap
 
 ##### 1. 基本用法
 
 
 
-##### 2. SQLMap参数
+###### 2. SQLMap参数
 
 
 
 
 
-#### 2. Pangolin
+##### 2. Pangolin
 
 是window上的工具，目前可以先跳过。
 
 
 
-#### 3. Havij
+##### 3. Havij
 
 跟Pangolin类似，边幅也很少，那也跳过。
 
 
 
-### 5. 防止SQL注入
+#### 5. 防止SQL注入
 
 SQL注入攻击的问题，最终归于`用户可以控制输入`，SQL注入、XSS、文件包含、命令执行都可归于此。
 
@@ -397,7 +395,7 @@ SQL注入攻击的问题，最终归于`用户可以控制输入`，SQL注入、
 
 
 
-####  1. 严格的数据类型
+#####  1. 严格的数据类型
 
 强类型如Java，C#，在使用值的时候，是会进行类型的判断，因此在转换的时候，会被察觉出是整形还是字符型。
 
@@ -915,7 +913,7 @@ PHP中最常见。
 
 ##### 1. CSRF攻击原理
 
-攻击者盗用你的身份，去做一些非法操作。
+攻击者盗用你的身份，去做一些恶意操作，对服务器来说这些请求都是合法的。
 
 例子：你在浏览一个网页，然后点击了一个木马，钱没了。
 
@@ -959,25 +957,140 @@ PHP中最常见。
 
 
 
-
-
 #### 2. 逻辑错误漏洞
+
+一般就是程序员写出来的bug，逻辑不够严谨，或者太复杂，不能把所有情况正常处理。
+
+##### 1. 挖掘逻辑漏洞
+
+- 寻找网站提供的功能
+- 对每个功能流程的请求抓包，分析每个参数作用
+- 修改参数的值，尝试触发逻辑漏洞
+
+简单来说，就是业务流程和HTTP、HTTPS请求篡改。
+
+##### 2. 绕过授权验证 -- 越权
+
+###### 1. 水平越权
+
+相同级别或权限的用户或者同一个角色的不同用户之间，可以越权访问、修改或者删除的非法操作。
+
+###### 2. 垂直越权
+
+- 向上越权
+- 向下越权
+
+###### 3. 水平越权示例
+
+根据id和两次密码进行用户密码修改，那么只要对id进行变更，就会出现逻辑漏洞。
+
+原因是没有进行二次密码验证，也就是原密码验证。
+
+###### 4. 垂直越权示例
+
+Java后端的Filter。
+
+##### 3. 密码找回逻辑漏洞
+
+也是对流程的请求进行抓包，一般找回密码会使用手机、邮箱、密保问题的。
+
+如果找回的请求中，带上接收邮件的邮箱明文，那么如果替换为攻击者的邮箱地址，那么流程就转到了攻击者去修改了。
+
+##### 4. 支付逻辑漏洞
+
+###### 1. 商品数量为负数
+
+###### 2. 0元购买商品
+
+貌似是异常处理的时候，只补抓到错误信息，但是没有处理错误情况？
+
+##### 5. 指定账户恶意攻击
+
+暴露了账户，然后被人家恶意输入密码，锁定账户了。
+
+
 
 
 
 #### 3. 代码注入
 
+OWASP定义：在客户端提交的代码在服务器端接收后当动态diamante或嵌入文件处理。
+
+```php
+1. 命令执行
+system($command);
+2. 文件包含
+include($page);
+3. 动态函数调用
+$func = $_REQUEST["fun"];
+func();
+4. 代码执行
+eval("\$X");
+```
+
+##### 1. XML注入  The Extensible Markup Language（可扩展标识语言）
+
+比较少见。
+
+类似XSS，注意构造标签闭合和XML表结构。
+
+##### 2. XPath注入- XML Path Language
+
+XML路径语言，XPath基于XML的树状结构，提供在数据结构树中寻找节点的能力。简单说，XPath就是选取XML节点的一门语言，查找用。
+
+那么在构造查找语句的时候，如果输入造了一个类似sql注入的，那么就能获取XML中其它节点的信息。
+
+##### 3. JSON注入
+
+（JavaSript Object Notation）。
+
+貌似只是将JSON的解析导致失败。
+
+一般对value部分进行转义即可。
+
+##### 4. HTTP Parameter Pollution
+
+即HTTP参数污染，简称HPP。
+
+就是将参数，多次使用与符号拼接，由于不同的服务器环境和语言，会导致不一样的执行结果。
+
+WAF不允许参数出现select关键字，但重复拼接参数，可能可以绕过第一个参数值的检测。
+
 
 
 #### 4. URL跳转与钓鱼
+
+##### 1. URL跳转
+
+URL跳转分为：客户端跳转、服务器跳转。
+
+###### 1. 客户端跳转
+
+也叫URL重定向，用户浏览器的地址栏URL会有明显变化。
+
+比如在主页点击登录，那么会受到一个302的请求响应。
+
+###### 2. 服务器跳转
+
+也叫URL转发，用户的浏览器地址不会变化。
+
+只是获取了一个新的页面渲染格式，对页面进行重新渲染。
+
+###### 3. 另外 <a>标签不属于转发、重定向
+
+`<a href=""> </a>`
+
+##### 2. 钓鱼
+
+搞一个类似的网页去诱导用户输入信息。
 
 
 
 #### 5. WebServer远程部署
 
+##### 1. Tomcat
 
-
-
+好像就是默认密码。
 
 
 
