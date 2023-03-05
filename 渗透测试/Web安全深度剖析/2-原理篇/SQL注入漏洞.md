@@ -1028,7 +1028,9 @@ func();
 eval("\$X");
 ```
 
-##### 1. XML注入  The Extensible Markup Language（可扩展标识语言）
+##### 1. XML注入  -- XXE （XML External Entity Injection）
+
+XML全称The Extensible Markup Language（可扩展标识语言）。
 
 比较少见。
 
