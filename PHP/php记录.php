@@ -41,8 +41,22 @@ echo "\n str_ireplace=".str_ireplace("Fucking","Beautiful","Hello Fucking World"
 
 
 
-
-
+/*
+reset() - 函数将内部指针指向数组中的第一个元素，并输出。
+current() - 返回数组中的当前元素的值。
+end() - 将内部指针指向数组中的最后一个元素，并输出。
+next() - 将内部指针指向数组中的下一个元素，并输出。
+prev() - 将内部指针指向数组中的上一个元素，并输出。
+each() - 返回当前元素的键名和键值，并将内部指针向前移动。
+这些指针输出，有点像c语言需要先将指针指向制定的位置，才能得到值。
+*/
+$array_ = array("a","b","c","d");
+// echo "\n reset =".reset($array_);
+// echo "\n current =".current($array_);
+// echo "\n end =".end($array_);
+// echo "\n next =".next($array_);
+// echo "\n prev =".prev($array_);
+// echo "\n each =".each($array_);
 
 
 
