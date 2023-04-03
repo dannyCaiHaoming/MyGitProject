@@ -59,7 +59,31 @@ $array_ = array("a","b","c","d");
 // echo "\n each =".each($array_);
 
 
+/*
+php数组，也可以构造关联数组
+关联数组，$a是获取key，$$a是等于先将$a取值，然后再拼$符号。。
+下面例子，$key = a, $$key = $(a)。
+*/
+$normal_array = array(1,2,3);
+$dic_array = array("a"=>"aa","b"=>"bb","c"=>"cc");
 
+foreach($dic_array as $key=>$value)
+{
+    echo "\n";
+    echo "key=".$key."   value = ".$value."as =";
+    #$test = $$key;
+    #echo $test;
+    echo "\n";
+}
+
+$test = array("flag"=>"bingo","handsome"=>"flag","flag"=>"x","x"=>"flag");
+foreach ($test as $x => $y) {
+    $$x = $$y;
+    echo "\$y=".$y."---".$$y."\n";
+}
+foreach ($test as $x => $y) {
+    echo $x.$y."\n";
+}
 
 ?>
 
