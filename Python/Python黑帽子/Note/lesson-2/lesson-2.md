@@ -46,3 +46,6 @@
 1. stdin,stdout,stderr获取解释器标准流
 
 2. exit，退出解释器
+
+
+##### threading -- 基于线程的并行

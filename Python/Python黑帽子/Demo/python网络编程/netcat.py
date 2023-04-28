@@ -29,19 +29,25 @@ class NetCat:
     def run(self):
         if self.args.listen:
             # 如果是接收方，启动监听
+            print('运行监听')
             self.listen()
         else:
+            print('运行发送')
             self.send()
             
     def send(self):
         # 连接服务器
+        print('client-connect前一句')
         self.socket.connect((socket.gethostname(),self.args.port))
-        if self.buffer:
-            print("buffer")
-            print(self.buffer)
-            self.socket.send(self.buffer)
+        print('client-connect后一句')
+        # if self.buffer:
+        #     print("buffer")
+        #     print(self.buffer)
+        #     self.socket.send(self.buffer)
+        self.socket.send('连接好了')
         try: 
             while True:
+                print('client-while后一句')
                 recv_len = 1
                 response = ''
                 while recv_len:
@@ -70,8 +76,11 @@ class NetCat:
         self.socket.bind((socket.gethostname(),self.args.port))
         # 启动监听
         self.socket.listen(5)
+        print('启动监听后一句')
         while True:
+            print('while后一句')
             client_socket, _ = self.socket.accept()
+            print('client accept后一句')
             client_thread = threading.Thread(target=self.handle, args=(client_socket,))
             client_thread.start()
             
@@ -157,6 +166,7 @@ if __name__ == '__main__':
     if args.listen:
         buffer = ''
     else:
+        # 等待输入才能继续
         buffer = sys.stdin.read()
     
     print(buffer)
