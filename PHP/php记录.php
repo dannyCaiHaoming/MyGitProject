@@ -1,7 +1,7 @@
 <?php
 
 
-## 常见函数
+############################ 基本类型String，Array，等等 常见函数   ############################
 
 /*
 trim(string,charlist)
@@ -31,7 +31,7 @@ echo "\n strrpos=".strrpos("012345","3");
 
 
 
-/*  
+/*
 str_ireplace(find,replace,string,count)
 str中查找并替换 （不区分大小写）。
 */
@@ -87,3 +87,42 @@ foreach ($test as $x => $y) {
 
 ?>
 
+
+
+<?php
+############################ php 标准函数   ############################
+
+/*
+输出变量
+var_dump ( mixed $expression [, mixed $... ] )
+*/
+var_dump(1,2,$x);
+
+
+?>
+
+
+
+
+<?php
+############################ php 文件系统   ############################
+
+
+/*
+将整个文件读取输出字符串
+file_get_contents(string $filename,bool $use_include_path = false,?resource $context = null,int $offset = 0,?int $length = null)
+*/
+file_get_contents($filename);
+
+
+
+
+############################ php 文件系统 扩展  ############################
+
+/*
+路径中文件和目录
+scandir(string $directory, int $sorting_order = SCANDIR_SORT_ASCENDING, ?resource $context = null)
+*/
+scandir($path);
+
+?>
