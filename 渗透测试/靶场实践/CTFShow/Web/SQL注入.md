@@ -1,0 +1,103 @@
+
+
+##### SQL绕过方式：
+
+
+
+###### 1. 一般语法绕过
+
+1. 过滤了union，尝试布尔
+2. 过滤了逗号，使用mid(username from 1 for 1)代替mid(username,1,1)
+使用limit 1 offset 1代替limit 1,1
+3. 过滤空格使用/**/绕过
+4. 过滤带引号，使用`ord()`将待检测字符转换为ascii比较。
+
+
+
+###### 999. with rolllup
+
+`group by`能对指定列名进行分组查重的意思。例如`age`列下有1,1,2,3四个数字，当使用`group by age`只有，就只会出现1,2,3三列数据。
+
+| age  | count(*) |
+| ---- | -------- |
+| 1    | 2        |
+| 2    | 1        |
+| 3    | 1        |
+
+当使用`select age,count(*) group by age with roolup`，`count`列就会多出一行汇总数据。最后一行数据就会
+
+| Age  | count(*) |
+| ---- | -------- |
+| 1    | 2        |
+| 2    | 1        |
+| 3    | 1        |
+| NULL | 4        |
+
+
+
+### 题目
+
+###### 1. ctf.show_web5
+
+找到`get`方法中的`id`字段是注入点。尝试了基本的注入命令，报错。
+
+猜测可能过滤了关键字，那双写试试，or中间插个空格，还是不行。
+
+那就减少输入，一个个试试。
+
+or输入。可以，那'符号呢，也可以。那' or呢，不行，那所以是过滤了空格。
+
+那好处理。直接翻出一些绕过的字符。这里用了`/*%00*/`当做空格。
+
+
+
+###### 2.  ctf.show_web8
+
+试了基本的，用了'符号报错。然后尝试上面的空格替换法。能得到结果。
+
+果然。筛选了`union`但是可以用`select`，查一下怎么绕过union.
+
+看开头的总结。
+
+
+
+###### 3. ctf.show_web9
+
+应该是and和or的优先级顺序问题。
+
+原来不是，做不出来的直接扫目录好了。
+
+```php
+<?php
+        $flag="";
+		$password=$_POST['password'];
+		if(strlen($password)>10){
+			die("password error");
+		}
+		$sql="select * from user where username ='admin' and password ='".md5($password,true)."'";
+		$result=mysqli_query($con,$sql);
+			if(mysqli_num_rows($result)>0){
+					while($row=mysqli_fetch_assoc($result)){
+						 echo "登陆成功<br>";
+						 echo $flag;
+					 }
+			}
+    ?>
+```
+
+这题即使拿到源码，也要知道什么字符串的md5能构造出绕过的的字符串。
+
+`ffifdyop` 要记住？
+
+
+
+###### 4. ctf.show_web10
+
+输入`,符号`,`and`,`union`,` 空格`均报错，那就是筛查了，但是为啥or没有报错。
+
+无解偏门`group by xx with rollup`语法，记下来学习就好。
+
+不是很明白，为什么我输入的内容要直接在请求体用没有转码的字符串，如果写在了检查器右边输入框中，好像字符串会变转码，导致失败。
+
+
+
