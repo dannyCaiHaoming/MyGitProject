@@ -1,0 +1,7 @@
+[ 200 ] http://a4b95a47-8e73-4558-a671-8664fd508f55.challenge.ctf.show//robots.txt
+[ 200 ] http://a4b95a47-8e73-4558-a671-8664fd508f55.challenge.ctf.show//wp-content/themes/mylife-wp
+[ 200 ] http://a4b95a47-8e73-4558-a671-8664fd508f55.challenge.ctf.show//wp-content/themes/mylife-wp/screenshot.png
+[ 200 ] http://a4b95a47-8e73-4558-a671-8664fd508f55.challenge.ctf.show//index.php
+[ 200 ] http://a4b95a47-8e73-4558-a671-8664fd508f55.challenge.ctf.show//web.config
+[ 200 ] http://a4b95a47-8e73-4558-a671-8664fd508f55.challenge.ctf.show//wp-content/themes/mylife-wp/1.txt
+[ 200 ] http://a4b95a47-8e73-4558-a671-8664fd508f55.challenge.ctf.show//tools/root.tar
