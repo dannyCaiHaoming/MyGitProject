@@ -50,3 +50,11 @@ if(isset($v1) && isset($v2)){
 ###### 1. ctf.show_web11
 
 直接给了源码，就是判断`$_Session['password']=$GET['passwod']`，那就把发送的和session中的都删除掉。
+
+
+
+###### 2. ctf.show_web11
+
+需要用到php中特殊的输出字符串方法，筛选当前目录文件，还有打印指定文件。
+
+

@@ -1,6 +1,6 @@
 
 
-##### SQL绕过方式：
+#### SQL绕过方式：
 
 
 
@@ -11,6 +11,20 @@
 使用limit 1 offset 1代替limit 1,1
 3. 过滤空格使用/**/绕过
 4. 过滤带引号，使用`ord()`将待检测字符转换为ascii比较。
+
+
+
+###### 2. 绕过`information_schema`
+
+利用mysql5.7新增的`sys.schema_auto_increment_columns`
+
+
+
+###### 888. sql读写文件的语法
+
+1. load_file
+
+应该是要看是否有权限，然后读取文件，跟shell命令cat一样了。
 
 
 
@@ -100,4 +114,34 @@ or输入。可以，那'符号呢，也可以。那' or呢，不行，那所以�
 不是很明白，为什么我输入的内容要直接在请求体用没有转码的字符串，如果写在了检查器右边输入框中，好像字符串会变转码，导致失败。
 
 
+
+###### 5. web14
+
+难。
+
+首先是php的switch语法的校验。这个可以复习`PHP记录`。
+
+找到下一步是一个SQL注入的源码。能看见使用了筛选条件。
+
+```php
+<!--
+	if(preg_match('/information_schema\.tables|information_schema\.columns|linestring| |polygon/is', $_GET['query'])){
+		die('@A@');
+	}
+-->
+```
+
+然后去查怎么绕过`information_schema`的判断。
+
+查到上面使用`sys.scheme_auto_increate_columns`，尝试无果。
+
+原来可以使用``反引号`绕过。66666~
+
+绕过了之后，查看库名，表名，列名，爆破。
+
+`adminflag is not here!,2gtf1ywow,you can really dance,3Wowtell you a secret,secret has a secret...`
+
+囧囧囧囧囧囧囧囧囧，又宕机了。。。。
+
+看别人答案，根据这个secret提示，用了`load_file`去查看了一开始的`secret.php`,然后里面又提示让你去看`/real_flag_is_here`
 
