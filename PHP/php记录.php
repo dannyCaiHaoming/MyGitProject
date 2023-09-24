@@ -245,3 +245,34 @@ eval("phpinfo();");
 */
 highlight_file("index.php");
 ?>
+
+
+
+<?php
+############################ php 特点 ############################
+
+
+############################ php 文件上传处理 ############################
+
+
+############################ php POST方法上传 ############################
+
+/**
+ * 使用html表单方式进行POST文件请求。
+ * 要注意表单的属性必定为`enctype="multipart/form-data"`
+ * 文件上传后，可以使用全局变量`$_FILES`获取所上传的文件信息。
+ */
+$_FILES['userfile']['name'];
+$_FILES['userfile']['type'];
+$_FILES['userfile']['size'];
+# 注意，使用这个方式，上传文件之后，都会存在一个临时目录，记录用户上传的文件。
+#
+#
+$_FILES['userfile']['tmp_name'];
+$_FILES['userfile']['errro'];
+$_FILES['userfile']['full_path'];
+
+
+
+
+?>
