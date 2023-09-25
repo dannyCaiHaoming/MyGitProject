@@ -90,6 +90,29 @@ foreach ($test as $x => $y) {
 
 
 <?php
+############################ php 流程控制   ############################
+
+/**
+ * swich流程
+ * 类似C基本语法，如果没有break，会被一直执行，注意！！！
+ */
+switch ($i) {
+    case 0:
+    case 1:
+    case 2:
+        echo "流程没有break，会一直执行";
+        break;
+    case 3:
+        echo "i is 3";
+}
+
+
+
+?>
+
+
+
+<?php
 ############################ php 标准函数   ############################
 
 /**
@@ -221,4 +244,35 @@ eval("phpinfo();");
 * - highlight_file(string $filename, bool $return = false): string|bool
 */
 highlight_file("index.php");
+?>
+
+
+
+<?php
+############################ php 特点 ############################
+
+
+############################ php 文件上传处理 ############################
+
+
+############################ php POST方法上传 ############################
+
+/**
+ * 使用html表单方式进行POST文件请求。
+ * 要注意表单的属性必定为`enctype="multipart/form-data"`
+ * 文件上传后，可以使用全局变量`$_FILES`获取所上传的文件信息。
+ */
+$_FILES['userfile']['name'];
+$_FILES['userfile']['type'];
+$_FILES['userfile']['size'];
+# 注意，使用这个方式，上传文件之后，都会存在一个临时目录，记录用户上传的文件。
+#
+#
+$_FILES['userfile']['tmp_name'];
+$_FILES['userfile']['errro'];
+$_FILES['userfile']['full_path'];
+
+
+
+
 ?>

