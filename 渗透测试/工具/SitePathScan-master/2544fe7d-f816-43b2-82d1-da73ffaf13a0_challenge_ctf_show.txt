@@ -1,7 +1,0 @@
-[ 200 ] http://2544fe7d-f816-43b2-82d1-da73ffaf13a0.challenge.ctf.show//index.php
-[ 200 ] http://2544fe7d-f816-43b2-82d1-da73ffaf13a0.challenge.ctf.show//tools/root.tar
-[ 200 ] http://2544fe7d-f816-43b2-82d1-da73ffaf13a0.challenge.ctf.show//wp-content/themes/mylife-wp/screenshot.png
-[ 200 ] http://2544fe7d-f816-43b2-82d1-da73ffaf13a0.challenge.ctf.show//wp-content/themes/mylife-wp
-[ 200 ] http://2544fe7d-f816-43b2-82d1-da73ffaf13a0.challenge.ctf.show//wp-content/themes/mylife-wp/1.txt
-[ 200 ] http://2544fe7d-f816-43b2-82d1-da73ffaf13a0.challenge.ctf.show//robots.txt
-[ 200 ] http://2544fe7d-f816-43b2-82d1-da73ffaf13a0.challenge.ctf.show//web.config
