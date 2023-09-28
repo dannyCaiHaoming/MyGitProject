@@ -192,3 +192,14 @@ if(isset($v1) && isset($v2)){
 
 反序列化  难度很大，主要是找出序列化的地方，然后找到对应页面，然后还要序列化值传递的参数位置。
 
+``` 
+# 要点1 - sql中，可以将列名替换成值，作为输出,这里会输出1 | pwd
+select "1","pwd" from user where username = "admin";
+# 要点2 - 找到序列化的路径。
+User.update() -> UndateHelper.__destruct() -> User.__toString()
+-> 这里直接找不到什么类中会执行update(),而这时候还有个类Info没有使用，里面有一个__call方法，是调用不存在的方法的时候会调用，而这个方法存在一个核心方法login,因此接下来 -> Info.__call -> dbCrtl.login
+# 要点3 - 直接序列化输入，会被replace方法替换掉，因此需要反序列化字符逃逸
+
+
+```
+
