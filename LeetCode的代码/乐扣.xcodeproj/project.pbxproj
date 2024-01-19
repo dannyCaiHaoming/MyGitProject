@@ -15,6 +15,7 @@
 		848CEB7526D65E6700F685AD /* 数组.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848CEB7426D65E6700F685AD /* 数组.swift */; };
 		84AA344027EC95410053F966 /* 栈和队列.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AA343F27EC95400053F966 /* 栈和队列.swift */; };
 		84AA344227ED70D40053F966 /* 树.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AA344127ED70D40053F966 /* 树.swift */; };
+		84B04D572B57B1CB00ACFEC4 /* 搜索.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B04D562B57B1CB00ACFEC4 /* 搜索.swift */; };
 		84F55FA327E20E000099E16D /* 二分法.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F55FA227E20E000099E16D /* 二分法.swift */; };
 /* End PBXBuildFile section */
 
@@ -41,6 +42,7 @@
 		848CEB7826D7A53000F685AD /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		84AA343F27EC95400053F966 /* 栈和队列.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "栈和队列.swift"; sourceTree = "<group>"; };
 		84AA344127ED70D40053F966 /* 树.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "树.swift"; sourceTree = "<group>"; };
+		84B04D562B57B1CB00ACFEC4 /* 搜索.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "搜索.swift"; sourceTree = "<group>"; };
 		84F55FA227E20E000099E16D /* 二分法.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "二分法.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -83,6 +85,7 @@
 				8455DA7827E1913300C3B0BA /* 滑动窗口.swift */,
 				84F55FA227E20E000099E16D /* 二分法.swift */,
 				84AA344127ED70D40053F966 /* 树.swift */,
+				84B04D562B57B1CB00ACFEC4 /* 搜索.swift */,
 				848CEB7826D7A53000F685AD /* README.md */,
 			);
 			path = "乐扣";
@@ -146,6 +149,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				848CEB6D26D49CD000F685AD /* 动态规划.swift in Sources */,
+				84B04D572B57B1CB00ACFEC4 /* 搜索.swift in Sources */,
 				33943A852253461B00D9B1FB /* main.swift in Sources */,
 				308761AC26D40B4D00EE5E1D /* 字符串.swift in Sources */,
 				84AA344227ED70D40053F966 /* 树.swift in Sources */,

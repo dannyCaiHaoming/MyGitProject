@@ -29,7 +29,7 @@ class 链表: Do {
         l4.next = l5
         l5.next = l6
         
-        test.mergeTwoLists(l1, l4)
+//        test.mergeTwoLists(l1, l4)
         
         
 //        print(test.detectCycle(l1)?.val)
