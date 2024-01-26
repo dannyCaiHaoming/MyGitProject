@@ -32,8 +32,20 @@ class 搜索: Do {
 //                                     ["0","0","1","0","0"],
 //                                     ["0","0","0","1","1"]])
         
-        let r = test.findCircleNum([[1,0,0],[0,1,0],[0,0,1]])
+//        let r = test.findCircleNum([[1,0,0],[0,1,0],[0,0,1]])
 //        let r = test.findCircleNum([[1,1,0],[1,1,0],[0,0,1]])
+        
+//        let r = test.exist([["a"]], "a")
+//        let r = test.permute([1,2,3])
+        
+//        let r = test.permuteUnique([1,1,2])
+//        let r = test.permuteUnique2([1,1,2])
+        
+//        let r = test.combine(4, 2)
+        
+//        let r = test.combinationSum([2,3,5], 8)
+        
+        let r = test.combinationSum2([10,1,2,7,6,1,5], 8)
         print("r = \(r)")
     }
     
@@ -434,4 +446,376 @@ class 搜索: Do {
         
         return count
     }
+    
+    
+    
+    // MARK: 79 单词搜索
+    var existMark: [[Bool]] = []
+    func exist(_ board: [[Character]], _ word: String) -> Bool {
+        let height = board.count
+        let width = board[0].count
+        
+        existMark = .init(repeating: .init(repeating: false, count: width), count: height)
+        
+        for h in 0..<height {
+            for w in 0..<width {
+                if exitBackTrace(curH: h, curW: w, board: board, words: word) {
+                    return true
+                }
+            }
+        }
+        return false
+    }
+    
+    let dir:[(Int,Int)] = [
+        (-1,0),
+        (1,0),
+        (0,-1),
+        (0,1)
+    ]
+    func exitBackTrace(curH: Int,curW: Int,board: [[Character]], words: String) -> Bool {
+        let height = board.count
+        let width = board[0].count
+        if words.isEmpty {
+            return true
+        }
+        if curH < 0 || curW < 0 || curH >= height || curW >= width || existMark[curH][curW] == true {
+            return false
+        }
+
+        var tmpWords = words
+        let fir = tmpWords.removeFirst()
+        if board[curH][curW] == fir {
+            existMark[curH][curW] = true
+            for d in dir {
+                if exitBackTrace(curH: curH+d.0, curW: curW+d.1, board: board, words: tmpWords) {
+                    return true
+                }
+            }
+            existMark[curH][curW] = false
+        }
+        
+        
+        return false
+    }
+    
+    // MARK: 257  二叉树的所有路径
+    func binaryTreePaths(_ root: TreeNode?) -> [String] {
+        let all = binaryTreeBackTrace(cur: root)
+        
+        return all
+
+    }
+    
+    func binaryTreeBackTrace(cur: TreeNode?) -> [String] {
+        guard let cur = cur else {
+            return []
+        }
+        var tmp: [String] = []
+        let curStr = cur.val
+        if let left = cur.left {
+            let leftStr = binaryTreeBackTrace(cur: left)
+            if !leftStr.isEmpty {
+                let new =  leftStr.map({ "\(curStr)->" + $0 })
+                tmp.append(contentsOf: new)
+            }
+        }
+        if let right  = cur.right {
+            let rightStr = binaryTreeBackTrace(cur: right)
+            if !rightStr.isEmpty {
+                let new =  rightStr.map({ "\(curStr)->" + $0 })
+                tmp.append(contentsOf: new)
+            }
+        }
+        if tmp.isEmpty {
+            tmp.append("\(curStr)")
+        }
+        return tmp
+    }
+    
+    // MARK: 46  全排列
+    var permuteMark: [Bool] = []
+    func permute(_ nums: [Int]) -> [[Int]] {
+        let count = nums.count
+        permuteMark = .init(repeating: false, count: count)
+        var res:[[Int]] = []
+        var list:[Int] = []
+        
+        permuteBackTrack(nums, cur: 0, count: count,res: &res,list: &list)
+
+        return res
+        
+    }
+    
+    /*
+     写的时候，卡在一个二维数组。因为以1,2,3；为例子，1，之后可能会是【2,3】，【3,2】，因此需要将每次回溯加入到上一次的数组。
+     但是我用的一个二维数组来记录结果。导致最后在一些已经访问过的元素，又或者确实访问完了，步数为总长的时候，无法筛选出怎么加。
+     
+     这里题解都使用一个临时数据，记录一轮，然后当一轮长度足够了，就加入到结果！
+     */
+    func permuteBackTrack(_ nums: [Int],cur: Int,count: Int, res: inout [[Int]],list: inout [Int]) {
+        
+        if list.count == count {
+            res.append(list)
+        }
+        for i in 0..<count {
+            if permuteMark[i] {
+                continue
+            }
+            permuteMark[i] = true
+            
+            list.append(nums[i])
+            permuteBackTrack(nums, cur: cur+1, count: count, res: &res,list: &list)
+            list.removeAll(where: { $0 == nums[i] })
+            permuteMark[i] = false
+        }
+    }
+    
+    
+    //MARK: 47. 全排列 II
+    var permuteUniqueMark: [Bool] = []
+    func permuteUnique(_ nums: [Int]) -> [[Int]] {
+        let count = nums.count
+        permuteUniqueMark = .init(repeating: false, count: count)
+        
+        var res:[[Int]] = []
+        var list:[Int] = []
+        
+        var sort = nums.sorted()
+        
+        permuteUniqueBackTrack(sort, cur: 0, count: count,res: &res,list: &list)
+        
+        return res
+    }
+    
+    /*
+     和普通全排列区别在于，之前【1,1】是两组。这个是当1组，所以后面的值等于前面的时候，需要剪掉
+     */
+    func permuteUniqueBackTrack(_ nums: [Int],cur: Int,count: Int, res: inout [[Int]],list: inout [Int]) {
+        
+  
+        if list.count == count {
+            res.append(list)
+        }
+
+        for i in 0..<count {
+            /*
+             要解决重复问题，我们只要设定一个规则，保证在填第 idx\textit{idx}idx 个数的时候重复数字只会被填入一次即可。而在本题解中，我们选择对原数组排序，保证相同的数字都相邻，然后每次填入的数一定是这个数所在重复数集合中「从左往右第一个未被填过的数字」，即如下的判断条件：
+
+             自己就是漏了先排序，这样就是在后一个等于前一个的时候，忽略掉。
+             */
+            if permuteUniqueMark[i] || (i>0 && nums[i] == nums[i-1] && !permuteUniqueMark[i-1]){
+                continue
+            }
+            permuteUniqueMark[i] = true
+            
+            list.append(nums[i])
+            permuteUniqueBackTrack(nums, cur: cur+1, count: count, res: &res,list: &list)
+            list.removeLast()
+            permuteUniqueMark[i] = false
+        }
+    }
+    
+    
+    // 还有个有趣的交换方法  //所有数字其实就是一个序列结果。因此只需要摆来摆去，就可以。
+    var permuteList:[Int] = []
+    var permuteRes:[[Int]] = []
+    func permuteUnique2(_ nums: [Int]) -> [[Int]] {
+        permuteList = nums
+        permuteUnique2Dfs(idx: 0)
+        return permuteRes
+    }
+    
+    func permuteUnique2Dfs(idx: Int) {
+        
+        if idx == permuteList.count - 1 {
+            permuteRes.append(permuteList)
+            return
+        }
+        
+        func swap(i:Int,j:Int) {
+            let tmp = permuteList[j]
+            permuteList[j] = permuteList[i]
+            permuteList[i] = tmp
+        }
+        
+        var numsSet:Set<Int> = []
+        for i in idx..<permuteList.count {
+            if numsSet.contains(permuteList[i]) {
+                continue
+            }
+            numsSet.insert(permuteList[i])
+            swap(i: idx, j: i)
+            permuteUnique2Dfs(idx: idx+1)
+            swap(i: idx, j: i)
+        }
+        
+        
+    }
+    
+    
+    //MAKR: 77. 组合
+    /*
+     上面的事，多少个数，就有多少个坑位，现在是，n个数不对应k个坑位，而且不算重复
+     [1,n]
+     那就递归每个数，
+     */
+    var combineList: [Int] = []
+    var combineRes: [[Int]] = []
+    var combineMark: [Bool] = []
+    func combine(_ n: Int, _ k: Int) -> [[Int]] {
+        combineMark = .init(repeating: false, count: n+1)
+        combineBacktrace(cur: 1, end: n, k: k)
+        return combineRes
+    }
+    
+    func combineBacktrace(cur: Int,end:Int,k: Int) {
+        if combineList.count == k {
+            combineRes.append(combineList)
+            return
+        }
+        for i in cur...end {
+            if combineMark[i] {
+                continue
+            }
+            combineList.append(i)
+            combineMark[i] = true
+            combineBacktrace(cur: i, end: end, k: k)
+            combineMark[i] = false
+            combineList.removeLast()
+        }
+    }
+    
+    
+    // MARK: 39.组合求和
+    /*
+     
+     自己写的，递归，每次都从0元素开始递归。不知道怎么去重
+     */
+    var combinationList: [Int] = []
+    var combinationRes: [[Int]] = []
+    var combinationMark: [[Bool]] = []
+    func chmBacktrace(cur: Int,can: [Int],tar: Int) {
+        if tar == 0 {
+            combinationRes.append(combinationList)
+            // 只能查询res的list是否有重复。。
+            return
+        } else if tar < 0 {
+            return
+        }
+        if cur >= can.count {
+            return
+        }
+        for i in 0..<can.count {
+            combinationList.append(can[i])
+            if tar - can[cur] < 0 {
+                combinationList.removeLast()
+                return
+            }
+            chmBacktrace(cur: i,can: can,tar: tar - can[i])
+            combinationList.removeLast()
+        }
+    }
+    func combinationSum(_ candidates: [Int], _ target: Int) -> [[Int]] {
+        combinationMark = .init(repeating: .init(repeating: false, count: target), count: target)
+        let sort = candidates.sorted()
+        chmBacktrace(cur: 0,can: sort, tar: target)
+        return combinationRes
+    }
+    
+    /*
+     官方题解，
+     （1）当前数，直接跳过继续递归，
+     （2）使用当前数，继续递归，
+     
+     递归，等于套了一层循环。因而不用再套一层循环。
+     */
+    
+    func combinationSum_guanfang(_ candidates: [Int], _ target: Int) -> [[Int]] {
+        let sort = candidates.sorted()
+        var combinationList: [Int] = []
+        var combinationRes: [[Int]] = []
+        chmBacktrace2(cur: 0,can: sort, tar: target,list: &combinationList,res: &combinationRes)
+        return combinationRes
+    }
+    
+    func chmBacktrace2(cur: Int,can: [Int],tar: Int,list: inout [Int],res: inout [[Int]]) {
+        if tar == 0 {
+            res.append(list)
+            return
+        }
+        if cur >= can.count {
+            return
+        }
+        // 跳过
+        chmBacktrace2(cur: cur+1, can: can, tar: tar,list: &list,res: &res)
+//        for i in 0..<can.count {
+            
+            if tar - can[cur] >= 0 {
+                list.append(can[cur])
+                chmBacktrace2(cur: cur,can: can,tar: tar - can[cur],list: &list,res: &res)
+                list.removeLast()
+            }
+//        }
+    }
+    
+    
+    //MARK: 40 组合求和II
+    
+    /*
+     上题是可用同一个字符，这题不可重复使用，那就更好做了把。
+     也不是字符不能重复是组合不能重复。
+     那就不用进入自身的递归，进入下一个的递归，并且如果下一个等于自身，那就跳过下一个的递归。
+     
+     candidates = [10,1,2,7,6,1,5], target = 8,
+     1,1,2,5,6,7,10
+     
+     1,1,
+     */
+    var combinationSum2List:[Int] = []
+    var combinationSum2Res:[[Int]] = []
+    var combinationSum2Mark: [Bool] = []
+    func combinationSum2(_ candidates: [Int], _ target: Int) -> [[Int]] {
+        let sort = candidates.sorted()
+        combinationSum2Mark = .init(repeating: false, count: candidates.count)
+        for i in 0..<candidates.count {
+            if i >= 1,
+               sort[i] == sort[i-1] {
+                continue
+            }
+            combinationSum2Backtrace(cur: 0, target: target,candidates: sort)
+        }
+        return combinationSum2Res
+    }
+    
+/*
+ candidates = [10,1,2,7,6,1,5], target = 8,
+ 1,1,2,5,6,7,10
+ */
+    func combinationSum2Backtrace(cur: Int, target: Int,candidates: [Int]) {
+        if cur >= candidates.count {
+            return
+        }
+        
+
+        if target == 0 {
+//            combinationSum2List.append(rest)
+            combinationSum2Res.append(combinationSum2List)
+            return
+        } else if target < 0 {
+            return
+        }
+        
+        
+        combinationSum2List.append(candidates[cur])
+        combinationSum2Backtrace(cur: cur+1, target: target-candidates[cur], candidates: candidates)
+        combinationSum2List.removeLast()
+        
+        combinationSum2List.append(candidates[cur])
+        combinationSum2Backtrace(cur: cur+2, target: target-candidates[cur], candidates: candidates)
+        combinationSum2List.removeLast()
+    }
+    
+    
+    
 }
