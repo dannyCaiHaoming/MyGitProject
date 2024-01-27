@@ -32,8 +32,11 @@ class 搜索: Do {
 //                                     ["0","0","1","0","0"],
 //                                     ["0","0","0","1","1"]])
         
-        let r = test.findCircleNum([[1,0,0],[0,1,0],[0,0,1]])
-//        let r = test.findCircleNum([[1,1,0],[1,1,0],[0,0,1]])
+//        let r = test.findCircleNum([[1,0,0],[0,1,0],[0,0,1]])
+
+//        let r = test.letterCombinations("23")
+        
+        let r = test.restoreIpAddresses("101023")
         print("r = \(r)")
     }
     
@@ -385,53 +388,156 @@ class 搜索: Do {
      [0,1,1,1],
      [1,0,1,1]
      
+     
+     1. 难点，读懂题目，这个数组，有x，y，但是从哪个方向遍历都可以。即不像之前那么直白，需要二维数组所有的去遍历。
+     2. 实际这道题可以类比小岛数量。但是这里所有的路径，假设取定了X方向，那么每个元素可以走的方向，就是沿着Y方向。
+     3. 标记，当X-Y联通，那么都可以用一个唯一值进行标识~
+     
      */
     func findCircleNum(_ isConnected: [[Int]]) -> Int {
-        
         var count = 0
         let height = isConnected.count
         let width = isConnected[0].count
-        
-        var stack: [[Int]] = []
-        var mark: [[Int]] = .init(repeating: .init(repeating: -1, count: width), count: height)
-        
+        var stack: [Int] = []
+        var mark:[Bool] = .init(repeating: false, count: width)
         for w in 0..<width {
-            for h in 0..<height {
-                if mark[h][w] != -1 {
-                    continue
-                }
-                count += 1
-                mark[h][w] = 1
-                stack.append([h,w])
-                while !stack.isEmpty {
-                    var size = stack.count
-                    while size > 0 {
-                        size -= 1
-                        let curIdx = stack.removeLast()
-                        let x = curIdx[1]
-                        let y = curIdx[0]
-                        let cur = isConnected[y][x]
-                        if cur == 0 {
-                            continue
+            if mark[w] == true {
+                continue
+            }
+            count += 1
+            
+            stack.append(w)
+            
+            while !stack.isEmpty {
+                var size = stack.count
+                while size > 0 {
+                    size -= 1
+                    let cur = stack.removeLast()
+                    mark[cur] = true
+                    for h in w..<height {
+                        if mark[h] == false,
+                           isConnected[h][cur] == 1 {
+                            stack.append(h)
                         }
-                        if mark[y][x] == 1 {
-                            continue
-                        }
-                        
-                        
-                        //                    for h in cur+1..<height {
-                        //                        if mark[h] == -1,
-                        //                           isConnected[h][cur] == 1 {
-                        ////                            mark[h] = 1
-                        //                            stack.append(h)
-                        //                        }
-                        //                    }
-                        
                     }
                 }
             }
         }
-        
         return count
+    }
+    
+    //MARK: 17. 电话号码的字母组合
+    var result:[String] = []
+    var mark:[Bool] = []
+    func letterCombinations(_ digits: String) -> [String] {
+        let words: [[String]] = [
+            [""],["a","b","c"],["d","e","f"],
+            ["g","h","i"],["j","k","l"],["m","n","o"],
+            ["p","q","r","s"],["t","u","v"],["w","x","y","z"]
+        ]
+        var total: [String] = []
+        for chr in digits {
+            let idx = Int(String(chr))! - 1
+            total.append(contentsOf: words[idx])
+        }
+        mark = .init(repeating: false, count: total.count)
+        letterDiGui(start: 0,length: digits.count, digits: digits,words: words,thisRound: "")
+        return result
+    }
+    
+    func letterDiGui(start: Int,
+                     length: Int,
+                     digits:String,
+                     words: [[String]] ,
+                     thisRound: String) {
+        if length == 0,
+           !thisRound.isEmpty {
+            result.append(thisRound)
+            return
+        }
+        for i in start..<digits.count {
+            if mark[i] {
+                continue
+            }
+            mark[i] = true
+            let chr = (digits as NSString).substring(with: .init(location: i, length: 1))
+            let idx = Int(chr)!-1
+            for word in words[idx] {
+                let new = thisRound + word
+                letterDiGui(start: start + 1, length: length-1, digits: digits, words: words, thisRound: new)
+            }
+            mark[i] = false
+        }
+    }
+    
+    
+    
+    // MARK: 93. 复原 IP 地址
+    var ipResult: [String] = []
+    var ipMark: [Bool] = []
+    func restoreIpAddresses(_ s: String) -> [String] {
+        
+        ipMark = .init(repeating: false, count: s.count)
+        
+        var words: [String] = []
+        for word in s {
+            words.append(String(word))
+        }
+        
+        restoreIpDiGui(last: 0, count: 3, words: words, thisRound: "",result:[])
+        
+        return ipResult
+    }
+    
+    /*
+     
+    以last为起始， 每次遍历下三个。，合适继续遍历， 当count 4次，并且最终落点为最后一个字母后，且最后一个数字合适，才能当加入
+     
+     */
+    func restoreIpDiGui(last: Int ,count: Int,words:[String],thisRound: String,result:[String]) {
+        
+        if count < 0 {
+            if last == words.count {
+                let r = result.joined(separator: ".")
+                ipResult.append(r)
+            }
+            
+            return
+        }
+
+        for i in last..<words.count {
+            for j in 0...2 {
+                if ipMark[last] == true {
+                    continue
+                }
+                if i+j < words.count {
+                    let str = words[i...i+j].joined()
+                    ipMark[i+j] = true
+                    if str.count >= 2,
+                       str.hasPrefix("0") {
+                        let p = words[i...i+j-1].joined()
+                        restoreIpDiGui(last: i+j, count: count-1, words: words, thisRound: p, result: result + [p])
+                    }
+                    else if Int(str)! > 255 {
+                        let p = words[i...i+j-1].joined()
+                        restoreIpDiGui(last: i+j, count: count-1, words: words, thisRound: p, result: result + [p])
+                    } else {
+                        restoreIpDiGui(last: i+j, count: count-1, words: words, thisRound: str, result: result + [str])
+                    }
+                    
+                    ipMark[i+j] = false
+//                    if Int(str)! > 255 ||
+//                        (str.count > 1 && str.hasPrefix("0") ){
+//                        break
+//                    }
+      
+                }
+                
+            }
+            
+        }
+        
+
+        
     }
 }
