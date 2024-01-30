@@ -36,7 +36,7 @@ class 搜索: Do {
 
 //        let r = test.letterCombinations("23")
         
-        let r = test.restoreIpAddresses("101023")
+//        let r = test.restoreIpAddresses("101023")
 //        let r = test.findCircleNum([[1,0,0],[0,1,0],[0,0,1]])
 //        let r = test.findCircleNum([[1,1,0],[1,1,0],[0,0,1]])
         
@@ -50,6 +50,7 @@ class 搜索: Do {
         
 //        let r = test.combinationSum([2,3,5], 8)
         
+//        let r = test.combinationSum2([2,5,2,1,2], 5)
         let r = test.combinationSum2([10,1,2,7,6,1,5], 8)
         print("r = \(r)")
     }
@@ -895,50 +896,102 @@ class 搜索: Do {
      candidates = [10,1,2,7,6,1,5], target = 8,
      1,1,2,5,6,7,10
      
-     1,1,
-     */
+     1,2,5,6,7,10
+     
+     candidates = [2,5,2,1,2] target = 5
+     1,2,2,2,5
+     
+      
+      问题1： 进下一个递归的时候  是target-cur ，但是加入cur的时机却放在下一轮？？
+      
+      因此，我们需要改进上述算法，在求出组合的过程中就进行去重的操作。我们可以考虑将相同的数放在一起进行处理，也就是说，如果数 x 出现了 y 次，那么在递归时一次性地处理它们，即分别调用选择 0...y 次 x 的递归函数。这样我们就不会得到重复的组合。具体地：
+
+      
+      牛的，这样子遍历的时候，遇到2，就计算2里面有几个次数，够了就递归下一个数字
+
+      */
     var combinationSum2List:[Int] = []
     var combinationSum2Res:[[Int]] = []
-    var combinationSum2Mark: [Bool] = []
+    var combinationSum2Dict: [Int:Int] = [:]
     func combinationSum2(_ candidates: [Int], _ target: Int) -> [[Int]] {
         let sort = candidates.sorted()
-        combinationSum2Mark = .init(repeating: false, count: candidates.count)
-        for i in 0..<candidates.count {
-            if i >= 1,
-               sort[i] == sort[i-1] {
-                continue
+        
+        var keys:[Int] = []
+        for i in sort {
+            let v = combinationSum2Dict[i] ?? 0
+            combinationSum2Dict[i] = v + 1
+            if v == 0 {
+                keys.append(i)
             }
-            combinationSum2Backtrace(cur: 0, target: target,candidates: sort)
         }
+        for i in 0..<combinationSum2Dict.keys.count {
+            combinationSum2Backtrace(cur: i, target: target,keys: keys)
+        }
+        
         return combinationSum2Res
     }
-    
-/*
- candidates = [10,1,2,7,6,1,5], target = 8,
- 1,1,2,5,6,7,10
- */
-    func combinationSum2Backtrace(cur: Int, target: Int,candidates: [Int]) {
-        if cur >= candidates.count {
+    /*
+     1 2, 5,6,7 ,10
+     
+     2
+     */
+
+    func combinationSum2Backtrace(cur: Int, target: Int,keys: [Int]) {
+        
+        if target == 0 {
+            combinationSum2Res.append(combinationSum2List)
+            return
+        }
+        
+        if cur == keys.count || target < keys[cur] {
+            return
+        }
+        let num = keys[cur]
+        
+        
+        var tmp = combinationSum2Dict[num] ?? -1
+//
+        if tmp < 0 {
             return
         }
         
 
-        if target == 0 {
-//            combinationSum2List.append(rest)
-            combinationSum2Res.append(combinationSum2List)
-            return
-        } else if target < 0 {
-            return
+        combinationSum2Backtrace(cur: cur+1, target: target, keys: keys)
+        
+        for i in 1...tmp {
+            combinationSum2Dict[num] = tmp - i
+            combinationSum2List.append(num)
+            combinationSum2Backtrace(cur: cur+1, target: target-i*num, keys: keys)
+            combinationSum2Dict[num] = tmp + i
         }
+        for i in 1...tmp {
+            combinationSum2List.removeLast()
+        }
+//        if tmp > 0 {
+//            combinationSum2Backtrace(cur: cur, target: target-keys[cur], keys: keys)
+//        } else {
+//            for i in cur..<keys.count {
+//                
+//
+//                combinationSum2Backtrace(cur: i, target: target-keys[cur], keys: keys)
+//    //            if i+1 < keys.count {
+//    //                combinationSum2Backtrace(cur: i+1, target: target-keys[cur], keys: keys)
+//    //            }
+//            }
+//        }
+//
+//        combinationSum2List.removeLast()
+        tmp += 1
+        combinationSum2Dict[num] = tmp
+        
+//        candidates = [2,5,2,1,2] target = 5
+//        1,2,2,2,5
+/*
+ 1 , 2  ,5   8
+ */
         
         
-        combinationSum2List.append(candidates[cur])
-        combinationSum2Backtrace(cur: cur+1, target: target-candidates[cur], candidates: candidates)
-        combinationSum2List.removeLast()
         
-        combinationSum2List.append(candidates[cur])
-        combinationSum2Backtrace(cur: cur+2, target: target-candidates[cur], candidates: candidates)
-        combinationSum2List.removeLast()
     }
     
     
