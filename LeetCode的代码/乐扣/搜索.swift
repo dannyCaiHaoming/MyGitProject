@@ -51,7 +51,11 @@ class 搜索: Do {
 //        let r = test.combinationSum([2,3,5], 8)
         
 //        let r = test.combinationSum2([2,5,2,1,2], 5)
-        let r = test.combinationSum2([10,1,2,7,6,1,5], 8)
+//        let r = test.combinationSum2([10,1,2,7,6,1,5], 8)
+        
+        var nums = [1,3,2]
+        let r = test.nextPermutation(&nums)
+        print("nums = \(nums)")
         print("r = \(r)")
     }
     
@@ -990,6 +994,69 @@ class 搜索: Do {
  1 , 2  ,5   8
  */
         
+        
+        
+    }
+    
+    
+    
+    /*
+     做题顺序
+     1.先找一般序列，然后找一般规律。
+     2.将一般规律尝试放入到特殊构造序列，是否通用，是否能得出关键。
+     例如官方题解：
+     1. 4,5,2,6,3,1  -> 4,5,3,1,2,6 ，一般规律就是，最后的一个降序数据块前一位，和降序里面最小（比这个前一位要大）的一位置换，然后（这个前一位之后）剩下后面是升序。
+     2. 将这个放入一些特殊例子
+     1,2,3,4,5,6
+     只需要家那个最后一个升序快【6】的前一位【5】，将【5】和升序快中【6】比他较大的替换，然后将替换后的升序块【5】进行排序
+     6,5,4,3,2,1
+     最后一个升序块为-1，那这里就是，特殊情况，当没有找到升序块，然后遍历到头，就整个直接升序。
+     
+     升序降序升序  1,2,3,6,5,4,7,8,9 -> 1,2,3,6,5,7,4,8,9
+     
+     降序升序降序  3,2,1,4,5,6,9,8,7  -> 3,2,1,4,5,7,6,8,9
+     
+     *** 发现关键，还是后面，不管是升序，还是一降序，最重要还是找到，从后往前，后一位，比前一位要大的，这个时候，前一位，就是较小，也是上文发现规律中的“前一位”
+     然后在前一位后面的序列中，找打比他“稍大”的，然后交换，剩下的就是后面序列的升序排序。
+
+     
+     
+     */
+    
+    func nextPermutation(_ nums: inout [Int]) {
+        
+        var needSorted = false
+        var start: Int = 0
+        for i in (0..<nums.count).reversed() {
+            if i - 1 >= 0 {
+                if nums[i] > nums[i-1] {
+                    start = i-1
+                    needSorted = true
+                    break
+                }
+            }
+        }
+        if start == 0 && !needSorted {
+            nums = nums.sorted()
+        } else {
+            var min: Int = start+1
+            for i in start+1..<nums.count {
+                
+                if nums[i] > nums[start] {
+                    if nums[i] > nums[min] {
+                        continue
+                    }
+                    min = i
+                }
+                
+            }
+            let tmp = nums[min]
+            nums[min] = nums[start]
+            nums[start] = tmp
+            let firt = nums[0...start]
+            let last = nums[start+1...nums.count-1].reversed()
+            nums = Array(firt) + Array(last)
+        }
         
         
     }

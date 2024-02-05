@@ -33,6 +33,8 @@ class 数组: Do {
 //        test.merge(&i, 0, [1], 1)
 //        print(i)
         
+        let r = test.threeSum2([-1,0,1,2,-1,-4])
+        print(r)
 //        print(test.threeSum([-1,0,1,2,-1,-4]))
     }
     
@@ -216,6 +218,62 @@ class 数组: Do {
 
         }
         return result
+    }
+    
+    var threeSumList: [Int] = []
+    var threeSumRes: [[Int]] = []
+    var threeSumMark: [Bool] = []
+    func threeSum2(_ nums: [Int]) -> [[Int]] {
+        let sort = nums.sorted()
+        threeSumMark = .init(repeating: false, count: sort.count)
+        for i in 0..<sort.count {
+            if i > 1 {
+                if sort[i] == sort[i-1] {
+                    continue
+                }
+            }
+            threeSum2Backtrace(cur: i, count: 3, rest: 0,nums: sort)
+        }
+        return threeSumRes
+    }
+    
+    // -4 -1,-1,0,1,2
+    
+    
+    func threeSum2Backtrace(cur: Int,count: Int,rest: Int,nums: [Int]) {
+        
+        if cur >= nums.count {
+            return
+        }
+
+        if count == 0 {
+            return
+        }
+        
+        if count == 1,
+           rest + nums[cur] == 0  {
+            
+            threeSumList.append(nums[cur] )
+            threeSumRes.append(threeSumList)
+            threeSumList.removeLast()
+        }
+        
+        /*
+         终止回溯的条件。  我的写法是需要再重新进入一轮
+         但是再重新进入一轮之前 如果有个mark在，就无法冲入。  而我又需要在下一轮才能把这轮的值加入
+         */
+        
+        threeSumList.append(nums[cur])
+        print("add \(nums[cur])")
+        threeSumMark[cur] = true
+        for i in cur..<(nums.count) {
+            if threeSumMark[i] {
+                continue
+            }
+            threeSum2Backtrace(cur: i, count: count-1, rest: rest+nums[cur], nums: nums)
+        }
+        threeSumMark[cur] = false
+        threeSumList.removeLast()
     }
     
     //MARK: 36. 有效的数独
