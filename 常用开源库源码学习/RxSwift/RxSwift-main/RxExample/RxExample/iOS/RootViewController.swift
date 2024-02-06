@@ -25,6 +25,8 @@ public class RootViewController : UITableViewController {
         geoService.authorized.drive(onNext: { _ in
 
         }).dispose()
+        
+        geoService.location.withLatestFrom(SharedSequenceConvertibleType)
         geoService.location.drive(onNext: { _ in
 
         }).dispose()

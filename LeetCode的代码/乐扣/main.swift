@@ -2449,7 +2449,7 @@ let l1 = ListNode.init(1)
 
 
 
-var classes: [Do.Type] = [数组.self,字符串.self,链表.self,动态规划.self,树.self,搜索.self]
+var classes: [Do.Type] = [数组.self,字符串.self,链表.self,动态规划.self,树.self,搜索.self,乐扣Top100.self]
 
 for c in classes {
     c.doSomething()
