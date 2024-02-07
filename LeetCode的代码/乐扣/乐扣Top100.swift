@@ -23,7 +23,11 @@ class 乐扣Top100: Do {
 //        var matrix = [[5,1,9,11],[2,4,8,10],[13,3,6,7],[15,14,12,16]]
 //        test.rotate(&matrix)
         
-        let r = test.groupAnagrams(["ac","c"])
+//        let r = test.groupAnagrams2(["hhhhu","tttti","tttit","hhhuh","hhuhh","tittt"])
+        
+//        let r = test.maxSubArray( [5,4,-1,7,8])
+        
+        let r = test.canJump([8,2,4,4,4,9,5,2,5,8,8,0,8,6,9,1,1,6,3,5,1,2,6,6,0,4,8,6,0,3,2,8,7,6,5,1,7,0,3,4,8,3,5,9,0,4,0,1,0,5,9,2,0,7,0,2,1,0,8,2,5,1,2,3,9,7,4,7,0,0,1,8,5,6,7,5,1,9,9,3,5,0,7,5])
         
         print(r)
     }
@@ -367,13 +371,27 @@ class 乐扣Top100: Do {
      增加 【"e":1,"a":1,"t":1】
      
      eat 怎么构造hash 如果把askii码拼接，顺序怎么处理
+     
+     特殊情况，多个字母重复的时候。但是
      */
     func groupAnagrams(_ strs: [String]) -> [[String]] {
         let count = strs.count
         var result: [[String]] = .init(repeating: [], count: count)
-        var hash: [[String:Bool]] = []
+        var hash: [[Int:Int]] = []
+        
+        let a = "asdf"
         
         for str in strs {
+            
+            var matchHash:[Int: Int] = [:]
+            for w in str {
+                let ascii = Int(w.unicodeScalars.first?.value ?? 0)
+                if ascii > 0 {
+                    var tmp = matchHash[ascii] ?? 0
+                    tmp += 1
+                    matchHash[ascii] = tmp
+                }
+            }
             
             var contain = false
             var id = 0
@@ -382,22 +400,22 @@ class 乐扣Top100: Do {
                 let h = hash[idx]
                 var tmpContain = true
                 if str == "" {
-                    if h[String("")] ?? false {
+                    let ascii = Int(str.unicodeScalars.first?.value ?? 0)
+                    if (h[ascii] ?? 0) > 0  {
                         contain = true
                         break
                     }
                 } else {
-                    if h.keys.count != str.count {
-                        break
+                    
+                    if matchHash.keys.count != h.keys.count {
+                        continue
                     }
-                    for w in str {
-                        tmpContain = tmpContain && (h[String(w)] ?? false )
-                        if w == str.last,
-                           tmpContain{
-                            contain = true
-                            break
-                        }
+
+                    
+                    for k in matchHash.keys {
+                        tmpContain = (tmpContain && h[k] == matchHash[k])
                     }
+                    contain = tmpContain
                 }
                 if contain {
                     break
@@ -410,37 +428,246 @@ class 乐扣Top100: Do {
                 continue
             }
             id = hash.count
-            var tmp:[String:Bool] = [:]
+            var tmp:[Int:Int] = [:]
             if str == "" {
-                tmp[""] = true
+                let ascii = Int(str.unicodeScalars.first?.value ?? 0)
+                tmp[ascii] = 1
             } else {
                 for w in str {
-                    tmp[String(w)] = true
+                    let ascii = Int(w.unicodeScalars.first?.value ?? 0)
+                    if ascii > 0 {
+                        var tmpV = tmp[ascii] ?? 0
+                        tmpV += 1
+                        tmp[ascii] = tmpV
+                    }
                 }
             }
-
             hash.append(tmp)
             result[id] = [str]
         }
         return result.filter({ !$0.isEmpty }).reversed()
-        
-//        strs =
-//        ["ac","c"]
-//
-//        添加到测试用例
-//        输出
-//        [["ac","c"]]
-//        预期结果
-//        [["c"],["ac"]]
-        
-//        strs =
-//        ["ac","c"]
-//
-//        添加到测试用例
-//        输出
-//        [["ac","c"]]
-//        预期结果
-//        [["c"],["ac"]]
+
     }
     
+    // 艹。还是出在找hash key这步，自己的方法太差
+    
+    func groupAnagrams2(_ strs: [String]) -> [[String]] {
+        var hash: [String: [String]] = [:]
+        
+        for str in strs {
+            let sortStr = String(str.sorted())
+            if hash[sortStr]?.isEmpty ?? false {
+                hash[sortStr] = [str]
+            } else {
+                var t = hash[sortStr] ?? []
+                t.append(str)
+                hash[sortStr] = t
+            }
+        }
+        
+        return hash.values.map({ $0 })
+    }
+    
+    
+    
+    
+    // MARK: 53. 最大子数组和
+    
+    /*
+     [-2,1,-3,4,-1,2,1,-5,4]
+     
+     [4,-1,2,1]
+     
+     [5,4,-1,7,8]
+     
+     [5,4,-1,7,8]
+     
+     
+     初步规律， 因为要找越大的数
+     左边开始，第一个不小于0的数。  但是如果都是负数呢
+     
+     假设  用当前值 跟 下一个值比较
+     如果下一个值大
+                     如果都是负数 ，那就直接用下个值
+                     如果都是正数，相加
+                    如果前负，后正，那就直接用后面的。
+     
+     并且用一个位记录最大
+     
+     然后举一些特殊例子，-1，-2，-3 ； -3，-2，-1 ，进行代入纠错
+     发现，当当前结果小于0，且当前轮询值比当前结果大的时候，需要直接替换。
+     */
+    
+    func maxSubArray(_ nums: [Int]) -> Int {
+        var max = Int.min
+        var result = 0
+        for i in 0..<nums.count {
+            let cur = nums[i]
+            
+            if cur > 0 {
+                if result >= 0 {
+                    result += cur
+                    if result > max {
+                        max = result
+                    }
+                } else {
+                    result = cur
+                    if result > max {
+                        max = result
+                    }
+                }
+            } else {
+                if result < 0 ,
+                   cur > result {
+                    result = cur
+                    if result > max {
+                        max = result
+                    }
+                } else {
+                    result += cur
+                    if result > max {
+                        max = result
+                    }
+                }
+            }
+        }
+        return max
+    }
+    
+    
+    // MARK: 55. 跳跃游戏
+    
+    /*
+     有点像  图的可达性  递归  广度搜索
+     
+     每一次递归，用当前下标，加上当前下标值可能走的步数。 只要能大于，即可， 如果小于，即无法达到。
+     
+     // 方式有问题，最最后1,2,0,0,4，这种，0 的位置无法递归返回。
+     
+     这种想法问题出现在哪里？
+     
+     */
+    
+    /*
+     贪心算法，每次去最优解。
+     这题，即每部
+     */
+//    var canJump = false
+//    ///  0  未访问，1，可行，-1不可行
+//    var jumpDic:[Int] = []
+//    func canJump(_ nums: [Int]) -> Bool {
+//        
+//        jumpDic = .init(repeating: 0, count: nums.count)
+//        
+//        for s in 0...nums[0] {
+//            if s < nums.count {
+//                canJumpBacktrace(cur: s, nums: nums)
+//            }
+//        }
+//        
+//        return canJump
+//    }
+//    
+//    // cur 是跳转后的下标，step，是下标还能跳转的步数
+//    func canJumpBacktrace(cur: Int,nums:[Int]) {
+//        if cur >= nums.count-1 {
+//            jumpDic[cur] = 1
+//            canJump = true
+//            return
+//        }
+//        let step = nums[cur]
+//        
+//        if step == 0,
+//           cur + step < nums.count-1 {
+//            jumpDic[cur+step] = -1
+//        }
+//        
+//        if cur + step >= nums.count-1 {
+//            if cur + step == nums.count-1 {
+//                jumpDic[cur+step] = 1
+//            } else {
+//                jumpDic[cur] = 1
+//            }
+//            canJump = true
+//            return
+//        }
+//        
+//        if jumpDic[cur] == 0 {
+//            
+//            if nums[cur+step] == 0 {
+//                if cur < nums.count-1 {
+//                    jumpDic[cur+step] = -1
+////                    return
+//                } else {
+//                    jumpDic[cur] = 1
+//                    return
+//                }
+//
+//            }
+//            
+//            for i in 1...step {
+//                if canJump {
+//                    return
+//                }
+//                if jumpDic[cur+i] == -1 {
+//                    continue
+//                }
+//                if step > 0 {
+//                    canJumpBacktrace(cur: cur+i, nums: nums)
+//                }
+//                else {
+//                    canJumpBacktrace(cur: cur, nums: nums)
+//                }
+//            }
+//        }
+//        
+//    }
+    
+    /*
+     那就是BFS，DFS概念没搞清楚。
+     导致数据结构，错误。
+     
+     */
+    
+    /*
+     BFS
+     
+     [2,3,1,1,4]
+     
+     [3,2,1,0,4]
+     */
+    var canJumpDict: [Bool] = []
+    func canJump(_ nums: [Int]) -> Bool {
+        canJumpDict = .init(repeating: false, count: nums.count)
+        
+        var queue:[Int] = []
+        queue.append(nums[0])
+        var cur = 0
+        canJumpDict[cur] = true
+        while !queue.isEmpty {
+            var size = queue.count
+            while size > 0 {
+                size -= 1
+                let next = queue.removeFirst()+cur
+                if canJumpDict[cur] {
+//                    let id = next >= (nums.count - 1) ? nums.count-1 : next
+                    for i in cur...next {
+                        if i < nums.count {
+                            queue.append(i)
+                            canJumpDict[i] = true
+                        }
+                    }
+//                    for i in cur...id {
+//                        canJumpDict[i] = true
+//                    }
+                    
+                }
+            }
+        }
+        
+        
+        return canJumpDict[nums.count-1]
+    }
+
+     
 }

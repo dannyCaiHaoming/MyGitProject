@@ -14,6 +14,7 @@
 		848CEB6D26D49CD000F685AD /* 动态规划.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848CEB6C26D49CD000F685AD /* 动态规划.swift */; };
 		848CEB7526D65E6700F685AD /* 数组.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848CEB7426D65E6700F685AD /* 数组.swift */; };
 		849506C62B6FC83A00FC8CAF /* 乐扣Top100.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849506C52B6FC83A00FC8CAF /* 乐扣Top100.swift */; };
+		849506CA2B736F5900FC8CAF /* 贪心.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849506C92B736F5900FC8CAF /* 贪心.swift */; };
 		84AA344027EC95410053F966 /* 栈和队列.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AA343F27EC95400053F966 /* 栈和队列.swift */; };
 		84AA344227ED70D40053F966 /* 树.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AA344127ED70D40053F966 /* 树.swift */; };
 		84B04D572B57B1CB00ACFEC4 /* 搜索.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B04D562B57B1CB00ACFEC4 /* 搜索.swift */; };
@@ -42,6 +43,7 @@
 		848CEB7426D65E6700F685AD /* 数组.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "数组.swift"; sourceTree = "<group>"; };
 		848CEB7826D7A53000F685AD /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		849506C52B6FC83A00FC8CAF /* 乐扣Top100.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "乐扣Top100.swift"; sourceTree = "<group>"; };
+		849506C92B736F5900FC8CAF /* 贪心.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "贪心.swift"; sourceTree = "<group>"; };
 		84AA343F27EC95400053F966 /* 栈和队列.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "栈和队列.swift"; sourceTree = "<group>"; };
 		84AA344127ED70D40053F966 /* 树.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "树.swift"; sourceTree = "<group>"; };
 		84B04D562B57B1CB00ACFEC4 /* 搜索.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "搜索.swift"; sourceTree = "<group>"; };
@@ -88,6 +90,7 @@
 				84F55FA227E20E000099E16D /* 二分法.swift */,
 				84AA344127ED70D40053F966 /* 树.swift */,
 				84B04D562B57B1CB00ACFEC4 /* 搜索.swift */,
+				849506C92B736F5900FC8CAF /* 贪心.swift */,
 				849506C52B6FC83A00FC8CAF /* 乐扣Top100.swift */,
 				848CEB7826D7A53000F685AD /* README.md */,
 			);
@@ -159,6 +162,7 @@
 				84AA344227ED70D40053F966 /* 树.swift in Sources */,
 				8467F95D26DCFC49006BB967 /* 链表.swift in Sources */,
 				8455DA7927E1913300C3B0BA /* 滑动窗口.swift in Sources */,
+				849506CA2B736F5900FC8CAF /* 贪心.swift in Sources */,
 				848CEB7526D65E6700F685AD /* 数组.swift in Sources */,
 				84F55FA327E20E000099E16D /* 二分法.swift in Sources */,
 				84AA344027EC95410053F966 /* 栈和队列.swift in Sources */,
