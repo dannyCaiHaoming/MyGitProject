@@ -27,7 +27,11 @@ class 乐扣Top100: Do {
         
 //        let r = test.maxSubArray( [5,4,-1,7,8])
         
-        let r = test.canJump([8,2,4,4,4,9,5,2,5,8,8,0,8,6,9,1,1,6,3,5,1,2,6,6,0,4,8,6,0,3,2,8,7,6,5,1,7,0,3,4,8,3,5,9,0,4,0,1,0,5,9,2,0,7,0,2,1,0,8,2,5,1,2,3,9,7,4,7,0,0,1,8,5,6,7,5,1,9,9,3,5,0,7,5])
+//        let r = test.canJump([2,3,1,1,4])
+        
+//        let r = test.merge([]])
+        
+        let r = test.uniquePaths(23, 12)
         
         print(r)
     }
@@ -636,38 +640,201 @@ class 乐扣Top100: Do {
      
      [3,2,1,0,4]
      */
-    var canJumpDict: [Bool] = []
-    func canJump(_ nums: [Int]) -> Bool {
-        canJumpDict = .init(repeating: false, count: nums.count)
-        
-        var queue:[Int] = []
-        queue.append(nums[0])
-        var cur = 0
-        canJumpDict[cur] = true
-        while !queue.isEmpty {
-            var size = queue.count
-            while size > 0 {
-                size -= 1
-                let next = queue.removeFirst()+cur
-                if canJumpDict[cur] {
-//                    let id = next >= (nums.count - 1) ? nums.count-1 : next
-                    for i in cur...next {
-                        if i < nums.count {
-                            queue.append(i)
-                            canJumpDict[i] = true
-                        }
-                    }
-//                    for i in cur...id {
-//                        canJumpDict[i] = true
+//    var canJumpDict: [Bool] = []
+//    func canJump(_ nums: [Int]) -> Bool {
+//        canJumpDict = .init(repeating: false, count: nums.count)
+//        
+//        var queue:[Int] = []
+//        queue.append(nums[0])
+//        var cur = 0
+//        canJumpDict[cur] = true
+//        while !queue.isEmpty {
+//            var size = queue.count
+//            while size > 0 {
+//                size -= 1
+//                let next = queue.removeFirst()+cur
+//                if canJumpDict[cur] {
+////                    let id = next >= (nums.count - 1) ? nums.count-1 : next
+//                    for i in cur...next {
+//                        if i < nums.count {
+//                            queue.append(i)
+//                            canJumpDict[i] = true
+//                        }
 //                    }
-                    
+////                    for i in cur...id {
+////                        canJumpDict[i] = true
+////                    }
+//                    
+//                }
+//            }
+//        }
+//        
+//        
+//        return canJumpDict[nums.count-1]
+//    }
+    /*
+     贪心。
+     每次求最远，因为求是否能走到终点。遍历每个点，看能走多远，最后判断最远是否达到最后一位。
+     同时注意的是，要判断可达性，即当前最远可走，和当前下标是否能到。
+     */
+    func canJump(_ nums: [Int]) -> Bool {
+        var max: Int = 0
+        for idx in 0..<nums.count {
+            if idx > max {
+                continue
+            }
+            let canGo = idx + nums[idx]
+            if canGo > max {
+                max = canGo
+            }
+        }
+        return max >= nums.count-1
+    }
+     
+    
+    
+    // MARK: 56. 合并区间
+    
+    /*
+     区间
+     
+     难点应该在，需要判别的，到底跟已经记录的，是在左，还是在右。
+     1.合并完，可能还需要再次合并。
+     2.合并完的顺序，并不是顺序。
+     
+     [[2,3],[4,5],[6,7],[8,9],[1,10]]
+     
+     [[2,3],[4,6],[5,7],[3,4]]
+     */
+    
+    func merge(_ intervals: [[Int]]) -> [[Int]] {
+        var result: [[Int]] = []
+        let sortInter = intervals.sorted { l, r in
+            return l[0] < r[0]
+        }
+        for inter in sortInter {
+            
+            result = result.filter({ match in
+                if inter[0] <= match[0] && inter[1] >= match[1] {
+                    return false
+                }
+                return true
+            })
+            
+            var noMatch = true
+            for idx in 0..<result.count {
+                let match = result[idx]
+                if match[0] > inter[1] || match[1] < inter[0] {
+                    continue
+                }
+                var l = inter[0]
+                var r = inter[1]
+                if match[0] < l {
+                    l = match[0]
+                }
+                if match[1] > r {
+                    r = match[1]
+                }
+                result[idx] = [l,r]
+                noMatch = false
+            }
+            if noMatch {
+                result.append(inter)
+            }
+        }
+
+        var mergeAgain = false
+        let sortResult = result
+
+        for i in 0..<sortResult.count {
+            if i+1 < sortResult.count {
+                /*
+                        B
+                    A
+                 B
+                 */
+                if sortResult[i+1][0] >= sortResult[i][0] && sortResult[i+1][0] <= sortResult[i][1] && sortResult[i+1][1] >= sortResult[i][1] {
+                    mergeAgain = true
+                }
+                if sortResult[i+1][1] >= sortResult[i][0] && sortResult[i+1][1] <= sortResult[i][1] && sortResult[i+1][0] <= sortResult[i][0] {
+                    mergeAgain = true
+                }
+            }
+        }
+        if mergeAgain {
+            return merge(sortResult)
+        }
+        
+        return sortResult
+    }
+    
+    // 官方题解，nlogn
+    /*
+     过程差不多，但是先将interval排序好之后，每次的L都是按顺序的，
+     因此，只需要判断要插入的最小，是否在之前的边界，
+     如果是，则只需要改当前【结果中最后一个】的R
+     如果不是，则只需要往结果中新增
+     */
+    func merge2(_ intervals: [[Int]]) -> [[Int]] {
+        var result: [[Int]] = []
+        
+        let sortInter = intervals.sorted { l, r in
+            return l[0] < r [0]
+        }
+        
+        for int in sortInter {
+            if result.isEmpty || result.last![1] < int[0]  {
+                result.append(int)
+            } else {
+                if var last = result.last,
+                   last[1] < int[1] {
+                    last[1] = int[1]
+                    result.removeLast()
+                    result.append(last)
                 }
             }
         }
         
-        
-        return canJumpDict[nums.count-1]
+        return result
     }
-
+    
+    
+    //MARK:  62. 不同路径
+    /*
+     BFS，广度吧，用一个结果记录多少次达到m,n=0
      
+     
+     */
+
+    func uniquePaths(_ m: Int, _ n: Int) -> Int {
+        
+        let direction:[[Int]] = [[1,0],[0,1]]
+        var uniquePathsResult = 0
+        
+        var queue:[[Int]] = []
+        queue.append([m,n])
+        
+        while !queue.isEmpty {
+            var size = queue.count
+            while size > 0 {
+                size -= 1
+                let cur = queue.removeFirst()
+                
+                if cur[0] == 1,cur[1] == 1 {
+                    uniquePathsResult += 1
+                    continue
+                }
+                
+                for dir in direction {
+                    let x = cur[0] - dir[0]
+                    let y = cur[1] - dir[1]
+                    if x > 0 && y > 0 {
+                        queue.append([x,y])
+                    }
+                }
+            }
+        }
+        
+        return uniquePathsResult
+    }
 }
