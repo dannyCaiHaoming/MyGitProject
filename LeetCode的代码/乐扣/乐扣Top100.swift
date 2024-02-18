@@ -31,7 +31,21 @@ class 乐扣Top100: Do {
         
 //        let r = test.merge([]])
         
-        let r = test.uniquePaths(23, 12)
+//        let r = test.uniquePaths(3, 7)
+        
+//        let r = test.minPathSum([[7,1,3,5,8,9,9,2,1,9,0,8,3,1,6,6,9,5],[9,5,9,4,0,4,8,8,9,5,7,3,6,6,6,9,1,6],[8,2,9,1,3,1,9,7,2,5,3,1,2,4,8,2,8,8],[6,7,9,8,4,8,3,0,4,0,9,6,6,0,0,5,1,4],[7,1,3,1,8,8,3,1,2,1,5,0,2,1,9,1,1,4],[9,5,4,3,5,6,1,3,6,4,9,7,0,8,0,3,9,9],[1,4,2,5,8,7,7,0,0,7,1,2,1,2,7,7,7,4],[3,9,7,9,5,8,9,5,6,9,8,8,0,1,4,2,8,2],[1,5,2,2,2,5,6,3,9,3,1,7,9,6,8,6,8,3],[5,7,8,3,8,8,3,9,9,8,1,9,2,5,4,7,7,7],[2,3,2,4,8,5,1,7,2,9,5,2,4,2,9,2,8,7],[0,1,6,1,1,0,0,6,5,4,3,4,3,7,9,6,1,9]])
+        
+//        let r = test.minDistance("horse", "ros")
+        
+//        let r = test.subsets([1,2,3])
+        
+//        let r = test.exist([["A","A","A","A","A","A"],["A","A","A","A","A","A"],["A","A","A","A","A","A"],["A","A","A","A","A","A"],["A","A","A","A","A","A"],["A","A","A","A","A","A"]], "AAAAAAAAAAAAAAa")
+        
+//        let r = test.numTrees(3)
+        
+//        let r = test.longestConsecutive([100,4,200,1,3,2])
+        
+        let r = test.wordBreak("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaab", ["a","aa","aaa","aaaa","aaaaa","aaaaaa","aaaaaaa","aaaaaaaa","aaaaaaaaa","aaaaaaaaaa"])
         
         print(r)
     }
@@ -801,40 +815,573 @@ class 乐扣Top100: Do {
     
     //MARK:  62. 不同路径
     /*
-     BFS，广度吧，用一个结果记录多少次达到m,n=0
+     BFS，广度吧，用一个结果记录多少次达到m,n=0  -- 跑着跑着超时
      
+     最后发现能分割，那就是动态规划的题目  --  还是会超时。。。
      
      */
 
+//    func uniquePaths(_ m: Int, _ n: Int) -> Int {
+//        if m < 1 || n < 1 {
+//            return 0
+//        }
+//        if m == 1 ,
+//           n == 1 {
+//            return 1
+//        }
+//        var r = 0
+//        var b = 0
+//        if n-1 == 1 {
+//            r = 1
+//        } else {
+//            r = uniquePaths(m, n-1)
+//        }
+//        if m-1 == 1 {
+//            b = 1
+//        } else {
+//            b = uniquePaths(m-1, n)
+//        }
+//        return r + b
+//    }
+    
     func uniquePaths(_ m: Int, _ n: Int) -> Int {
+            
+        var result:[[Int]] = .init(repeating: .init(repeating: 0, count: n), count: m)
         
-        let direction:[[Int]] = [[1,0],[0,1]]
-        var uniquePathsResult = 0
+        for i in 0..<m {
+            result[i][0] = 1
+        }
+        for i in 0..<n {
+            result[0][i] = 1
+        }
+        for i in 1..<m {
+            for j in 1..<n {
+                result[i][j] = result[i-1][j] + result[i][j-1]
+            }
+        }
+        return result[m-1][n-1]
+    }
+    
+    
+    // MARK: 64. 最小路径和
+    /*
+     又是把动态规划做成搜索。。。。搜索应该是暴力解法
+     */
+    var minPathSumResult:[[Int]] = []
+    func minPathSum(_ grid: [[Int]]) -> Int {
+        let r = grid.count
+        let c = grid[0].count
+        minPathSumResult = .init(repeating: .init(repeating: .max, count: c), count: r)
         
-        var queue:[[Int]] = []
-        queue.append([m,n])
         
-        while !queue.isEmpty {
-            var size = queue.count
-            while size > 0 {
-                size -= 1
-                let cur = queue.removeFirst()
-                
-                if cur[0] == 1,cur[1] == 1 {
-                    uniquePathsResult += 1
-                    continue
+        
+        minPathSumBacktrace(grid, row: r, column: c, cur: [0,0], sum: 0)
+        
+        
+        
+        return minPathSumResult[r-1][c-1]
+    }
+    
+    let direction = [[1,0],[0,1]]
+    func minPathSumBacktrace(_ grid: [[Int]],row: Int,column: Int,cur: [Int],sum: Int) {
+        
+        let x = cur[0]
+        let y = cur[1]
+        let cur = grid[x][y]
+        
+        let step = minPathSumResult[x][y]
+        if cur + sum < step {
+            minPathSumResult[x][y] = cur + sum
+        }
+        
+    
+        for d in direction {
+            let dx = x + d[0]
+            let dy = y + d[1]
+            if dx >= row || dy >= column {
+                continue
+            }
+            minPathSumBacktrace(grid, row: row, column: column, cur: [dx,dy], sum: cur+sum)
+        }
+        
+    }
+
+    
+    
+    //MARK: 72. 编辑距离
+    
+    /*
+     一个很难的动态规划，以至于根本不知道应该用什么方式。---后面不知道用什么方式的时候，可以先瞎想动态规划。
+     这类题目，重点关注
+     1. 对于题目给出操作分类，怎么依照情况细化。
+        如，这题，可对字符进行增删改，那对于两个字符串，就有6种情况。分别对着6种情况进行分析。
+        对A增，等于对B减；对A减，等于对B增。对A修改，等于对B修改。
+        即可划分为三大类，对A增，对B增，对A修改。
+     2. 细分后，思考如何寻找每步最值。
+        1.这里，对A增的情况，可以为A时“”，B是“ABC”，则当知道A经过N次修改，得到A为“AB”后，只需要N+1，则得到结果
+        2.同理，当A为“ABC”，B为“”时，当B知道经历N次修改后，得到B为”AB“后，只需要N+1则知道结果
+        3.当A为”ABC“，B为”ACB”时，当知道A经过N次修改，得到“ACC”后，只需要N+1则知道结果
+        特殊，当A为“ABB”，B为“ACB”时，当A经历N次修改，则只需要N次则知道结果。
+     
+
+     */
+    
+    func minDistance(_ word1: String, _ word2: String) -> Int {
+        let row = word1.count
+        let column = word2.count
+        var result:[[Int]] = .init(repeating: .init(repeating: 0, count: column+1), count: row+1)
+        
+        for i in 0..<row+1 {
+            result[i][0] = i
+        }
+        for j in 0..<column+1 {
+            result[0][j] = j
+        }
+        
+        for i in 1..<row+1 {
+            for j in 1..<column+1 {
+                let add = result[i-1][j] + 1
+                let add2 = result[i][j-1] + 1
+                var match = result[i-1][j-1] + 1
+                /*
+                 因为这里需要记录的是从下标0--i,0---j个元素 因此，dp数组长度是i+1,j+1，下标就是0...i,0...j
+                  但是，取字符串的长度，还是0--i-1,0--j-1个。
+                 所以i，j对应的结果，是dp[i][j],但是字符串对应的是i-1和j-1
+                 */
+                if
+                    (word1 as NSString).substring(with: .init(location: i-1, length: 1)) == (word2 as NSString).substring(with: .init(location: j-1, length: 1)) {
+                    match -= 1
                 }
-                
-                for dir in direction {
-                    let x = cur[0] - dir[0]
-                    let y = cur[1] - dir[1]
-                    if x > 0 && y > 0 {
-                        queue.append([x,y])
-                    }
+                var min = add
+                if add2 < add {
+                    min = add2
+                }
+                if match < min {
+                    min = match
+                }
+                result[i][j] = min
+            }
+        }
+        return result[row][column]
+    }
+    
+    // MARK: 75. 颜色分类
+    func sortColors(_ nums: inout [Int]) {
+        var left = 0
+        var right = nums.count - 1
+        var result:[Int] = []
+        for i in 0..<nums.count {
+            result.append(1)
+        }
+        for i in 0..<nums.count {
+            if nums[i] == 0 {
+                result[left] = 0
+                left += 1
+            }
+            if nums[i] == 2 {
+                result[right] = 2
+                right -= 1
+            }
+        }
+        nums = result
+    }
+    
+    /*
+     双指针方法，当初没写出来
+     */
+    func sortColors2(_ nums: inout [Int]) {
+        var left = 0
+        var right = nums.count - 1
+        var i = 0
+        while i <= right {
+            while i <= right , nums[i] == 2 {
+                let tmp =  nums[right]
+                nums[right] = nums[i]
+                nums[i] = tmp
+                right -= 1
+            }
+            if nums[i] == 0 {
+                let tmp = nums[i]
+                nums[i] = nums[left]
+                nums[left] = tmp
+                left += 1
+            }
+            i += 1
+        }
+    }
+    
+    
+    //MARK: 78. 子集
+    var subsetsMARK:[Bool] = []
+    var subsetsList:[Int] = []
+    var subsetsResult:[[Int]] = []
+    func subsets(_ nums: [Int]) -> [[Int]] {
+        let count = nums.count
+        subsetsMARK = .init(repeating: false, count: count)
+        if !nums.isEmpty {
+            subsetsResult.append([])
+        }
+        for i in 1...nums.count {
+            subsetsBacktrace(nums, count: i, current: 0)
+        }
+        return subsetsResult
+    }
+    
+    func subsetsBacktrace(_ nums: [Int],count: Int,current: Int) {
+        if count == 0 {
+            subsetsResult.append(subsetsList)
+            return
+        }
+        if count < 0 {
+            return
+        }
+        if current >= nums.count {
+            return
+        }
+        for i in current..<nums.count {
+            subsetsMARK[i] = true
+            subsetsList.append(nums[i])
+            subsetsBacktrace(nums, count: count-1, current: i+1)
+            subsetsList.removeLast()
+            subsetsMARK[i] = false
+        }
+    }
+    
+    //MARK: 79. 单词搜索
+    /*
+     我草。偶尔超时。
+     */
+    var existMark: [[Bool]] = []
+    var res = false
+    func exist(_ board: [[Character]], _ word: String) -> Bool {
+        let row = board.count
+        let column = board[0].count
+        
+        existMark = .init(repeating: .init(repeating: false, count: column), count: row)
+        
+        for r in 0..<row {
+            for c in 0..<column {
+                existBacktrace(board: board, word: word,wordIdx: 0,row: r, column: c, totalR: row, totalC: column)
+            }
+        }
+
+        return res
+    }
+    let direction_4:[[Int]] = [
+        [-1,0],[1,0],
+        [0,1],[0,-1]
+    ]
+    func existBacktrace(board:[[Character]],word: String,wordIdx: Int,row: Int,column: Int,totalR: Int,totalC: Int)  {
+        guard row >= 0 ,
+              row < totalR,
+              column >= 0,
+              column < totalC,
+              existMark[row][column] == false,
+              wordIdx < word.count,
+              word[word.index(word.startIndex, offsetBy: wordIdx)] ==  board[row][column] else {
+            return
+        }
+        if wordIdx == word.count - 1 {
+            res = true
+            return
+        }
+        existMark[row][column] = true
+        for d in direction_4 {
+            let newR = row + d[0]
+            let newC = column + d[1]
+            existBacktrace(board: board, word: word,wordIdx:wordIdx+1, row: newR, column: newC, totalR: totalR, totalC: totalC)
+        }
+        existMark[row][column] = false
+    }
+    
+    
+    // MARK:  96. 不同的二叉搜索树
+    /*
+     二叉搜索树特性，左边的树节点，比根节点小，右边的树节点，比根节点大。
+     因此，如果一个n整数，随机选一个i，作为根节点，那么
+     1. 0...i-1，都会比i小，作为左子树
+     2. i+1...n-1，都会比i大，作为右子树。
+     剩下，将1,2两个情况，也继续拆分，放入这两种情况。
+     因此假设左子树为numTrees(start:0,end:i-1)=x,右子树为numsTrees(i+1,n-1)=y，
+     则，i作为根节点的时候，二叉搜索树，种数为x*y
+     */
+    func numTrees(_ n: Int) -> Int {
+        return numTrees(start: 0, end: n-1)
+    }
+    
+    func numTrees(start: Int,end: Int) -> Int {
+        
+        if start == end {
+            return 1
+        }
+        if end - start == 1 {
+            return 2
+        }
+        
+        var result = 0
+        for i in start...end {
+            var left = 1
+            var right = 1
+            if i > start {
+                left = numTrees(start: start, end: i-1)
+            }
+            if i < end  {
+                right = numTrees(start: i+1, end: end)
+            }
+            result += left * right
+        }
+        return result
+    }
+    
+    
+    //MARK: 98. 验证二叉搜索树
+    
+    /*
+     想不到怎么遍历。 发现中序遍历，每个值都比前一个大。
+     
+     */
+    func isValidBST(_ root: TreeNode?) -> Bool {
+        let array = isValidBSTVallues(root: root)
+        if array.count > 1 {
+            
+        } else {
+            return true
+        }
+        for i in 0..<array.count {
+            if i + 1 < array.count {
+                if array[i] >= array[i+1] {
+                    return false
                 }
             }
         }
         
-        return uniquePathsResult
+        return true
+    }
+    
+    func isValidBSTVallues(root : TreeNode?) -> [Int] {
+        guard let root = root else {
+            return []
+        }
+        let left = isValidBSTVallues(root: root.left)
+        let right = isValidBSTVallues(root: root.right)
+        return left + [root.val] + right
+        
+    }
+    
+    /*
+     递归没想到，第一次也是想最大最小，但是没想出来是用上下界限。
+     根节点的左子树，上限制为根节点的值，下限为负无穷
+     根节点的右子树，下限为根节点的值，上限制无正无穷
+     */
+    func isValidBST2(_ root: TreeNode?) -> Bool {
+        return isvalidBSTBacktrace(root: root, less: .min, max: .max)
+    }
+    
+    func isvalidBSTBacktrace(root: TreeNode?,less: Int, max:Int) -> Bool {
+        guard let root = root else {
+            return true
+        }
+        if root.val <= less || root.val >                                                      max {
+            return false
+        }
+        var leftV = true
+        if let left = root.left {
+            leftV = isvalidBSTBacktrace(root: root.left, less: less, max: root.val) && root.val > left.val
+        }
+
+        var rightV = true
+        if let right = root.right {
+            rightV = isvalidBSTBacktrace(root: root.right, less: root.val, max: max) && root.val < right.val
+        }
+        
+        
+        return leftV && rightV
+    }
+    
+    //MARK: 102. 二叉树的层序遍历
+    /*
+     广度搜索
+     */
+    func levelOrder(_ root: TreeNode?) -> [[Int]] {
+        var result:[[Int]] = []
+        var queue: [TreeNode] = []
+        if let root = root {
+            queue.append(root)
+        }
+        while !queue.isEmpty {
+            var size = queue.count
+            var this: [Int] = []
+            while size > 0 {
+                size -= 1
+                let cur = queue.removeFirst()
+                this.append(cur.val)
+                if let left = cur.left {
+                    queue.append(left)
+                }
+                if let right = cur.right {
+                    queue.append(right)
+                }
+            }
+            if !this.isEmpty {
+                result.append(this)
+            }
+        }
+        return result
+    }
+    
+    
+    // MARK: 105. 从前序与中序遍历序列构造二叉树
+    
+    /*
+     从知识点知道，前序中第一位，是根节点，然后拿着根节点去中序，进行拆分。
+     分成左子树和右子树。
+     所以，每次从前序中，取出一位，然后到中序查找，然后将中序分成左子树，和右子树。
+     那么构造一个root，那他的左子树，也能用同样的算法，计算，右子树，也是能用同样的算法计算。
+     只是要规划好，根据前序得到根节点后，需要用中序，遍历出根节点位置，然后划分好左右子树，然后进行递归。
+     */
+    func buildTree(_ preorder: [Int], _ inorder: [Int]) -> TreeNode? {
+        guard !preorder.isEmpty,
+              !inorder.isEmpty,
+              let rootV = preorder.first else {
+            return nil
+        }
+        let count = preorder.count
+        let root = TreeNode.init(rootV)
+        var mid = 0
+        while inorder[mid] != rootV {
+            mid += 1
+        }
+        let leftCount = mid
+        let rightCount = count - leftCount - 1
+        
+        let left = buildTree(Array(preorder[1..<leftCount+1]), Array(inorder[0..<leftCount]))
+        let right = buildTree(Array(preorder[leftCount+1..<count]), Array(inorder[leftCount+1..<count]))
+        root.left = left
+        root.right = right
+        return root
+    }
+    
+    
+    //MARK: 114. 二叉树展开为链表
+    /*
+     看成了中序遍历。
+     是先序遍历的顺序。
+     
+    貌似迭代方法的时候，先入根节点，然后再左右，根再右左，就是不一样的遍历方式。
+     
+     ** 官方题解，类似双指针，也是链表常用，一个指向上一个节点，用栈存储下一个将要访问的节点。 **
+     */
+    
+    func flatten(_ root: TreeNode?) {
+        guard let root = root else {
+            return
+        }
+        var array:[TreeNode] = preFlatten(root: root)
+        
+        for j in 0..<array.count {
+            if j+1 < array.count {
+                array[j].left = nil
+                array[j].right = array[j+1]
+            }
+        }
+    }
+    
+    func preFlatten(root: TreeNode?) -> [TreeNode] {
+        guard let root = root else {
+            return []
+        }
+        let left = preFlatten(root: root.left)
+        let right = preFlatten(root: root.right)
+        return [root] + left + right
+    }
+    
+    // MARK: 128. 最长连续序列
+    /*
+     想着用一个字典区间，来查看是否符合。但是还要去重
+     
+     ** 官方答案，使用Set进行去重。因为筛选连续序列，可以有+-1，因此导致时间复杂度会变成N*N。
+     因此我们只需要遍历一个方向的数据是否存在即可。
+     
+     */
+    func longestConsecutive(_ nums: [Int]) -> Int {
+        let numSet = Set(nums)
+        var longest = 0
+        for num in numSet {
+            if !numSet.contains(num-1) {
+                var currentNum = num
+                var currentStreak = 1
+                while numSet.contains(currentNum+1) {
+                    currentNum += 1
+                    currentStreak += 1
+                }
+                if currentStreak > longest {
+                    longest = currentStreak
+                }
+            }
+        }
+        return longest
+    }
+    
+    //MARK:  139. 单词拆分
+    
+    /*
+     动态规划
+     
+     s，每次查看dict里面是否还存在能够去掉的。
+     
+     超时。
+     */
+    func wordBreak(_ s: String, _ wordDict: [String]) -> Bool {
+        let arr = Array(s)
+        var dp:[Bool] = .init(repeating: false, count: s.count + 1)
+        
+        dp[0] = true
+        
+        for i in 1...s.count {
+            for word in wordDict {
+                if word.count <= i {
+                    dp[i] = dp[i] || (dp[i-word.count] && String(arr[i-word.count..<i]) == word)
+                }
+            }
+        }
+        return dp[s.count]
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
