@@ -40,6 +40,19 @@ public class ListNode {
 	
 }
 
+public class Node {
+    public var val: Int
+    public var left: Node?
+    public var right: Node?
+    public var next: Node?
+    public init(_ val: Int) {
+        self.val = val
+        self.left = nil
+        self.right = nil
+        self.next = nil
+    }
+}
+
 
 public class DulNode: Hashable {
     public static func == (lhs: DulNode, rhs: DulNode) -> Bool {
@@ -262,9 +275,7 @@ func lengthOfLongestSubstring(_ s: String) -> Int {
 	if temp.count > longest.count{
 		longest = temp
 	}
-	
-	
-	
+
 	return longest.count
 }
 
@@ -2449,7 +2460,7 @@ let l1 = ListNode.init(1)
 
 
 
-var classes: [Do.Type] = [数组.self,字符串.self,链表.self,动态规划.self,树.self,搜索.self,乐扣Top100.self]
+var classes: [Do.Type] = [数组.self,字符串.self,链表.self,栈和队列.self,哈希表.self,动态规划.self,树.self,搜索.self,乐扣Top100.self]
 
 for c in classes {
     c.doSomething()

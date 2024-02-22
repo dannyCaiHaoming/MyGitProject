@@ -45,7 +45,20 @@ class 乐扣Top100: Do {
         
 //        let r = test.longestConsecutive([100,4,200,1,3,2])
         
-        let r = test.wordBreak("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaab", ["a","aa","aaa","aaaa","aaaaa","aaaaaa","aaaaaaa","aaaaaaaa","aaaaaaaaa","aaaaaaaaaa"])
+//        let r = test.wordBreak("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaab", ["a","aa","aaa","aaaa","aaaaa","aaaaaa","aaaaaaa","aaaaaaaa","aaaaaaaaa","aaaaaaaaaa"])
+        
+//        let r = test.maxProduct([3,-1,4])
+        
+//        let r = test.rob([1,2,3,1])
+        
+//        let r = test.numIslands([
+//            ["1","1","1","1","0"],
+//            ["1","1","0","1","0"],
+//            ["1","1","0","0","0"],
+//            ["0","0","0","0","0"]
+//          ])
+        
+        let r = test.canFinish(5, [[1,4],[2,4],[3,1],[3,2]])
         
         print(r)
     }
@@ -396,9 +409,6 @@ class 乐扣Top100: Do {
         let count = strs.count
         var result: [[String]] = .init(repeating: [], count: count)
         var hash: [[Int:Int]] = []
-        
-        let a = "asdf"
-        
         for str in strs {
             
             var matchHash:[Int: Int] = [:]
@@ -1330,6 +1340,9 @@ class 乐扣Top100: Do {
      s，每次查看dict里面是否还存在能够去掉的。
      
      超时。
+     
+     动态规划，最重要是一个状态记录。dp数组
+     官方题解： 每个字符，就是看当前字典单词批匹配，和减去单词后，之前的状态数组状态。
      */
     func wordBreak(_ s: String, _ wordDict: [String]) -> Bool {
         let arr = Array(s)
@@ -1345,6 +1358,286 @@ class 乐扣Top100: Do {
             }
         }
         return dp[s.count]
+    }
+    
+    // MARK: 142. 环形链表 II
+    /*
+     快慢
+     
+     如下图所示，设链表中环外部分的长度为 a。slow 指针进入环后，又走了 b 的距离与fast 相遇。此时，fast 指针已经走完了环的 n 圈，因此它走过的总距离为 a+n(b+c)+b=a+(n+1)b+nca+n(b+c)+b=a+(n+1)b+nca+n(b+c)+b=a+(n+1)b+nc。
+
+
+
+     根据题意，任意时刻，fast 指针走过的距离都为 slow 指针的 2 倍。因此，我们有
+
+     a+(n+1)b+nc=2(a+b)  ⟹  a=c+(n−1)(b+c)a+(n+1)b+nc=2(a+b) \implies a=c+(n-1)(b+c)
+     a+(n+1)b+nc=2(a+b)⟹a=c+(n−1)(b+c)
+     有了 a=c+(n−1)(b+c)a=c+(n-1)(b+c)a=c+(n−1)(b+c) 的等量关系，我们会发现：从相遇点到入环点的距离加上 n−1 圈的环长，恰好等于从链表头部到入环点的距离。
+
+     因此，当发现 slow 与 fast相遇时，我们再额外使用一个指针 ptr。起始，它指向链表头部；随后，它和 slow 每次向后移动一个位置。最终，它们会在入环点相遇。
+
+     
+     列式子，或者找规律，能发现，从相遇点开始，另外使用一个pr在头指针开始，同样步数后，发现能达到循环开始点。即a的距离等于c的距离。
+     */
+    func detectCycle2(_ head: ListNode?) -> ListNode? {
+        return nil
+    }
+    func detectCycle(_ head: ListNode?) -> ListNode? {
+        var set: Set<ListNode> = []
+        var root = head
+        while root != nil {
+            if set.contains(root!) {
+                return root
+            } else {
+                set.insert(root!)
+            }
+            root = root?.next
+        }
+        return nil
+    }
+    
+    
+    // MARK:  148. 排序链表
+    /*
+     官解： 归并排序
+     用快慢指针，每次将链表分成左边和右边。然后再继续对能拆分的继续分左右，分完左右之后，合并左右链表的排序。
+     */
+    func sortList(_ head: ListNode?) -> ListNode? {
+        guard let head = head else {
+            return nil
+        }
+        var list:[ListNode] = []
+        var root:ListNode? = head
+        while root != nil {
+            list.append(root!)
+            root = root?.next
+        }
+        list.sort { l, r in
+            l.val < r.val
+        }
+        let first = list.first
+        for i in 0..<list.count {
+            if i+1 < list.count {
+                list[i].next = list[i+1]
+            } else {
+                list[i].next = nil
+            }
+        }
+        return first
+    }
+    
+    
+    // MARK: 152. 乘积最大子数组
+    /*
+     动态规划
+     
+     拆成  前面最大，和当前乘积  正负对比
+     
+     但是有可能存在 前面最大是正数，被舍弃掉负数部分，但是后面有一个负数，变成更大的值。
+     
+     答案：
+     正数要前面更大的状态数组
+     负数要前面更小的状态数组。
+     
+     我想过记录之前负数的情况，因为后面负负得正。
+     官方答案是，记录每次最大，和最小。当遇到负数的时候，前面最小的乘上负数，就有可能成为最大。
+     所以一个值对比，就是跟前一个最大值，前一个最小值的乘积，这三个值对比。
+     */
+    func maxProduct(_ nums: [Int]) -> Int {
+        var maxDp:[Int] = .init(repeating: 0, count: nums.count)
+        var minDp:[Int] = .init(repeating: 0, count: nums.count)
+        maxDp[0] = nums[0]
+        minDp[0] = nums[0]
+        // 2,3,-2,4
+        for i in 1..<nums.count {
+            var curMax = nums[i]
+            var curMin = nums[i]
+            let newMax = maxDp[i-1] * nums[i]
+            let newMin = minDp[i-1] * nums[i]
+            if curMax < newMax {
+                curMax = newMax
+            }
+            if curMax < newMin {
+                curMax = newMin
+            }
+            if curMin > newMin {
+                curMin = newMin
+            }
+            if curMin > newMax {
+                curMin = newMax
+            }
+            maxDp[i] = curMax
+            minDp[i] = curMin
+        }
+        var result = maxDp[0]
+        for i in 1..<maxDp.count {
+            if maxDp[i] > result {
+                result = maxDp[i]
+            }
+        }
+        return result
+    }
+    
+    
+    // MARK: 155. 最小栈
+    class MinStack {
+        
+        var minStack:Stack<Int>
+        var stack:Stack<Int>
+        
+        /** initialize your data structure here. */
+        init() {
+            minStack = Stack.init()
+            stack = Stack.init()
+        }
+        
+        func push(_ x: Int) {
+            if minStack.peek() == nil || minStack.peek()! >= x  {
+                minStack.push(x)
+            }
+            stack.push(x)
+        }
+        
+        func pop() {
+            if stack.peek() == minStack.peek() {
+                minStack.pop()
+            }
+            stack.pop()
+        }
+        
+        func top() -> Int {
+            return stack.peek()==nil ? 0 : stack.peek()!
+        }
+        
+        func getMin() -> Int {
+            return minStack.peek()==nil ? 0 : minStack.peek()!
+        }
+    }
+    
+    // MARK: 198. 打家劫舍
+    /*
+     看题的时候，没想到，能隔2个或者3个。
+     然后加个动态规划
+     */
+    func rob(_ nums: [Int]) -> Int {
+        let count = nums.count
+        var dp:[Int] = .init(repeating: 0, count: count+1)
+        for i in 1...nums.count {
+            var step2 = 0
+            var step3 = 0
+            if i >= 2 {
+                step2 = dp[i-2]
+            }
+            if i >= 3 {
+                step3 = dp[i-3]
+            }
+            if step2 > step3 {
+                dp[i] = step2 + nums[i-1]
+            } else {
+                dp[i] = step3 + nums[i-1]
+            }
+        }
+        var max = dp[0]
+        for d in dp {
+            if d > max {
+                max = d
+            }
+        }
+        return max
+    }
+    
+    // MARK: 200. 岛屿数量
+    func numIslands(_ grid: [[Character]]) -> Int {
+        let direction_4:[[Int]] = [
+            [-1,0],[1,0],
+            [0,1],[0,-1]
+        ]
+        let row = grid.count
+        let column = grid[0].count
+        var mark: [[Bool]] = .init(repeating: .init(repeating: false, count: column), count: row)
+        
+        var queue: [[Int]] = []
+        
+        var count = 0
+        for r in 0..<row {
+            for c in 0..<column {
+                if grid[r][c] == "0" {
+                    continue
+                }
+                if mark[r][c] == true {
+                    continue
+                }
+                count += 1
+                
+                queue.append([r,c])
+                
+                mark[r][c] = true
+                
+                while !queue.isEmpty {
+                    var size = queue.count
+                    while size > 0 {
+                        let cur = queue.removeFirst()
+                       
+                        size -= 1
+                        for d in direction_4 {
+                            let newR = cur[0] + d[0]
+                            let newC = cur[1] + d[1]
+                            if newR >= row || newC >= column || newR < 0 || newC < 0 {
+                                continue
+                            }
+                            if mark[newR][newC] {
+                                continue
+                            }
+                            mark[newR][newC] = true
+                            if grid[newR][newC] == "1" {
+                                queue.append([newR,newC])
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        return count
+    }
+    
+    
+    // MARK: 207. 课程表
+    /*
+     当成图的可达性，将最终可达到的数量，跟课程数量对比
+     
+     */
+    func canFinish(_ numCourses: Int, _ prerequisites: [[Int]]) -> Bool {
+        
+//        var queue: [Int] = []
+//        var dic:[Int:Bool] = [:]
+//        for i in 0..<numCourses {
+//            if let condi = prerequisites.filter({ $0.first == i }).first {
+//                if condi[1] < i,dic[condi[1]] == true {
+//                    dic[i] = true
+//                } else {
+//                    queue.append(condi[1])
+//                    queue.append(i)
+//                }
+//            }else {
+//                dic[i] = true
+//            }
+//        }
+//        for i in 0..<queue.count {
+//            let cur = queue[i]
+//            if dic[cur] == true {
+//                dic[queue[i+1]] = true
+//            }
+//        }
+//        if !queue.isEmpty {
+//            var first = queue.removeFirst()
+//            while dic[first] == true {
+//                first = queue.removeFirst()
+//            }
+//        }
+
+        
+        return true
     }
 }
 

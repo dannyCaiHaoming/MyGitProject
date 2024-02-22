@@ -133,6 +133,88 @@ class 链表: Do {
         
     }
     
+    //MARK:61. 旋转链表
+    ///给定一个链表，旋转链表，将链表每个节点向右移动 k 个位置，其中 k 是非负数。
+    func rotateRight(_ head: ListNode?, _ k: Int) -> ListNode? {
+        if k == 0 {
+            return head
+        }
+        if head == nil {
+            return nil
+        }
+        
+        var count = 0
+        var newHead = head
+        
+        while count < k && newHead != nil {
+            count += 1
+            newHead = newHead?.next
+        }
+        
+        if newHead == nil && k % count == 0 {
+            return head
+        }
+        
+        if count < k {
+            count = k % count
+        }
+        
+        var slow = head
+        newHead = head
+        for _ in 0..<count {
+            newHead = newHead?.next
+        }
+        while slow != nil && newHead != nil {
+            if newHead?.next == nil {
+                let temp = slow?.next
+                slow?.next = nil
+                slow = temp
+            }else{
+                slow = slow?.next
+            }
+            
+            newHead = newHead?.next
+
+        }
+        
+        let start = slow
+        
+        while slow?.next != nil {
+            slow = slow?.next
+        }
+        slow?.next = head
+        
+        return start
+    }
+    
+    // MARK: 61. 旋转链表
+    func rotateRight1(_ head: ListNode?, _ k: Int) -> ListNode? {
+        if head == nil {
+            return head
+        }
+        var tmp = head
+        var arr:[ListNode] = []
+        while tmp != nil {
+            arr.append(tmp!)
+            tmp = tmp?.next
+        }
+        let move = k % arr.count
+        if arr.count == 0 {
+            return head
+        }
+        if move == 0 {
+            return head
+        }
+        let front = arr[0..<move]
+        let back = arr[move..<arr.count]
+        if !back.isEmpty {
+            back.last?.next = front.first
+            front.last?.next = nil
+        }
+        return back.first
+    }
+    
+    
     //MARK: 83. 删除排序链表中的重复元素
     /*
      给定一个已排序的链表的头 head ， 删除所有重复的元素，使每个元素只出现一次 。返回 已排序的链表 。
@@ -212,7 +294,7 @@ class 链表: Do {
     }
     
     
-    //MAKR: 142. 环形链表 II
+    //MAKR:  . 环形链表 II
     /*
      给定一个链表，返回链表开始入环的第一个节点。 如果链表无环，则返回 null。
      为了表示给定链表中的环，我们使用整数 pos 来表示链表尾连接到链表中的位置（索引从 0 开始）。 如果 pos 是 -1，则在该链表中没有环。注意，pos 仅仅是用于标识环的情况，并不会作为参数传递到函数中。

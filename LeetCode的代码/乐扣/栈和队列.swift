@@ -25,7 +25,11 @@ import Foundation
 
 class 栈和队列: Do {
     static func doSomething() {
+        let test = 栈和队列()
         
+        let r = test.validateStackSequences([1,2,3,4,5], [4,5,3,2,1])
+        
+        print(r)
     }
     
     
@@ -68,6 +72,32 @@ class 栈和队列: Do {
         return tmp.isEmpty && stackArr.isEmpty
     }
     
+    
+    // MARK: 116. 填充每个节点的下一个右侧节点指针
+    func connect(_ root: Node?) -> Node? {
+        guard let root = root else {
+            return nil
+        }
+        var stack: [Node] = []
+        stack.append(root)
+        while !stack.isEmpty {
+            var size = stack.count
+            while size > 0 {
+                let cur = stack.removeFirst()
+                size -= 1
+                if size > 0 {
+                    cur.next = stack.first
+                }
+                if let left = cur.left {
+                    stack.append(left)
+                }
+                if let right = cur.right {
+                    stack.append(right)
+                }
+            }
+        }
+        return root
+    }
     
     //MARK: 155. 最小栈
     /*设计一个支持 push ，pop ，top 操作，并能在常数时间内检索到最小元素的栈。
@@ -158,6 +188,64 @@ class 栈和队列: Do {
      */
     
     
+    // MARK: 406. 根据身高重建队列
+    func reconstructQueue(_ people: [[Int]]) -> [[Int]] {
+        let sorted = people.sorted { l, r in
+            if l[0] == r[0] {
+                return l[1] < r[1]
+            }
+            else {
+                return l[0] < r[0]
+            }
+        }
+        let length = people.count
+        var result:[[Int]] = .init(repeating: [],count: length)
+        for i in 0..<sorted.count {
+            let arr = sorted[i]
+            var spaces = arr[1] + 1
+            for j in 0..<people.count {
+                if result[j].isEmpty || result[j][0] == arr[0]  {
+                    spaces = spaces - 1
+                }
+                if spaces == 0 {
+                    result[j] = arr
+                    break
+                }
+            }
+        }
+        return result
+    }
+    
+    
+    //MARK: 946. 验证栈序列
+    func validateStackSequences(_ pushed: [Int], _ popped: [Int]) -> Bool {
+        var stack1: [Int] = []
+
+        var i = 0
+        var j = 0
+        while (j < pushed.count && (i < pushed.count || stack1.last == popped[j])) {
+            while j < pushed.count && stack1.last == popped[j]  {
+                stack1.removeLast()
+                j = j + 1
+            }
+            if j >= pushed.count {
+                break
+            }
+            
+            if i < pushed.count {
+                stack1.append(pushed[i])
+            }
+            
+
+            if stack1.last == popped[j] {
+                stack1.removeLast()
+                j = j + 1
+            }
+            i = i + 1
+
+        }
+        return stack1.isEmpty
+    }
     
     
     //MARK:  最大二叉树题目变种，找出每个节点的父节点

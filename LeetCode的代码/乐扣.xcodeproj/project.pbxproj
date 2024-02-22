@@ -11,6 +11,7 @@
 		33943A852253461B00D9B1FB /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33943A842253461B00D9B1FB /* main.swift */; };
 		8455DA7927E1913300C3B0BA /* 滑动窗口.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8455DA7827E1913300C3B0BA /* 滑动窗口.swift */; };
 		8467F95D26DCFC49006BB967 /* 链表.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8467F95C26DCFC49006BB967 /* 链表.swift */; };
+		848196492B860C62001D566E /* 哈希表.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848196482B860C62001D566E /* 哈希表.swift */; };
 		848CEB6D26D49CD000F685AD /* 动态规划.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848CEB6C26D49CD000F685AD /* 动态规划.swift */; };
 		848CEB7526D65E6700F685AD /* 数组.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848CEB7426D65E6700F685AD /* 数组.swift */; };
 		849506C62B6FC83A00FC8CAF /* 乐扣Top100.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849506C52B6FC83A00FC8CAF /* 乐扣Top100.swift */; };
@@ -39,6 +40,7 @@
 		33943A842253461B00D9B1FB /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		8455DA7827E1913300C3B0BA /* 滑动窗口.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "滑动窗口.swift"; sourceTree = "<group>"; };
 		8467F95C26DCFC49006BB967 /* 链表.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "链表.swift"; sourceTree = "<group>"; };
+		848196482B860C62001D566E /* 哈希表.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "哈希表.swift"; sourceTree = "<group>"; };
 		848CEB6C26D49CD000F685AD /* 动态规划.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "动态规划.swift"; sourceTree = "<group>"; };
 		848CEB7426D65E6700F685AD /* 数组.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "数组.swift"; sourceTree = "<group>"; };
 		848CEB7826D7A53000F685AD /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -86,6 +88,7 @@
 				848CEB7426D65E6700F685AD /* 数组.swift */,
 				8467F95C26DCFC49006BB967 /* 链表.swift */,
 				84AA343F27EC95400053F966 /* 栈和队列.swift */,
+				848196482B860C62001D566E /* 哈希表.swift */,
 				8455DA7827E1913300C3B0BA /* 滑动窗口.swift */,
 				84F55FA227E20E000099E16D /* 二分法.swift */,
 				84AA344127ED70D40053F966 /* 树.swift */,
@@ -158,6 +161,7 @@
 				84B04D572B57B1CB00ACFEC4 /* 搜索.swift in Sources */,
 				33943A852253461B00D9B1FB /* main.swift in Sources */,
 				308761AC26D40B4D00EE5E1D /* 字符串.swift in Sources */,
+				848196492B860C62001D566E /* 哈希表.swift in Sources */,
 				849506C62B6FC83A00FC8CAF /* 乐扣Top100.swift in Sources */,
 				84AA344227ED70D40053F966 /* 树.swift in Sources */,
 				8467F95D26DCFC49006BB967 /* 链表.swift in Sources */,
