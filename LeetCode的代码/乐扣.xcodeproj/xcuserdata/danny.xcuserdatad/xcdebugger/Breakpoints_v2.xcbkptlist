@@ -1188,7 +1188,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "5425F925-FA28-452A-8FF4-385249EAED18"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "&#x4e50;&#x6263;/&#x4e50;&#x6263;Top100.swift"
@@ -1303,6 +1303,21 @@
                   startingLineNumber = "50"
                   endingLineNumber = "50"
                   offsetFromSymbolStart = "539">
+               </Location>
+               <Location
+                  uuid = "5425F925-FA28-452A-8FF4-385249EAED18 - f9719580ed4da182"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static &#x4e50;&#x6263;.&#x4e50;&#x6263;Top100.doSomething() -&gt; ()"
+                  moduleName = "&#x4e50;&#x6263;"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/danny/Desktop/git/LeetCode%E7%9A%84%E4%BB%A3%E7%A0%81/%E4%B9%90%E6%89%A3/%E4%B9%90%E6%89%A3Top100.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "50"
+                  endingLineNumber = "50"
+                  offsetFromSymbolStart = "781">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -1534,7 +1549,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "D89F2A83-B703-46A1-B04A-895CEEA3F9BF"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "&#x4e50;&#x6263;/&#x4e50;&#x6263;Top100.swift"
@@ -1575,7 +1590,102 @@
                   endingLineNumber = "1334"
                   offsetFromSymbolStart = "183">
                </Location>
+               <Location
+                  uuid = "D89F2A83-B703-46A1-B04A-895CEEA3F9BF - bd1e5669b872ed7c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "&#x4e50;&#x6263;.&#x4e50;&#x6263;Top100.wordBreak(Swift.String, Swift.Array&lt;Swift.String&gt;) -&gt; Swift.Bool"
+                  moduleName = "&#x4e50;&#x6263;"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/danny/Desktop/git/LeetCode%E7%9A%84%E4%BB%A3%E7%A0%81/%E4%B9%90%E6%89%A3/%E4%B9%90%E6%89%A3Top100.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "1336"
+                  endingLineNumber = "1336"
+                  offsetFromSymbolStart = "309">
+               </Location>
             </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "9A5DE1FF-8317-4622-8C46-8442ACC49DDF"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "&#x4e50;&#x6263;/&#x6811;.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "48"
+            endingLineNumber = "48"
+            landmarkName = "doSomething()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "9A5DE1FF-8317-4622-8C46-8442ACC49DDF - 701e2f8b2bc80d35"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static &#x4e50;&#x6263;.&#x6811;.doSomething() -&gt; ()"
+                  moduleName = "&#x4e50;&#x6263;"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/danny/Desktop/git/LeetCode%E7%9A%84%E4%BB%A3%E7%A0%81/%E4%B9%90%E6%89%A3/%E6%A0%91.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "49"
+                  endingLineNumber = "49"
+                  offsetFromSymbolStart = "655">
+               </Location>
+               <Location
+                  uuid = "9A5DE1FF-8317-4622-8C46-8442ACC49DDF - 701e2f8b2bc80ad4"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static &#x4e50;&#x6263;.&#x6811;.doSomething() -&gt; ()"
+                  moduleName = "&#x4e50;&#x6263;"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/danny/Desktop/git/LeetCode%E7%9A%84%E4%BB%A3%E7%A0%81/%E4%B9%90%E6%89%A3/%E6%A0%91.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "48"
+                  endingLineNumber = "48"
+                  offsetFromSymbolStart = "591">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "1171C2D5-DCED-42BF-8844-7C969B395666"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "&#x4e50;&#x6263;/&#x6811;.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "536"
+            endingLineNumber = "536"
+            landmarkName = "deserialize(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "416A3CAE-C9A6-473F-B4EC-21C76C8C35C5"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "&#x4e50;&#x6263;/&#x6811;.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "544"
+            endingLineNumber = "544"
+            landmarkName = "deserializeTrace(_:n:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
