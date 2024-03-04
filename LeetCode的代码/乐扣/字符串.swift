@@ -17,6 +17,8 @@ class 字符串: Do {
         
         let t = 字符串()
         
+        let r = t.longestPalindrome("babad")
+        print(r)
 //        print(t.reverseParentheses("(u(love)i)"))
     }
     
@@ -33,6 +35,33 @@ class 字符串: Do {
            return String(arr)
        }
     
+    
+    //MARK: 3.无重复字符的最长子串
+    func lengthOfLongestSubstring(_ s: String) -> Int {
+        var longest = ""
+        var temp = ""
+        for char in s.characters {
+            if !temp.contains(char){
+                temp.append(char)
+            }else{
+                if temp.count > longest.count{
+                    longest = temp
+                }
+                //寻找重复的子串并删除
+                var reIndex = temp.firstIndex(of: char)
+                reIndex = temp.index(reIndex!, offsetBy: 1)
+                
+                temp = temp.substring(from: reIndex!)
+                
+                temp.append(char)
+            }
+        }
+        if temp.count > longest.count{
+            longest = temp
+        }
+
+        return longest.count
+    }
     
     
     //MARK: 5.最大回文子串
@@ -62,131 +91,489 @@ class 字符串: Do {
      
      吐了：还是超时
      */
-    func longestPalindrome1(_ s: String) -> String {
-        var largets = String(s[s.index(s.startIndex, offsetBy: 0)])
-        if s.count < 2 {
+    
+    // 动态规划
+    /*
+     我想用一个一维数组，记录每个字符串，已经到下一位字符串的最大回文。
+     但是遇到“ccc” ，“cccc”，奇偶问题时，到底是加一个还是加两个。
+     但是，即使增加了前面是要一个还是两个判断。
+     对于"bananas" 还是无能为力。因为这类动态规划，是记录每一步，能走多少，而不是每一步最优。  // 132个测试用例
+     
+     */
+    
+    func longestPalindrome(_ s: String) -> String {
+                if s.count == 1 {
             return s
-        } else if s.count == 2 {
-            return s[s.index(s.startIndex, offsetBy: 0)] == s[s.index(s.startIndex, offsetBy: 1)] ? s : largets
         }
-        
+        let sArr = Array(s)
+        let count = s.count
+        // 第二个值，代表是所有值是否一致
+        var result:[(Int,Bool)] = .init(repeating: (1,true), count: count)
         for i in 1..<s.count {
-            // 先判断i,i-1 相等
-            // 再判断i-1,i+1相等
-            // 最后判断 1,i+1相等
-            var left = i-1
-            var right = i
-            while left >= 0,
-                  right < s.count,
-                  s[s.index(s.startIndex, offsetBy: left)] == s[s.index(s.startIndex, offsetBy: right)] {
-                left -= 1
-                right += 1
+            if sArr[i] == sArr[i-1] {
+                let last = result[i-1]
+                if last.1 {
+                    result[i] = (result[i-1].0 + 1,true)
+                    continue
+                }
             }
-            right -= 1
-            left += 1
-            if left <= right,
-               s[s.index(s.startIndex, offsetBy: left)] == s[s.index(s.startIndex, offsetBy: right)],
-               right - left + 1 > largets.count {
-                largets = String(s[s.index(s.startIndex, offsetBy: left)...s.index(s.startIndex, offsetBy: right)])
+            let last = result[i-1]
+            let count = result[i-1].0
+            if i - count - 1 >= 0 {
+                if sArr[i - count - 1] == sArr[i] {
+                    result[i] = (result[i-1].0 + 2,false)
+                }
             }
-            
-            left = i-1
-            right = i+1
-            while left >= 0,
-                  right < s.count,
-                  s[s.index(s.startIndex, offsetBy: left)] == s[s.index(s.startIndex, offsetBy: right)] {
-                left -= 1
-                right += 1
-            }
-            right -= 1
-            left += 1
-            if left <= right,
-               s[s.index(s.startIndex, offsetBy: left)] == s[s.index(s.startIndex, offsetBy: right)],
-               right - left + 1 > largets.count {
-                largets = String(s[s.index(s.startIndex, offsetBy: left)...s.index(s.startIndex, offsetBy: right)])
-            }
-            
-            left = i
-            right = i+1
-            while left >= 0,
-                  right < s.count,
-                  s[s.index(s.startIndex, offsetBy: left)] == s[s.index(s.startIndex, offsetBy: right)] {
-                left -= 1
-                right += 1
-            }
-            right -= 1
-            left += 1
-            if left <= right,
-               s[s.index(s.startIndex, offsetBy: left)] == s[s.index(s.startIndex, offsetBy: right)],
-               right - left + 1 > largets.count {
-                largets = String(s[s.index(s.startIndex, offsetBy: left)...s.index(s.startIndex, offsetBy: right)])
-            }
-        }
-        return largets
-    }
-
-    func longestPalindrome1_1(_ s: String) -> String {
-        
-        if s.count < 2 {
-            return s
-        }
-        
-    //    func expandCenter(s:String,left: Int,right: Int) -> String {
-    //        var t_left = left
-    //        var t_right = right
-    //        while t_left >= 0,
-    //              t_right < s.count,
-    //              t_left <= t_right,
-    //              s[s.index(s.startIndex, offsetBy: t_left)] == s[s.index(s.startIndex, offsetBy: t_right)]{
-    //            t_left -= 1
-    //            t_right += 1
-    //        }
-    //        t_left += 1
-    //        t_right -= 1
-    //        if t_left >= 0,
-    //           t_right < s.count,
-    //           t_left <= t_right,
-    //           s[s.index(s.startIndex, offsetBy: t_left)] == s[s.index(s.startIndex, offsetBy: t_right)] {
-    //            return String(s[s.index(s.startIndex, offsetBy: t_left)...s.index(s.startIndex, offsetBy: t_right)])
-    //        }
-    //        return ""
-    //    }
-        func expandCenterLength(s:String,left: Int,right: Int) -> Int {
-            var t_left = left
-            var t_right = right
-            while t_left >= 0,
-                  t_right < s.count,
-                  t_left <= t_right,
-                  s[s.index(s.startIndex, offsetBy: t_left)] == s[s.index(s.startIndex, offsetBy: t_right)]{
-                t_left -= 1
-                t_right += 1
-            }
-            return t_right - t_left - 1;
-        }
-        
-        
-        var start = 0
-        var end = 0
-        
-        for i in 0..<s.count {
-            // 奇数
-            let a = expandCenterLength(s: s, left: i, right: i)
-            // 偶数
-            let b = expandCenterLength(s: s, left: i, right: i+1)
-                
-            let maxValue = max(a, b)
-            
-            if maxValue > end - start {
-                start = i - (maxValue-1)/2
-                end = i + maxValue/2
+            // 再往前一个
+            if i-2 >= 0 {
+                let last2 = result[i-1]
             }
 
+            
         }
-        
-        return String(s[s.index(s.startIndex, offsetBy: start)...s.index(s.startIndex, offsetBy: end)])
-        
+        var max = 1
+        var end = 1
+        for i in 0..<result.count {
+            if result[i].0 > max {
+                max = result[i].0
+                end = i
+            }
+        }
+        let tmp = sArr[end-max+1...end]
+//
+        return  String(tmp)
     }
     
+     
+//     怎么样都是对每一个字符，想两边进行扩张。
+//     1. 对选中字符，以自身，和下一个为回文开始
+//     2. 对选中字符，以自身为回文。  // 顶多去到113个
+//     
+//     超时。。无语，比我自己第一版的得分还少。
+//     */
+//    func longestPalindrome(_ s: String) -> String {
+//        if s.count == 1 {
+//            return s
+//        }
+//        if Array(s) == Array(s.reversed()) {
+//            return s
+//        }
+//        var start = 0
+//        var end = 0
+//        for i in 0..<s.count {
+//            let l1 = expandAroundCenter(s: s, left: i, right: i)
+//            let l2 = expandAroundCenter(s: s, left: i, right: i+1)
+//            var len = l1
+//            if l2 > l1 {
+//                len = l2
+//            }
+//            if len-1 > end - start {
+//                start = i - (len-1)/2
+//                end = i + len / 2
+//            }
+//        }
+//        // babad
+//        // i = 1
+//        // max = 3
+//        let sArray = Array(s)
+//        let result = sArray[start...end]
+//        return String(result)
+//    }
+//    
+//    func expandAroundCenter(s:String,left: Int,right: Int) -> Int {
+//        let sArray = Array(s)
+//        var tl = left
+//        var tr = right
+//        while tl >= 0,
+//              tr < s.count,
+//              sArray[tl] == sArray[tr] {
+//            tl -= 1
+//            tr += 1
+//        }
+//        
+//        return tr - tl - 1
+//    }
+//    func longestPalindrome1(_ s: String) -> String {
+//        var largets = String(s[s.index(s.startIndex, offsetBy: 0)])
+//        if s.count < 2 {
+//            return s
+//        } else if s.count == 2 {
+//            return s[s.index(s.startIndex, offsetBy: 0)] == s[s.index(s.startIndex, offsetBy: 1)] ? s : largets
+//        }
+//        
+//        for i in 1..<s.count {
+//            // 先判断i,i-1 相等
+//            // 再判断i-1,i+1相等
+//            // 最后判断 1,i+1相等
+//            var left = i-1
+//            var right = i
+//            while left >= 0,
+//                  right < s.count,
+//                  s[s.index(s.startIndex, offsetBy: left)] == s[s.index(s.startIndex, offsetBy: right)] {
+//                left -= 1
+//                right += 1
+//            }
+//            right -= 1
+//            left += 1
+//            if left <= right,
+//               s[s.index(s.startIndex, offsetBy: left)] == s[s.index(s.startIndex, offsetBy: right)],
+//               right - left + 1 > largets.count {
+//                largets = String(s[s.index(s.startIndex, offsetBy: left)...s.index(s.startIndex, offsetBy: right)])
+//            }
+//            
+//            left = i-1
+//            right = i+1
+//            while left >= 0,
+//                  right < s.count,
+//                  s[s.index(s.startIndex, offsetBy: left)] == s[s.index(s.startIndex, offsetBy: right)] {
+//                left -= 1
+//                right += 1
+//            }
+//            right -= 1
+//            left += 1
+//            if left <= right,
+//               s[s.index(s.startIndex, offsetBy: left)] == s[s.index(s.startIndex, offsetBy: right)],
+//               right - left + 1 > largets.count {
+//                largets = String(s[s.index(s.startIndex, offsetBy: left)...s.index(s.startIndex, offsetBy: right)])
+//            }
+//            
+//            left = i
+//            right = i+1
+//            while left >= 0,
+//                  right < s.count,
+//                  s[s.index(s.startIndex, offsetBy: left)] == s[s.index(s.startIndex, offsetBy: right)] {
+//                left -= 1
+//                right += 1
+//            }
+//            right -= 1
+//            left += 1
+//            if left <= right,
+//               s[s.index(s.startIndex, offsetBy: left)] == s[s.index(s.startIndex, offsetBy: right)],
+//               right - left + 1 > largets.count {
+//                largets = String(s[s.index(s.startIndex, offsetBy: left)...s.index(s.startIndex, offsetBy: right)])
+//            }
+//        }
+//        return largets
+//    }
+//
+//    func longestPalindrome1_1(_ s: String) -> String {
+//        
+//        if s.count < 2 {
+//            return s
+//        }
+//        
+//    //    func expandCenter(s:String,left: Int,right: Int) -> String {
+//    //        var t_left = left
+//    //        var t_right = right
+//    //        while t_left >= 0,
+//    //              t_right < s.count,
+//    //              t_left <= t_right,
+//    //              s[s.index(s.startIndex, offsetBy: t_left)] == s[s.index(s.startIndex, offsetBy: t_right)]{
+//    //            t_left -= 1
+//    //            t_right += 1
+//    //        }
+//    //        t_left += 1
+//    //        t_right -= 1
+//    //        if t_left >= 0,
+//    //           t_right < s.count,
+//    //           t_left <= t_right,
+//    //           s[s.index(s.startIndex, offsetBy: t_left)] == s[s.index(s.startIndex, offsetBy: t_right)] {
+//    //            return String(s[s.index(s.startIndex, offsetBy: t_left)...s.index(s.startIndex, offsetBy: t_right)])
+//    //        }
+//    //        return ""
+//    //    }
+//        func expandCenterLength(s:String,left: Int,right: Int) -> Int {
+//            var t_left = left
+//            var t_right = right
+//            while t_left >= 0,
+//                  t_right < s.count,
+//                  t_left <= t_right,
+//                  s[s.index(s.startIndex, offsetBy: t_left)] == s[s.index(s.startIndex, offsetBy: t_right)]{
+//                t_left -= 1
+//                t_right += 1
+//            }
+//            return t_right - t_left - 1;
+//        }
+//        
+//        
+//        var start = 0
+//        var end = 0
+//        
+//        for i in 0..<s.count {
+//            // 奇数
+//            let a = expandCenterLength(s: s, left: i, right: i)
+//            // 偶数
+//            let b = expandCenterLength(s: s, left: i, right: i+1)
+//                
+//            let maxValue = max(a, b)
+//            
+//            if maxValue > end - start {
+//                start = i - (maxValue-1)/2
+//                end = i + maxValue/2
+//            }
+//
+//        }
+//        
+//        return String(s[s.index(s.startIndex, offsetBy: start)...s.index(s.startIndex, offsetBy: end)])
+//        
+//    }
+    
+    //MARK: 17. 电话号码的字母组合
+    var result:[String] = []
+    var mark:[Bool] = []
+    func letterCombinations(_ digits: String) -> [String] {
+        let words: [[String]] = [
+            [""],["a","b","c"],["d","e","f"],
+            ["g","h","i"],["j","k","l"],["m","n","o"],
+            ["p","q","r","s"],["t","u","v"],["w","x","y","z"]
+        ]
+        var total: [String] = []
+        for chr in digits {
+            let idx = Int(String(chr))! - 1
+            total.append(contentsOf: words[idx])
+        }
+        mark = .init(repeating: false, count: total.count)
+        letterDiGui(start: 0,length: digits.count, digits: digits,words: words,thisRound: "")
+        return result
+    }
+    
+    func letterDiGui(start: Int,
+                     length: Int,
+                     digits:String,
+                     words: [[String]] ,
+                     thisRound: String) {
+        if length == 0,
+           !thisRound.isEmpty {
+            result.append(thisRound)
+            return
+        }
+        for i in start..<digits.count {
+            if mark[i] {
+                continue
+            }
+            mark[i] = true
+            let chr = (digits as NSString).substring(with: .init(location: i, length: 1))
+            let idx = Int(chr)!-1
+            for word in words[idx] {
+                let new = thisRound + word
+                letterDiGui(start: start + 1, length: length-1, digits: digits, words: words, thisRound: new)
+            }
+            mark[i] = false
+        }
+    }
+    
+    
+    //MARK: 20. 有效的括号
+    /*
+     给定一个只包括 '('，')'，'{'，'}'，'['，']' 的字符串 s ，判断字符串是否有效。
+     有效字符串需满足：
+     左括号必须用相同类型的右括号闭合。
+     左括号必须以正确的顺序闭合。
+     
+     "({{{{}}}))"
+     
+     
+     ( {
+     
+     */
+    func isValid(_ s: String) -> Bool {
+        var stackArr:[String] = []
+        for c in s {
+            stackArr.append(String(c))
+        }
+        var tmp:[String] = []
+        while !stackArr.isEmpty {
+            let last = stackArr.popLast()!
+            if let tmpL = tmp.last {
+                if tmpL == "}" && last == "{" {
+                    tmp.popLast()
+                }else if tmpL == "]" && last == "[" {
+                    tmp.popLast()
+                }else if tmpL == ")" && last == "(" {
+                    tmp.popLast()
+                }else {
+                    tmp.append(last)
+                }
+            }else {
+                tmp.append(last)
+                continue
+            }
+        }
+        return tmp.isEmpty && stackArr.isEmpty
+    }
+    
+    
+    //MARK: 22. 括号生成
+    /*
+     n*2 代表步长，然后（，）需要用一个池子放着，递归看每次能用左，还是右
+     难度在剪枝，因为有可能"）"出现在第一位或者"（"出现在最后一位，也有可能"())"这种不匹配的情况
+     */
+    
+    var generateParenthesisResult: [String] = []
+    var generateParenthesisCurrent: String = ""
+     func generateParenthesis(_ n: Int) -> [String] {
+        
+        generateParenthesisBacktrace(cur: 0, left: n, right: n,total: n*2)
+        return generateParenthesisResult
+    }
+    
+    
+    func generateParenthesisBacktrace(cur: Int,left: Int,right: Int,total: Int) {
+        // 一位可以是左，可以是右
+        
+        if left == 0,
+           right == 0 {
+            generateParenthesisResult.append(generateParenthesisCurrent)
+        } else if left < 0 || right < 0 {
+            return
+        }
+   
+        if cur != total-1 {
+            // 左
+            generateParenthesisCurrent += "("
+            generateParenthesisBacktrace(cur: cur + 1, left: left-1, right: right,total: total)
+            generateParenthesisCurrent.removeLast()
+        }
+        if cur != 0 && left != right {
+            generateParenthesisCurrent += ")"
+            generateParenthesisBacktrace(cur: cur + 1, left: left, right: right-1,total: total)
+            generateParenthesisCurrent.removeLast()
+        }
+        
+
+    }
+    
+    //MARK: 72. 编辑距离
+    
+    /*
+     一个很难的动态规划，以至于根本不知道应该用什么方式。---后面不知道用什么方式的时候，可以先瞎想动态规划。
+     这类题目，重点关注
+     1. 对于题目给出操作分类，怎么依照情况细化。
+        如，这题，可对字符进行增删改，那对于两个字符串，就有6种情况。分别对着6种情况进行分析。
+        对A增，等于对B减；对A减，等于对B增。对A修改，等于对B修改。
+        即可划分为三大类，对A增，对B增，对A修改。
+     2. 细分后，思考如何寻找每步最值。
+        1.这里，对A增的情况，可以为A时“”，B是“ABC”，则当知道A经过N次修改，得到A为“AB”后，只需要N+1，则得到结果
+        2.同理，当A为“ABC”，B为“”时，当B知道经历N次修改后，得到B为”AB“后，只需要N+1则知道结果
+        3.当A为”ABC“，B为”ACB”时，当知道A经过N次修改，得到“ACC”后，只需要N+1则知道结果
+        特殊，当A为“ABB”，B为“ACB”时，当A经历N次修改，则只需要N次则知道结果。
+     
+
+     */
+    
+    func minDistance(_ word1: String, _ word2: String) -> Int {
+        let row = word1.count
+        let column = word2.count
+        var result:[[Int]] = .init(repeating: .init(repeating: 0, count: column+1), count: row+1)
+        
+        for i in 0..<row+1 {
+            result[i][0] = i
+        }
+        for j in 0..<column+1 {
+            result[0][j] = j
+        }
+        
+        for i in 1..<row+1 {
+            for j in 1..<column+1 {
+                let add = result[i-1][j] + 1
+                let add2 = result[i][j-1] + 1
+                var match = result[i-1][j-1] + 1
+                /*
+                 因为这里需要记录的是从下标0--i,0---j个元素 因此，dp数组长度是i+1,j+1，下标就是0...i,0...j
+                  但是，取字符串的长度，还是0--i-1,0--j-1个。
+                 所以i，j对应的结果，是dp[i][j],但是字符串对应的是i-1和j-1
+                 */
+                if
+                    (word1 as NSString).substring(with: .init(location: i-1, length: 1)) == (word2 as NSString).substring(with: .init(location: j-1, length: 1)) {
+                    match -= 1
+                }
+                var min = add
+                if add2 < add {
+                    min = add2
+                }
+                if match < min {
+                    min = match
+                }
+                result[i][j] = min
+            }
+        }
+        return result[row][column]
+    }
+    
+    //MARK: 79. 单词搜索
+    /*
+     我草。偶尔超时。
+     */
+    var existMark: [[Bool]] = []
+    var res = false
+    func exist(_ board: [[Character]], _ word: String) -> Bool {
+        let row = board.count
+        let column = board[0].count
+        
+        existMark = .init(repeating: .init(repeating: false, count: column), count: row)
+        
+        for r in 0..<row {
+            for c in 0..<column {
+                existBacktrace(board: board, word: word,wordIdx: 0,row: r, column: c, totalR: row, totalC: column)
+            }
+        }
+
+        return res
+    }
+    let direction_4:[[Int]] = [
+        [-1,0],[1,0],
+        [0,1],[0,-1]
+    ]
+    func existBacktrace(board:[[Character]],word: String,wordIdx: Int,row: Int,column: Int,totalR: Int,totalC: Int)  {
+        guard row >= 0 ,
+              row < totalR,
+              column >= 0,
+              column < totalC,
+              existMark[row][column] == false,
+              wordIdx < word.count,
+              word[word.index(word.startIndex, offsetBy: wordIdx)] ==  board[row][column] else {
+            return
+        }
+        if wordIdx == word.count - 1 {
+            res = true
+            return
+        }
+        existMark[row][column] = true
+        for d in direction_4 {
+            let newR = row + d[0]
+            let newC = column + d[1]
+            existBacktrace(board: board, word: word,wordIdx:wordIdx+1, row: newR, column: newC, totalR: totalR, totalC: totalC)
+        }
+        existMark[row][column] = false
+    }
+    
+    //MARK:  139. 单词拆分
+    
+    /*
+     动态规划
+     
+     s，每次查看dict里面是否还存在能够去掉的。
+     
+     超时。
+     
+     动态规划，最重要是一个状态记录。dp数组
+     官方题解： 每个字符，就是看当前字典单词批匹配，和减去单词后，之前的状态数组状态。
+     */
+    func wordBreak(_ s: String, _ wordDict: [String]) -> Bool {
+        let arr = Array(s)
+        var dp:[Bool] = .init(repeating: false, count: s.count + 1)
+        
+        dp[0] = true
+        
+        for i in 1...s.count {
+            for word in wordDict {
+                if word.count <= i {
+                    dp[i] = dp[i] || (dp[i-word.count] && String(arr[i-word.count..<i]) == word)
+                }
+            }
+        }
+        return dp[s.count]
+    }
     
     //MARK: 242. 有效的字母异位词
     /*
@@ -262,6 +649,62 @@ class 字符串: Do {
         }
         return -1
     }
+    
+    // MARK: 438.找到字符串中所有字母异位词
+    /*
+     超时。。
+     */
+    func findAnagrams(_ s: String, _ p: String) -> [Int] {
+        let count = p.count
+        if count > s.count {
+            return []
+        }
+        let comP = p.sorted()
+        let sArr = Array(s)
+        var result:[Int] = []
+        for i in 0..<sArr.count {
+            if i+count <= sArr.count {
+                let tmp = sArr[i..<i+count].sorted()
+                if comP == tmp {
+                    result.append(i)
+                }
+            }
+        }
+        return result
+    }
+    
+    
+    //MARK:647. 回文子串
+    func countSubstrings(_ s: String) -> Int {
+        if s.count <= 1{
+            return s.count
+        }
+        let str = Array<Character>(s)
+        var dp:[[Bool]] = []
+        for i in 0..<s.count {
+            dp.append([])
+            for _ in 0...i {
+                (dp[i]).append(false)
+            }
+        }
+        var count = 0
+        for i in 0..<str.count {
+            for j in 0...i {
+                if i == j {
+                    (dp[i])[j] = true
+                    count += 1
+                    continue
+                }
+                if str[j] == str[i] && (i-j <= 1 || (dp[i-1])[j+1] == true) {
+                    count += 1
+                    (dp[i])[j] = true
+                }
+            }
+        }
+        return count
+        
+    }
+
     
     
     //MARK: 1190. 反转每对括号间的子串
