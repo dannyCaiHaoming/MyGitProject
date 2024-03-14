@@ -133,6 +133,58 @@ class 链表: Do {
         
     }
     
+    
+    // MARK: 25.K个一组翻转链表
+    /*
+     先分隔需要翻转的链表，头，next指向下一个需要判断的链表头。
+     翻转后，首次记录表头，其他时候记录表尾。
+     */
+    func reverseKGroup(_ head: ListNode?, _ k: Int) -> ListNode? {
+        guard let head = head else {
+            return nil
+        }
+        var result: ListNode? = nil
+        var tmp: ListNode? = nil
+        var next:ListNode? = head
+        var eachStart:ListNode? = nil
+        
+        while next != nil {
+            let tmpEachStart = next
+            var step = next
+            for _ in 0..<k-1 {
+                step = step?.next
+                if step == nil {
+                    break
+                }
+            }
+            if step != nil {
+                tmp = next
+                next = step?.next
+                var tmpLast: ListNode? = nil
+                while tmp != next {
+                    let n = tmp?.next
+                    tmp?.next = tmpLast
+                    tmpLast = tmp
+                    tmp = n
+                }
+                if result == nil {
+                    result = tmpLast
+                }
+                if eachStart == nil {
+                    eachStart = tmpEachStart
+                } else {
+                    eachStart?.next = tmpLast
+                    eachStart = tmpEachStart
+                }
+            } else {
+                eachStart?.next = tmpEachStart
+                break
+            }
+        }
+        return result
+        
+    }
+    
     //MARK:61. 旋转链表
     ///给定一个链表，旋转链表，将链表每个节点向右移动 k 个位置，其中 k 是非负数。
     func rotateRight(_ head: ListNode?, _ k: Int) -> ListNode? {

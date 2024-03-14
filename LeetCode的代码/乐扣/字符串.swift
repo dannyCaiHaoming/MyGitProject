@@ -33,7 +33,12 @@ class 字符串: Do {
            return String(arr)
        }
     
-    
+    // MARK: 3.无重复字符的最长字符
+    func lengthOfLongestSubstring(_ s: String) -> Int {
+
+        
+        return 0
+    }
     
     //MARK: 5.最大回文子串
     /*

@@ -8,6 +8,27 @@
 
 import Foundation
 
+/*
+ top 100 :
+ 94
+ 96
+ 101
+ 102
+ 104
+ 105
+ 114
+ 124 hard
+ 226
+ 236
+ 297 hard
+ 337
+ 437
+ 538
+ 543
+ 617
+ 
+ */
+
 public class TreeNode {
     public var val: Int
     public var left: TreeNode?
@@ -38,10 +59,17 @@ class 树: Do {
         a_2.right = a_4
         a_3.right = a_5
         
+        let b_1 = TreeNode.init(1)
+        let b_2 = TreeNode.init(2)
+        let b_3 = TreeNode.init(3)
+        
+        b_1.right = b_2
+        b_2.left = b_3
             
         let test =  树()
-        test.isSymmetric(a_1)
+//        test.isSymmetric(a_1)
         
+        let r = test.inorderTraversal2(b_1)
         
         
     }
@@ -59,6 +87,80 @@ class 树: Do {
         res.append(root.val)
         res.append(contentsOf: inorderTraversal(root.right))
         return res
+    }
+    
+    func inorderTraversal2(_ root: TreeNode?) -> [Int] {
+        var tmp = root
+        var stack:[TreeNode] = []
+        var result:[Int] = []
+        while tmp != nil || !stack.isEmpty {
+            if tmp != nil {
+                stack.append(tmp!)
+                tmp = tmp?.left
+            } else {
+                let last = stack.removeLast()
+                result.append(last.val)
+                tmp = last.right
+            }
+        }
+        return result
+    }
+    
+    func inorderTraversal3(_ root: TreeNode?) -> [Int] {
+        var tmp = root
+        var stack:[TreeNode] = []
+        var result:[Int] = []
+        while tmp != nil || !stack.isEmpty {
+            while tmp != nil {
+                stack.append(tmp!)
+                tmp = tmp?.left
+            }
+            let last = stack.removeLast()
+            result.append(last.val)
+            if let right = last.right {
+                tmp = right
+            }
+        }
+        return result
+    }
+    
+    
+    // MARK:  96. 不同的二叉搜索树
+    /*
+     二叉搜索树特性，左边的树节点，比根节点小，右边的树节点，比根节点大。
+     因此，如果一个n整数，随机选一个i，作为根节点，那么
+     1. 0...i-1，都会比i小，作为左子树
+     2. i+1...n-1，都会比i大，作为右子树。
+     剩下，将1,2两个情况，也继续拆分，放入这两种情况。
+     因此假设左子树为numTrees(start:0,end:i-1)=x,右子树为numsTrees(i+1,n-1)=y，
+     则，i作为根节点的时候，二叉搜索树，种数为x*y
+     */
+    func numTrees(_ n: Int) -> Int {
+        return numTrees(start: 0, end: n-1)
+    }
+    
+    func numTrees(start: Int,end: Int) -> Int {
+        
+        if start == end {
+            return 1
+        }
+        if end - start == 1 {
+            return 2
+        }
+        
+        var result = 0
+        for i in start...end {
+            var left = 1
+            var right = 1
+            if i > start {
+                left = numTrees(start: start, end: i-1)
+            }
+            if i < end  {
+                right = numTrees(start: i+1, end: end)
+            }
+            result += left * right
+        }
+        return result
     }
     
     //MARK: 98. 验证二叉搜索树
@@ -273,6 +375,24 @@ class 树: Do {
         return res
     }
     
+    
+    func preorderTraversal2(_ root: TreeNode?) -> [Int] {
+        var tmp = root
+        var stack:[TreeNode] = []
+        var result:[Int] = []
+        while tmp != nil || !stack.isEmpty {
+            if tmp != nil {
+                result.append(tmp!.val)
+                stack.append(tmp!)
+                tmp = tmp?.left
+            } else {
+                tmp = stack.removeLast()
+                tmp = tmp?.right
+            }
+        }
+        return result
+    }
+    
     //MARK: 145. 二叉树的后序遍历
     func postorderTraversal(_ root: TreeNode?) -> [Int] {
         guard let root = root else {
@@ -285,6 +405,55 @@ class 树: Do {
         return res
     }
 
+    
+    func postorderTraversal2(_ root: TreeNode?) -> [Int] {
+//        var preV: TreeNode? = nil
+//        var tmp = root
+//        var stack:[TreeNode] = []
+//        var result:[Int] = []
+//        /*
+//          栈
+//         那就是先把根入栈，当左右为空的时候再出栈
+//         */
+//        while tmp != nil || !stack.isEmpty{
+//            while tmp != nil {
+//                stack.append(tmp!)
+//                tmp = tmp?.left
+//            }
+//            tmp = stack.removeLast()
+//            if tmp?.right == nil || tmp?.right?.val == preV?.val {
+//                result.append(tmp!.val)
+//                preV = tmp
+//                tmp = nil
+//            } else {
+//                stack.append(tmp!)
+//                tmp = tmp?.right
+//            }
+//        }
+//        return result
+//        
+        var preV: TreeNode? = nil
+        var tmp = root
+        var stack:[TreeNode] = []
+        var result:[Int] = []
+        while (tmp != nil || !stack.isEmpty) {
+            while tmp != nil {
+                stack.append(tmp!)
+                tmp = tmp?.left
+            }
+            // 最长左子树
+            let last = stack.removeLast()
+            // 只有当右子树等于上一次输出的才能pop
+            if last.right?.val == preV?.val || last.right == nil {
+                result.append(last.val)
+                preV = last
+            } else if let right = last.right {
+                stack.append(last)
+                tmp = right
+            }
+        }
+        return result
+    }
     
     //MARK: 226. 翻转二叉树
     /*

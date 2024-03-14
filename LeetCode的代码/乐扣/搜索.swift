@@ -139,7 +139,9 @@ class 搜索: Do {
     //MARK: 279 完全平方数
     
     /* 
-
+     方向：  比n小的所有平方数i
+     从平方数开始遍历。每一步就是n-i，mark[n-i],剩下继续遍历方向。
+     当存在方向即返回轮数
      
      */
     func numSquares(_ n: Int) -> Int {
@@ -411,52 +413,35 @@ class 搜索: Do {
      
      */
     func findCircleNum(_ isConnected: [[Int]]) -> Int {
-        
         var count = 0
-        let height = isConnected.count
-        let width = isConnected[0].count
-        
-        var stack: [[Int]] = []
-        var mark: [[Int]] = .init(repeating: .init(repeating: -1, count: width), count: height)
-        
-        for w in 0..<width {
-            for h in 0..<height {
-                if mark[h][w] != -1 {
-                    continue
-                }
-                count += 1
-                mark[h][w] = 1
-                stack.append([h,w])
-                while !stack.isEmpty {
-                    var size = stack.count
-                    while size > 0 {
-                        size -= 1
-                        let curIdx = stack.removeLast()
-                        let x = curIdx[1]
-                        let y = curIdx[0]
-                        let cur = isConnected[y][x]
-                        if cur == 0 {
-                            continue
-                        }
-                        if mark[y][x] == 1 {
-                            continue
-                        }
-                        
-                        
-                        //                    for h in cur+1..<height {
-                        //                        if mark[h] == -1,
-                        //                           isConnected[h][cur] == 1 {
-                        ////                            mark[h] = 1
-                        //                            stack.append(h)
-                        //                        }
-                        //                    }
-                        
-                    }
-                }
-            }
-        }
-        
-        return count
+           let height = isConnected.count
+           let width = isConnected[0].count
+           var stack: [Int] = []
+           var mark:[Bool] = .init(repeating: false, count: width)
+           for w in 0..<width {
+               if mark[w] == true {
+                   continue
+               }
+               count += 1
+               
+               stack.append(w)
+               
+               while !stack.isEmpty {
+                   var size = stack.count
+                   while size > 0 {
+                       size -= 1
+                       let cur = stack.removeLast()
+                       mark[cur] = true
+                       for h in w..<height {
+                           if mark[h] == false,
+                              isConnected[h][cur] == 1 {
+                               stack.append(h)
+                           }
+                       }
+                   }
+               }
+           }
+           return count
     }
     
     //MARK: 17. 电话号码的字母组合
@@ -924,9 +909,9 @@ class 搜索: Do {
                 keys.append(i)
             }
         }
-        for i in 0..<combinationSum2Dict.keys.count {
-            combinationSum2Backtrace(cur: i, target: target,keys: keys)
-        }
+//        for i in 0..<combinationSum2Dict.keys.count {
+        combinationSum2Backtrace(cur: 0, target: target,keys: keys)
+//        }
         
         return combinationSum2Res
     }
@@ -949,48 +934,21 @@ class 搜索: Do {
         let num = keys[cur]
         
         
-        var tmp = combinationSum2Dict[num] ?? -1
-//
-        if tmp < 0 {
-            return
-        }
-        
-
         combinationSum2Backtrace(cur: cur+1, target: target, keys: keys)
         
-        for i in 1...tmp {
-            combinationSum2Dict[num] = tmp - i
+        // 计算最多还能来几次
+        var most = target / num
+        if  let value = combinationSum2Dict[num] ,
+            value < most {
+            most = value
+        }
+        for i in 1...most {
             combinationSum2List.append(num)
             combinationSum2Backtrace(cur: cur+1, target: target-i*num, keys: keys)
-            combinationSum2Dict[num] = tmp + i
         }
-        for i in 1...tmp {
+        for i in 1...most {
             combinationSum2List.removeLast()
         }
-//        if tmp > 0 {
-//            combinationSum2Backtrace(cur: cur, target: target-keys[cur], keys: keys)
-//        } else {
-//            for i in cur..<keys.count {
-//                
-//
-//                combinationSum2Backtrace(cur: i, target: target-keys[cur], keys: keys)
-//    //            if i+1 < keys.count {
-//    //                combinationSum2Backtrace(cur: i+1, target: target-keys[cur], keys: keys)
-//    //            }
-//            }
-//        }
-//
-//        combinationSum2List.removeLast()
-        tmp += 1
-        combinationSum2Dict[num] = tmp
-        
-//        candidates = [2,5,2,1,2] target = 5
-//        1,2,2,2,5
-/*
- 1 , 2  ,5   8
- */
-        
-        
         
     }
     
