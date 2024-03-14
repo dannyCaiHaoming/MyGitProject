@@ -172,8 +172,6 @@ class 动态规划: Do {
         for i in 1..<s.count {
             (dp[i])[i] = true
             for j in 0..<i {
-                
-                
                 if (sChar[j] == sChar[i]) && (i-j <= 2 || (dp[i-1])[j+1] == true) {
                     (dp[i])[j] = true
                     

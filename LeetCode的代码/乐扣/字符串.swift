@@ -100,49 +100,106 @@ class 字符串: Do {
      对于"bananas" 还是无能为力。因为这类动态规划，是记录每一步，能走多少，而不是每一步最优。  // 132个测试用例
 
      */
-
+    
+//    1.回文串，即由最小的两个回文，在左右加相等的字符
+//    2.所以用单向滑动窗口，[i,j]为边界递增来计算
+//    3.单个[i,j]如果相等，那么[i,j]是否是回文是由[i+1,j-1]来得出结果
+//    4.当j-i之间只有两个或者一个字符的时候，且相等的时候，必为回文
+    
+    /*
+     正确动态规划思路：
+     dp[i][j] 记录i到j是否回文。
+     当i-j <= 2 或者 i-1，j+是回文
+     */
+    
     func longestPalindrome(_ s: String) -> String {
-                if s.count == 1 {
+        var sChar:[Character] = []
+        
+        for char in s {
+            sChar.append(char)
+        }
+        
+        if s.count <= 1 {
             return s
         }
-        let sArr = Array(s)
-        let count = s.count
-        // 第二个值，代表是所有值是否一致
-        var result:[(Int,Bool)] = .init(repeating: (1,true), count: count)
+        
+        
+        var longestCount = 1
+        var sIndex = 0
+        var maxIndex = 0
+        
+        var dp:[[Bool]] = []
+        
+        for i in 0..<s.count {
+            dp.append([])
+            for _ in 0...i {
+                (dp[i]).append(false)
+            }
+        }
+        
         for i in 1..<s.count {
-            if sArr[i] == sArr[i-1] {
-                let last = result[i-1]
-                if last.1 {
-                    result[i] = (result[i-1].0 + 1,true)
-                    continue
+            (dp[i])[i] = true
+            for j in 0..<i {
+                if (sChar[j] == sChar[i]) && (i-j <= 2 || (dp[i-1])[j+1] == true) {
+                    (dp[i])[j] = true
+                    
+                    if i-j+1 > longestCount {
+                        longestCount = i-j+1
+                        sIndex = j
+                        maxIndex = i
+                    }
                 }
             }
-            let last = result[i-1]
-            let count = result[i-1].0
-            if i - count - 1 >= 0 {
-                if sArr[i - count - 1] == sArr[i] {
-                    result[i] = (result[i-1].0 + 2,false)
-                }
-            }
-            // 再往前一个
-            if i-2 >= 0 {
-                let last2 = result[i-1]
-            }
-
-
         }
-        var max = 1
-        var end = 1
-        for i in 0..<result.count {
-            if result[i].0 > max {
-                max = result[i].0
-                end = i
-            }
-        }
-        let tmp = sArr[end-max+1...end]
-//
-        return  String(tmp)
+        
+        let start = s.index(s.startIndex, offsetBy: sIndex)
+        let end = s.index(s.startIndex, offsetBy: maxIndex)
+        
+        return String(s[start...end])
     }
+
+//    func longestPalindrome(_ s: String) -> String {
+//        if s.count == 1 {
+//            return s
+//        }
+//        let sArr = Array(s)
+//        let count = s.count
+//        // 第二个值，代表是所有值是否一致
+//        var result:[(Int,Bool)] = .init(repeating: (1,true), count: count)
+//        for i in 1..<s.count {
+//            if sArr[i] == sArr[i-1] {
+//                let last = result[i-1]
+//                if last.1 {
+//                    result[i] = (result[i-1].0 + 1,true)
+//                    continue
+//                }
+//            }
+//            let last = result[i-1]
+//            let count = result[i-1].0
+//            if i - count - 1 >= 0 {
+//                if sArr[i - count - 1] == sArr[i] {
+//                    result[i] = (result[i-1].0 + 2,false)
+//                }
+//            }
+//            // 再往前一个
+//            if i-2 >= 0 {
+//                let last2 = result[i-1]
+//            }
+//            
+//            
+//        }
+//        var max = 1
+//        var end = 1
+//        for i in 0..<result.count {
+//            if result[i].0 > max {
+//                max = result[i].0
+//                end = i
+//            }
+//        }
+//        let tmp = sArr[end-max+1...end]
+//        //
+//        return  String(tmp)
+//    }
 
 
 //     怎么样都是对每一个字符，想两边进行扩张。
