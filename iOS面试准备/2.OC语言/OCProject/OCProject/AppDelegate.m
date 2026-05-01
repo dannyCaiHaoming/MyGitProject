@@ -7,6 +7,9 @@
 //
 
 #import "AppDelegate.h"
+#import "objc/objc.h"
+#import "objc/runtime.h"
+#import "malloc/malloc.h"
 
 @interface MyString : NSString
 
@@ -36,16 +39,22 @@
 	// Override point for customization after application launch.
     
     
-    [MyString new];
-    MyString *s1 = [MyString new];
-    s1 = @"1";
-    do {
-        MyString *s2 = [MyString new];
-        s2 = @"22";
-    } while (nil);
+//    [MyString new];
+//    MyString *s1 = [MyString new];
+//    s1 = @"1";
+//    do {
+//        MyString *s2 = [MyString new];
+//        s2 = @"22";
+//    } while (nil);
+//    
+//    __weak MyString *s3 = [MyString new];
+//    s3 = @"333";
     
-    __weak MyString *s3 = [MyString new];
-    s3 = @"333";
+    NSObject *obj = [[NSObject alloc] init];
+    size_t instance_size = class_getInstanceSize([NSObject class]);
+    size_t allocated_size = malloc_size(CFBridgingRetain(obj));
+    
+    printf("%ld - %ld",instance_size,allocated_size);
 
 	return YES;
 }

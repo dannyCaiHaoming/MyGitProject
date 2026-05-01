@@ -12,6 +12,7 @@
 @interface DetailViewController ()
 
 @property (strong, nonatomic) IBOutlet SDAnimatedImageView *imageView;
+@property (assign) BOOL tintApplied;
 
 @end
 
@@ -21,9 +22,21 @@
     if (!self.imageView.sd_imageIndicator) {
         self.imageView.sd_imageIndicator = SDWebImageProgressIndicator.defaultIndicator;
     }
+    BOOL isHDR = [self.imageURL.absoluteString containsString:@"HDR"];
+    if (@available(iOS 17.0, *)) {
+        self.imageView.preferredImageDynamicRange = isHDR ? UIImageDynamicRangeHigh : UIImageDynamicRangeUnspecified;
+    }
+    SDWebImageContext *context = @{
+        SDWebImageContextImageDecodeToHDR: @(isHDR)
+    };
     [self.imageView sd_setImageWithURL:self.imageURL
                       placeholderImage:nil
-                               options:SDWebImageProgressiveLoad];
+                               options:SDWebImageFromLoaderOnly | SDWebImageScaleDownLargeImages
+                               context:context
+                              progress:nil
+                             completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+        NSLog(@"isHighDynamicRange %@", @(image.sd_isHighDynamicRange));
+    }];
     self.imageView.shouldCustomLoopCount = YES;
     self.imageView.animationRepeatCount = 0;
 }
@@ -35,6 +48,39 @@
                                                                             style:UIBarButtonItemStylePlain
                                                                            target:self
                                                                            action:@selector(toggleAnimation:)];
+    // Add a secret title click action to apply tint color
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
+    [button addTarget:self
+               action:@selector(toggleTint:)
+     forControlEvents:UIControlEventTouchUpInside];
+    [button setTitle:@"Tint" forState:UIControlStateNormal];
+    self.navigationItem.titleView = button;
+}
+
+- (void)toggleTint:(UIResponder *)sender {
+    // tint for non-opaque animation
+    if (!self.imageView.isAnimating) {
+        return;
+    }
+    SDAnimatedImage *animatedImage = (SDAnimatedImage *)self.imageView.image;
+    if (animatedImage.sd_imageFormat == SDImageFormatGIF) {
+        // GIF is opaque
+        return;
+    }
+    BOOL containsAlpha = [SDImageCoderHelper CGImageContainsAlpha:animatedImage.CGImage];
+    if (!containsAlpha) {
+        return;
+    }
+    if (self.tintApplied) {
+        self.imageView.animationTransformer = nil;
+    } else {
+        self.imageView.animationTransformer = [SDImageTintTransformer transformerWithColor:UIColor.blackColor];
+    }
+    self.tintApplied = !self.tintApplied;
+    // refresh
+    UIImage *image = self.imageView.image;
+    self.imageView.image = nil;
+    self.imageView.image = image;
 }
 
 - (void)toggleAnimation:(UIResponder *)sender {

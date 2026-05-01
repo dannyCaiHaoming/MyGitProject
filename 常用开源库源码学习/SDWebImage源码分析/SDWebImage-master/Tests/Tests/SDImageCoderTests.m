@@ -95,6 +95,29 @@
     expect(decodedImage.size.height).to.equal(1);
 }
 
+-(void)test07ThatDecodeAndScaleDownAlwaysCompleteRendering {
+    // Check that when the height of the image used is not evenly divisible by the height of the tile, the output image can also be rendered completely.
+    
+    // Check that when the height of the image used will led to loss of precision. the output image can also be rendered completely,
+    
+    UIColor *imageColor = UIColor.blackColor;
+    CGSize imageSize = CGSizeMake(1029, 1029);
+    CGRect imageRect = CGRectMake(0, 0, imageSize.width, imageSize.height);
+    SDGraphicsImageRendererFormat *format = [[SDGraphicsImageRendererFormat alloc] init];
+    format.scale = 1;
+    SDGraphicsImageRenderer *renderer = [[SDGraphicsImageRenderer alloc] initWithSize:imageSize format:format];
+    UIImage *image = [renderer imageWithActions:^(CGContextRef  _Nonnull context) {
+        CGContextSetFillColorWithColor(context, [imageColor CGColor]);
+        CGContextFillRect(context, imageRect);
+    }];
+    
+    UIImage *decodedImage = [UIImage sd_decodedAndScaledDownImageWithImage:image limitBytes:1 * 1024 * 1024];
+    UIColor *testColor1 = [decodedImage sd_colorAtPoint:CGPointMake(0, decodedImage.size.height - 1)];
+    UIColor *testColor2 = [decodedImage sd_colorAtPoint:CGPointMake(0, decodedImage.size.height - 9)];
+    expect(testColor1.sd_hexString).equal(imageColor.sd_hexString);
+    expect(testColor2.sd_hexString).equal(imageColor.sd_hexString);
+}
+
 - (void)test08ThatEncodeAlphaImageToJPGWithBackgroundColor {
     NSString *testImagePath = [[NSBundle bundleForClass:[self class]] pathForResource:@"TestImage" ofType:@"png"];
     UIImage *image = [[UIImage alloc] initWithContentsOfFile:testImagePath];
@@ -120,7 +143,7 @@
     expect(maxEncodedData).notTo.beNil();
     expect(maxEncodedData.length).beGreaterThan(limitFileSize);
     // 0 quality (smallest)
-    NSData *minEncodedData = [SDImageCodersManager.sharedManager encodedDataWithImage:image format:SDImageFormatJPEG options:@{SDImageCoderEncodeCompressionQuality : @(0)}];
+    NSData *minEncodedData = [SDImageCodersManager.sharedManager encodedDataWithImage:image format:SDImageFormatJPEG options:@{SDImageCoderEncodeCompressionQuality : @(0.01)}]; // Seems 0 has some bugs in old macOS
     expect(minEncodedData).notTo.beNil();
     expect(minEncodedData.length).beLessThan(limitFileSize);
     NSData *limitEncodedData = [SDImageCodersManager.sharedManager encodedDataWithImage:image format:SDImageFormatJPEG options:@{SDImageCoderEncodeMaxFileSize : @(limitFileSize)}];
@@ -183,10 +206,10 @@
 - (void)test13ThatHEICWorks {
     if (@available(iOS 11, tvOS 11, macOS 10.13, *)) {
         NSURL *heicURL = [[NSBundle bundleForClass:[self class]] URLForResource:@"TestImage" withExtension:@"heic"];
-#if SD_UIKIT
-        BOOL supportsEncoding = YES; // iPhone Simulator after Xcode 9.3 support HEIC encoding
+#if SD_MAC
+        BOOL supportsEncoding = !SDTestCase.isCI; // GitHub Action Mac env currently does not support HEIC encoding
 #else
-        BOOL supportsEncoding = NO; // Travis-CI Mac env currently does not support HEIC encoding
+        BOOL supportsEncoding = YES; // GitHub Action Mac env with simulator, supported from 20240707.1
 #endif
         [self verifyCoder:[SDImageIOCoder sharedCoder]
         withLocalImageURL:heicURL
@@ -198,9 +221,10 @@
 - (void)test14ThatHEIFWorks {
     if (@available(iOS 11, tvOS 11, macOS 10.13, *)) {
         NSURL *heifURL = [[NSBundle bundleForClass:[self class]] URLForResource:@"TestImage" withExtension:@"heif"];
+        BOOL supportsEncoding = NO; // public.heif UTI alwsays return false, use public.heic
         [self verifyCoder:[SDImageIOCoder sharedCoder]
         withLocalImageURL:heifURL
-         supportsEncoding:NO
+         supportsEncoding:supportsEncoding
           isAnimatedImage:NO];
     }
 }
@@ -216,14 +240,10 @@
 
 - (void)test16ThatHEICAnimatedWorks {
     if (@available(iOS 13, tvOS 13, macOS 10.15, *)) {
-        NSURL *heicURL = [[NSBundle bundleForClass:[self class]] URLForResource:@"TestImageAnimated" withExtension:@"heic"];
-#if SD_UIKIT
+        NSURL *heicURL = [[NSBundle bundleForClass:[self class]] URLForResource:@"TestImageAnimated" withExtension:@"heics"];
+        BOOL supportsEncoding = !SDTestCase.isCI; // GitHub Action Mac env currently does not support HEICS animated encoding (but HEIC supported, I don't know why)
+        // See: #3227
         BOOL isAnimatedImage = YES;
-        BOOL supportsEncoding = YES; // iPhone Simulator after Xcode 9.3 support HEIC encoding
-#else
-        BOOL isAnimatedImage = NO; // Travis-CI Mac env does not upgrade to macOS 10.15
-        BOOL supportsEncoding = NO; // Travis-CI Mac env currently does not support HEIC encoding
-#endif
         [self verifyCoder:[SDImageHEICCoder sharedCoder]
         withLocalImageURL:heicURL
          supportsEncoding:supportsEncoding
@@ -243,6 +263,7 @@
         isVectorImage:YES];
 }
 
+#if !SD_TV
 - (void)test18ThatStaticWebPWorks {
     if (@available(iOS 14, tvOS 14, macOS 11, *)) {
         NSURL *staticWebPURL = [[NSBundle bundleForClass:[self class]] URLForResource:@"TestImageStatic" withExtension:@"webp"];
@@ -254,7 +275,9 @@
             isVectorImage:NO];
     }
 }
+#endif
 
+#if !SD_TV
 - (void)test19ThatAnimatedWebPWorks {
     if (@available(iOS 14, tvOS 14, macOS 11, *)) {
         NSURL *staticWebPURL = [[NSBundle bundleForClass:[self class]] URLForResource:@"TestImageAnimated" withExtension:@"webp"];
@@ -266,6 +289,7 @@
             isVectorImage:NO];
     }
 }
+#endif
 
 - (void)test20ThatImageIOAnimatedCoderAbstractClass {
     SDImageIOAnimatedCoder *coder = [[SDImageIOAnimatedCoder alloc] init];
@@ -278,6 +302,14 @@
 }
 
 - (void)test21ThatEmbedThumbnailHEICWorks {
+#if SD_MAC
+    BOOL supportsEncoding = !SDTestCase.isCI; // GitHub Action Mac env currently does not support HEIC encoding
+#else
+    BOOL supportsEncoding = YES; // GitHub Action Mac env with simulator, supported from 20240707.1
+#endif
+    if (!supportsEncoding) {
+        return;
+    }
     if (@available(iOS 11, tvOS 11, macOS 10.13, *)) {
         // The input HEIC does not contains any embed thumbnail
         NSURL *heicURL = [[NSBundle bundleForClass:[self class]] URLForResource:@"TestImage" withExtension:@"heic"];
@@ -308,6 +340,424 @@
         NSUInteger thumbnailHeight = [thumbnailImageInfo[(__bridge NSString *)kCGImagePropertyHeight] unsignedIntegerValue];
         expect(thumbnailWidth).equal(320);
         expect(thumbnailHeight).equal(212);
+    }
+}
+
+- (void)test22ThatThumbnailDecodeCalculation {
+    NSString *testImagePath = [[NSBundle bundleForClass:[self class]] pathForResource:@"TestImageLarge" ofType:@"jpg"];
+    NSData *testImageData = [NSData dataWithContentsOfFile:testImagePath];
+    CGSize thumbnailSize = CGSizeMake(400, 300);
+    UIImage *image = [SDImageIOCoder.sharedCoder decodedImageWithData:testImageData options:@{
+        SDImageCoderDecodePreserveAspectRatio: @(YES),
+        SDImageCoderDecodeThumbnailPixelSize: @(thumbnailSize)}];
+    CGSize imageSize = image.size;
+    expect(imageSize.width).equal(400);
+    expect(imageSize.height).equal(263);
+    // `CGImageSourceCreateThumbnailAtIndex` should always produce non-lazy CGImage
+    CGImageRef cgImage = image.CGImage;
+    expect([SDImageCoderHelper CGImageIsLazy:cgImage]).beFalsy();
+    expect(image.sd_isDecoded).beTruthy();
+}
+
+- (void)test23ThatThumbnailEncodeCalculation {
+    NSString *testImagePath = [[NSBundle bundleForClass:[self class]] pathForResource:@"TestImageLarge" ofType:@"jpg"];
+    NSData *testImageData = [NSData dataWithContentsOfFile:testImagePath];
+    UIImage *image = [SDImageIOCoder.sharedCoder decodedImageWithData:testImageData options:nil];
+    expect(image.size).equal(CGSizeMake(5250, 3450));
+    // `CGImageSourceCreateImageAtIndex` should always produce lazy CGImage
+    CGImageRef cgImage = image.CGImage;
+    expect([SDImageCoderHelper CGImageIsLazy:cgImage]).beTruthy();
+    expect(image.sd_isDecoded).beFalsy();
+    CGSize thumbnailSize = CGSizeMake(4000, 4000); // 3450 < 4000 < 5250
+    NSData *encodedData = [SDImageIOCoder.sharedCoder encodedDataWithImage:image format:SDImageFormatJPEG options:@{
+            SDImageCoderEncodeMaxPixelSize: @(thumbnailSize)
+    }];
+    UIImage *encodedImage = [UIImage sd_imageWithData:encodedData];
+    expect(encodedImage.size).equal(CGSizeMake(4000, 2629));
+}
+
+- (void)test24ThatScaleSizeCalculation {
+    // preserveAspectRatio true
+    CGSize size1 = [SDImageCoderHelper scaledSizeWithImageSize:CGSizeMake(100, 200) scaleSize:CGSizeMake(150, 150) preserveAspectRatio:YES shouldScaleUp:NO];
+    expect(size1).equal(CGSizeMake(75, 150));
+    CGSize size2 = [SDImageCoderHelper scaledSizeWithImageSize:CGSizeMake(100, 200) scaleSize:CGSizeMake(150, 150) preserveAspectRatio:YES shouldScaleUp:YES];
+    expect(size2).equal(CGSizeMake(75, 150));
+    CGSize size3 = [SDImageCoderHelper scaledSizeWithImageSize:CGSizeMake(100, 200) scaleSize:CGSizeMake(300, 300) preserveAspectRatio:YES shouldScaleUp:NO];
+    expect(size3).equal(CGSizeMake(100, 200));
+    CGSize size4 = [SDImageCoderHelper scaledSizeWithImageSize:CGSizeMake(100, 200) scaleSize:CGSizeMake(300, 300) preserveAspectRatio:YES shouldScaleUp:YES];
+    expect(size4).equal(CGSizeMake(150, 300));
+    
+    // preserveAspectRatio false
+    CGSize size5 = [SDImageCoderHelper scaledSizeWithImageSize:CGSizeMake(100, 200) scaleSize:CGSizeMake(150, 150) preserveAspectRatio:NO shouldScaleUp:NO];
+    expect(size5).equal(CGSizeMake(100, 150));
+    CGSize size6 = [SDImageCoderHelper scaledSizeWithImageSize:CGSizeMake(100, 200) scaleSize:CGSizeMake(150, 150) preserveAspectRatio:NO shouldScaleUp:YES];
+    expect(size6).equal(CGSizeMake(150, 150));
+    
+    // 0 value
+    CGSize size7 = [SDImageCoderHelper scaledSizeWithImageSize:CGSizeMake(0, 0) scaleSize:CGSizeMake(999, 999) preserveAspectRatio:NO shouldScaleUp:NO];
+    expect(size7).equal(CGSizeMake(0, 0));
+    CGSize size8 = [SDImageCoderHelper scaledSizeWithImageSize:CGSizeMake(999, 999) scaleSize:CGSizeMake(0, 0) preserveAspectRatio:NO shouldScaleUp:NO];
+    expect(size8).equal(CGSizeMake(999, 999));
+}
+
+- (void)test25ThatBMPWorks {
+    NSURL *bmpURL = [[NSBundle bundleForClass:[self class]] URLForResource:@"TestImage" withExtension:@"bmp"];
+    [self verifyCoder:[SDImageIOCoder sharedCoder]
+    withLocalImageURL:bmpURL
+     supportsEncoding:YES
+       encodingFormat:SDImageFormatBMP
+      isAnimatedImage:NO
+        isVectorImage:NO];
+}
+
+- (void)test26ThatRawImageTypeHintWorks {
+    NSURL *url = [[NSBundle bundleForClass:[self class]] URLForResource:@"TestImage" withExtension:@"nef"];
+    NSData *data = [NSData dataWithContentsOfURL:url];
+    
+    // 1. Test without hint will use TIFF's IFD#0, which size should always be 160x120, see: http://lclevy.free.fr/nef/
+    UIImage *image1 = [SDImageIOCoder.sharedCoder decodedImageWithData:data options:nil];
+    expect(image1.size).equal(CGSizeMake(160, 120));
+    expect(image1.sd_imageFormat).equal(SDImageFormatTIFF);
+    
+#if SD_MAC || SD_IOS
+    // 2. Test with NEF file extension should be NEF
+    UIImage *image2 = [SDImageIOCoder.sharedCoder decodedImageWithData:data options:@{SDImageCoderDecodeFileExtensionHint : @"nef"}];
+    expect(image2.size).equal(CGSizeMake(3008, 2000));
+    expect(image2.sd_imageFormat).equal(SDImageFormatRAW);
+    
+    // 3. Test with UTType hint should be NEF
+    UIImage *image3 = [SDImageIOCoder.sharedCoder decodedImageWithData:data options:@{SDImageCoderDecodeTypeIdentifierHint : @"com.nikon.raw-image"}];
+    expect(image3.size).equal(CGSizeMake(3008, 2000));
+    expect(image3.sd_imageFormat).equal(SDImageFormatRAW);
+#endif
+}
+
+- (void)test27ThatEncodeWithFramesWorks {
+    // Mock
+    NSMutableArray<SDImageFrame *> *frames = [NSMutableArray array];
+    NSUInteger frameCount = 5;
+    for (size_t i = 0; i < frameCount; i++) {
+        CGSize size = CGSizeMake(100, 100);
+        SDGraphicsImageRenderer *renderer = [[SDGraphicsImageRenderer alloc] initWithSize:size];
+        UIImage *image = [renderer imageWithActions:^(CGContextRef  _Nonnull context) {
+            CGContextSetRGBFillColor(context, 1.0 / i, 0.0, 0.0, 1.0);
+            CGContextSetRGBStrokeColor(context, 1.0 / i, 0.0, 0.0, 1.0);
+            CGContextFillRect(context, CGRectMake(0, 0, size.width, size.height));
+        }];
+        SDImageFrame *frame = [SDImageFrame frameWithImage:image duration:0.1];
+        [frames addObject:frame];
+    }
+    
+    // Test old API
+    UIImage *animatedImage = [SDImageCoderHelper animatedImageWithFrames:frames];
+    NSData *data = [SDImageGIFCoder.sharedCoder encodedDataWithImage:animatedImage format:SDImageFormatGIF options:nil];
+    expect(data).notTo.beNil();
+
+#if SD_MAC
+    // Test implementation use SDAnimatedImageRep
+    SDAnimatedImageRep *rep = (SDAnimatedImageRep *)animatedImage.representations.firstObject;
+    expect([rep isKindOfClass:SDAnimatedImageRep.class]);
+    expect(rep.animatedImageData).equal(data);
+    expect(rep.animatedImageFormat).equal(SDImageFormatGIF);
+#endif
+    
+    // Test new API
+    NSData *data2 = [SDImageGIFCoder.sharedCoder encodedDataWithFrames:frames loopCount:0 format:SDImageFormatGIF options:nil];
+    expect(data2).notTo.beNil();
+}
+
+- (void)test28ThatNotTriggerCACopyImage {
+    // 10 * 8 pixels, RGBA8888
+    size_t width = 10;
+    size_t height = 8;
+    size_t bitsPerComponent = 8;
+    size_t components = 4;
+    size_t bitsPerPixel = bitsPerComponent * components;
+    size_t bytesPerRow = SDByteAlign(bitsPerPixel / 8 * width, [SDImageCoderHelper preferredPixelFormat:YES].alignment);
+    size_t size = bytesPerRow * height;
+    uint8_t bitmap[size];
+    for (size_t i = 0; i < size; i++) {
+        bitmap[i] = 255;
+    }
+    CGColorSpaceRef colorspace = [SDImageCoderHelper colorSpaceGetDeviceRGB];
+    CGBitmapInfo bitmapInfo = [SDImageCoderHelper preferredPixelFormat:YES].bitmapInfo;
+    CFDataRef data = CFDataCreate(NULL, bitmap, size);
+    CGDataProviderRef provider = CGDataProviderCreateWithCFData(data);
+    CFRelease(data);
+    BOOL shouldInterpolate = YES;
+    CGColorRenderingIntent intent = kCGRenderingIntentDefault;
+    CGImageRef cgImage = CGImageCreate(width, height, bitsPerComponent, bitsPerPixel, bytesPerRow, colorspace, bitmapInfo, provider, NULL, shouldInterpolate, intent);
+    CGDataProviderRelease(provider);
+    XCTAssert(cgImage);
+    BOOL result = [SDImageCoderHelper CGImageIsHardwareSupported:cgImage];
+    // Since it's 32 bytes aligned, return true
+    XCTAssertTrue(result);
+    // Let's force-decode to check again
+#if SD_MAC
+    UIImage *image = [[UIImage alloc] initWithCGImage:cgImage scale:1 orientation:kCGImagePropertyOrientationUp];
+#else
+    UIImage *image = [[UIImage alloc] initWithCGImage:cgImage scale:1 orientation:UIImageOrientationUp];
+#endif
+    CGImageRelease(cgImage);
+    UIImage *newImage = [SDImageCoderHelper decodedImageWithImage:image policy:SDImageForceDecodePolicyAutomatic];
+    // Check policy works, since it's supported by CA hardware, which return the input image object, using pointer compare
+    XCTAssertTrue(image == newImage);
+    BOOL newResult = [SDImageCoderHelper CGImageIsHardwareSupported:newImage.CGImage];
+    XCTAssertTrue(newResult);
+}
+
+- (void)test28ThatDoTriggerCACopyImage {
+    // 10 * 8 pixels, RGBA8888
+    size_t width = 10;
+    size_t height = 8;
+    size_t bitsPerComponent = 8;
+    size_t components = 4;
+    size_t bitsPerPixel = bitsPerComponent * components;
+    size_t bytesPerRow = bitsPerPixel / 8 * width;
+    size_t size = bytesPerRow * height;
+    uint8_t bitmap[size];
+    for (size_t i = 0; i < size; i++) {
+        bitmap[i] = 255;
+    }
+    CGColorSpaceRef colorspace = [SDImageCoderHelper colorSpaceGetDeviceRGB];
+    CGBitmapInfo bitmapInfo = [SDImageCoderHelper preferredPixelFormat:YES].bitmapInfo;
+    CFDataRef data = CFDataCreate(NULL, bitmap, size);
+    CGDataProviderRef provider = CGDataProviderCreateWithCFData(data);
+    CFRelease(data);
+    BOOL shouldInterpolate = YES;
+    CGColorRenderingIntent intent = kCGRenderingIntentDefault;
+    CGImageRef cgImage = CGImageCreate(width, height, bitsPerComponent, bitsPerPixel, bytesPerRow, colorspace, bitmapInfo, provider, NULL, shouldInterpolate, intent);
+    CGDataProviderRelease(provider);
+    XCTAssert(cgImage);
+    BOOL result = [SDImageCoderHelper CGImageIsHardwareSupported:cgImage];
+    // Since it's not 32 bytes aligned, return false
+    XCTAssertFalse(result);
+    // Let's force-decode to check again
+#if SD_MAC
+    UIImage *image = [[UIImage alloc] initWithCGImage:cgImage scale:1 orientation:kCGImagePropertyOrientationUp];
+#else
+    UIImage *image = [[UIImage alloc] initWithCGImage:cgImage scale:1 orientation:UIImageOrientationUp];
+#endif
+    CGImageRelease(cgImage);
+    UIImage *newImage = [SDImageCoderHelper decodedImageWithImage:image policy:SDImageForceDecodePolicyAutomatic];
+    // Check policy works, since it's not supported by CA hardware, which return the different image object
+    XCTAssertFalse(image == newImage);
+    BOOL newResult = [SDImageCoderHelper CGImageIsHardwareSupported:newImage.CGImage];
+    XCTAssertTrue(newResult);
+}
+
+- (void)test29ThatJFIFDecodeOrientationShouldNotApplyTwice {
+    // I don't think this is SDWebImage's issue, it's Apple's ImgeIO Bug, but user complain about this: #3594
+    // In W3C standard, JFIF should always be orientation up, and should not contains EXIF orientation
+    // But some bad image editing tool will generate this kind of image :(
+    NSURL *url = [[NSBundle bundleForClass:[self class]] URLForResource:@"TestJFIF" withExtension:@"jpg"];
+    NSData *data = [NSData dataWithContentsOfURL:url];
+    
+    UIImage *image = [SDImageIOCoder.sharedCoder decodedImageWithData:data options:nil];
+    expect(image.sd_imageFormat).equal(SDImageFormatJPEG);
+#if SD_UIKIT
+    UIImageOrientation orientation = image.imageOrientation;
+    expect(orientation).equal(UIImageOrientationDown);
+#endif
+    
+    UIImage *systemImage = [[UIImage alloc] initWithData:data];
+#if SD_UIKIT
+    orientation = systemImage.imageOrientation;
+    if (@available(iOS 18.0, tvOS 18.0, watchOS 11.0, *)) {
+        // Apple fix/hack this kind of JFIF on iOS 18
+        expect(orientation).equal(UIImageOrientationUp);
+    } else {
+        expect(orientation).equal(UIImageOrientationDown);
+    }
+#endif
+    
+    // Check bitmap color equal, between our usage of ImageIO decoder and Apple system API behavior
+    // So, this means, if Apple has bugs, we have bugs too, it's not our fault :)
+    UIColor *testColor1 = [image sd_colorAtPoint:CGPointMake(1, 1)];
+    UIColor *testColor2 = [systemImage sd_colorAtPoint:CGPointMake(1, 1)];
+    CGFloat r1, g1, b1, a1;
+    CGFloat r2, g2, b2, a2;
+    [testColor1 getRed:&r1 green:&g1 blue:&b1 alpha:&a1];
+    [testColor2 getRed:&r2 green:&g2 blue:&b2 alpha:&a2];
+    expect(r1).beCloseToWithin(r2, 0.01);
+    expect(g1).beCloseToWithin(g2, 0.01);
+    expect(b1).beCloseToWithin(b2, 0.01);
+    expect(a1).beCloseToWithin(a2, 0.01);
+    
+    // Manual test again for Apple's API
+    CGImageSourceRef source = CGImageSourceCreateWithData((__bridge CFDataRef)data, nil);
+    NSDictionary *properties = (__bridge_transfer NSDictionary *)CGImageSourceCopyPropertiesAtIndex(source, 0, nil);
+    NSUInteger exifOrientation = [properties[(__bridge NSString *)kCGImagePropertyOrientation] unsignedIntegerValue];
+    CFRelease(source);
+    expect(exifOrientation).equal(kCGImagePropertyOrientationDown);
+}
+
+- (void)test30ThatImageIOPNGPluginBuggyWorkaround {
+    // See: #3634
+    NSURL *url = [[NSBundle bundleForClass:[self class]] URLForResource:@"IndexedPNG" withExtension:@"png"];
+    NSData *data = [NSData dataWithContentsOfURL:url];
+    
+    UIImage *decodedImage = [SDImageIOCoder.sharedCoder decodedImageWithData:data options:nil];
+    UIColor *testColor1 = [decodedImage sd_colorAtPoint:CGPointMake(100, 1)];
+    CGFloat r1, g1, b1, a1;
+    [testColor1 getRed:&r1 green:&g1 blue:&b1 alpha:&a1];
+    expect(r1).beCloseToWithin(0.60, 0.01);
+    expect(g1).beCloseToWithin(0.91, 0.01);
+    expect(b1).beCloseToWithin(0.91, 0.01);
+    expect(a1).beCloseToWithin(0.20, 0.01);
+    
+    // RGBA 16 bits PNG should not workaround
+    url = [[NSBundle bundleForClass:[self class]] URLForResource:@"RGBA16PNG" withExtension:@"png"];
+    data = [NSData dataWithContentsOfURL:url];
+    decodedImage = [SDImageIOCoder.sharedCoder decodedImageWithData:data options:nil];
+    CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(decodedImage.CGImage);
+    size_t bpc = CGImageGetBitsPerComponent(decodedImage.CGImage);
+    expect(bpc).equal(16);
+    CGImageAlphaInfo alphaInfo = bitmapInfo & kCGBitmapAlphaInfoMask;
+    CGImageByteOrderInfo byteOrderInfo = bitmapInfo & kCGBitmapByteOrderMask;
+    expect(alphaInfo).equal(kCGImageAlphaLast);
+    expect(byteOrderInfo).equal(kCGImageByteOrder16Little);
+}
+
+- (void)test31ThatSVGShouldUseNativeImageClass {
+    NSURL *url = [[NSBundle bundleForClass:[self class]] URLForResource:@"TestImage" withExtension:@"svg"];
+    NSData *data = [NSData dataWithContentsOfURL:url];
+    SDAnimatedImage *animatedImage = [SDAnimatedImage imageWithData:data];
+    expect(animatedImage).beNil();
+    UIImage *image = [UIImage sd_imageWithData:data];
+    Class SVGCoderClass = NSClassFromString(@"SDImageSVGCoder");
+    if (SVGCoderClass && [SVGCoderClass sharedCoder]) {
+        expect(image).notTo.beNil();
+        // Vector version
+        expect(image.sd_isVector).beTruthy();
+    } else {
+        // Platform does not support SVG
+        expect(image).beNil();
+    }
+}
+
+- (void)test32ThatISOHDRDecodeWorks {
+    // Only test for iOS 17+/macOS 14+/visionOS 1+, or ImageIO decoder does not support HDR
+#if SD_MAC || SD_IOS || SD_VISION
+    if (@available(macOS 14, iOS 17, tvOS 17, watchOS 10, *)) {
+        NSArray *formats = @[@"heic", @"avif", @"jxl"];
+        for (NSString *format in formats) {
+            NSURL *url = [[NSBundle bundleForClass:[self class]] URLForResource:@"TestHDR" withExtension:format];
+            NSData *data = [NSData dataWithContentsOfURL:url];
+            // Decoding
+            UIImage *HDRImage = [SDImageIOCoder.sharedCoder decodedImageWithData:data options:@{SDImageCoderDecodeToHDR : @(YES)}];
+            UIImage *SDRImage = [SDImageIOCoder.sharedCoder decodedImageWithData:data options:@{SDImageCoderDecodeToHDR : @(NO)}];
+            
+            expect(HDRImage).notTo.beNil();
+            expect(SDRImage).notTo.beNil();
+            
+            expect([SDImageCoderHelper CGImageIsHDR:HDRImage.CGImage]).beTruthy();
+            expect(HDRImage.sd_isHighDynamicRange).beTruthy();
+            // Current we lack of some HDR RGBA1010102
+            size_t HDRBPC = CGImageGetBitsPerComponent(HDRImage.CGImage);
+            expect(HDRBPC).beGreaterThan(8);
+            expect([HDRImage sd_colorAtPoint:CGPointMake(1, 1)]).beNil();
+            
+            // FIXME: on Simulator, the SDR decode options will not take effect, so SDR is the same as HDR
+#if !TARGET_OS_SIMULATOR
+            expect([SDImageCoderHelper CGImageIsHDR:SDRImage.CGImage]).beFalsy();
+            expect(SDRImage.sd_isHighDynamicRange).beFalsy();
+            size_t SDRBPC = CGImageGetBitsPerComponent(SDRImage.CGImage);
+            expect(SDRBPC).beLessThanOrEqualTo(8);
+            expect([SDRImage sd_colorAtPoint:CGPointMake(1, 1)]).notTo.beNil();
+#endif
+        }
+    }
+#endif
+}
+
+- (void)test33ThatGainMapHDRDecodeWorks {
+    // JPEG Gain Map HDR need iOS 18+
+    // GitHub Action virtualization framework contains issue for Gain Map HDR convert:
+    // [xctest] +[HDRImageConverter imageConverterWithOptions:]:40: ☀️ Failed to initialize Metal converter, falling back to SIMD for image conversion (slow)
+    if (SDTestCase.isCI) {
+        return;
+    }
+#if SD_MAC || SD_IOS || SD_VISION
+    if (@available(macOS 15, iOS 18, tvOS 18, watchOS 11, *)) {
+        NSArray *formats = @[@"jpeg"];
+        for (NSString *format in formats) {
+            NSURL *url = [[NSBundle bundleForClass:[self class]] URLForResource:@"TestHDR" withExtension:format];
+            NSData *data = [NSData dataWithContentsOfURL:url];
+            // Decoding
+            UIImage *HDRImage = [SDImageIOCoder.sharedCoder decodedImageWithData:data options:@{SDImageCoderDecodeToHDR : @(YES)}];
+            UIImage *SDRImage = [SDImageIOCoder.sharedCoder decodedImageWithData:data options:@{SDImageCoderDecodeToHDR : @(NO)}];
+            
+            expect(HDRImage).notTo.beNil();
+            expect(SDRImage).notTo.beNil();
+            
+            // Gain Map HDR does not use Rec. 2100 color space
+            size_t HDRBPC = CGImageGetBitsPerComponent(HDRImage.CGImage);
+            size_t SDRBPC = CGImageGetBitsPerComponent(SDRImage.CGImage);
+            expect(HDRBPC).beGreaterThan(8);
+            expect(SDRBPC).beLessThanOrEqualTo(8);
+//            expect([SDImageCoderHelper CGImageIsHDR:HDRImage.CGImage]).beTruthy();
+//            expect(HDRImage.sd_isHighDynamicRange).beTruthy();
+        }
+    }
+#endif
+}
+
+- (void)test34ThatHDREncodeWorks {
+    // FIXME: Encoding need iOS 18+/macOS 15+, No simulator
+    // GitHub Action virtualization framework contains issue for Gain Map HDR convert:
+    if (SDTestCase.isCI) {
+        return;
+    }
+    // Actually we test 4 cases, because decoded CGImage can contains gain map or not
+    // heic -> heic / heic -> jpeg / jpeg(gain map) -> heic / jpeg(gain map) -> jpeg
+    if (@available(macOS 15, iOS 18, tvOS 18, watchOS 11, *)) {
+        NSArray *decodeFormats = @[@"heic", @"jpeg"];
+        for (NSString *decodeFormat in decodeFormats) {
+            NSURL *url = [[NSBundle bundleForClass:[self class]] URLForResource:@"TestHDR" withExtension:decodeFormat];
+            NSData *data = [NSData dataWithContentsOfURL:url];
+            // Decoding
+            UIImage *HDRImage = [SDImageIOCoder.sharedCoder decodedImageWithData:data options:@{SDImageCoderDecodeToHDR : @(YES)}];
+            float headroom = CGImageGetContentHeadroom(HDRImage.CGImage);
+            expect(headroom).beGreaterThan(1);
+#if !TARGET_OS_SIMULATOR
+            NSArray *encodeFormats = @[@"heic", @"jpeg"];
+            for (NSString *encodeFormat in encodeFormats) {
+                NSLog(@"Testing HDR encodde from original : %@ to %@", decodeFormat, encodeFormat);
+                // HEIC with ISO Gain Map
+                SDImageFormat format = SDImageFormatHEIC;
+                if ([encodeFormat isEqualToString:@"jpeg"]) {
+                    // JPEG with XMP Gain Map
+                    format = SDImageFormatJPEG;
+                }
+                NSData *SDRData = [SDImageIOCoder.sharedCoder encodedDataWithImage:HDRImage format:format options:@{SDImageCoderEncodeToHDR : @(SDImageHDRTypeSDR)}];
+                NSData *HDRData = [SDImageIOCoder.sharedCoder encodedDataWithImage:HDRImage format:format options:@{SDImageCoderEncodeToHDR : @(SDImageHDRTypeISOHDR)}];
+                NSData *HDRGainMapData = [SDImageIOCoder.sharedCoder encodedDataWithImage:HDRImage format:format options:@{SDImageCoderEncodeToHDR : @(SDImageHDRTypeISOGainMap)}];
+                expect(SDRData).notTo.beNil();
+                expect(HDRData).notTo.beNil();
+                expect(HDRGainMapData).notTo.beNil();
+                // JPEG has no built-in support Gain Map, so it stored in XMP and be larger
+                if ([encodeFormat isEqualToString:@"jpeg"]) {
+                    expect(HDRGainMapData.length).beGreaterThan(HDRData.length);
+                }
+                
+                // Check gain map information
+                CGImageSourceRef source = CGImageSourceCreateWithData((__bridge CFDataRef)HDRGainMapData, NULL);
+                NSDictionary *gainMap = [self gainMapFromImageSource:source];
+                expect(gainMap.count).beGreaterThan(0);
+                // At least gain map contains `kCGImageAuxiliaryDataInfoMetadata`
+                CGImageMetadataRef meta = (__bridge CGImageMetadataRef)(gainMap[(__bridge NSString *)kCGImageAuxiliaryDataInfoMetadata]);
+                expect(meta).notTo.beNil();
+                
+                // A check for redecoded CGImage
+                CGImageRef redecodeSDRImage = CGImageSourceCreateImageAtIndex(source, 0, nil);
+                expect(redecodeSDRImage).notTo.beNil();
+                headroom = CGImageGetContentHeadroom(redecodeSDRImage);
+                expect(headroom).equal(1);
+                CFRelease(source);
+            }
+#endif
+        }
     }
 }
 
@@ -358,15 +808,14 @@ withLocalImageURL:(NSURL *)imageUrl
     CGFloat pixelHeight = inputImage.size.height;
     expect(pixelWidth).beGreaterThan(0);
     expect(pixelHeight).beGreaterThan(0);
-    // check vector format supports thumbnail with screen size
+    // check vector format should use 72 DPI
     if (isVector) {
-#if SD_UIKIT
-        CGFloat maxScreenSize = MAX(UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height);
-#else
-        CGFloat maxScreenSize = MAX(NSScreen.mainScreen.frame.size.width, NSScreen.mainScreen.frame.size.height);
-#endif
-        expect(pixelWidth).equal(maxScreenSize);
-        expect(pixelHeight).equal(maxScreenSize);
+        CGRect boxRect = [self boxRectFromPDFData:inputImageData];
+        expect(boxRect.size.width).beGreaterThan(0);
+        expect(boxRect.size.height).beGreaterThan(0);
+        // Since 72 DPI is 1:1 from inch size to pixel size
+        expect(boxRect.size.width).equal(pixelWidth);
+        expect(boxRect.size.height).equal(pixelHeight);
     }
     
     // check thumbnail with scratch
@@ -439,6 +888,44 @@ withLocalImageURL:(NSURL *)imageUrl
     NSArray *thumbnailImages = imageProperties[(__bridge NSString *)kCGImagePropertyThumbnailImages];
     
     return thumbnailImages;
+}
+
+- (NSDictionary *)gainMapFromImageSource:(CGImageSourceRef)source {
+    if (@available(macOS 15, iOS 18, tvOS 18, watchOS 11, *)) {
+        CFDictionaryRef ISOGainMap = CGImageSourceCopyAuxiliaryDataInfoAtIndex(source, 0, kCGImageAuxiliaryDataTypeISOGainMap);
+        CFDictionaryRef HDRGainMap = CGImageSourceCopyAuxiliaryDataInfoAtIndex(source, 0, kCGImageAuxiliaryDataTypeHDRGainMap);
+        NSDictionary *result = ISOGainMap ? (__bridge_transfer NSDictionary *)ISOGainMap : (__bridge_transfer NSDictionary *)HDRGainMap;
+        if (HDRGainMap) CFRelease(HDRGainMap);
+        if (ISOGainMap) CFRelease(ISOGainMap);
+        return result;
+    } else {
+        return nil;
+    }
+}
+
+#pragma mark - Utils
+- (CGRect)boxRectFromPDFData:(nonnull NSData *)data {
+    CGDataProviderRef provider = CGDataProviderCreateWithCFData((__bridge CFDataRef)data);
+    if (!provider) {
+        return CGRectZero;
+    }
+    CGPDFDocumentRef document = CGPDFDocumentCreateWithProvider(provider);
+    CGDataProviderRelease(provider);
+    if (!document) {
+        return CGRectZero;
+    }
+    
+    // `CGPDFDocumentGetPage` page number is 1-indexed.
+    CGPDFPageRef page = CGPDFDocumentGetPage(document, 1);
+    if (!page) {
+        CGPDFDocumentRelease(document);
+        return CGRectZero;
+    }
+    
+    CGRect boxRect = CGPDFPageGetBoxRect(page, kCGPDFMediaBox);
+    CGPDFDocumentRelease(document);
+    
+    return boxRect;
 }
 
 @end

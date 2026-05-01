@@ -19,7 +19,6 @@ typedef void(^SDExternalCompletionBlock)(UIImage * _Nullable image, NSError * _N
 
 typedef void(^SDInternalCompletionBlock)(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, SDImageCacheType cacheType, BOOL finished, NSURL * _Nullable imageURL);
 
-
 /**
  A combined operation representing the cache and loader operation. You can use it to cancel the load process.
  */
@@ -29,6 +28,9 @@ typedef void(^SDInternalCompletionBlock)(UIImage * _Nullable image, NSData * _Nu
  Cancel the current operation, including cache and loader process
  */
 - (void)cancel;
+
+/// Whether the operation has been cancelled.
+@property (nonatomic, assign, readonly, getter=isCancelled) BOOL cancelled;
 
 /**
  The cache operation from the image cache query
@@ -160,7 +162,7 @@ SDWebImageManager *manager = [SDWebImageManager sharedManager];
  @note If you use `transformer`, `cacheKeyFilter` or `cacheSerializer` property of manager, the input context option already apply those properties before passed. This options processor is a better replacement for those property in common usage.
  For example, you can control the global options, based on the URL or original context option like the below code.
  
- @code
+ * @code
  SDWebImageManager.sharedManager.optionsProcessor = [SDWebImageOptionsProcessor optionsProcessorWithBlock:^SDWebImageOptionsResult * _Nullable(NSURL * _Nullable url, SDWebImageOptions options, SDWebImageContext * _Nullable context) {
      // Only do animation on `SDAnimatedImageView`
      if (!context[SDWebImageContextAnimatedImageClass]) {
@@ -177,7 +179,7 @@ SDWebImageManager *manager = [SDWebImageManager sharedManager];
  
      return [[SDWebImageOptionsResult alloc] initWithOptions:options context:context];
  }];
- @endcode
+ * @endcode
  */
 @property (nonatomic, strong, nullable) id<SDWebImageOptionsProcessor> optionsProcessor;
 

@@ -69,7 +69,7 @@
     
 //    [self kindAndMember];
     
-    [self testKVOCrash];
+//    [self testKVOCrash];
     
 
 }

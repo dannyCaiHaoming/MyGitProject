@@ -16,6 +16,8 @@
 
 @interface SDUtilsTests : SDTestCase
 
+@property (nonatomic) NSTimeInterval duration;
+
 @end
 
 @implementation SDUtilsTests
@@ -48,13 +50,13 @@
     XCTestExpectation *expectation1 = [self expectationWithDescription:@"Display Link Stop"];
     XCTestExpectation *expectation2 = [self expectationWithDescription:@"Display Link Start"];
     SDDisplayLink *displayLink = [SDDisplayLink displayLinkWithTarget:self selector:@selector(displayLinkDidRefresh:)];
-    NSTimeInterval duration = displayLink.duration; // Initial value
-    expect(duration).equal(1.0 / 60);
     [displayLink addToRunLoop:NSRunLoop.mainRunLoop forMode:NSRunLoopCommonModes];
     [displayLink start];
     expect(displayLink.isRunning).beTruthy();
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         expect(displayLink.isRunning).beTruthy();
+        NSTimeInterval duration = self.duration; // Should be 1, 200ms accuracy
+        expect(duration).beCloseToWithin(1, 0.2);
         [displayLink stop];
     });
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -72,8 +74,7 @@
 
 - (void)displayLinkDidRefresh:(SDDisplayLink *)displayLink {
     NSTimeInterval duration = displayLink.duration; // Running value
-    expect(duration).beGreaterThan(0.01);
-    expect(duration).beLessThan(0.02);
+    self.duration += duration;
 }
 
 - (void)testSDFileAttributeHelper {
@@ -112,26 +113,42 @@
     // Main Screen
     SDGraphicsImageRendererFormat *format = SDGraphicsImageRendererFormat.preferredFormat;
 #if SD_UIKIT
+#if SD_VISION
+    CGFloat screenScale = UITraitCollection.currentTraitCollection.displayScale;
+#else
     CGFloat screenScale = [UIScreen mainScreen].scale;
+#endif
 #elif SD_MAC
     CGFloat screenScale = [NSScreen mainScreen].backingScaleFactor;
 #endif
     expect(format.scale).equal(screenScale);
     expect(format.opaque).beFalsy();
-#if SD_UIKIT
     expect(format.preferredRange).equal(SDGraphicsImageRendererFormatRangeAutomatic);
-#elif SD_MAC
-    expect(format.preferredRange).equal(SDGraphicsImageRendererFormatRangeStandard);
-#endif
     CGSize size = CGSizeMake(100, 100);
     SDGraphicsImageRenderer *renderer = [[SDGraphicsImageRenderer alloc] initWithSize:size format:format];
+#if SD_MAC
+    // GitHub action's Mac does not connect to a display, so the ImageRenderer color space is wrong :(
+    if (SDTestCase.isCI) {
+        return;
+    }
+#endif
     UIColor *color = UIColor.redColor;
+    NSLog(@"Draw Color ColorSpace: %@", color.CGColor);
     UIImage *image = [renderer imageWithActions:^(CGContextRef  _Nonnull context) {
-        [color setFill];
+        CGContextSetFillColorWithColor(context, [color CGColor]);
         CGContextFillRect(context, CGRectMake(0, 0, size.width, size.height));
     }];
     expect(image.scale).equal(format.scale);
-    expect([[image sd_colorAtPoint:CGPointMake(50, 50)].sd_hexString isEqualToString:color.sd_hexString]).beTruthy();
+    UIColor *testColor = [image sd_colorAtPoint:CGPointMake(50, 50)];
+    NSLog(@"Test Color ColorSpace: %@", testColor.CGColor);
+    expect(testColor.sd_hexString).equal(color.sd_hexString);
+    
+    UIColor *grayscaleColor = UIColor.blackColor;
+    UIImage *grayscaleImage = [renderer imageWithActions:^(CGContextRef  _Nonnull context) {
+        CGContextSetFillColorWithColor(context, [grayscaleColor CGColor]);
+        CGContextFillRect(context, CGRectMake(0, 0, size.width, size.height));
+    }];
+    expect([grayscaleImage sd_colorAtPoint:CGPointMake(50, 50)].sd_hexString).equal(grayscaleColor.sd_hexString);
 }
 
 - (void)testSDScaledImageForKey {
@@ -145,6 +162,59 @@
     
     UIImage *scaledImage = SDScaledImageForKey(@"test@2x.gif", image);
     expect(scaledImage.scale).equal(2);
+}
+
+- (void)testSDCallbackQueue {
+    XCTestExpectation *expectation1 = [self expectationWithDescription:@"SDCallbackQueue SafeExecute works"];
+    XCTestExpectation *expectation2 = [self expectationWithDescription:@"SDCallbackQueue Dispatch works"];
+    XCTestExpectation *expectation3 = [self expectationWithDescription:@"SDCallbackQueue Invoke works"];
+    dispatch_queue_t queue = dispatch_queue_create("testSDCallbackQueue", NULL);
+    SDCallbackQueue *callbackQueue = [[SDCallbackQueue alloc] initWithDispatchQueue:queue];
+    __block BOOL called = NO;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    [callbackQueue sync:^{
+        called = YES;
+    }];
+#pragma clang diagnostic pop
+    expect(called).beTruthy();
+    
+    __block BOOL called1 = NO;
+    callbackQueue.policy = SDCallbackPolicySafeExecute;
+    dispatch_async(queue, ^{
+        // Should execute in sync
+        [callbackQueue async:^{
+            called1 = YES;
+            [expectation1 fulfill];
+        }];
+        expect(called1).beTruthy();
+    });
+    
+    SDCallbackQueue *callbackQueue2 = [[SDCallbackQueue alloc] initWithDispatchQueue:queue];
+    __block BOOL called2 = NO;
+    callbackQueue2.policy = SDCallbackPolicyDispatch;
+    dispatch_async(queue, ^{
+        // Should execute in async
+        [callbackQueue2 async:^{
+            called2 = YES;
+            [expectation2 fulfill];
+        }];
+        expect(called2).beFalsy();
+    });
+    
+    SDCallbackQueue *callbackQueue3 = [[SDCallbackQueue alloc] initWithDispatchQueue:queue];
+    __block BOOL called3 = NO;
+    callbackQueue3.policy = SDCallbackPolicyInvoke;
+    dispatch_async(queue, ^{
+        // Should execute in sync
+        [callbackQueue3 async:^{
+            called3 = YES;
+            [expectation3 fulfill];
+        }];
+        expect(called3).beTruthy();
+    });
+    
+    [self waitForExpectationsWithCommonTimeout];
 }
 
 - (void)testInternalMacro {

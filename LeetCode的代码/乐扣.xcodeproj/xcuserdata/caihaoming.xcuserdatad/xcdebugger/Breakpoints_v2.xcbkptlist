@@ -34,8 +34,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "238"
             endingLineNumber = "238"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "pivotIndex(_:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -51,8 +51,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "252"
             endingLineNumber = "252"
-            landmarkName = "lengthOfLongestSubstring(_:)"
-            landmarkType = "9">
+            landmarkName = "unknown"
+            landmarkType = "0">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -119,7 +119,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "697"
             endingLineNumber = "697"
-            landmarkName = "isValid1(_:)"
+            landmarkName = "isSymbolCompare(front:back:)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -170,8 +170,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "733"
             endingLineNumber = "733"
-            landmarkName = "mergeTwoLists(_:_:)"
-            landmarkType = "9">
+            landmarkName = "unknown"
+            landmarkType = "0">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -221,7 +221,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "837"
             endingLineNumber = "837"
-            landmarkName = "removeElement(_:_:)"
+            landmarkName = "removeDuplicates1(_:)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -238,7 +238,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "878"
             endingLineNumber = "878"
-            landmarkName = "strStr(_:_:)"
+            landmarkName = "removeElement(_:_:)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -306,8 +306,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "885"
             endingLineNumber = "885"
-            landmarkName = "strStr(_:_:)"
-            landmarkType = "9">
+            landmarkName = "unknown"
+            landmarkType = "0">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -323,7 +323,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1093"
             endingLineNumber = "1093"
-            landmarkName = "search2Sort(_:_:_:_:)"
+            landmarkName = "search2Core(_:)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -374,8 +374,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1119"
             endingLineNumber = "1119"
-            landmarkName = "searchInsert(_:_:)"
-            landmarkType = "9">
+            landmarkName = "unknown"
+            landmarkType = "0">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -391,7 +391,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1375"
             endingLineNumber = "1375"
-            landmarkName = "search3Sort(_:_:_:_:)"
+            landmarkName = "search3(_:_:)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -408,7 +408,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1289"
             endingLineNumber = "1289"
-            landmarkName = "uniquePaths(_:_:)"
+            landmarkName = "rotateRight(_:_:)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -424,8 +424,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "272"
             endingLineNumber = "272"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "lengthOfLongestSubstring(_:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -440,8 +440,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "290"
             endingLineNumber = "290"
-            landmarkName = "reverse(_:)"
-            landmarkType = "9">
+            landmarkName = "unknown"
+            landmarkType = "0">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -456,8 +456,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "310"
             endingLineNumber = "310"
-            landmarkName = "myAtoi(_:)"
-            landmarkType = "9">
+            landmarkName = "unknown"
+            landmarkType = "0">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -488,7 +488,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1942"
             endingLineNumber = "1942"
-            landmarkName = "twoSum2(_:_:)"
+            landmarkName = "findMin2Core(_:_:_:)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -600,7 +600,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "365"
             endingLineNumber = "365"
-            landmarkName = "maxArea(_:)"
+            landmarkName = "isPalindrome(_:)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -664,7 +664,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "547"
             endingLineNumber = "547"
-            landmarkName = "threeSumClosest(_:_:)"
+            landmarkName = "threeSum(_:)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -728,8 +728,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "594"
             endingLineNumber = "594"
-            landmarkName = "removeNthFromEnd(_:_:)"
-            landmarkType = "9">
+            landmarkName = "unknown"
+            landmarkType = "0">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -792,7 +792,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1610"
             endingLineNumber = "1610"
-            landmarkName = "buildTree(_:_:)"
+            landmarkName = "levelOrderBottom(_:)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -824,7 +824,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1008"
             endingLineNumber = "1008"
-            landmarkName = "search(_:_:)"
+            landmarkName = "KMP(_:_:)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -872,7 +872,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1067"
             endingLineNumber = "1067"
-            landmarkName = "search2Core(_:)"
+            landmarkName = "search2(_:_:)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1032,8 +1032,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "2220"
             endingLineNumber = "2220"
-            landmarkName = "longestPalindromeSubseq(_:)"
-            landmarkType = "9">
+            landmarkName = "unknown"
+            landmarkType = "0">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy

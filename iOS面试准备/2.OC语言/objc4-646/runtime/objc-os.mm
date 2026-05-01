@@ -878,9 +878,12 @@ void _objc_init(void)
     initialized = true;
     
     // fixme defer initialization until an objc-using image is found?
+    // 读取环境变量（如OBJC_PRINT_LOAD_METHODS）
     environ_init();
+    // 线程本地存储初始化
     tls_init();
     lock_init();
+    // 注册异常处理回调
     exception_init();
         
     // Register for unmap first, in case some +load unmaps something

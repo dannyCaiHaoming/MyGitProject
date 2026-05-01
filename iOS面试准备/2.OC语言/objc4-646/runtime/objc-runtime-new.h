@@ -302,7 +302,8 @@ struct class_rw_t {
     const class_ro_t *ro;
 
     union {
-        method_list_t **method_lists;  // RW_METHOD_ARRAY == 1
+        method_list_t **
+        ;  // RW_METHOD_ARRAY == 1
         method_list_t *method_list;    // RW_METHOD_ARRAY == 0
     };
     struct chained_property_list *properties;

@@ -59,6 +59,9 @@
         [SDWebImageDownloader sharedDownloader].config.executionOrder = SDWebImageDownloaderLIFOExecutionOrder;
         
         self.objects = [NSMutableArray arrayWithObjects:
+                    @"https://raw.githubusercontent.com/CloudlessMoon/SuperResources/master/Images/HEIC/TestHDR1.heic",
+                    @"https://raw.githubusercontent.com/CloudlessMoon/SuperResources/master/Images/JPG/TestHDR1.JPG",
+                    @"https://raw.githubusercontent.com/CloudlessMoon/SuperResources/master/Images/JPG/TestHDR2.JPG",
                     @"http://www.httpwatch.com/httpgallery/authentication/authenticatedimage/default.aspx?0.35786508303135633",     // requires HTTP auth, used to demo the NTLM auth
                     @"http://assets.sbnation.com/assets/2512203/dogflops.gif",
                     @"https://raw.githubusercontent.com/liyong03/YLGIFImage/master/YLGIFImageDemo/YLGIFImageDemo/joy.gif",
@@ -73,7 +76,8 @@
                     @"https://s2.ax1x.com/2019/11/01/KHYIgJ.gif",
                     @"https://raw.githubusercontent.com/icons8/flat-color-icons/master/pdf/stack_of_photos.pdf",
                     @"https://nr-platform.s3.amazonaws.com/uploads/platform/published_extension/branding_icon/275/AmazonS3.png",
-                    @"http://via.placeholder.com/200x200.jpg",
+                    @"https://res.cloudinary.com/dwpjzbyux/raw/upload/v1666474070/RawDemo/raw_vebed5.NEF",
+                    @"https://placehold.co/200x200.jpg",
                     nil];
 
         for (int i=1; i<25; i++) {

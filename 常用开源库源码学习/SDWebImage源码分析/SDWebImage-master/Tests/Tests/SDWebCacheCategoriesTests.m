@@ -12,8 +12,6 @@
 
 @interface SDWebCacheCategoriesTests : SDTestCase
 
-@property (nonatomic, strong) UIWindow *window;
-
 @end
 
 @implementation SDWebCacheCategoriesTests
@@ -33,6 +31,30 @@
                         }];
     expect(imageView.sd_imageURL).equal(originalImageURL);
     [self waitForExpectationsWithCommonTimeout];
+}
+
+- (void)testUIImageViewSetImageWithURLDiskSync {
+    NSData *imageData = [NSData dataWithContentsOfFile:[self testJPEGPath]];
+    
+    // Ensure the image is cached in disk but not memory
+    [SDImageCache.sharedImageCache removeImageFromMemoryForKey:kTestJPEGURL];
+    [SDImageCache.sharedImageCache removeImageFromDiskForKey:kTestJPEGURL];
+    [SDImageCache.sharedImageCache storeImageDataToDisk:imageData forKey:kTestJPEGURL];
+    
+    UIImageView *imageView = [[UIImageView alloc] init];
+    NSURL *originalImageURL = [NSURL URLWithString:kTestJPEGURL];
+    
+    [imageView sd_setImageWithURL:originalImageURL
+                 placeholderImage:nil
+                          options:SDWebImageQueryDiskDataSync
+                        completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+                            expect(image).toNot.beNil();
+                            expect(error).to.beNil();
+                            expect(originalImageURL).to.equal(imageURL);
+                            expect(imageView.image).to.equal(image);
+                        }];
+    expect(imageView.sd_imageURL).equal(originalImageURL);
+    expect(imageView.image).toNot.beNil();
 }
 
 #if SD_UIKIT
@@ -200,26 +222,134 @@
     [self waitForExpectationsWithCommonTimeout];
 }
 
+- (void)testUIViewCancelWithDelayPlaceholderShouldCallbackOnceBeforeSecond {
+    XCTestExpectation *expectation1 = [self expectationWithDescription:@"UIView internalSetImageWithURL call 1"];
+    XCTestExpectation *expectation2 = [self expectationWithDescription:@"UIView internalSetImageWithURL call 2"];
+    
+    UIView *imageView = [[UIView alloc] init];
+    NSURL *originalImageURL = [NSURL URLWithString:kTestJPEGURL];
+    [SDImageCache.sharedImageCache removeImageFromDiskForKey:kTestJPEGURL];
+    [SDImageCache.sharedImageCache removeImageFromMemoryForKey:kTestJPEGURL];
+    
+    __block NSUInteger calledSetImageTimes = 0;
+    __block NSUInteger calledSetImageTimes2 = 0;
+    NSString *operationKey = NSUUID.UUID.UUIDString;
+    UIImage *placeholder1 = UIImage.new;
+    id<SDWebImageOperation> op1 = [imageView sd_internalSetImageWithURL:originalImageURL placeholderImage:placeholder1 options:SDWebImageDelayPlaceholder context:@{ SDWebImageContextSetImageOperationKey:operationKey} setImageBlock:^(UIImage * _Nullable image, NSData * _Nullable imageData, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+        // Should called before second query (We changed the cache callback in sync when cancelled)
+        expect(calledSetImageTimes2).equal(0);
+        calledSetImageTimes++;
+    } progress:nil completed:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, SDImageCacheType cacheType, BOOL finished, NSURL * _Nullable imageURL) {
+        if (calledSetImageTimes == 1) {
+            [expectation1 fulfill];
+        }
+    }];
+    [op1 cancel];
+    
+    UIImage *placeholder2 = UIImage.new;
+    [imageView sd_internalSetImageWithURL:originalImageURL placeholderImage:placeholder2 options:0 context:@{ SDWebImageContextSetImageOperationKey:operationKey} setImageBlock:^(UIImage * _Nullable image, NSData * _Nullable imageData, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+        if (calledSetImageTimes2 == 0) {
+            expect(image).equal(placeholder2);
+        } else {
+            expect(image).notTo.beNil();
+        }
+        calledSetImageTimes2++;
+    } progress:nil completed:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, SDImageCacheType cacheType, BOOL finished, NSURL * _Nullable imageURL) {
+        if (calledSetImageTimes2 == 2) {
+            [expectation2 fulfill];
+        }
+    }];
+    
+    [self waitForExpectationsWithCommonTimeout];
+}
+
+- (void)testUIViewCancelWithoutDelayPlaceholderShouldCallbackOnceBeforeSecond {
+    XCTestExpectation *expectation1 = [self expectationWithDescription:@"UIView internalSetImageWithURL call 1"];
+    XCTestExpectation *expectation2 = [self expectationWithDescription:@"UIView internalSetImageWithURL call 2"];
+    
+    UIView *imageView = [[UIView alloc] init];
+    NSURL *originalImageURL = [NSURL URLWithString:kTestJPEGURL];
+    [SDImageCache.sharedImageCache removeImageFromDiskForKey:kTestJPEGURL];
+    [SDImageCache.sharedImageCache removeImageFromMemoryForKey:kTestJPEGURL];
+    
+    __block NSUInteger calledSetImageTimes = 0;
+    __block NSUInteger calledSetImageTimes2 = 0;
+    NSString *operationKey = NSUUID.UUID.UUIDString;
+    UIImage *placeholder1 = UIImage.new;
+    id<SDWebImageOperation> op1 = [imageView sd_internalSetImageWithURL:originalImageURL placeholderImage:placeholder1 options:0 context:@{ SDWebImageContextSetImageOperationKey:operationKey} setImageBlock:^(UIImage * _Nullable image, NSData * _Nullable imageData, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+        // Should called before second query (We changed the cache callback in sync when cancelled)
+        expect(calledSetImageTimes2).equal(0);
+        calledSetImageTimes++;
+    } progress:nil completed:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, SDImageCacheType cacheType, BOOL finished, NSURL * _Nullable imageURL) {
+        if (calledSetImageTimes == 1) {
+            [expectation1 fulfill];
+        }
+    }];
+    [op1 cancel];
+    
+    UIImage *placeholder2 = UIImage.new;
+    [imageView sd_internalSetImageWithURL:originalImageURL placeholderImage:placeholder2 options:0 context:@{ SDWebImageContextSetImageOperationKey:operationKey} setImageBlock:^(UIImage * _Nullable image, NSData * _Nullable imageData, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+        if (calledSetImageTimes2 == 0) {
+            expect(image).equal(placeholder2);
+        } else {
+            expect(image).notTo.beNil();
+        }
+        calledSetImageTimes2++;
+    } progress:nil completed:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, SDImageCacheType cacheType, BOOL finished, NSURL * _Nullable imageURL) {
+        if (calledSetImageTimes2 == 2) {
+            [expectation2 fulfill];
+        }
+    }];
+    
+    [self waitForExpectationsWithCommonTimeout];
+}
+
+- (void)testUIViewAutoCancelImage {
+    UIView *imageView = [[UIView alloc] init];
+    NSURL *originalImageURL = [NSURL URLWithString:kTestJPEGURL];
+    [SDImageCache.sharedImageCache removeImageFromDiskForKey:kTestJPEGURL];
+    [SDImageCache.sharedImageCache removeImageFromMemoryForKey:kTestJPEGURL];
+    SDWebImageCombinedOperation *op1 = [imageView sd_internalSetImageWithURL:originalImageURL placeholderImage:nil options:0 context:nil setImageBlock:nil progress:nil completed:nil];
+    SDWebImageCombinedOperation *op2 = [imageView sd_internalSetImageWithURL:originalImageURL placeholderImage:nil options:0 context:nil setImageBlock:nil progress:nil completed:nil];
+    // op1 should be automatically cancelled
+    expect(op1.isCancelled).beTruthy();
+    expect(op2.isCancelled).beFalsy();
+}
+
+- (void)testUIViewAvoidAutoCancelImage {
+    UIView *imageView = [[UIView alloc] init];
+    NSURL *originalImageURL = [NSURL URLWithString:kTestJPEGURL];
+    [SDImageCache.sharedImageCache removeImageFromDiskForKey:kTestJPEGURL];
+    [SDImageCache.sharedImageCache removeImageFromMemoryForKey:kTestJPEGURL];
+    SDWebImageCombinedOperation *op1 = [imageView sd_internalSetImageWithURL:originalImageURL placeholderImage:nil options:0 context:nil setImageBlock:nil progress:nil completed:nil];
+    SDWebImageCombinedOperation *op2 = [imageView sd_internalSetImageWithURL:originalImageURL placeholderImage:nil options:SDWebImageAvoidAutoCancelImage context:nil setImageBlock:nil progress:nil completed:nil];
+    // opt1 should not be automatically cancelled
+    expect(op1.isCancelled).beFalsy();
+    expect(op2.isCancelled).beFalsy();
+}
+
 - (void)testUIViewCancelCurrentImageLoad {
     UIView *imageView = [[UIView alloc] init];
     NSURL *originalImageURL = [NSURL URLWithString:kTestJPEGURL];
     [SDImageCache.sharedImageCache removeImageFromDiskForKey:kTestJPEGURL];
     [SDImageCache.sharedImageCache removeImageFromMemoryForKey:kTestJPEGURL];
-    [imageView sd_internalSetImageWithURL:originalImageURL placeholderImage:nil options:0 context:nil setImageBlock:nil progress:nil completed:nil];
-    [imageView sd_cancelCurrentImageLoad];
+    SDWebImageCombinedOperation *op1 = [imageView sd_internalSetImageWithURL:originalImageURL placeholderImage:nil options:0 context:nil setImageBlock:nil progress:nil completed:nil];
+    [imageView sd_cancelLatestImageLoad];
+    expect(op1.isCancelled).beTruthy();
     NSString *operationKey = NSStringFromClass(UIView.class);
-    expect(imageView.sd_latestOperationKey).beNil();
     expect([imageView sd_imageLoadOperationForKey:operationKey]).beNil();
 }
 
 - (void)testUIViewCancelCurrentImageLoadWithTransition {
     UIView *imageView = [[UIView alloc] init];
-    NSURL *firstImageUrl = [NSURL URLWithString:kTestJPEGURL];
-    NSURL *secondImageUrl = [NSURL URLWithString:kTestPNGURL];
+    NSURL *firstImageUrl = [NSURL URLWithString:@"https://placehold.co/201x201.jpg"];
+    NSURL *secondImageUrl = [NSURL URLWithString:@"https://placehold.co/201x201.png"];
 
     // First, reset our caches
-    [SDImageCache.sharedImageCache removeImageFromDiskForKey:kTestJPEGURL];
-    [SDImageCache.sharedImageCache removeImageFromMemoryForKey:kTestPNGURL];
+    [SDImageCache.sharedImageCache removeImageFromMemoryForKey:firstImageUrl.absoluteString];
+    [SDImageCache.sharedImageCache removeImageFromDiskForKey:firstImageUrl.absoluteString];
+    [SDImageCache.sharedImageCache removeImageFromMemoryForKey:secondImageUrl.absoluteString];
+    [SDImageCache.sharedImageCache removeImageFromDiskForKey:secondImageUrl.absoluteString];
 
     // Next, lets put our second image into memory, so that the next time
     // we load it, it will come from memory, and thus shouldUseTransition will be NO
@@ -263,7 +393,7 @@
 
     // At this point, our transition has started, and so we cancel the load operation,
     // perhaps as a result of a call to `prepareForReuse` in a UICollectionViewCell
-    [imageView sd_cancelCurrentImageLoad];
+    [imageView sd_cancelLatestImageLoad];
 
     // Now, we update our context's imageOperationKey and URL, perhaps
     // because of a re-use of a UICollectionViewCell. In this case,
@@ -278,7 +408,7 @@
     // The original load operation's transitionCompletionExpecation should never
     // be called (it has been inverted, above)
     [self waitForExpectations:@[secondLoadExpectation, transitionCompletionExpecation]
-                      timeout:2.0];
+                      timeout:5.0];
 }
 
 - (void)testUIViewCancelCallbackWithError {
@@ -293,7 +423,7 @@
         expect(error.code).equal(SDWebImageErrorCancelled);
         [expectation fulfill];
     }];
-    [imageView sd_cancelCurrentImageLoad];
+    [imageView sd_cancelLatestImageLoad];
     
     [self waitForExpectationsWithCommonTimeout];
 }
@@ -413,12 +543,12 @@
     XCTestExpectation *expectation = [self expectationWithDescription:@"UIView indicator does not work"];
     
     UIImageView *imageView = [[UIImageView alloc] init];
+#if SD_IOS
     imageView.sd_imageIndicator = SDWebImageActivityIndicator.grayIndicator;
     // Cover each convience method, finally use progress indicator for test
     imageView.sd_imageIndicator = SDWebImageActivityIndicator.grayLargeIndicator;
     imageView.sd_imageIndicator = SDWebImageActivityIndicator.whiteIndicator;
     imageView.sd_imageIndicator = SDWebImageActivityIndicator.whiteLargeIndicator;
-#if SD_IOS
     imageView.sd_imageIndicator = SDWebImageProgressIndicator.barIndicator;
 #endif
     imageView.sd_imageIndicator = SDWebImageProgressIndicator.defaultIndicator;
@@ -490,18 +620,53 @@
     [self waitForExpectationsWithCommonTimeout];
 }
 
-#pragma mark - Helper
-- (UIWindow *)window {
-    if (!_window) {
-        UIScreen *mainScreen = [UIScreen mainScreen];
-#if SD_UIKIT
-        _window = [[UIWindow alloc] initWithFrame:mainScreen.bounds];
-#else
-        _window = [[NSWindow alloc] initWithContentRect:mainScreen.frame styleMask:0 backing:NSBackingStoreBuffered defer:NO screen:mainScreen];
-#endif
-    }
-    return _window;
+// test url is nil
+- (void)testUIViewImageUrlForNilWorks {
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Completion is called with url is nil"];
+    UIImageView *imageView = [[UIImageView alloc] init];
+    SDImageCache *cache = [[SDImageCache alloc] initWithNamespace:@"Test"];
+    cache.config.shouldUseWeakMemoryCache = YES;
+    SDWebImageManager *imageManager = [[SDWebImageManager alloc] initWithCache:cache loader:[SDWebImageDownloader sharedDownloader]];
+    [imageView sd_setImageWithURL:nil placeholderImage:nil options:0 context:@{SDWebImageContextCustomManager:imageManager} progress:nil completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+        expect(image).to.beNil();
+        [expectation fulfill];
+    }];
+    [self waitForExpectationsWithCommonTimeout];
+    
 }
+
+// test url is NSString.
+- (void)testUIViewImageUrlForStringWorks {
+
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Completion is called with url is NSString"];
+    
+    UIImageView *imageView = [[UIImageView alloc] init];
+    SDImageCache *cache = [[SDImageCache alloc] initWithNamespace:@"Test"];
+    cache.config.shouldUseWeakMemoryCache = YES;
+    SDWebImageManager *imageManager = [[SDWebImageManager alloc] initWithCache:cache loader:[SDWebImageDownloader sharedDownloader]];
+    [imageView sd_setImageWithURL:(NSURL *)kTestJPEGURL placeholderImage:nil options:0 context:@{SDWebImageContextCustomManager:imageManager} progress:nil completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+        expect(image).notTo.beNil();
+        [expectation fulfill];
+    }];
+    [self waitForExpectationsWithCommonTimeout];
+}
+
+// test url is NSURL
+- (void)testUIViewImageUrlForNSURLWorks {
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Completion is called with url is NSURL"];
+    UIImageView *imageView = [[UIImageView alloc] init];
+    SDImageCache *cache = [[SDImageCache alloc] initWithNamespace:@"Test"];
+    cache.config.shouldUseWeakMemoryCache = YES;
+    SDWebImageManager *imageManager = [[SDWebImageManager alloc] initWithCache:cache loader:[SDWebImageDownloader sharedDownloader]];
+    [imageView sd_setImageWithURL:[NSURL URLWithString:kTestJPEGURL] placeholderImage:nil options:0 context:@{SDWebImageContextCustomManager:imageManager} progress:nil completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+        expect(image).notTo.beNil();
+        [expectation fulfill];
+    }];
+    [self waitForExpectationsWithCommonTimeout];
+    
+}
+
+#pragma mark - Helper
 
 - (NSString *)testJPEGPath {
     NSBundle *testBundle = [NSBundle bundleForClass:[self class]];
